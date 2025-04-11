@@ -1,15 +1,13 @@
-name: flart
-description: A starting point for Dart libraries or applications.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+name: flart_project
+description: A Flutter-style widget package for Dart Web
+version: 0.0.1
 
 environment:
-  sdk: ^3.6.1
+  sdk: '>=3.0.0 <4.0.0'
 
-# Add regular dependencies here.
 dependencies:
-  # path: ^1.8.0
+  html: any
 
 dev_dependencies:
-  lints: ^5.0.0
-  test: ^1.24.0
+  build_runner: any
+  build_web_compilers: any
