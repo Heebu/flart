@@ -12,6 +12,9 @@ export 'src/widgets/state.dart';
 export 'src/widgets/stateful_widget.dart';
 export 'src/widgets/stateless_widget.dart';
 export 'src/widgets/button.dart';
+export 'src/widgets/row.dart';
+export 'src/widgets/material_app.dart';
+export 'src/widgets/image.dart';
 
 //styles
 export 'src/styles/alignment.dart';
@@ -45,4 +48,3 @@ void runApp(Widget app) {
     treeSanitizer: NodeTreeSanitizer.trusted,
   );
 }
-

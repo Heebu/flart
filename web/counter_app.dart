@@ -13,28 +13,49 @@ class CounterApp extends StatefulWidget {
   }
 }
 
+
 class _CounterState extends State<CounterApp> {
   int count = 0;
 
-  @override
-  void initState() {
-    print('initState called');
+  // @override
+  // void initState() {
+  //   print('initState called');
+  // }
+
+  void countFunction(String operator){
+    setState((){
+    operator == 'add'? count++: count--;;
+    });
   }
 
   @override
   Widget build() {
     return Container(
-      width: double.maxFinite,
-      decoration: BoxDecoration(color: FlartColors.orange),
+      width: 1000,
+      height: 1000,
+      decoration: BoxDecoration(color: FlartColors.green.shade500.toString()),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text('Count: $count'),
-          Button(
-            label: 'Tap +',
-            onClick: () => setState(() => count++),
-          )
+         Row(children: [
+           Button(
+             label: 'Tap +',
+             onClick: () => countFunction('add'),
+           ),
+           Button(
+             label: 'Tap +',
+             onClick: () => countFunction('add'),
+           ),
+         ])
+          // Button(
+          //   label: 'Tap -',
+          //   cssStyle: {
+          //     'color': FlartColors.red
+          //   },
+          //   onClick: () => countFunction('remove'),
+          // )
         ],
       )
     );
