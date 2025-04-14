@@ -19,10 +19,19 @@ export 'src/widgets/gridview.dart';
 export 'src/widgets/listview.dart';
 export 'src/widgets/divider.dart';
 export 'src/widgets/vertical_divider.dart';
+export 'src/widgets/appbar.dart';
+export 'src/widgets/scaffold.dart';
+export 'src/widgets/drawer.dart';
+export 'src/widgets/icons.dart';
+export 'src/widgets/position.dart';
+export 'src/widgets/stack.dart';
+export 'src/widgets/stack.dart';
+export 'src/widgets/buttom_nav_bar.dart';
+export 'src/widgets/floating_action_widget.dart';
 
 //styles
 export 'src/styles/alignment.dart';
-export 'src/styles/axis_alignment.dart';
+export 'src/enums/axis_alignment.dart';
 export 'src/styles/box_decoration.dart';
 export 'src/styles/edge_insets.dart';
 export 'src/styles/text_style.dart';
@@ -36,6 +45,7 @@ export 'src/styles/decoration_image.dart';
 export 'src/styles/flart_gradient.dart';
 export 'src/styles/media_querry.dart';
 export 'src/styles/navigation.dart';
+export 'src/styles/align.dart';
 
 // TODO: Export any libraries intended for clients of this package.
 

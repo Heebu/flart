@@ -1,6 +1,5 @@
 import 'package:flart_project/flart.dart';
-import 'package:flart_project/src/styles/border.dart';
-import 'package:flart_project/src/styles/border_radius.dart';
+
 
 class CounterApp extends StatefulWidget {
   const CounterApp();
@@ -33,9 +32,9 @@ class _CounterState extends State<CounterApp> {
   @override
   Widget build() {
     return Container(
-      width: 1000,
-      height: 1000,
-      decoration: BoxDecoration(color: FlartColors.green.shade500, border: Border.all(side: BorderSide(color: FlartColors.red, width: 10)), borderRadius: BorderRadius.circular(10) ),
+      width: MediaQuery.of().width.toDouble(),
+      height: MediaQuery.of().height.toDouble(),
+      decoration: BoxDecoration(color: FlartColors.green.shade500),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

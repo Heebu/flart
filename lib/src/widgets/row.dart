@@ -1,5 +1,5 @@
 import 'widget.dart';
-import '../styles/axis_alignment.dart';
+import '../enums/axis_alignment.dart';
 
 class Row extends Widget {
   final List<Widget> children;

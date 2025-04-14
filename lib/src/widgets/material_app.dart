@@ -1,5 +1,4 @@
 import 'dart:html';
-
 import '../../flart.dart';
 
 class MaterialApp extends StatelessWidget {
@@ -17,73 +16,20 @@ class MaterialApp extends StatelessWidget {
 
   @override
   String build() {
-    // Set page title
+    // Set the page title
     document.title = title;
 
-    // Inject viewport meta
-    final metaViewport = MetaElement()
-      ..name = 'viewport'
-      ..content = 'width=device-width, initial-scale=1.0';
-    document.head?.append(metaViewport);
+    // Inject necessary links for Material Icons and Google Fonts
+    _injectMaterialIcons();
+    if (fontFamily != null) _injectGoogleFont(fontFamily!);
 
-    // Inject global styles
-    final style = StyleElement()
-      ..innerHtml = '''
-    html, body {
-      margin: 0 !important;
-      padding: 0 !important;
-      border: 0;
-      height: 100%;
-      width: 100%;
-      font-size: 100%;
-      background-color: ${backgroundColor?.toString() ?? 'white'};
-      font-family: ${fontFamily ?? 'sans-serif'};
-      box-sizing: border-box;
-    }
+    // Inject viewport meta tag for responsive design
+    _injectViewportMeta();
 
-    #app {
-      margin: 0 !important;
-      padding: 0 !important;
-      width: 100%;
-      height: 100%;
-    }
-    
-    .fade-in {
-    animation: fadeIn 300ms ease-in forwards;
-  }
-
-  .fade-out {
-    animation: fadeOut 300ms ease-out forwards;
-  }
-
-  @keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeOut {
-    0% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-20px); }
-  }
-
-    *, *::before, *::after {
-      box-sizing: inherit;
-    }
-  ''';
-
-
-    // Optional: Load Google Font if passed
-    if (fontFamily != null) {
-      final fontLink = LinkElement()
-        ..rel = 'stylesheet'
-        ..href = 'https://fonts.googleapis.com/css2?family=${fontFamily!.replaceAll(" ", "+")}&display=swap';
-      document.head?.append(fontLink);
-    }
-
-    // Clear existing DOM
+    // Clear any existing DOM content
     document.body?.children.clear();
 
-    // Inject widget HTML into body
+    // Add the widget HTML into the body
     final container = DivElement()
       ..id = 'app'
       ..setInnerHtml(
@@ -93,6 +39,27 @@ class MaterialApp extends StatelessWidget {
 
     document.body?.append(container);
 
-    return '';
+    return ''; // No need to return anything
+  }
+
+  void _injectMaterialIcons() {
+    final iconLink = LinkElement()
+      ..rel = 'stylesheet'
+      ..href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+    document.head?.append(iconLink);
+  }
+
+  void _injectGoogleFont(String fontFamily) {
+    final fontLink = LinkElement()
+      ..rel = 'stylesheet'
+      ..href = 'https://fonts.googleapis.com/css2?family=${fontFamily.replaceAll(" ", "+")}&display=swap';
+    document.head?.append(fontLink);
+  }
+
+  void _injectViewportMeta() {
+    final metaViewport = MetaElement()
+      ..name = 'viewport'
+      ..content = 'width=device-width, initial-scale=1.0';
+    document.head?.append(metaViewport);
   }
 }
