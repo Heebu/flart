@@ -1,13 +1,13 @@
-import 'widget.dart';
-import '../enums/axis_alignment.dart';
+import '../widget.dart';
+import '../../enums/axis_alignment.dart';
 
-class Column extends Widget {
+class Row extends Widget {
   final List<Widget> children;
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
   final Map<String, String>? cssStyle;
 
-  Column({
+  Row({
     required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.start,
@@ -18,7 +18,7 @@ class Column extends Widget {
   String render() {
     final styleMap = <String, String>{
       'display': 'flex',
-      'flex-direction': 'column',
+      'flex-direction': 'row',
       'justify-content': _mapMainAxis(mainAxisAlignment),
       'align-items': _mapCrossAxis(crossAxisAlignment),
       ...?cssStyle,

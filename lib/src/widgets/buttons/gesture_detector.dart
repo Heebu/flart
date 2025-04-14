@@ -1,4 +1,4 @@
-import 'widget.dart';
+import '../widget.dart';
 
 typedef GestureCallback = String Function();
 

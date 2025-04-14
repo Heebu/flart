@@ -1,4 +1,4 @@
-import 'widget.dart';
+import '../widget.dart';
 
 class Positioned extends Widget {
   final Widget child;

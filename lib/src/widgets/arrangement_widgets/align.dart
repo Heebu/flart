@@ -1,6 +1,6 @@
 import 'package:flart_project/src/styles/align.dart';
 
-import 'widget.dart';
+import '../widget.dart';
 
 class Align extends Widget {
   final Widget child;

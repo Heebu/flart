@@ -1,7 +1,7 @@
-import '../enums/axis.dart';
-import '../styles/build_context.dart';
-import 'widget.dart';
-import '../styles/edge_insets.dart';
+import '../../enums/axis.dart';
+import '../../styles/build_context.dart';
+import '../widget.dart';
+import '../../styles/edge_insets.dart';
 
 typedef ItemWidgetBuilder = Widget Function(BuildContext context, int index);
 typedef SeparatorWidgetBuilder = Widget Function(BuildContext context, int index);
