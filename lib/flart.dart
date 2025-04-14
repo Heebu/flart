@@ -25,7 +25,7 @@ export 'src/widgets/drawer.dart';
 export 'src/widgets/icons.dart';
 export 'src/widgets/position.dart';
 export 'src/widgets/stack.dart';
-export 'src/widgets/stack.dart';
+export 'src/widgets/textfield.dart';
 export 'src/widgets/buttom_nav_bar.dart';
 export 'src/widgets/floating_action_widget.dart';
 
@@ -46,6 +46,7 @@ export 'src/styles/flart_gradient.dart';
 export 'src/styles/media_querry.dart';
 export 'src/styles/navigation.dart';
 export 'src/styles/align.dart';
+export 'src/styles/text_editing_controller.dart';
 
 // TODO: Export any libraries intended for clients of this package.
 

@@ -6,12 +6,15 @@ class MaterialApp extends StatelessWidget {
   final FlartColor? backgroundColor;
   final String? fontFamily;
   final Widget home;
+  final bool darkMode;
+
 
   const MaterialApp({
     required this.title,
     required this.home,
     this.backgroundColor,
     this.fontFamily,
+    this.darkMode = false,
   });
 
   @override
@@ -28,6 +31,9 @@ class MaterialApp extends StatelessWidget {
 
     // Clear any existing DOM content
     document.body?.children.clear();
+
+    final prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.body?.classes.add(prefersDark ? 'flart-dark' : 'flart-light');
 
     // Add the widget HTML into the body
     final container = DivElement()

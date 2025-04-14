@@ -1,20 +1,20 @@
-class align {
+class Aligns {
   final String x;
   final String y;
 
-  const align(this.x, this.y);
+  const Aligns(this.x, this.y);
 
-  static const topLeft = align('flex-start', 'flex-start');
-  static const topCenter = align('center', 'flex-start');
-  static const topRight = align('flex-end', 'flex-start');
+  static const topLeft = Aligns('flex-start', 'flex-start');
+  static const topCenter = Aligns('center', 'flex-start');
+  static const topRight = Aligns('flex-end', 'flex-start');
 
-  static const centerLeft = align('flex-start', 'center');
-  static const center = align('center', 'center');
-  static const centerRight = align('flex-end', 'center');
+  static const centerLeft = Aligns('flex-start', 'center');
+  static const center = Aligns('center', 'center');
+  static const centerRight = Aligns('flex-end', 'center');
 
-  static const bottomLeft = align('flex-start', 'flex-end');
-  static const bottomCenter = align('center', 'flex-end');
-  static const bottomRight = align('flex-end', 'flex-end');
+  static const bottomLeft = Aligns('flex-start', 'flex-end');
+  static const bottomCenter = Aligns('center', 'flex-end');
+  static const bottomRight = Aligns('flex-end', 'flex-end');
 
   Map<String, String> toCss() => {
     'display': 'flex',

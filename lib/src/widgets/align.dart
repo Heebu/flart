@@ -4,12 +4,12 @@ import 'widget.dart';
 
 class Align extends Widget {
   final Widget child;
-  final align alignment;
+  final Aligns alignment;
   final Map<String, String>? cssStyle;
 
   Align({
     required this.child,
-    this.alignment = align.center,
+    this.alignment = Aligns.center,
     this.cssStyle,
   });
 

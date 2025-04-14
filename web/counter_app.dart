@@ -1,4 +1,5 @@
 import 'package:flart_project/flart.dart';
+import 'package:flart_project/src/widgets/align.dart';
 
 
 class CounterApp extends StatefulWidget {
@@ -13,7 +14,6 @@ class CounterApp extends StatefulWidget {
     throw UnimplementedError();
   }
 }
-
 
 class _CounterState extends State<CounterApp> {
   int count = 0;
@@ -39,6 +39,16 @@ class _CounterState extends State<CounterApp> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Container(
+            width: MediaQuery.of().width.toDouble(),
+            height: 100,
+            margin: EdgeInsets.all(30),
+            padding: EdgeInsets.all(30),
+            decoration: BoxDecoration(color: FlartColors.blue, borderRadius: BorderRadius.only(bottomLeft: 20)),
+            child: Align(
+                alignment: Aligns.center,
+                child: Text(count.toString(), style: TextStyle(fontWeight: 'bold')))
+          ),
           Text('Count: $count'),
          Row(children: [
            Button(
