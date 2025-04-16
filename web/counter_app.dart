@@ -33,13 +33,13 @@ class _CounterState extends State<CounterApp> {
 
   List<String> imageLists = [
     'https://w7.pngwing.com/pngs/670/159/png-transparent-facebook-logo-social-media-facebook-computer-icons-linkedin-logo-facebook-icon-media-internet-facebook-icon-thumbnail.png',
-    'https://i.pinimg.com/736x/69/a6/2a/69a62a5edc08d755dd8a4ef017e14c63.jpg'
-    'https://static.vecteezy.com/system/resources/previews/018/930/480/non_2x/linkedin-logo-linkedin-icon-transparent-free-png.png'
+    'https://i.pinimg.com/736x/69/a6/2a/69a62a5edc08d755dd8a4ef017e14c63.jpg',
+    'https://static.vecteezy.com/system/resources/previews/018/930/480/non_2x/linkedin-logo-linkedin-icon-transparent-free-png.png',
     'https://i.pinimg.com/736x/3d/74/f9/3d74f98793e06e413eb658b769633cd7.jpg',
     'https://i.pinimg.com/736x/3a/36/20/3a36206f35352b4230d5fc9f17fcea92.jpg',
-    'https://i.pinimg.com/736x/72/52/a7/7252a7a2b8fa3ab9bd2294b0edfe96ba.jpg'
-        'https://w7.pngwing.com/pngs/591/906/png-transparent-x-logo-new-twitter-logo-thumbnail.png',
-    'https://i.pinimg.com/736x/38/9d/51/389d513ef0975e2a42dc7460fb79d1b2.jpg'
+    'https://i.pinimg.com/736x/72/52/a7/7252a7a2b8fa3ab9bd2294b0edfe96ba.jpg',
+    'https://w7.pngwing.com/pngs/591/906/png-transparent-x-logo-new-twitter-logo-thumbnail.png',
+    'https://i.pinimg.com/736x/38/9d/51/389d513ef0975e2a42dc7460fb79d1b2.jpg',
   ];
 
   @override
