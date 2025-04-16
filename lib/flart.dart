@@ -19,6 +19,11 @@ export 'src/widgets/texts/textfield.dart';
 export 'src/widgets/texts/text.dart';
 
 
+//animated widgets
+export 'src/widgets/animated_widgets/animated_container.dart';
+
+
+
 
 //arrangement widgets
 export 'src/widgets/arrangement_widgets/position.dart';
@@ -63,7 +68,13 @@ export 'src/styles/flart_gradient.dart';
 export 'src/styles/media_querry.dart';
 export 'src/styles/navigation.dart';
 export 'src/styles/align.dart';
-export 'src/styles/text_editing_controller.dart';
+
+
+//controllers
+export 'src/controllers/animated_controller.dart';
+export 'src/controllers/text_editing_controller.dart';
+
+
 
 // TODO: Export any libraries intended for clients of this package.
 

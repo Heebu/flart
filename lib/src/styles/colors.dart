@@ -2,9 +2,42 @@ class FlartColor {
   final String hex;
   const FlartColor(this.hex);
 
+  // Convert hex color to RGB components
+  Map<String, int> _hexToRgb() {
+    final hexWithoutHash = hex.replaceFirst('#', '');
+    final r = int.parse(hexWithoutHash.substring(0, 2), radix: 16);
+    final g = int.parse(hexWithoutHash.substring(2, 4), radix: 16);
+    final b = int.parse(hexWithoutHash.substring(4, 6), radix: 16);
+    return {'r': r, 'g': g, 'b': b};
+  }
+
+  // Interpolate between two FlartColor objects
+  FlartColor lerp(FlartColor other, double t) {
+    final thisRgb = _hexToRgb();
+    final otherRgb = other._hexToRgb();
+
+    final r = _lerpComponent(thisRgb['r']!, otherRgb['r']!, t);
+    final g = _lerpComponent(thisRgb['g']!, otherRgb['g']!, t);
+    final b = _lerpComponent(thisRgb['b']!, otherRgb['b']!, t);
+
+    final hex = _rgbToHex(r, g, b);
+    return FlartColor(hex);
+  }
+
+  // Helper method to interpolate color components
+  int _lerpComponent(int start, int end, double t) {
+    return (start + ((end - start) * t)).toInt();
+  }
+
+  // Convert RGB values back to hex
+  String _rgbToHex(int r, int g, int b) {
+    return '#${r.toRadixString(16).padLeft(2, '0')}${g.toRadixString(16).padLeft(2, '0')}${b.toRadixString(16).padLeft(2, '0')}';
+  }
+
   @override
   String toString() => hex;
 }
+
 
 class FlartMaterialColor extends FlartColor {
   final Map<int, FlartColor> shades;
