@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'dart:js';
 
 class FlartCallbackManager {
   static final _handlers = <String, void Function()>{};
@@ -8,9 +9,7 @@ class FlartCallbackManager {
     final id = 'flart_cb_${_counter++}';
     _handlers[id] = callback;
 
-    // Inject the JS handler once
     if (!_jsInjected) _injectGlobalHandler();
-
     return id;
   }
 
@@ -18,6 +17,8 @@ class FlartCallbackManager {
 
   static void _injectGlobalHandler() {
     _jsInjected = true;
+
+    // Inject JS function
     final script = ScriptElement()
       ..innerHtml = '''
         window.__flartHandleClick = function(id) {
@@ -28,7 +29,7 @@ class FlartCallbackManager {
       ''';
     document.body?.append(script);
 
-    // Now expose the Dart-side handler
+    // Wire up Dart handler
     context['__dartHandleClick'] = allowInterop((String id) {
       final handler = _handlers[id];
       if (handler != null) handler();

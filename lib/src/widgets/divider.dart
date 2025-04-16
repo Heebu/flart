@@ -22,8 +22,8 @@ class Divider extends Widget {
     final styleMap = <String, String>{
       'height': '${thickness}px',
       'background-color': color?.toString() ?? '#000000',
-      'margin-left': '${indent ?? 0}px',
-      'margin-right': '${endIndent ?? 0}px',
+      if (margin == null) 'margin-left': '${indent ?? 0}px',
+      if (margin == null) 'margin-right': '${endIndent ?? 0}px',
       if (margin != null) 'margin': margin!.toCss(),
       ...?cssStyle,
     };

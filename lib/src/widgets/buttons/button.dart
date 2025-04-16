@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:html';
-import 'widget.dart';
+import '../widget.dart';
 
 class Button extends Widget {
   final String? text;

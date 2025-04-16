@@ -1,88 +1,98 @@
-import '../widget.dart';
+import 'dart:html';
+import '../../../flart.dart';
+import '../../helper/callback_manager.dart';
 
-typedef GestureCallback = String Function();
 
 class GestureDetector extends Widget {
   final Widget child;
-  final GestureCallback? onTap;
-  final GestureCallback? onDoubleTap;
-  final GestureCallback? onLongPress;
-  final Map<String, String>? cssStyle;
+  final VoidCallback? onTap;
+  final VoidCallback? onDoubleClick;
+  final VoidCallback? onLongPress;
+  final VoidCallback? onHover;
+  final VoidCallback? onHoverExit;
+  final VoidCallback? onContextMenu;
+  final VoidCallback? onSwipeLeft;
+  final VoidCallback? onSwipeRight;
+  final VoidCallback? onSwipeUp;
+  final VoidCallback? onSwipeDown;
 
   GestureDetector({
     required this.child,
     this.onTap,
-    this.onDoubleTap,
+    this.onDoubleClick,
     this.onLongPress,
-    this.cssStyle,
+    this.onHover,
+    this.onHoverExit,
+    this.onContextMenu,
+    this.onSwipeLeft,
+    this.onSwipeRight,
+    this.onSwipeUp,
+    this.onSwipeDown,
   });
 
   @override
   String render() {
-    final id = _generateUniqueId();
-    final style = {
-      'cursor': _hasGesture ? 'pointer' : 'default',
-      ...?cssStyle,
-    }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-
+    final id = 'gesture_${DateTime.now().millisecondsSinceEpoch}';
     final buffer = StringBuffer();
 
-    buffer.writeln('<div id="$id" style="$style">');
-    buffer.writeln(child.render());
-    buffer.writeln('</div>');
+    buffer.writeln('<div id="$id">${child.render()}</div>');
 
-    // Scripts for events
-    final eventScripts = StringBuffer();
-    if (onTap != null) {
-      eventScripts.writeln('''
-        document.getElementById('$id').addEventListener('click', () => {
-          ${onTap!()}
-        });
-      ''');
-    }
+    buffer.writeln('''
+    <script>
+      (function() {
+        const el = document.getElementById('$id');
+        let longPressTimeout, startX, startY;
 
-    if (onDoubleTap != null) {
-      eventScripts.writeln('''
-        document.getElementById('$id').addEventListener('dblclick', () => {
-          ${onDoubleTap!()}
-        });
-      ''');
-    }
+        ${onTap != null ? "el.addEventListener('click', () => window.__flartHandleClick('${FlartCallbackManager.register(onTap!)}'));" : ''}
+        ${onDoubleClick != null ? "el.addEventListener('dblclick', () => window.__flartHandleClick('${FlartCallbackManager.register(onDoubleClick!)}'));" : ''}
+        ${onLongPress != null ? '''
+          el.addEventListener('mousedown', () => {
+            longPressTimeout = setTimeout(() => {
+              window.__flartHandleClick('${FlartCallbackManager.register(onLongPress!)}');
+            }, 700);
+          });
+          el.addEventListener('mouseup', () => clearTimeout(longPressTimeout));
+          el.addEventListener('mouseleave', () => clearTimeout(longPressTimeout));
+        ''' : ''}
 
-    if (onLongPress != null) {
-      eventScripts.writeln('''
-        let pressTimer_$id;
-        const el_$id = document.getElementById('$id');
-        el_$id.addEventListener('mousedown', () => {
-          pressTimer_$id = setTimeout(() => {
-            ${onLongPress!()}
-          }, 600);
-        });
-        el_$id.addEventListener('mouseup', () => {
-          clearTimeout(pressTimer_$id);
-        });
-        el_$id.addEventListener('mouseleave', () => {
-          clearTimeout(pressTimer_$id);
-        });
-      ''');
-    }
+        ${onHover != null ? "el.addEventListener('mouseenter', () => window.__flartHandleClick('${FlartCallbackManager.register(onHover!)}'));" : ''}
+        ${onHoverExit != null ? "el.addEventListener('mouseleave', () => window.__flartHandleClick('${FlartCallbackManager.register(onHoverExit!)}'));" : ''}
+        ${onContextMenu != null ? "el.addEventListener('contextmenu', (e) => { e.preventDefault(); window.__flartHandleClick('${FlartCallbackManager.register(onContextMenu!)}'); });" : ''}
 
-    if (_hasGesture) {
-      buffer.writeln('''
-        <script>
-          $eventScripts
-        </script>
-      ''');
-    }
+        // Swipe Detection
+        el.addEventListener('touchstart', function(e) {
+          const t = e.touches[0];
+          startX = t.clientX;
+          startY = t.clientY;
+        });
+
+        el.addEventListener('touchend', function(e) {
+          const t = e.changedTouches[0];
+          const dx = t.clientX - startX;
+          const dy = t.clientY - startY;
+          const absDx = Math.abs(dx);
+          const absDy = Math.abs(dy);
+
+          if (Math.max(absDx, absDy) > 30) {
+            if (absDx > absDy) {
+              if (dx > 0) {
+                ${onSwipeRight != null ? "window.__flartHandleClick('${FlartCallbackManager.register(onSwipeRight!)}');" : ''}
+              } else {
+                ${onSwipeLeft != null ? "window.__flartHandleClick('${FlartCallbackManager.register(onSwipeLeft!)}');" : ''}
+              }
+            } else {
+              if (dy > 0) {
+                ${onSwipeDown != null ? "window.__flartHandleClick('${FlartCallbackManager.register(onSwipeDown!)}');" : ''}
+              } else {
+                ${onSwipeUp != null ? "window.__flartHandleClick('${FlartCallbackManager.register(onSwipeUp!)}');" : ''}
+              }
+            }
+          }
+        });
+      })();
+    </script>
+    ''');
 
     return buffer.toString();
-  }
-
-  bool get _hasGesture => onTap != null || onDoubleTap != null || onLongPress != null;
-
-  String _generateUniqueId() {
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final random = DateTime.now().microsecondsSinceEpoch;
-    return 'gesture_${timestamp}_$random';
   }
 }

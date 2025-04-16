@@ -1,10 +1,10 @@
 import '../../../flart.dart';
-
-typedef IconCallback = String Function();
+import 'dart:html';
+import '../../helper/callback_manager.dart';
 
 class IconButton extends Widget {
   final Icon icon;
-  final IconCallback? onPressed;
+  final VoidCallback? onPressed;
   final Map<String, String>? cssStyle;
 
   IconButton({
@@ -16,29 +16,28 @@ class IconButton extends Widget {
   @override
   String render() {
     final id = 'icon_btn_${DateTime.now().millisecondsSinceEpoch}';
+    final cbId = onPressed != null ? FlartCallbackManager.register(onPressed!) : null;
+
     final style = {
+      'font-family': 'Material Icons',
+      'font-size': '${icon.size}px',
+      'color': icon.color,
       'border': 'none',
       'background': 'transparent',
       'cursor': onPressed != null ? 'pointer' : 'default',
       'outline': 'none',
-      'padding': '8px',
-      'border-radius': '4px',
       ...?cssStyle,
     }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
-    final buffer = StringBuffer();
-    buffer.writeln('<button id="$id" style="$style">${icon.render()}</button>');
-
-    if (onPressed != null) {
-      buffer.writeln('''
+    return '''
+      <button id="$id" style="$style">${icon.icon}</button>
+      ${cbId != null ? '''
         <script>
           document.getElementById('$id').addEventListener('click', () => {
-            ${onPressed!()}
+            window.__flartHandleClick('$cbId');
           });
         </script>
-      ''');
-    }
-
-    return buffer.toString();
+      ''' : ''}
+    ''';
   }
 }
