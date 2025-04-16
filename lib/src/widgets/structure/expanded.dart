@@ -1,4 +1,4 @@
-import '../../flart.dart';
+import '../../../flart.dart';
 
 class Expanded extends Widget {
   final Widget child;

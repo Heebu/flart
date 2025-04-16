@@ -1,5 +1,5 @@
-import '../styles/text_style.dart';
-import 'widget.dart';
+import '../../styles/text_style.dart';
+import '../widget.dart';
 
 class Text extends Widget {
   final String content;

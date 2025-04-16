@@ -1,5 +1,5 @@
 import 'dart:html';
-import '../../flart.dart';
+import '../../../flart.dart';
 
 class MaterialApp extends StatelessWidget {
   final String title;

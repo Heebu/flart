@@ -1,6 +1,6 @@
-import '../../flart.dart';
-import 'buttomnarbaritem.dart';
 
+
+import '../../../flart.dart';
 
 class BottomNavigationBar extends Widget {
   final List<BottomNavigationBarItem> items;

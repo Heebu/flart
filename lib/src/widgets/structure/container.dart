@@ -1,7 +1,7 @@
-import 'widget.dart';
-import '../styles/box_decoration.dart';
-import '../styles/edge_insets.dart';
-import '../styles/alignment.dart';
+import '../widget.dart';
+import '../../styles/box_decoration.dart';
+import '../../styles/edge_insets.dart';
+import '../../styles/alignment.dart';
 
 class Container extends Widget {
   final Widget? child;

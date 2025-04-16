@@ -5,36 +5,46 @@ library;
 export 'src/flart_base.dart';
 export 'run_app.dart';
 export 'src/widgets/widget.dart';
-export 'src/widgets/text.dart';
-export 'src/widgets/container.dart';
-export 'src/widgets/arrangement_widgets/column.dart';
 export 'src/widgets/state.dart';
 export 'src/widgets/stateful_widget.dart';
 export 'src/widgets/stateless_widget.dart';
+
+
+//button widgets
 export 'src/widgets/buttons/button.dart';
-export 'src/widgets/arrangement_widgets/row.dart';
-export 'src/widgets/material_app.dart';
-export 'src/widgets/image.dart';
-export 'src/widgets/gridview.dart';
-export 'src/widgets/arrangement_widgets/listview.dart';
-export 'src/widgets/divider.dart';
-export 'src/widgets/vertical_divider.dart';
-export 'src/widgets/appbar.dart';
-export 'src/widgets/scaffold.dart';
-export 'src/widgets/drawer.dart';
-export 'src/widgets/icons.dart';
-export 'src/widgets/stack.dart';
-export 'src/widgets/expanded.dart';
-export 'src/widgets/center.dart';
 export 'src/widgets/buttons/icon_button.dart';
-export 'src/widgets/textfield.dart';
-export 'src/widgets/buttom_nav_bar.dart';
-export 'src/widgets/floating_action_widget.dart';
+
+//text widgets
+export 'src/widgets/texts/textfield.dart';
+export 'src/widgets/texts/text.dart';
 
 
 
+//arrangement widgets
 export 'src/widgets/arrangement_widgets/position.dart';
+export 'src/widgets/arrangement_widgets/column.dart';
+export 'src/widgets/arrangement_widgets/listview.dart';
+export 'src/widgets/arrangement_widgets/row.dart';
+export 'src/widgets/arrangement_widgets/center.dart';
+export 'src/widgets/arrangement_widgets/stack.dart';
 
+//structure widget
+export 'src/widgets/structure/container.dart';
+export 'src/widgets/structure/divider.dart';
+export 'src/widgets/structure/buttom_nav_bar.dart';
+export 'src/widgets/structure/floating_action_widget.dart';
+export 'src/widgets/structure/vertical_divider.dart';
+export 'src/widgets/structure/appbar.dart';
+export 'src/widgets/structure/scaffold.dart';
+export 'src/widgets/structure/drawer.dart';
+export 'src/widgets/structure/icons.dart';
+export 'src/widgets/structure/sized_box.dart';
+export 'src/widgets/structure/spacer.dart';
+export 'src/widgets/structure/buttomnarbaritem.dart';
+export 'src/widgets/structure/expanded.dart';
+export 'src/widgets/structure/material_app.dart';
+export 'src/widgets/structure/image.dart';
+export 'src/widgets/structure/gridview.dart';
 
 //styles
 export 'src/styles/alignment.dart';

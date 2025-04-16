@@ -1,4 +1,4 @@
-import '../../flart.dart';
+import '../../../flart.dart';
 
 class Icon extends Widget {
   final String icon;

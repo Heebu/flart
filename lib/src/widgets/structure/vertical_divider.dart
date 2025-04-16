@@ -1,18 +1,20 @@
-import '../../flart.dart';
+import '../../../flart.dart';
 
-class Divider extends Widget {
+class VerticalDivider extends Widget {
   final double thickness;
   final double? indent;
   final double? endIndent;
   final FlartColor? color;
+  final double? height;
   final EdgeInsets? margin;
   final Map<String, String>? cssStyle;
 
-  Divider({
+  VerticalDivider({
     this.thickness = 1.0,
     this.indent,
     this.endIndent,
     this.color,
+    this.height,
     this.margin,
     this.cssStyle,
   });
@@ -20,10 +22,11 @@ class Divider extends Widget {
   @override
   String render() {
     final styleMap = <String, String>{
-      'height': '${thickness}px',
+      'width': '${thickness}px',
       'background-color': color?.toString() ?? '#000000',
-      if (margin == null) 'margin-left': '${indent ?? 0}px',
-      if (margin == null) 'margin-right': '${endIndent ?? 0}px',
+      if (height != null) 'height': '${height}px',
+      if (indent != null) 'margin-top': '${indent}px',
+      if (endIndent != null) 'margin-bottom': '${endIndent}px',
       if (margin != null) 'margin': margin!.toCss(),
       ...?cssStyle,
     };

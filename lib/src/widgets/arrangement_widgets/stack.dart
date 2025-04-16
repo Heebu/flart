@@ -1,4 +1,4 @@
-import 'widget.dart';
+import '../widget.dart';
 
 class Stack extends Widget {
   final List<Widget> children;
