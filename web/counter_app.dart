@@ -77,6 +77,13 @@ class _CounterState extends State<CounterApp> {
                 endHeight: 150,
               ),
 
+                  SelectableText('This text can be selected'),
+                  SizedBox(height: 20),
+                  LinkText(label: 'Go to docs', href: 'https://docs.flart.dev'),
+                  SizedBox(height: 20),
+                  TextButton(label: 'Click Me', onPressed: () => print('Tapped'))
+
+
 
                 ])));
   }

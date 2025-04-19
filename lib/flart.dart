@@ -10,20 +10,31 @@ export 'src/widgets/stateful_widget.dart';
 export 'src/widgets/stateless_widget.dart';
 
 
-//button widgets
+//enums
 export 'src/widgets/buttons/button.dart';
-export 'src/widgets/buttons/icon_button.dart';
+
+
+//button widgets
+export 'src/enums/text_align.dart';
+export 'src/enums/axis.dart';
+export 'src/enums/axis_alignment.dart';
+export 'src/enums/indexed_widget_bulder.dart';
+export 'src/enums/grid_view_type.dart';
+export 'src/enums/text_tag.dart';
 
 //text widgets
 export 'src/widgets/texts/textfield.dart';
 export 'src/widgets/texts/text.dart';
-
+export 'src/widgets/texts/rich_text.dart';
+export 'src/widgets/texts/text_span.dart';
+export 'src/widgets/texts/selectable_text.dart';
+export 'src/widgets/texts/text_button.dart';
+export 'src/widgets/texts/link_text.dart';
+export 'src/widgets/texts/editable_text.dart';
+export 'src/widgets/texts/richtext.dart';
 
 //animated widgets
 export 'src/widgets/animated_widgets/animated_container.dart';
-
-
-
 
 //arrangement widgets
 export 'src/widgets/arrangement_widgets/position.dart';
@@ -49,11 +60,9 @@ export 'src/widgets/structure/buttomnarbaritem.dart';
 export 'src/widgets/structure/expanded.dart';
 export 'src/widgets/structure/material_app.dart';
 export 'src/widgets/structure/image.dart';
-export 'src/widgets/structure/gridview.dart';
 
 //styles
 export 'src/styles/alignment.dart';
-export 'src/enums/axis_alignment.dart';
 export 'src/styles/box_decoration.dart';
 export 'src/styles/edge_insets.dart';
 export 'src/styles/text_style.dart';
@@ -73,7 +82,6 @@ export 'src/styles/align.dart';
 //controllers
 export 'src/controllers/animated_controller.dart';
 export 'src/controllers/text_editing_controller.dart';
-
 
 
 // TODO: Export any libraries intended for clients of this package.
