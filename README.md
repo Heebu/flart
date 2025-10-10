@@ -1,39 +1,127 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+### 🧱 `README.md`
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
+````markdown
+# Flart Project
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
+A Flutter-style widget framework built for the **Dart Web** environment.  
+This project aims to bring Flutter-like declarative UI development to the browser —  
+using only Dart and HTML under the hood.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+---
 
-## Features
+## 🚀 Getting Started
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+### 1. Install Dart SDK
+Download and install the latest stable **Dart SDK** from:
+👉 https://dart.dev/get-dart
 
-## Getting started
+After installation, verify it’s available globally:
+```bash
+dart --version
+````
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+If the above command doesn’t work, add Dart to your system PATH manually:
 
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
-```dart
-const like = 'sample';
+```
+C:\Users\<YOUR_USERNAME>\AppData\Local\Pub\Cache\bin
 ```
 
-## Additional information
+Or re-run this command in PowerShell:
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```powershell
+setx PATH "$env:PATH;C:\Users\<YOUR_USERNAME>\AppData\Local\Pub\Cache\bin"
+```
+
+---
+
+## 🧩 Dependencies
+
+Your `pubspec.yaml` should look like this:
+
+```yaml
+name: flart_project
+description: A Flutter-style widget package for Dart Web
+version: 0.0.1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  html: any
+
+dev_dependencies:
+  build_runner: any
+  build_web_compilers: any
+```
+
+Then install dependencies:
+
+```bash
+dart pub get
+```
+
+---
+
+## 🧰 Run the Project
+
+To build and serve your Dart web app locally, use:
+
+```bash
+webdev serve
+```
+
+The app will be available at:
+👉 [http://localhost:8080](http://localhost:8080)
+
+You can specify a custom port if needed:
+
+```bash
+webdev serve web:9000
+```
+
+---
+
+## 🛠️ Troubleshooting
+
+### `'dart' is not recognized`
+
+Dart SDK is not in your PATH. Reinstall or re-add it manually using:
+
+```powershell
+setx PATH "$env:PATH;C:\Users\<YOUR_USERNAME>\AppData\Local\Pub\Cache\bin"
+```
+
+### `'webdev' is not recognized`
+
+Run the following:
+
+```bash
+dart pub global activate webdev
+```
+
+Then restart your terminal and verify:
+
+```bash
+webdev --version
+```
+
+---
+
+## 🧠 Notes
+
+* Uses `build_runner` and `build_web_compilers` for Dart-to-JS compilation.
+* Designed for experimentation and framework development (e.g., `Flart` UI library).
+* Future goal: to mimic Flutter’s widget and rendering structure for pure Dart Web apps.
+
+---
+
+## 📜 License
+
+MIT © 2025 Idris Adedeji
+
+```
+
+---
+
+Would you like me to make this version **auto-detect the platform** (Windows/macOS/Linux) in the setup section — so it’s smarter and reusable across systems?
+```
