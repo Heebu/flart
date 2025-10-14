@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import '../../flart.dart';
 
 abstract class CustomPainter {
@@ -18,7 +16,7 @@ class CustomPaint extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final id = 'canvas_${DateTime.now().millisecondsSinceEpoch}';
 
     // Inject canvas

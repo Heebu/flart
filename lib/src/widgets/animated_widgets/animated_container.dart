@@ -1,4 +1,3 @@
-import 'dart:html';
 import '../../../flart.dart';
 
 
@@ -27,7 +26,7 @@ class AnimatedContainer extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final id = 'animated_container_${DateTime.now().millisecondsSinceEpoch}';
 
     // Create the initial container with base styles
@@ -42,7 +41,7 @@ class AnimatedContainer extends Widget {
     // Initialize the container HTML
     final containerHtml = '''
       <div id="$id" style="$initialStyle">
-        ${child?.render() ?? ''}
+        ${child?.render(context) ?? ''}
       </div>
     ''';
 
