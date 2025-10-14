@@ -1,7 +1,5 @@
-import '../../enums/axis.dart';
-import '../../styles/build_context.dart';
-import '../widget.dart';
-import '../../styles/edge_insets.dart';
+import 'package:flart_project/flart.dart';
+
 
 typedef ItemWidgetBuilder = Widget Function(BuildContext context, int index);
 typedef SeparatorWidgetBuilder = Widget Function(BuildContext context, int index);
@@ -76,7 +74,7 @@ class ListView extends Widget {
   }
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final styleMap = <String, String>{
       'display': 'flex',
       'flex-direction': scrollDirection == Axis.vertical ? 'column' : 'row',
@@ -90,19 +88,19 @@ class ListView extends Widget {
 
     switch (type) {
       case ListViewType.static:
-        content = children!.map((c) => c.render()).join();
+        content = children!.map((c) => c.render(context)).join();
         break;
 
       case ListViewType.builder:
-        content = List.generate(itemCount!, (i) => itemBuilder!(BuildContext(), i).render()).join();
+        content = List.generate(itemCount!, (i) => itemBuilder!(context, i).render(context)).join();
         break;
 
       case ListViewType.separated:
         final buffer = StringBuffer();
         for (int i = 0; i < itemCount!; i++) {
-          buffer.write(itemBuilder!(BuildContext(), i).render());
+          buffer.write(itemBuilder!(context, i));
           if (i < itemCount! - 1) {
-            buffer.write(separatorBuilder!(BuildContext(), i).render());
+            buffer.write(separatorBuilder!(context, i));
           }
         }
         content = buffer.toString();

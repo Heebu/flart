@@ -1,5 +1,4 @@
-import '../widget.dart';
-import '../../enums/axis_alignment.dart';
+import 'package:flart_project/flart.dart';
 
 class Column extends Widget {
   final List<Widget> children;
@@ -15,7 +14,7 @@ class Column extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final styleMap = <String, String>{
       'display': 'flex',
       'flex-direction': 'column',
@@ -25,7 +24,7 @@ class Column extends Widget {
     };
 
     final styleString = styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    final childrenHtml = children.map((child) => child.render()).join();
+    final childrenHtml = children.map((child) => child.render(context)).join();
 
     return '<div style="$styleString">$childrenHtml</div>';
   }

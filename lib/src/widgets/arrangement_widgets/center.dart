@@ -6,7 +6,7 @@ class Center extends Widget {
   Center({required this.child});
 
   @override
-  String render() {
+  String render(BuildContext context) {
     return '''
       <div style="
         display: flex;
@@ -15,7 +15,7 @@ class Center extends Widget {
         width: 100%;
         height: 100%;
       ">
-        ${child.render()}
+        ${child.render(context)}
       </div>
     ''';
   }

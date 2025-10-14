@@ -1,33 +1,35 @@
-import '../widget.dart';
-import '../../enums/axis_alignment.dart';
+import 'package:flart_project/flart.dart';
 
 class Row extends Widget {
   final List<Widget> children;
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
   final Map<String, String>? cssStyle;
+  final String? key;
 
-  Row({
+  const Row({
     required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.cssStyle,
+    this.key,
   });
 
   @override
-  String render() {
-    final styleMap = <String, String>{
+  String render(BuildContext context) {
+    final styleMap = {
       'display': 'flex',
       'flex-direction': 'row',
       'justify-content': _mapMainAxis(mainAxisAlignment),
       'align-items': _mapCrossAxis(crossAxisAlignment),
+      'overflow-wrap': 'break-word',
       ...?cssStyle,
     };
 
     final styleString = styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    final childrenHtml = children.map((child) => child.render()).join();
+    final childrenHtml = children.map((child) => child.render(context)).join();
 
-    return '<div style="$styleString">$childrenHtml</div>';
+    return '<div ${key != null ? 'id="$key"' : ''} style="$styleString">$childrenHtml</div>';
   }
 
   String _mapMainAxis(MainAxisAlignment value) {

@@ -1,4 +1,4 @@
-import '../widget.dart';
+import 'package:flart_project/flart.dart';
 
 class Positioned extends Widget {
   final Widget child;
@@ -16,7 +16,7 @@ class Positioned extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final styleMap = <String, String>{
       'position': 'absolute',
       if (top != null) 'top': '${top}px',
@@ -27,6 +27,6 @@ class Positioned extends Widget {
 
     final styleString = styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
-    return '<div style="$styleString">${child.render()}</div>';
+    return '<div style="$styleString">${child.render(context)}</div>';
   }
 }

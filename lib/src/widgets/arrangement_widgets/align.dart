@@ -1,6 +1,4 @@
-import 'package:flart_project/src/styles/align.dart';
-
-import '../widget.dart';
+import 'package:flart_project/flart.dart';
 
 class Align extends Widget {
   final Widget child;
@@ -14,13 +12,13 @@ class Align extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final alignStyle = alignment.toCss();
     final combinedStyle = {
       ...alignStyle,
       ...?cssStyle,
     }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
-    return '<div style="$combinedStyle">${child.render()}</div>';
+    return '<div style="$combinedStyle">${child.render(context)}</div>';
   }
 }

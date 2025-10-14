@@ -1,4 +1,4 @@
-import '../widget.dart';
+import 'package:flart_project/flart.dart';
 
 class Stack extends Widget {
   final List<Widget> children;
@@ -10,7 +10,7 @@ class Stack extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final style = {
       'position': 'relative',
       ...?cssStyle,
@@ -19,7 +19,7 @@ class Stack extends Widget {
     final buffer = StringBuffer();
     buffer.writeln('<div style="$style">');
     for (final child in children) {
-      buffer.writeln(child.render());
+      buffer.writeln(child.render(context));
     }
     buffer.writeln('</div>');
 
