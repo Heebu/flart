@@ -1,3 +1,5 @@
+import 'package:flart_project/src/widgets/utils/build_context.dart';
+
 import '../widget.dart';
 import 'text_span.dart';
 
@@ -11,13 +13,15 @@ class RichText extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final styleString = (cssStyle ?? {}).entries
         .map((e) => '${e.key}: ${e.value};')
         .join(' ');
 
     return '<div style="$styleString">${textSpan.render()}</div>';
   }
+
+
 }
 
 

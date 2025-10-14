@@ -1,3 +1,5 @@
+import 'package:flart_project/src/widgets/utils/build_context.dart';
+
 import '../../../flart.dart';
 
 typedef OnChanged = void Function(String value);
@@ -18,7 +20,7 @@ class TextField extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final id = 'textField_\${DateTime.now().millisecondsSinceEpoch}';
     final style = {
       'padding': '8px',
@@ -51,4 +53,6 @@ class TextField extends Widget {
 
     return buffer.toString();
   }
+
+
 }

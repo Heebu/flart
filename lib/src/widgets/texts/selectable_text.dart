@@ -1,3 +1,5 @@
+import 'package:flart_project/src/widgets/utils/build_context.dart';
+
 import '../../../flart.dart';
 
 
@@ -13,7 +15,7 @@ class SelectableText extends Widget {
       });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final styleMap = {
       'user-select': 'text',
       ...(style?.toCss() ?? {}),
@@ -23,6 +25,8 @@ class SelectableText extends Widget {
     styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
     return '<span style="$styleString">$content</span>';
   }
+
+
 }
 
 

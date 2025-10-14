@@ -1,3 +1,5 @@
+import 'package:flart_project/src/widgets/utils/build_context.dart';
+
 import '../../helper/callback_manager.dart';
 import 'dart:html';
 import '../../../flart.dart';
@@ -21,7 +23,7 @@ class LinkText extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final idClick = onPressed != null
         ? FlartCallbackManager.register(onPressed!)
         : null;
@@ -59,6 +61,8 @@ class LinkText extends Widget {
       ''';
     }
   }
+
+
 }
 
 

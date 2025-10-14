@@ -1,3 +1,5 @@
+import 'package:flart_project/src/widgets/utils/build_context.dart';
+
 import '../../../flart.dart';
 
 
@@ -27,8 +29,23 @@ class EditableText extends Widget {
     this.cssStyle,
   });
 
+
+
+  String _getTextAlignCss() {
+    switch (textAlign) {
+      case TextAlign.center:
+        return 'center';
+      case TextAlign.end:
+        return 'right';
+      case TextAlign.justify:
+        return 'justify';
+      default:
+        return 'left';
+    }
+  }
+
   @override
-  String render() {
+  String render(BuildContext context) {
     final id = 'editable_${DateTime.now().millisecondsSinceEpoch}';
     final type = obscureText ? 'password' : 'text';
 
@@ -70,19 +87,6 @@ class EditableText extends Widget {
     ''');
 
     return buffer.toString();
-  }
-
-  String _getTextAlignCss() {
-    switch (textAlign) {
-      case TextAlign.center:
-        return 'center';
-      case TextAlign.end:
-        return 'right';
-      case TextAlign.justify:
-        return 'justify';
-      default:
-        return 'left';
-    }
   }
 }
 
