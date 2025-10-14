@@ -1,9 +1,13 @@
-import '../../flart.dart';
+import 'utils/build_context.dart';
+import 'widget.dart';
 
 abstract class StatelessWidget extends Widget {
   const StatelessWidget();
-  String build();
+
+  String build(BuildContext context);
 
   @override
-  String render() => build();
+  String render(BuildContext context) {
+    return build(context);
+  }
 }

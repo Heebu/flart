@@ -1,3 +1,5 @@
+import 'package:flart_project/src/widgets/utils/build_context.dart';
+
 import '../../../flart.dart';
 
 
@@ -17,7 +19,7 @@ class Text extends Widget {
       });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final combinedStyle = {
       ...(style?.toCss() ?? {}),
       ...(cssStyle ?? {}),
@@ -32,6 +34,8 @@ class Text extends Widget {
 
     return '<$tagName style="$styleString">$content</$tagName>';
   }
+
+
 }
 
 

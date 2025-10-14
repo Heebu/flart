@@ -1,3 +1,5 @@
+import 'package:flart_project/src/widgets/utils/build_context.dart';
+
 import '../../helper/callback_manager.dart';
 import 'dart:html';
 import '../../../flart.dart';
@@ -21,7 +23,7 @@ class TextButton extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final id = 'text_btn_${DateTime.now().millisecondsSinceEpoch}';
     final pressId = onPressed != null ? FlartCallbackManager.register(onPressed!) : '';
     final hoverId = onHover != null ? FlartCallbackManager.register(onHover!) : '';
@@ -61,6 +63,8 @@ class TextButton extends Widget {
       </script>
     ''';
   }
+
+
 }
 
 
