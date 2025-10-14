@@ -16,7 +16,7 @@ class AppBar extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final buffer = StringBuffer();
 
     buffer.writeln('''
@@ -33,16 +33,16 @@ class AppBar extends Widget {
     ''');
 
     // Leading (e.g., menu icon)
-    buffer.write('<div style="margin-right: 16px;">${leading?.render() ?? ''}</div>');
+    buffer.write('<div style="margin-right: 16px;">${leading?.render(context) ?? ''}</div>');
 
     // Title
-    buffer.write('<div style="flex: 1; font-size: 20px; font-weight: 500;">${title?.render() ?? ''}</div>');
+    buffer.write('<div style="flex: 1; font-size: 20px; font-weight: 500;">${title?.render(context) ?? ''}</div>');
 
     // Actions
     if (actions != null && actions!.isNotEmpty) {
       buffer.write('<div style="display: flex; gap: 8px;">');
       for (var action in actions!) {
-        buffer.write(action.render());
+        buffer.write(action.render(context));
       }
       buffer.write('</div>');
     }

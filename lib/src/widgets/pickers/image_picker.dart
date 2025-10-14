@@ -1,7 +1,5 @@
-import 'dart:html';
-
 import '../../helper/file_picker_manager.dart';
-import '../widget.dart';
+import 'package:flart_project/flart.dart';
 
 typedef ImagePickCallback = void Function(List<File> files);
 
@@ -19,7 +17,7 @@ class ImagePicker extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final id = FlartFilePickerManager.register(onImageSelected);
     final styleString = (cssStyle ?? {})
         .entries

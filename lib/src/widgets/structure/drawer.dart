@@ -11,7 +11,7 @@ class Drawer extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final styleMap = {
       'width': '250px',
       'height': '100%',
@@ -24,10 +24,12 @@ class Drawer extends Widget {
 
     return '''
       <div style="$style">
-        ${child.render()}
+        ${child.render(context)}
       </div>
     ''';
   }
+
+
 }
 
 

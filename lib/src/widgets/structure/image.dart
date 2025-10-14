@@ -36,7 +36,7 @@ class FlartImage extends Widget {
       }) : src = '/$assetPath'; // Adjust this based on your asset structure
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final styleMap = {
       if (width != null) 'width': '${width}px',
       if (height != null) 'height': '${height}px',

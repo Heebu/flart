@@ -1,5 +1,4 @@
-import 'dart:html';
-import '../widget.dart';
+import 'package:flart_project/flart.dart';
 
 typedef DateCallback = void Function(DateTime date);
 
@@ -15,7 +14,7 @@ class DatePicker extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final id = 'datepicker_${DateTime.now().millisecondsSinceEpoch}';
     final style = cssStyle?.entries.map((e) => '${e.key}: ${e.value};').join(' ') ?? '';
 

@@ -1,3 +1,5 @@
+import 'package:flart_project/src/widgets/utils/build_context.dart';
+
 import '../widget.dart';
 import '../../styles/box_decoration.dart';
 import '../../styles/edge_insets.dart';
@@ -25,7 +27,7 @@ class Container extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final styleMap = <String, String>{
       if (width != null) 'width': '${width}px',
       if (height != null) 'height': '${height}px',
@@ -38,6 +40,8 @@ class Container extends Widget {
 
     final styleString = styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
-    return '<div style="$styleString">${child?.render() ?? ''}</div>';
+    return '<div style="$styleString">${child?.render(context) ?? ''}</div>';
   }
+
+
 }

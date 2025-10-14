@@ -1,5 +1,4 @@
-import 'dart:html';
-import '../widget.dart';
+import 'package:flart_project/flart.dart';
 
 typedef TimeCallback = void Function(String time); // or Duration
 
@@ -15,7 +14,7 @@ class TimePicker extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final id = 'timepicker_${DateTime.now().millisecondsSinceEpoch}';
     final style = cssStyle?.entries.map((e) => '${e.key}: ${e.value};').join(' ') ?? '';
 

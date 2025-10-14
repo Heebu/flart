@@ -52,7 +52,7 @@ class GridView extends Widget {
         maxCrossAxisExtent = null;
 
   @override
-  String render() {
+  String render(BuildContext context) {
     int resolvedCount = crossAxisCount ?? 2;
     List<Widget> builtChildren = [];
 
@@ -85,7 +85,7 @@ class GridView extends Widget {
     styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     final childrenHtml = builtChildren
-        .map((child) => '<div>${child.render()}</div>')
+        .map((child) => '<div>${child.render(context)}</div>')
         .join();
 
     return '<div style="$styleString">$childrenHtml</div>';

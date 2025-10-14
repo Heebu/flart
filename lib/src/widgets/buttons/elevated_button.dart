@@ -1,4 +1,3 @@
-import 'dart:html';
 import '../../../flart.dart';
 import '../../helper/callback_manager.dart';
 
@@ -24,7 +23,7 @@ class ElevatedButton extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final id = 'elevated_btn_${DateTime.now().millisecondsSinceEpoch}';
     final classId = 'btn-$id';
 
@@ -76,7 +75,7 @@ class ElevatedButton extends Widget {
       </style>
     ''');
 
-    buffer.writeln('<button id="$id" class="$classId">${child.render()}</button>');
+    buffer.writeln('<button id="$id" class="$classId">${child.render(context)}</button>');
 
     // JavaScript callbacks
     buffer.writeln('<script>');

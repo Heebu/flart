@@ -20,7 +20,7 @@ class VerticalDivider extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final styleMap = <String, String>{
       'width': '${thickness}px',
       'background-color': color?.toString() ?? '#000000',
@@ -36,4 +36,6 @@ class VerticalDivider extends Widget {
 
     return '<div style="$styleString"></div>';
   }
+
+
 }

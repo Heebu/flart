@@ -1,5 +1,4 @@
 import '../../../flart.dart';
-import 'dart:html';
 import '../../helper/callback_manager.dart';
 
 class IconButton extends Widget {
@@ -14,7 +13,7 @@ class IconButton extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final id = 'icon_btn_${DateTime.now().millisecondsSinceEpoch}';
     final cbId = onPressed != null ? FlartCallbackManager.register(onPressed!) : null;
 

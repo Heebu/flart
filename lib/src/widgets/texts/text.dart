@@ -1,16 +1,14 @@
-import 'package:flart_project/src/widgets/utils/build_context.dart';
-
-import '../../../flart.dart';
+import 'package:flart_project/flart.dart';
 
 
-class Text extends Widget {
+class TextWidget extends Widget {
   final String content;
   final TextStyle? style;
   final Map<String, String>? cssStyle;
   final TextTag? tag;
   final TextAlign? textAlign;
 
-  Text(
+  TextWidget(
       this.content, {
         this.style,
         this.cssStyle,

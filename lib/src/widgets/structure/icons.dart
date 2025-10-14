@@ -14,7 +14,7 @@ class Icon extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final colorHex = color.toString();
     final tooltipAttr = tooltip != null ? 'title="$tooltip"' : '';
 

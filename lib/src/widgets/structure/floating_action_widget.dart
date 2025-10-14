@@ -16,7 +16,7 @@ class FloatingActionButton extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final id = _generateUniqueId();
 
     final style = {
@@ -38,7 +38,7 @@ class FloatingActionButton extends Widget {
 
     final buffer = StringBuffer();
     buffer.writeln('<div id="$id" style="$style">');
-    buffer.writeln(child.render());
+    buffer.writeln(child.render(context));
     buffer.writeln('</div>');
 
     if (onPressed != null) {

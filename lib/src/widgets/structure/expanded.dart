@@ -10,11 +10,13 @@ class Expanded extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     return '''
       <div style="flex: $flex;">
-        ${child.render()}
+        ${child.render(context)}
       </div>
     ''';
   }
+
+
 }

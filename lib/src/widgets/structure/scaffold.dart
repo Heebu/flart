@@ -18,7 +18,7 @@ class Scaffold extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context)  {
     final style = {
       'display': 'flex',
       'flex-direction': 'column',
@@ -28,12 +28,12 @@ class Scaffold extends Widget {
     }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     final content = StringBuffer();
-    if (appBar != null) content.writeln(appBar!.render());
+    if (appBar != null) content.writeln(appBar!.render(context));
 
-    content.writeln('<div style="flex: 1; overflow: auto;">${body?.render() ?? ''}</div>');
+    content.writeln('<div style="flex: 1; overflow: auto;">${body?.render(context) ?? ''}</div>');
 
     if (bottomNavigationBar != null) {
-      content.writeln(bottomNavigationBar!.render());
+      content.writeln(bottomNavigationBar!.render(context));
     }
 
     // Build main scaffold layout
@@ -57,7 +57,7 @@ class Scaffold extends Widget {
         transition: transform 0.3s ease;
         z-index: 999;
       ">
-        ${drawer!.render()}
+        ${drawer!.render(context)}
       </div>
       <script>
         function toggleDrawer() {
@@ -79,10 +79,12 @@ class Scaffold extends Widget {
         right: 16px;
         z-index: 1000;
       ">
-        ${floatingActionButton!.render()}
+        ${floatingActionButton!.render(context)}
       </div>
     ''' : '';
 
     return drawerHtml + scaffoldHtml + fabHtml;
   }
+
+
 }

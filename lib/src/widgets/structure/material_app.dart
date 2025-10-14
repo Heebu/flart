@@ -18,7 +18,7 @@ class MaterialApp extends StatelessWidget {
   });
 
   @override
-  String build() {
+  String build(BuildContext context) {
     // Set the page title
     document.title = title;
 
@@ -39,7 +39,7 @@ class MaterialApp extends StatelessWidget {
     final container = DivElement()
       ..id = 'app'
       ..setInnerHtml(
-        home.render(),
+        home.render(context),
         treeSanitizer: NodeTreeSanitizer.trusted,
       );
 

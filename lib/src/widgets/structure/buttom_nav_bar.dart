@@ -16,7 +16,7 @@ class BottomNavigationBar extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final style = {
       'display': 'flex',
       'justify-content': 'space-around',
@@ -37,9 +37,9 @@ class BottomNavigationBar extends Widget {
 
       buffer.writeln('''
         <div id="$id" style="position: relative; cursor: pointer;">
-          ${selected ? (item.activeIcon?.render() ?? item.icon.render()) : item.icon.render()}
+          ${selected ? (item.activeIcon?.render(context) ?? item.icon.render(context)) : item.icon.render(context)}
           ${item.label != null ? '<div style="font-size: 12px; color: ${selected ? '#007BFF' : '#555'}">${item.label}</div>' : ''}
-          ${item.badge != null ? '<div style="position: absolute; top: 0; right: 0;">${item.badge!.render()}</div>' : ''}
+          ${item.badge != null ? '<div style="position: absolute; top: 0; right: 0;">${item.badge!.render(context)}</div>' : ''}
         </div>
         <script>
           document.getElementById('$id')?.addEventListener('click', () => {

@@ -31,11 +31,11 @@ class GestureDetector extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final id = 'gesture_${DateTime.now().millisecondsSinceEpoch}';
     final buffer = StringBuffer();
 
-    buffer.writeln('<div id="$id">${child.render()}</div>');
+    buffer.writeln('<div id="$id">${child.render(context)}</div>');
 
     buffer.writeln('''
     <script>

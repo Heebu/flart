@@ -6,13 +6,13 @@ export 'src/flart_base.dart';
 export 'run_app.dart';
 export 'src/widgets/widget.dart';
 export 'src/widgets/state.dart';
-export 'src/widgets/stateful_widget.dart';
 export 'src/widgets/stateless_widget.dart';
+export 'dart:html';
 
 
 //enums
 export 'src/widgets/buttons/button.dart';
-
+export 'src/widgets/texts/text.dart';
 
 //button widgets
 export 'src/enums/text_align.dart';
@@ -24,7 +24,6 @@ export 'src/enums/text_tag.dart';
 
 //text widgets
 export 'src/widgets/texts/textfield.dart';
-export 'src/widgets/texts/text.dart';
 export 'src/widgets/texts/rich_text.dart';
 export 'src/widgets/texts/text_span.dart';
 export 'src/widgets/texts/selectable_text.dart';
@@ -60,6 +59,8 @@ export 'src/widgets/structure/buttomnarbaritem.dart';
 export 'src/widgets/structure/expanded.dart';
 export 'src/widgets/structure/material_app.dart';
 export 'src/widgets/structure/image.dart';
+export 'src/widgets/utils/build_context.dart';
+
 
 //styles
 export 'src/styles/alignment.dart';
@@ -69,7 +70,6 @@ export 'src/styles/text_style.dart';
 export 'src/styles/colors.dart';
 export 'src/styles/border.dart';
 export 'src/styles/border_radius.dart';
-export 'src/styles/build_context.dart';
 export 'src/styles/box_shadow.dart';
 export 'src/styles/box_gradient.dart';
 export 'src/styles/decoration_image.dart';
@@ -91,20 +91,4 @@ import 'dart:html';
 import 'src/widgets/widget.dart';
 import 'src/widgets/stateful_widget.dart';
 
-void runApp(Widget app) {
-  String htmlOutput;
 
-  if (app is StatefulWidget) {
-    final state = app.createState()
-      ..widget = app;
-    state.initState();
-    htmlOutput = state.build().render();
-  } else {
-    htmlOutput = app.render();
-  }
-
-  querySelector('#app')?.setInnerHtml(
-    htmlOutput,
-    treeSanitizer: NodeTreeSanitizer.trusted,
-  );
-}

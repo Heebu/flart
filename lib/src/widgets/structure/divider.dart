@@ -18,7 +18,7 @@ class Divider extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final styleMap = <String, String>{
       'height': '${thickness}px',
       'width': '100%',
@@ -36,4 +36,6 @@ class Divider extends Widget {
 
     return '<hr style="$styleString" />';
   }
+
+
 }

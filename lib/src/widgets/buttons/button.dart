@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:html';
-import '../widget.dart';
+import 'package:flart_project/flart.dart';
+
 
 class Button extends Widget {
   final String? text;
@@ -22,7 +22,7 @@ class Button extends Widget {
   });
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final id = 'btn-${DateTime.now().microsecondsSinceEpoch}';
     final styles = _styleToString(cssStyle);
 
@@ -53,7 +53,7 @@ class Button extends Widget {
       }
     });
 
-    final content = child?.render() ?? (text ?? label ?? 'Button');
+    final content = child?.render(context) ?? (text ?? label ?? 'Button');
 
     return '<button id="$id" style="$styles">$content</button>';
   }

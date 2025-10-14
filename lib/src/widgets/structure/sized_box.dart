@@ -9,7 +9,7 @@ class SizedBox extends Widget {
   SizedBox({this.width, this.height, this.child, this.cssStyle});
 
   @override
-  String render() {
+  String render(BuildContext context) {
     final style = {
       if (width != null) 'width': '${width}px',
       if (height != null) 'height': '${height}px',
@@ -18,8 +18,10 @@ class SizedBox extends Widget {
 
     return '''
       <div style="$style">
-        ${child?.render() ?? ''}
+        ${child?.render(context) ?? ''}
       </div>
     ''';
   }
+
+
 }
