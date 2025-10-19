@@ -4,10 +4,10 @@ import 'package:flart_project/flart.dart';
 abstract class StatefulWidget extends Widget {
   const StatefulWidget();
 
-  State createState();
+  Widget createState();
 
   @override
-  String render(BuildContext context) {
+  Widget render(BuildContext context) {
     final state = createState();
     state.widget = this as dynamic;
     state.context = context;

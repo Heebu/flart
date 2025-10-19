@@ -1,6 +1,4 @@
-import 'package:flart_project/src/widgets/utils/build_context.dart';
-
-import '../../../flart.dart';
+import 'package:flart_project/flart.dart';
 
 typedef OnChanged = void Function(String value);
 
@@ -11,7 +9,7 @@ class TextField extends Widget {
   final Map<String, String>? cssStyle;
   final TextEditingController? controller;
 
-  TextField({
+  const TextField({
     this.placeholder,
     this.controller,
     this.obscureText = false,
@@ -19,9 +17,17 @@ class TextField extends Widget {
     this.cssStyle,
   });
 
+  /// In Flart, build() returns a Widget.
+  /// Since this widget directly represents a final renderable component,
+  /// we just return `this` to indicate no further composition.
   @override
-  String render(BuildContext context) {
-    final id = 'textField_\${DateTime.now().millisecondsSinceEpoch}';
+  Widget render(BuildContext context) => this;
+
+  /// Render converts the widget into HTML output
+  String build(BuildContext context) {
+    final id = 'textField_${DateTime.now().millisecondsSinceEpoch}';
+
+    // Define styles for the input
     final style = {
       'padding': '8px',
       'font-size': '16px',
@@ -29,15 +35,17 @@ class TextField extends Widget {
       'border-radius': '4px',
       'outline': 'none',
       ...?cssStyle,
-    }.entries.map((e) => '\${e.key}: \${e.value};').join(' ');
+    }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
+    // Input attributes
     final type = obscureText ? 'password' : 'text';
-    final valueAttr = controller != null ? 'value="\${controller!.text}"' : '';
-    final placeholderAttr = placeholder != null ? 'placeholder="\$placeholder"' : '';
+    final valueAttr = controller != null ? 'value="${controller!.text}"' : '';
+    final placeholderAttr = placeholder != null ? 'placeholder="$placeholder"' : '';
 
     final buffer = StringBuffer();
-    buffer.writeln('<input id="\$id" type="\$type" \$valueAttr \$placeholderAttr style="\$style"/>');
+    buffer.writeln('<input id="$id" type="$type" $valueAttr $placeholderAttr style="$style"/>');
 
+    // Attach a script for onChanged & controller binding
     if (onChanged != null || controller != null) {
       buffer.writeln('''
         <script>
@@ -46,6 +54,11 @@ class TextField extends Widget {
             const value = e.target.value;
             window.__flartInputs = window.__flartInputs || {};
             window.__flartInputs['$id'] = value;
+
+            // Call controller or onChanged callback if needed
+            if (window.FlartBridge && window.FlartBridge.onTextChange) {
+              window.FlartBridge.onTextChange('$id', value);
+            }
           });
         </script>
       ''');
@@ -53,6 +66,4 @@ class TextField extends Widget {
 
     return buffer.toString();
   }
-
-
 }

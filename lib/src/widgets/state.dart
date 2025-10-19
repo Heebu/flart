@@ -1,9 +1,6 @@
 import 'stateful_widget.dart';
 import 'utils/build_context.dart';
 
-
-import 'stateful_widget.dart';
-
 /// Base class for State objects.
 /// NOTE: build returns a String (HTML) in this Flart design.
 abstract class State<T extends StatefulWidget> {

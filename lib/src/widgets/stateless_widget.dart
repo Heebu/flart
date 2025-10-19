@@ -4,10 +4,13 @@ import 'widget.dart';
 abstract class StatelessWidget extends Widget {
   const StatelessWidget();
 
-  String build(BuildContext context);
+  Widget build(BuildContext context);
 
   @override
-  String render(BuildContext context) {
+  Widget render(BuildContext context) {
     return build(context);
   }
 }
+
+
+
