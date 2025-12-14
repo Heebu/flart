@@ -1,14 +1,14 @@
 import 'package:flart_project/flart.dart';
 
 
-class TextWidget extends Widget {
+class Text extends Widget {
   final String content;
   final TextStyle? style;
   final Map<String, String>? cssStyle;
   final TextTag? tag;
   final TextAlign? textAlign;
 
-  TextWidget(
+  Text(
       this.content, {
         this.style,
         this.cssStyle,

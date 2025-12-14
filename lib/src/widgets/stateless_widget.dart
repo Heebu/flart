@@ -7,8 +7,8 @@ abstract class StatelessWidget extends Widget {
   Widget build(BuildContext context);
 
   @override
-  Widget render(BuildContext context) {
-    return build(context);
+  String render(BuildContext context) {
+    return build(context).render(context);
   }
 }
 

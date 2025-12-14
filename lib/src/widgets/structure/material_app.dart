@@ -1,7 +1,7 @@
 import 'dart:html';
 import '../../../flart.dart';
 
-class MaterialApp extends StatelessWidget {
+class MaterialApp extends Widget {
   final String title;
   final FlartColor? backgroundColor;
   final String? fontFamily;
@@ -18,7 +18,7 @@ class MaterialApp extends StatelessWidget {
   });
 
   @override
-  String build(BuildContext context) {
+  String render(BuildContext context) {
     // Set the page title
     document.title = title;
 
@@ -35,17 +35,8 @@ class MaterialApp extends StatelessWidget {
     final prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     document.body?.classes.add(prefersDark ? 'flart-dark' : 'flart-light');
 
-    // Add the widget HTML into the body
-    final container = DivElement()
-      ..id = 'app'
-      ..setInnerHtml(
-        home.render(context),
-        treeSanitizer: NodeTreeSanitizer.trusted,
-      );
-
-    document.body?.append(container);
-
-    return ''; // No need to return anything
+    // Return the home widget's HTML
+    return home.render(context);
   }
 
   void _injectMaterialIcons() {

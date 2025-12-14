@@ -26,7 +26,7 @@ class _CounterAppState extends State<CounterApp> {
   }
 
   @override
-  String build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(50),
@@ -36,12 +36,12 @@ class _CounterAppState extends State<CounterApp> {
           children: [
             Text(
               'Flart Counter',
-              textStyle: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
             Text(
               'Count: $count',
-              textStyle: TextStyle(fontSize: 22),
+              style: TextStyle(fontSize: 22),
             ),
             SizedBox(height: 30),
             Row(

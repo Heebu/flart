@@ -17,14 +17,8 @@ class TextField extends Widget {
     this.cssStyle,
   });
 
-  /// In Flart, build() returns a Widget.
-  /// Since this widget directly represents a final renderable component,
-  /// we just return `this` to indicate no further composition.
   @override
-  Widget render(BuildContext context) => this;
-
-  /// Render converts the widget into HTML output
-  String build(BuildContext context) {
+  String render(BuildContext context) {
     final id = 'textField_${DateTime.now().millisecondsSinceEpoch}';
 
     // Define styles for the input
