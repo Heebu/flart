@@ -62,6 +62,11 @@ export 'src/widgets/structure/buttom_nav_bar.dart';
 export 'src/widgets/structure/buttomnarbaritem.dart';
 export 'src/widgets/structure/expanded.dart';
 export 'src/widgets/structure/material_app.dart';
+export 'src/widgets/structure/card.dart';
+export 'src/widgets/structure/progress_indicator.dart';
+export 'src/widgets/structure/chip_badge.dart';
+export 'src/widgets/structure/tooltip_snackbar.dart';
+export 'src/widgets/structure/tabs.dart';
 
 // Arrangement Widgets
 export 'src/widgets/arrangement_widgets/align.dart';
@@ -77,8 +82,12 @@ export 'src/widgets/buttons/button.dart';
 export 'src/widgets/buttons/elevated_button.dart';
 export 'src/widgets/buttons/gesture_detector.dart';
 export 'src/widgets/buttons/icon_button.dart';
-export 'src/widgets/texts/textfield.dart';
+export 'src/widgets/inputs/textfield.dart';
 export 'src/widgets/texts/text_button.dart';
+export 'src/widgets/inputs/form_inputs.dart';
+export 'src/widgets/inputs/dropdown_slider.dart';
+export 'src/widgets/inputs/form_field.dart';
+export 'src/widgets/inputs/advanced_inputs.dart';
 
 // Texts
 export 'src/widgets/texts/text.dart';
@@ -93,10 +102,22 @@ export 'src/widgets/texts/editable_text.dart';
 export 'src/widgets/pickers/date_picker.dart';
 export 'src/widgets/pickers/time_picker.dart';
 export 'src/widgets/pickers/image_picker.dart';
+export 'src/widgets/pickers/advanced_pickers.dart';
 
 // Animated Widgets
 export 'src/widgets/animated_widgets/animated_container.dart';
+export 'src/widgets/animated_widgets/animated_opacity.dart';
+export 'src/widgets/animated_widgets/animated_positioned.dart';
+export 'src/widgets/animated_widgets/animated_rotation.dart';
+export 'src/widgets/animated_widgets/animated_scale.dart';
+export 'src/widgets/animated_widgets/animated_slide.dart';
+export 'src/widgets/animated_widgets/animated_size.dart';
+export 'src/widgets/animated_widgets/animated_crossfade.dart';
+export 'src/widgets/animated_widgets/fade_in.dart';
+
+// Painting
+export 'src/widgets/painting/custom_paint.dart';
+export 'src/widgets/painting/svg_picture.dart';
 
 // Media
-export 'src/widgets/media/custom_paint.dart';
-export 'src/widgets/media/svg_picture.dart';
+export 'src/widgets/media/media_widgets.dart';

@@ -1,6 +1,5 @@
 import '../../../flart.dart';
-
-
+import 'dart:html';
 
 class AnimatedContainer extends Widget {
   final AnimationController controller;

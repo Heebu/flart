@@ -1,4 +1,5 @@
 import '../../flart.dart';
+import 'dart:html';
 
 abstract class CustomPainter {
   void paint(CanvasRenderingContext2D context, num width, num height);
@@ -20,7 +21,8 @@ class CustomPaint extends Widget {
     final id = 'canvas_${DateTime.now().millisecondsSinceEpoch}';
 
     // Inject canvas
-    final canvasHtml = '<canvas id="$id" width="$width" height="$height"></canvas>';
+    final canvasHtml =
+        '<canvas id="$id" width="$width" height="$height"></canvas>';
 
     // After render, use Dart to draw
     Future.microtask(() {
@@ -35,7 +37,6 @@ class CustomPaint extends Widget {
   }
 }
 
-
 class MyPainter extends CustomPainter {
   @override
   void paint(CanvasRenderingContext2D ctx, num width, num height) {
@@ -44,7 +45,6 @@ class MyPainter extends CustomPainter {
       ..fillRect(10, 10, 100, 100);
   }
 }
-
 
 //useage
 

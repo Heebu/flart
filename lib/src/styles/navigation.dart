@@ -1,4 +1,5 @@
 import '../../flart.dart';
+import 'dart:html';
 
 abstract class FlartPage extends Widget {
   const FlartPage();
@@ -46,7 +47,8 @@ class PageNavigator {
     _refresh(withTransition: false);
   }
 
-  static void replaceNamed(String routeName, {Map<String, String>? queryParams}) {
+  static void replaceNamed(String routeName,
+      {Map<String, String>? queryParams}) {
     final page = _routes[routeName];
     if (page != null) {
       if (_stack.isNotEmpty) _stack.removeLast();
@@ -74,7 +76,8 @@ class PageNavigator {
   }
 
   /// 🆕 Replace current tab with another route
-  static void replaceNewTab(String routeName, {Map<String, String>? queryParams}) {
+  static void replaceNewTab(String routeName,
+      {Map<String, String>? queryParams}) {
     final uri = _buildRouteUrl(routeName, queryParams);
     window.location.assign(uri);
   }
@@ -103,10 +106,10 @@ class PageNavigator {
   // Internal helpers
 
   static void _updateHistory(
-      FlartPage page, [
-        String? routeName,
-        Map<String, String>? queryParams,
-      ]) {
+    FlartPage page, [
+    String? routeName,
+    Map<String, String>? queryParams,
+  ]) {
     final route = routeName ?? '/${page.runtimeType.toString().toLowerCase()}';
     final uri = _buildRouteUrl(route, queryParams);
     window.history.pushState(page.toString(), '', uri);
