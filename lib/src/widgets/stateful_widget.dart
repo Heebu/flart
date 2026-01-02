@@ -1,10 +1,14 @@
 import 'package:flart/flart.dart';
 import 'utils/build_context.dart';
 
+// Global state registry to persist state across renders
+final Map<String, State> _stateRegistry = {};
+
 /// Base class for State objects.
 abstract class State<T extends StatefulWidget> {
   late T widget;
   late BuildContext context;
+  String? _stateKey;
 
   /// Called once when the state object is created.
   void initState() {}
@@ -16,13 +20,9 @@ abstract class State<T extends StatefulWidget> {
   void dispose() {}
 
   /// Call inside event handlers to update state and trigger a rebuild.
-  /// TODO: Replace the print with a real renderer hook that re-renders the widget in the DOM.
   void setState(void Function() fn) {
     fn();
-    // Temporary: you should wire this to your renderer to actually update DOM.
-    // For now we just log so you can see it fires.
-    print(
-        'setState called on ${widget.runtimeType} — please hook into renderer to re-render');
+    // Trigger re-render
     reRenderApp();
   }
 
@@ -37,10 +37,33 @@ abstract class StatefulWidget extends Widget {
 
   @override
   String render(BuildContext context) {
-    final state = createState() as State;
-    state.widget = this;
-    state.context = context;
-    state.initState();
+    // Generate a unique key for this widget instance
+    final stateKey = '${runtimeType}_${hashCode}';
+
+    // Get or create state
+    State state;
+    if (_stateRegistry.containsKey(stateKey)) {
+      state = _stateRegistry[stateKey]!;
+      // Update widget reference
+      final oldWidget = state.widget;
+      state.widget = this;
+      state.context = context;
+      state.didUpdateWidget(oldWidget);
+    } else {
+      state = createState() as State;
+      state.widget = this;
+      state.context = context;
+      state._stateKey = stateKey;
+      _stateRegistry[stateKey] = state;
+      state.initState();
+    }
+
     return state.build(context).render(context);
+  }
+
+  /// Clean up state when widget is removed
+  static void disposeState(String stateKey) {
+    final state = _stateRegistry.remove(stateKey);
+    state?.dispose();
   }
 }

@@ -449,9 +449,9 @@
     ArrayIterator: function ArrayIterator(t0, t1, t2) {
       var _ = this;
       _._iterable = t0;
-      _.__interceptors$_length = t1;
+      _._length = t1;
       _._index = 0;
-      _.__interceptors$_current = null;
+      _._current = null;
       _.$ti = t2;
     },
     JSNumber: function JSNumber() {
@@ -3906,6 +3906,9 @@
       object2 = A.SystemHash_finish(A.SystemHash_combine(A.SystemHash_combine($.$get$_hashSeed(), t1), object2));
       return object2;
     },
+    print(object) {
+      A.printString(object);
+    },
     NoSuchMethodError_toString_closure: function NoSuchMethodError_toString_closure(t0, t1) {
       this._box_0 = t0;
       this.sb = t1;
@@ -4183,9 +4186,9 @@
     FixedSizeListIterator: function FixedSizeListIterator(t0, t1, t2) {
       var _ = this;
       _._array = t0;
-      _._length = t1;
+      _._html$_length = t1;
       _._position = -1;
-      _._current = null;
+      _._html$_current = null;
       _.$ti = t2;
     },
     _TrustedHtmlTreeSanitizer: function _TrustedHtmlTreeSanitizer() {
@@ -4547,8 +4550,15 @@
     Widget: function Widget() {
     },
     main() {
+      var t1, t2;
       $._rootWidget = new A.CounterApp();
+      t1 = document;
+      t2 = t1.querySelector("#output");
+      if (t2 == null)
+        t2 = t1.querySelector("#app");
+      $._appContainer = t2 == null ? t1.body : t2;
       A._renderApp();
+      A.print("Flart app initialized and rendered");
     },
     CounterApp: function CounterApp() {
     },
@@ -4624,16 +4634,23 @@
         return $F._as(A._convertDartFunctionFast(f));
     },
     _renderApp() {
-      var html, t2,
+      var context, html, e, exception,
         t1 = $._rootWidget;
-      if (t1 == null)
+      if (t1 == null || $._appContainer == null) {
+        A.print("Cannot render: root widget or container is null");
         return;
-      html = t1.render$1(new A.BuildContext());
-      t1 = document;
-      t2 = t1.querySelector("#app");
-      t1 = t2 == null ? t1.body : t2;
-      if (t1 != null)
+      }
+      try {
+        context = new A.BuildContext();
+        html = t1.render$1(context);
+        t1 = $._appContainer;
+        t1.toString;
         J.setInnerHtml$2$treeSanitizer$x(t1, html, B.C__TrustedHtmlTreeSanitizer);
+        A.print("App rendered successfully");
+      } catch (exception) {
+        e = A.unwrapException(exception);
+        A.print("Error rendering app: " + A.S(e));
+      }
     }
   },
   B = {};
@@ -4823,23 +4840,23 @@
   J.JSUnmodifiableArray.prototype = {};
   J.ArrayIterator.prototype = {
     get$current() {
-      var t1 = this.__interceptors$_current;
+      var t1 = this._current;
       return t1 == null ? this.$ti._precomputed1._as(t1) : t1;
     },
     moveNext$0() {
       var t2, _this = this,
         t1 = _this._iterable,
         $length = t1.length;
-      if (_this.__interceptors$_length !== $length) {
+      if (_this._length !== $length) {
         t1 = A.throwConcurrentModificationError(t1);
         throw A.wrapException(t1);
       }
       t2 = _this._index;
       if (t2 >= $length) {
-        _this.__interceptors$_current = null;
+        _this._current = null;
         return false;
       }
-      _this.__interceptors$_current = t1[t2];
+      _this._current = t1[t2];
       _this._index = t2 + 1;
       return true;
     },
@@ -7261,21 +7278,21 @@
     moveNext$0() {
       var _this = this,
         nextPosition = _this._position + 1,
-        t1 = _this._length;
+        t1 = _this._html$_length;
       if (nextPosition < t1) {
         t1 = _this._array;
         if (!(nextPosition >= 0 && nextPosition < t1.length))
           return A.ioore(t1, nextPosition);
-        _this._current = t1[nextPosition];
+        _this._html$_current = t1[nextPosition];
         _this._position = nextPosition;
         return true;
       }
-      _this._current = null;
+      _this._html$_current = null;
       _this._position = t1;
       return false;
     },
     get$current() {
-      var t1 = this._current;
+      var t1 = this._html$_current;
       return t1 == null ? this.$ti._precomputed1._as(t1) : t1;
     },
     $isIterator: 1
@@ -7913,20 +7930,23 @@
       return new A.ShaderWidget(null, "      void main() {\n        vec2 uv = gl_FragCoord.xy / resolution;\n        vec2 center = vec2(0.5);\n        float dist = distance(uv, center);\n        float glow = exp(-dist * 5.0) * " + _this.intensity + ";\n        \n        vec3 color = vec3(" + (A.S(A.int_parse(B.JSString_methods.substring$2(hex, 0, 2), 16) / 255) + ", " + A.S(A.int_parse(B.JSString_methods.substring$2(hex, 2, 4), 16) / 255) + ", " + A.S(A.int_parse(B.JSString_methods.substring$2(hex, 4, 6), 16) / 255)) + ");\n        gl_FragColor = vec4(color * glow, glow);\n      }\n    ", _this.width, _this.height, false).render$1(context);
     }
   };
-  A.State.prototype = {
-    setState$1(fn) {
-      var t1;
-      type$.void_Function._as(fn).call$0();
-      t1 = this.__State_widget_A;
-      t1 === $ && A.throwLateFieldNI("widget");
-      A.printString("setState called on " + A.getRuntimeTypeOfDartObject(t1).toString$0(0) + " \u2014 please hook into renderer to re-render");
-      A._renderApp();
-    }
-  };
+  A.State.prototype = {};
   A.StatefulWidget.prototype = {
     render$1(context) {
-      var state = new A._CounterAppState();
-      state.__State_widget_A = type$._CounterAppState._eval$1("State.T")._as(this);
+      var state, t1, t2, _this = this,
+        stateKey = A.getRuntimeTypeOfDartObject(_this).toString$0(0) + "_" + A.Primitives_objectHashCode(_this);
+      if ($._stateRegistry.containsKey$1(stateKey)) {
+        state = $._stateRegistry.$index(0, stateKey);
+        t1 = state.__State_widget_A;
+        t1 === $ && A.throwLateFieldNI("widget");
+        t2 = A._instanceType(state)._eval$1("State.T");
+        state.__State_widget_A = t2._as(_this);
+        t2._as(t1);
+      } else {
+        state = new A._CounterAppState();
+        state.__State_widget_A = type$._CounterAppState._eval$1("State.T")._as(_this);
+        $._stateRegistry.$indexSet(0, stateKey, state);
+      }
       return state.build$1(context).render$1(context);
     }
   };
@@ -8197,14 +8217,20 @@
   A.CounterApp.prototype = {};
   A._CounterAppState.prototype = {
     increment$0() {
-      this.setState$1(new A._CounterAppState_increment_closure(this));
+      type$.void_Function._as(new A._CounterAppState_increment_closure(this)).call$0();
+      A.print("Re-rendering app...");
+      A._renderApp();
       A.Future_Future$delayed(A.Duration$(300), new A._CounterAppState_increment_closure0(this), type$.Null);
     },
     decrement$0() {
-      this.setState$1(new A._CounterAppState_decrement_closure(this));
+      type$.void_Function._as(new A._CounterAppState_decrement_closure(this)).call$0();
+      A.print("Re-rendering app...");
+      A._renderApp();
     },
     reset$0(_) {
-      this.setState$1(new A._CounterAppState_reset_closure(this));
+      type$.void_Function._as(new A._CounterAppState_reset_closure(this)).call$0();
+      A.print("Re-rendering app...");
+      A._renderApp();
     },
     build$1(context) {
       var t4, t5, t6, t7, t8, t9, _this = this, _null = null,
@@ -8250,8 +8276,9 @@
   };
   A._CounterAppState_increment_closure0.prototype = {
     call$0() {
-      var t1 = this.$this;
-      t1.setState$1(new A._CounterAppState_increment__closure(t1));
+      type$.void_Function._as(new A._CounterAppState_increment__closure(this.$this)).call$0();
+      A.print("Re-rendering app...");
+      A._renderApp();
     },
     $signature: 3
   };
@@ -8406,7 +8433,7 @@
     leafTags: null,
     arrayRti: Symbol("$ti")
   };
-  A._Universe_addRules(init.typeUniverse, JSON.parse('{"PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","JavaScriptFunction":"LegacyJavaScriptObject","AbortPaymentEvent":"Event","ExtendableEvent":"Event","AElement":"SvgElement","GraphicsElement":"SvgElement","AudioElement":"HtmlElement","MediaElement":"HtmlElement","ShadowRoot":"Node","DocumentFragment":"Node","XmlDocument":"Document","DedicatedWorkerGlobalScope":"WorkerGlobalScope","DomError":"JavaScriptObject","CDataSection":"CharacterData","Text0":"CharacterData","MediaQueryList":"EventTarget","MathMLElement":"Element","HtmlFormControlsCollection":"HtmlCollection","File":"Blob","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"Null":[],"TrustedGetRuntimeType":[]},"JavaScriptObject":{"JSObject":[]},"LegacyJavaScriptObject":{"JSObject":[]},"JSArray":{"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"JSArraySafeToStringHook":{"SafeToStringHook":[]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"ArrayIterator":{"Iterator":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"Pattern":[],"TrustedGetRuntimeType":[]},"LateError":{"Error":[]},"EfficientLengthIterable":{"Iterable":["1"]},"ListIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"]},"ListIterator":{"Iterator":["1"]},"MappedIterable":{"Iterable":["2"],"Iterable.E":"2"},"EfficientLengthMappedIterable":{"MappedIterable":["1","2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2"},"MappedIterator":{"Iterator":["2"]},"MappedListIterable":{"ListIterable":["2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"ListIterable.E":"2","Iterable.E":"2"},"WhereIterable":{"Iterable":["1"],"Iterable.E":"1"},"WhereIterator":{"Iterator":["1"]},"Symbol":{"Symbol0":[]},"ConstantMapView":{"UnmodifiableMapView":["1","2"],"_UnmodifiableMapView_MapView__UnmodifiableMapMixin":["1","2"],"MapView":["1","2"],"_UnmodifiableMapMixin":["1","2"],"Map":["1","2"]},"ConstantMap":{"Map":["1","2"]},"ConstantStringMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"GeneralConstantMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"JSInvocationMirror":{"Invocation":[]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"JsLinkedHashMap":{"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"],"MapBase.K":"1","MapBase.V":"2"},"LinkedHashMapKeysIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"LinkedHashMapKeyIterator":{"Iterator":["1"]},"LinkedHashMapEntriesIterable":{"EfficientLengthIterable":["MapEntry<1,2>"],"Iterable":["MapEntry<1,2>"],"Iterable.E":"MapEntry<1,2>"},"LinkedHashMapEntryIterator":{"Iterator":["MapEntry<1,2>"]},"JsConstantLinkedHashMap":{"JsLinkedHashMap":["1","2"],"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"],"MapBase.K":"1","MapBase.V":"2"},"NativeTypedData":{"JSObject":[],"TypedData":[]},"NativeByteData":{"JSObject":[],"TypedData":[],"TrustedGetRuntimeType":[]},"NativeTypedArray":{"JavaScriptIndexingBehavior":["1"],"JSObject":[],"TypedData":[]},"NativeTypedArrayOfDouble":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"TypedData":[],"Iterable":["double"],"FixedLengthListMixin":["double"]},"NativeTypedArrayOfInt":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"]},"NativeFloat32List":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"TypedData":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeFloat64List":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"TypedData":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeInt16List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt32List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt8List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint16List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint32List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8ClampedList":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"AsyncError":{"Error":[]},"_Future":{"Future":["1"]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"_LinkedHashSet":{"SetBase":["1"],"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"],"SetBase.E":"1"},"_LinkedHashSetIterator":{"Iterator":["1"]},"ListBase":{"List":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"MapBase":{"Map":["1","2"]},"MapView":{"Map":["1","2"]},"UnmodifiableMapView":{"_UnmodifiableMapView_MapView__UnmodifiableMapMixin":["1","2"],"MapView":["1","2"],"_UnmodifiableMapMixin":["1","2"],"Map":["1","2"]},"SetBase":{"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"_SetBase":{"SetBase":["1"],"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"double":{"num":[]},"int":{"num":[]},"String":{"Pattern":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"NoSuchMethodError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"OutOfMemoryError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"Element":{"Node":[],"JSObject":[]},"Node":{"JSObject":[]},"_Html5NodeValidator":{"NodeValidator":[]},"HtmlElement":{"Element":[],"Node":[],"JSObject":[]},"AnchorElement":{"Element":[],"Node":[],"JSObject":[]},"AreaElement":{"Element":[],"Node":[],"JSObject":[]},"BaseElement":{"Element":[],"Node":[],"JSObject":[]},"Blob":{"JSObject":[]},"BodyElement":{"Element":[],"Node":[],"JSObject":[]},"CharacterData":{"Node":[],"JSObject":[]},"Document":{"Node":[],"JSObject":[]},"DomException":{"JSObject":[]},"DomImplementation":{"JSObject":[]},"DomTokenList":{"JSObject":[]},"Event":{"JSObject":[]},"EventTarget":{"JSObject":[]},"FormElement":{"Element":[],"Node":[],"JSObject":[]},"HtmlCollection":{"ListBase":["Node"],"ImmutableListMixin":["Node"],"List":["Node"],"JavaScriptIndexingBehavior":["Node"],"EfficientLengthIterable":["Node"],"JSObject":[],"Iterable":["Node"],"ImmutableListMixin.E":"Node","ListBase.E":"Node"},"HtmlDocument":{"Node":[],"JSObject":[]},"ImageData":{"JSObject":[]},"Location":{"JSObject":[]},"_ChildNodeListLazy":{"ListBase":["Node"],"List":["Node"],"EfficientLengthIterable":["Node"],"Iterable":["Node"],"ListBase.E":"Node"},"NodeList":{"ListBase":["Node"],"ImmutableListMixin":["Node"],"List":["Node"],"JavaScriptIndexingBehavior":["Node"],"EfficientLengthIterable":["Node"],"JSObject":[],"Iterable":["Node"],"ImmutableListMixin.E":"Node","ListBase.E":"Node"},"ScriptElement":{"Element":[],"Node":[],"JSObject":[]},"SelectElement":{"Element":[],"Node":[],"JSObject":[]},"TableElement":{"Element":[],"Node":[],"JSObject":[]},"TableRowElement":{"Element":[],"Node":[],"JSObject":[]},"TableSectionElement":{"Element":[],"Node":[],"JSObject":[]},"TemplateElement":{"Element":[],"Node":[],"JSObject":[]},"Window":{"JSObject":[]},"WorkerGlobalScope":{"JSObject":[]},"_Attr":{"Node":[],"JSObject":[]},"_NamedNodeMap":{"ListBase":["Node"],"ImmutableListMixin":["Node"],"List":["Node"],"JavaScriptIndexingBehavior":["Node"],"EfficientLengthIterable":["Node"],"JSObject":[],"Iterable":["Node"],"ImmutableListMixin.E":"Node","ListBase.E":"Node"},"_AttributeMap":{"MapBase":["String","String"],"Map":["String","String"]},"_ElementAttributeMap":{"MapBase":["String","String"],"Map":["String","String"],"MapBase.K":"String","MapBase.V":"String"},"NodeValidatorBuilder":{"NodeValidator":[]},"_SimpleNodeValidator":{"NodeValidator":[]},"_TemplatingNodeValidator":{"NodeValidator":[]},"_SvgNodeValidator":{"NodeValidator":[]},"FixedSizeListIterator":{"Iterator":["1"]},"_TrustedHtmlTreeSanitizer":{"NodeTreeSanitizer":[]},"_SameOriginUriPolicy":{"UriPolicy":[]},"_ValidatingTreeSanitizer":{"NodeTreeSanitizer":[]},"KeyRange":{"JSObject":[]},"JsArray":{"ListBase":["1"],"List":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"],"ListBase.E":"1"},"_SafeToStringHook":{"SafeToStringHook":[]},"ScriptElement0":{"SvgElement":[],"Element":[],"Node":[],"JSObject":[]},"SvgElement":{"Element":[],"Node":[],"JSObject":[]},"FlartMaterialColor":{"FlartColor":[]},"AnimatedScale":{"Widget":[]},"Center":{"Widget":[]},"Column":{"Widget":[]},"Row":{"Widget":[]},"Stack":{"Widget":[]},"ElevatedButton":{"Widget":[]},"ShaderWidget":{"Widget":[]},"GlowShader":{"Widget":[]},"StatefulWidget":{"Widget":[]},"AppBar":{"Widget":[]},"Card":{"Widget":[]},"Container":{"Widget":[]},"FloatingActionButton":{"Widget":[]},"Icon":{"Widget":[]},"MaterialApp":{"Widget":[]},"LinearProgressIndicator":{"Widget":[]},"Scaffold":{"Widget":[]},"SizedBox":{"Widget":[]},"Text":{"Widget":[]},"TextButton":{"Widget":[]},"CounterApp":{"Widget":[]},"_CounterAppState":{"State":["CounterApp"],"State.T":"CounterApp"},"ByteData":{"TypedData":[]},"Int8List":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Uint8List":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Uint8ClampedList":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Int16List":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Uint16List":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Int32List":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Uint32List":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Float32List":{"List":["double"],"EfficientLengthIterable":["double"],"TypedData":[],"Iterable":["double"]},"Float64List":{"List":["double"],"EfficientLengthIterable":["double"],"TypedData":[],"Iterable":["double"]}}'));
+  A._Universe_addRules(init.typeUniverse, JSON.parse('{"PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","JavaScriptFunction":"LegacyJavaScriptObject","AbortPaymentEvent":"Event","ExtendableEvent":"Event","AElement":"SvgElement","GraphicsElement":"SvgElement","AudioElement":"HtmlElement","MediaElement":"HtmlElement","ShadowRoot":"Node","DocumentFragment":"Node","XmlDocument":"Document","DedicatedWorkerGlobalScope":"WorkerGlobalScope","DomError":"JavaScriptObject","CDataSection":"CharacterData","Text0":"CharacterData","MediaQueryList":"EventTarget","MathMLElement":"Element","HtmlFormControlsCollection":"HtmlCollection","File":"Blob","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"Null":[],"TrustedGetRuntimeType":[]},"JavaScriptObject":{"JSObject":[]},"LegacyJavaScriptObject":{"JSObject":[]},"JSArray":{"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"JSArraySafeToStringHook":{"SafeToStringHook":[]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"ArrayIterator":{"Iterator":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"Pattern":[],"TrustedGetRuntimeType":[]},"LateError":{"Error":[]},"EfficientLengthIterable":{"Iterable":["1"]},"ListIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"]},"ListIterator":{"Iterator":["1"]},"MappedIterable":{"Iterable":["2"],"Iterable.E":"2"},"EfficientLengthMappedIterable":{"MappedIterable":["1","2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2"},"MappedIterator":{"Iterator":["2"]},"MappedListIterable":{"ListIterable":["2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"ListIterable.E":"2","Iterable.E":"2"},"WhereIterable":{"Iterable":["1"],"Iterable.E":"1"},"WhereIterator":{"Iterator":["1"]},"Symbol":{"Symbol0":[]},"ConstantMapView":{"UnmodifiableMapView":["1","2"],"_UnmodifiableMapView_MapView__UnmodifiableMapMixin":["1","2"],"MapView":["1","2"],"_UnmodifiableMapMixin":["1","2"],"Map":["1","2"]},"ConstantMap":{"Map":["1","2"]},"ConstantStringMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"GeneralConstantMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"JSInvocationMirror":{"Invocation":[]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"JsLinkedHashMap":{"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"],"MapBase.K":"1","MapBase.V":"2"},"LinkedHashMapKeysIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"LinkedHashMapKeyIterator":{"Iterator":["1"]},"LinkedHashMapEntriesIterable":{"EfficientLengthIterable":["MapEntry<1,2>"],"Iterable":["MapEntry<1,2>"],"Iterable.E":"MapEntry<1,2>"},"LinkedHashMapEntryIterator":{"Iterator":["MapEntry<1,2>"]},"JsConstantLinkedHashMap":{"JsLinkedHashMap":["1","2"],"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"],"MapBase.K":"1","MapBase.V":"2"},"NativeTypedData":{"JSObject":[],"TypedData":[]},"NativeByteData":{"JSObject":[],"TypedData":[],"TrustedGetRuntimeType":[]},"NativeTypedArray":{"JavaScriptIndexingBehavior":["1"],"JSObject":[],"TypedData":[]},"NativeTypedArrayOfDouble":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"TypedData":[],"Iterable":["double"],"FixedLengthListMixin":["double"]},"NativeTypedArrayOfInt":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"]},"NativeFloat32List":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"TypedData":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeFloat64List":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"TypedData":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeInt16List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt32List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt8List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint16List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint32List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8ClampedList":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"AsyncError":{"Error":[]},"_Future":{"Future":["1"]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"_LinkedHashSet":{"SetBase":["1"],"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"],"SetBase.E":"1"},"_LinkedHashSetIterator":{"Iterator":["1"]},"ListBase":{"List":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"MapBase":{"Map":["1","2"]},"MapView":{"Map":["1","2"]},"UnmodifiableMapView":{"_UnmodifiableMapView_MapView__UnmodifiableMapMixin":["1","2"],"MapView":["1","2"],"_UnmodifiableMapMixin":["1","2"],"Map":["1","2"]},"SetBase":{"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"_SetBase":{"SetBase":["1"],"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"double":{"num":[]},"int":{"num":[]},"String":{"Pattern":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"NoSuchMethodError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"OutOfMemoryError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"Element":{"Node":[],"JSObject":[]},"Node":{"JSObject":[]},"_Html5NodeValidator":{"NodeValidator":[]},"HtmlElement":{"Element":[],"Node":[],"JSObject":[]},"AnchorElement":{"Element":[],"Node":[],"JSObject":[]},"AreaElement":{"Element":[],"Node":[],"JSObject":[]},"BaseElement":{"Element":[],"Node":[],"JSObject":[]},"Blob":{"JSObject":[]},"BodyElement":{"Element":[],"Node":[],"JSObject":[]},"CharacterData":{"Node":[],"JSObject":[]},"Document":{"Node":[],"JSObject":[]},"DomException":{"JSObject":[]},"DomImplementation":{"JSObject":[]},"DomTokenList":{"JSObject":[]},"Event":{"JSObject":[]},"EventTarget":{"JSObject":[]},"FormElement":{"Element":[],"Node":[],"JSObject":[]},"HtmlCollection":{"ListBase":["Node"],"ImmutableListMixin":["Node"],"List":["Node"],"JavaScriptIndexingBehavior":["Node"],"EfficientLengthIterable":["Node"],"JSObject":[],"Iterable":["Node"],"ListBase.E":"Node","ImmutableListMixin.E":"Node"},"HtmlDocument":{"Node":[],"JSObject":[]},"ImageData":{"JSObject":[]},"Location":{"JSObject":[]},"_ChildNodeListLazy":{"ListBase":["Node"],"List":["Node"],"EfficientLengthIterable":["Node"],"Iterable":["Node"],"ListBase.E":"Node"},"NodeList":{"ListBase":["Node"],"ImmutableListMixin":["Node"],"List":["Node"],"JavaScriptIndexingBehavior":["Node"],"EfficientLengthIterable":["Node"],"JSObject":[],"Iterable":["Node"],"ListBase.E":"Node","ImmutableListMixin.E":"Node"},"ScriptElement":{"Element":[],"Node":[],"JSObject":[]},"SelectElement":{"Element":[],"Node":[],"JSObject":[]},"TableElement":{"Element":[],"Node":[],"JSObject":[]},"TableRowElement":{"Element":[],"Node":[],"JSObject":[]},"TableSectionElement":{"Element":[],"Node":[],"JSObject":[]},"TemplateElement":{"Element":[],"Node":[],"JSObject":[]},"Window":{"JSObject":[]},"WorkerGlobalScope":{"JSObject":[]},"_Attr":{"Node":[],"JSObject":[]},"_NamedNodeMap":{"ListBase":["Node"],"ImmutableListMixin":["Node"],"List":["Node"],"JavaScriptIndexingBehavior":["Node"],"EfficientLengthIterable":["Node"],"JSObject":[],"Iterable":["Node"],"ListBase.E":"Node","ImmutableListMixin.E":"Node"},"_AttributeMap":{"MapBase":["String","String"],"Map":["String","String"]},"_ElementAttributeMap":{"MapBase":["String","String"],"Map":["String","String"],"MapBase.K":"String","MapBase.V":"String"},"NodeValidatorBuilder":{"NodeValidator":[]},"_SimpleNodeValidator":{"NodeValidator":[]},"_TemplatingNodeValidator":{"NodeValidator":[]},"_SvgNodeValidator":{"NodeValidator":[]},"FixedSizeListIterator":{"Iterator":["1"]},"_TrustedHtmlTreeSanitizer":{"NodeTreeSanitizer":[]},"_SameOriginUriPolicy":{"UriPolicy":[]},"_ValidatingTreeSanitizer":{"NodeTreeSanitizer":[]},"KeyRange":{"JSObject":[]},"JsArray":{"ListBase":["1"],"List":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"],"ListBase.E":"1"},"_SafeToStringHook":{"SafeToStringHook":[]},"ScriptElement0":{"SvgElement":[],"Element":[],"Node":[],"JSObject":[]},"SvgElement":{"Element":[],"Node":[],"JSObject":[]},"FlartMaterialColor":{"FlartColor":[]},"AnimatedScale":{"Widget":[]},"Center":{"Widget":[]},"Column":{"Widget":[]},"Row":{"Widget":[]},"Stack":{"Widget":[]},"ElevatedButton":{"Widget":[]},"ShaderWidget":{"Widget":[]},"GlowShader":{"Widget":[]},"StatefulWidget":{"Widget":[]},"AppBar":{"Widget":[]},"Card":{"Widget":[]},"Container":{"Widget":[]},"FloatingActionButton":{"Widget":[]},"Icon":{"Widget":[]},"MaterialApp":{"Widget":[]},"LinearProgressIndicator":{"Widget":[]},"Scaffold":{"Widget":[]},"SizedBox":{"Widget":[]},"Text":{"Widget":[]},"TextButton":{"Widget":[]},"CounterApp":{"StatefulWidget":[],"Widget":[]},"_CounterAppState":{"State":["CounterApp"],"State.T":"CounterApp"},"ByteData":{"TypedData":[]},"Int8List":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Uint8List":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Uint8ClampedList":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Int16List":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Uint16List":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Int32List":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Uint32List":{"List":["int"],"EfficientLengthIterable":["int"],"TypedData":[],"Iterable":["int"]},"Float32List":{"List":["double"],"EfficientLengthIterable":["double"],"TypedData":[],"Iterable":["double"]},"Float64List":{"List":["double"],"EfficientLengthIterable":["double"],"TypedData":[],"Iterable":["double"]}}'));
   A._Universe_addErasedTypes(init.typeUniverse, JSON.parse('{"EfficientLengthIterable":1,"NativeTypedArray":1,"_SetBase":1,"_JsArray_JsObject_ListMixin":1}'));
   var string$ = {
     Error_: "Error handler must accept one Object or one Object and a StackTrace as arguments, and return a value of the returned future's type"
@@ -8725,9 +8752,11 @@
     $.Element__defaultSanitizer = null;
     $._Html5NodeValidator__attributeValidators = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, type$.Function);
     $._rootWidget = null;
+    $._appContainer = null;
     $.FlartCallbackManager__handlers = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, type$.void_Function);
     $.FlartCallbackManager__counter = 0;
     $.FlartCallbackManager__jsInjected = false;
+    $._stateRegistry = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, A.findType("State<StatefulWidget>"));
   })();
   (function lazyInitializers() {
     var _lazyFinal = hunkHelpers.lazyFinal;
