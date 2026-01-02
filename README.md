@@ -1,24 +1,28 @@
 # Flart 🎨
 
-A comprehensive **Flutter-inspired UI framework** for **Dart Web** applications. Build beautiful, responsive web apps using familiar Flutter-style widgets and APIs.
+**A comprehensive Flutter-inspired UI framework for Dart Web applications**
 
 [![pub package](https://img.shields.io/pub/v/flart.svg)](https://pub.dev/packages/flart)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-## ✨ Features
+Build beautiful, responsive web applications using familiar Flutter-style widgets and APIs - all in pure Dart with zero dependencies.
 
-- 🎯 **100+ Widgets** - Comprehensive widget library
-- 🎨 **Flutter-Style API** - Familiar syntax for Flutter developers
-- 🚀 **Zero Dependencies** - Pure Dart web framework
-- 📱 **Responsive** - Mobile and desktop ready
-- 🎭 **Animations** - Rich animation support
-- 📝 **Forms** - Complete form system with validation
-- 🎬 **Media** - Video, audio, YouTube, maps
-- 🎨 **Theming** - Customizable styles and colors
+---
 
-## 🚀 Quick Start
+## 🌟 Why Flart?
 
-### Installation
+- **🎯 100+ Widgets** - Complete widget library for any web application
+- **🎨 Flutter-Style API** - Familiar syntax for Flutter developers
+- **🚀 Zero Dependencies** - Pure Dart, lightweight and fast
+- **📱 Responsive** - Works on mobile and desktop
+- **🎭 Rich Animations** - Smooth CSS-based animations
+- **📝 Complete Forms** - Built-in validation and error handling
+- **🎬 Media Support** - Video, audio, YouTube, maps
+- **🎮 Gesture Detection** - 20+ touch and mouse events
+
+---
+
+## 📦 Installation
 
 Add Flart to your `pubspec.yaml`:
 
@@ -27,7 +31,16 @@ dependencies:
   flart: ^1.0.0
 ```
 
-### Basic Example
+Then run:
+```bash
+dart pub get
+```
+
+---
+
+## 🚀 Quick Start
+
+### Hello World
 
 ```dart
 import 'package:flart/flart.dart';
@@ -43,15 +56,16 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text('Hello Flart!'),
+          backgroundColor: FlartColor.hex('#007bff'),
         ),
         body: Center(
           child: Column(
             mainAxisAlignment: AxisAlignment.center,
             children: [
               Text(
-                'Welcome to Flart',
+                'Welcome to Flart! 🎨',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 32,
                   fontWeight: 'bold',
                   color: '#007bff',
                 ),
@@ -70,87 +84,47 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-## 📚 Widget Categories
+---
 
-### Structure Widgets
-- `Scaffold`, `AppBar`, `Container`, `Card`
-- `Drawer`, `BottomNavigationBar`, `FloatingActionButton`
-- `Dialog`, `Divider`, `SizedBox`, `Spacer`, `Expanded`
+## 📚 What's Included
 
-### Layout Widgets
-- `Row`, `Column`, `Stack`, `Positioned`
-- `Center`, `Align`, `ListView`, `GridView`
+### Widget Categories (100+)
 
-### Input & Forms
-- `TextField`, `TextFormField`, `TextArea`
-- `Checkbox`, `Radio`, `Switch`
-- `Slider`, `DropdownButton`
-- `Form`, `FormField` with validation
+#### 🏗️ Structure (15)
+`Scaffold`, `AppBar`, `Container`, `Card`, `Drawer`, `BottomNavigationBar`, `FloatingActionButton`, `Dialog`, `Divider`, `VerticalDivider`, `SizedBox`, `Spacer`, `Expanded`, `Image`, `Icon`
 
-### Buttons
-- `Button`, `ElevatedButton`, `TextButton`, `IconButton`
-- `GestureDetector` with 20+ gesture events
+#### 📐 Layout (8)
+`Row`, `Column`, `Stack`, `Positioned`, `Center`, `Align`, `ListView`, `GridView`
 
-### Text Widgets
-- `Text`, `RichText`, `EditableText`, `LinkText`
+#### 📝 Input & Forms (15)
+`TextField`, `TextFormField`, `TextArea`, `Checkbox`, `Radio`, `Switch`, `Slider`, `DropdownButton`, `Form`, `FormField`, `AutocompleteField`, `ColorPicker`, `FileUpload`
 
-### Pickers
-- `DatePicker`, `TimePicker`, `ImagePicker`
-- `DateRangePicker`, `MonthPicker`, `WeekPicker`
-- `DateTimePicker`, `ColorPicker`, `RangePicker`
+#### 🔘 Buttons (5)
+`Button`, `ElevatedButton`, `TextButton`, `IconButton`, `GestureDetector`
 
-### Animated Widgets
-- `AnimatedContainer`, `AnimatedOpacity`, `AnimatedScale`
-- `AnimatedRotation`, `AnimatedSlide`, `AnimatedPositioned`
-- `AnimatedCrossFade`, `FadeIn`
+#### 📄 Text (4)
+`Text`, `RichText`, `EditableText`, `LinkText`
 
-### Media Widgets
-- `VideoPlayer`, `AudioPlayer`, `YouTubePlayer`
-- `IFrame`, `MapEmbed`, `Image`
+#### 📅 Pickers (9)
+`DatePicker`, `TimePicker`, `ImagePicker`, `DateRangePicker`, `MonthPicker`, `WeekPicker`, `DateTimePicker`, `RangePicker`, `ColorPicker`
 
-### Display Widgets
-- `Chip`, `Badge`, `Tooltip`, `SnackBar`
-- `CircularProgressIndicator`, `LinearProgressIndicator`
-- `TabBar`, `TabBarView`
+#### 🎬 Animations (9)
+`AnimatedContainer`, `AnimatedOpacity`, `AnimatedScale`, `AnimatedRotation`, `AnimatedSlide`, `AnimatedPositioned`, `AnimatedSize`, `AnimatedCrossFade`, `FadeIn`
 
-### Painting
-- `CustomPaint`, `SvgPicture`
+#### 🎥 Media (5)
+`VideoPlayer`, `AudioPlayer`, `YouTubePlayer`, `IFrame`, `MapEmbed`
 
-## 🎨 Styling
+#### 🎨 Display (7)
+`Chip`, `Badge`, `Tooltip`, `SnackBar`, `CircularProgressIndicator`, `LinearProgressIndicator`, `TabBar`, `TabBarView`
 
-Flart uses a familiar styling system:
+#### 🖌️ Painting (2)
+`CustomPaint`, `SvgPicture`
 
-```dart
-Container(
-  decoration: BoxDecoration(
-    color: FlartColor.hex('#007bff'),
-    borderRadius: BorderRadius.circular(8),
-    boxShadow: [
-      BoxShadow(
-        color: 'rgba(0,0,0,0.1)',
-        blurRadius: 10,
-        offset: Offset(0, 4),
-      ),
-    ],
-  ),
-  padding: EdgeInsets.all(16),
-  child: Text('Styled Container'),
-)
-```
+---
 
-## 🎭 Animations
+## 💡 Feature Highlights
 
-```dart
-AnimatedContainer(
-  duration: Duration(milliseconds: 300),
-  width: isExpanded ? 200 : 100,
-  height: isExpanded ? 200 : 100,
-  color: isExpanded ? FlartColors.blue : FlartColors.red,
-  child: Center(child: Text('Animated!')),
-)
-```
-
-## 📝 Forms with Validation
+### Complete Form System
 
 ```dart
 Form(
@@ -159,22 +133,15 @@ Form(
       TextFormField(
         label: 'Email',
         keyboardType: TextInputType.email,
-        validator: (value) {
-          if (value == null || !value.contains('@')) {
-            return 'Invalid email';
-          }
-          return null;
-        },
+        validator: (value) => 
+          value?.contains('@') == true ? null : 'Invalid email',
+        prefixIcon: Icon(icon: 'email'),
       ),
       TextFormField(
         label: 'Password',
         obscureText: true,
-        validator: (value) {
-          if (value == null || value.length < 8) {
-            return 'Password must be at least 8 characters';
-          }
-          return null;
-        },
+        validator: (value) =>
+          value != null && value.length >= 8 ? null : 'Too short',
       ),
       ElevatedButton(
         onPressed: () => submitForm(),
@@ -185,76 +152,239 @@ Form(
 )
 ```
 
-## 🎮 Gesture Detection
+### Rich Animations
 
 ```dart
-GestureDetector(
-  onTap: () => print('Tapped!'),
-  onDoubleTap: () => print('Double tapped!'),
-  onLongPress: () => print('Long pressed!'),
-  onSwipeLeft: () => print('Swiped left!'),
-  onHover: () => print('Hovering...'),
-  onPanUpdate: () => print('Panning...'),
-  child: Container(
-    width: 200,
-    height: 200,
-    color: FlartColors.blue,
+AnimatedContainer(
+  duration: Duration(milliseconds: 300),
+  width: isExpanded ? 200 : 100,
+  height: isExpanded ? 200 : 100,
+  decoration: BoxDecoration(
+    color: isExpanded ? FlartColors.blue : FlartColors.red,
+    borderRadius: BorderRadius.circular(isExpanded ? 20 : 10),
   ),
 )
 ```
 
-## 🎬 Media Support
+### Comprehensive Gesture Detection
 
 ```dart
-// Video
-VideoPlayer(
-  src: '/videos/demo.mp4',
-  controls: true,
-  autoplay: false,
-)
-
-// YouTube
-YouTubePlayer(
-  videoId: 'dQw4w9WgXcQ',
-  width: 560,
-  height: 315,
-)
-
-// Maps
-MapEmbed(
-  location: 'New York, NY',
-  zoom: 15,
+GestureDetector(
+  onTap: () => print('Tapped!'),
+  onDoubleTap: () => print('Double tap!'),
+  onLongPress: () => print('Long press!'),
+  onSwipeLeft: () => navigateNext(),
+  onSwipeRight: () => navigateBack(),
+  onHover: () => showTooltip(),
+  onPanUpdate: () => updatePosition(),
+  child: MyWidget(),
 )
 ```
 
+### Media Integration
+
+```dart
+Column(
+  children: [
+    VideoPlayer(
+      src: '/videos/demo.mp4',
+      controls: true,
+      poster: '/images/thumbnail.jpg',
+    ),
+    YouTubePlayer(
+      videoId: 'dQw4w9WgXcQ',
+      width: 560,
+      height: 315,
+    ),
+    MapEmbed(
+      location: 'New York, NY',
+      zoom: 15,
+    ),
+  ],
+)
+```
+
+### Advanced Pickers
+
+```dart
+Column(
+  children: [
+    DateRangePicker(
+      label: 'Select Dates',
+      onChanged: (range) => print('${range.start} to ${range.end}'),
+    ),
+    DateTimePicker(
+      label: 'Appointment',
+      onChanged: (dateTime) => scheduleAppointment(dateTime),
+    ),
+    RangePicker(
+      label: 'Price Range',
+      min: 0,
+      max: 1000,
+      onChanged: (range) => filterByPrice(range),
+    ),
+  ],
+)
+```
+
+---
+
+## 🎨 Styling System
+
+Flart provides a comprehensive styling system similar to Flutter:
+
+```dart
+Container(
+  width: 300,
+  height: 200,
+  decoration: BoxDecoration(
+    color: FlartColor.hex('#007bff'),
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [
+      BoxShadow(
+        color: 'rgba(0,0,0,0.2)',
+        blurRadius: 10,
+        offset: Offset(0, 4),
+      ),
+    ],
+    gradient: LinearGradient(
+      colors: ['#667eea', '#764ba2'],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    ),
+  ),
+  padding: EdgeInsets.all(16),
+  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+  child: Text('Styled Container'),
+)
+```
+
+---
+
+## 🎯 Use Cases
+
+Perfect for building:
+- ✅ **Admin Dashboards** - Rich data displays and forms
+- ✅ **Landing Pages** - Beautiful, responsive layouts
+- ✅ **Web Applications** - Full-featured SPAs
+- ✅ **Interactive Forms** - Complex validation and input
+- ✅ **Media Sites** - Video and audio integration
+- ✅ **E-commerce** - Product catalogs and checkout
+
+---
+
 ## 📖 Documentation
 
-For detailed documentation and examples, visit:
-- [API Documentation](https://pub.dev/documentation/flart/latest/)
-- [GitHub Repository](https://github.com/yourusername/flart)
-- [Examples](https://github.com/yourusername/flart/tree/main/example)
+- **[Widget Guide](WIDGET_GUIDE.md)** - Complete reference for all widgets
+- **[API Documentation](https://pub.dev/documentation/flart/latest/)** - Detailed API docs
+- **[Examples](example/)** - Working code examples
+- **[Changelog](CHANGELOG.md)** - Version history
+
+---
+
+## 🏗️ Architecture
+
+Flart uses a simple, efficient architecture:
+
+1. **Widgets** - Declarative UI components
+2. **Render** - HTML generation
+3. **Styles** - CSS-based styling
+4. **Events** - JavaScript event handling
+
+All widgets extend the base `Widget` class and implement a `render()` method that returns HTML.
+
+---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+### Quick Contribution Guide
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+---
+
+## 📊 Package Stats
+
+- **100+ Widgets** across 10 categories
+- **Zero Dependencies** - Pure Dart implementation
+- **9 Animation Widgets** - Smooth transitions
+- **15 Input Widgets** - Complete form system
+- **5 Media Widgets** - Rich media support
+- **9 Picker Widgets** - Date, time, and more
+- **20+ Gesture Events** - Comprehensive interaction
+
+---
+
+## 🔧 Development
+
+### Setup
+
+```bash
+git clone https://github.com/yourusername/flart.git
+cd flart
+dart pub get
+```
+
+### Run Examples
+
+```bash
+cd example
+dart run build_runner serve
+```
+
+### Run Tests
+
+```bash
+dart test
+```
+
+### Code Quality
+
+```bash
+dart analyze
+dart format .
+```
+
+---
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+---
+
 ## 🙏 Acknowledgments
 
-Inspired by Flutter's elegant widget system, adapted for Dart Web.
-
-## 📊 Package Stats
-
-- **100+ Widgets**
-- **8 Animation Widgets**
-- **15+ Input Widgets**
-- **5 Media Widgets**
-- **9 Picker Widgets**
-- **Zero Dependencies**
+Inspired by Flutter's elegant widget system, Flart brings the power of declarative UI to Dart Web development.
 
 ---
 
-Made with ❤️ for the Dart community
+## 🌐 Links
+
+- **Package**: [pub.dev/packages/flart](https://pub.dev/packages/flart)
+- **Repository**: [github.com/yourusername/flart](https://github.com/yourusername/flart)
+- **Issues**: [github.com/yourusername/flart/issues](https://github.com/yourusername/flart/issues)
+- **Documentation**: [pub.dev/documentation/flart](https://pub.dev/documentation/flart/latest/)
+
+---
+
+## ⭐ Show Your Support
+
+If you find Flart useful, please consider:
+- ⭐ Starring the repository
+- 👍 Liking the package on pub.dev
+- 🐛 Reporting issues
+- 💡 Suggesting features
+- 🤝 Contributing code
+
+---
+
+**Made with ❤️ for the Dart community**
+
+*Flart - Flutter-style UI for Dart Web*

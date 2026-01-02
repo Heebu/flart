@@ -121,3 +121,6 @@ export 'src/widgets/painting/svg_picture.dart';
 
 // Media
 export 'src/widgets/media/media_widgets.dart';
+
+// Effects & Shaders
+export 'src/widgets/effects/shader_widgets.dart';

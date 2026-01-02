@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Flart Test</title>
-    <script>
-        window.__flartTapHandlers = {};
-    </script>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flart Counter App</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+    
+    #output {
+      width: 100%;
+      height: 100vh;
+      overflow: auto;
+    }
+  </style>
 </head>
 <body>
-<div id="app"></div>
-<script defer src="main.dart.js"></script>
+  <div id="output"></div>
+  <script defer src="counter_app.dart.js"></script>
 </body>
 </html>
