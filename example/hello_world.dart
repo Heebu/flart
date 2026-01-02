@@ -8,20 +8,21 @@ class HelloFlartApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Hello Flart',
       home: Scaffold(
         appBar: AppBar(
           title: Text('Hello Flart!'),
-          backgroundColor: FlartColor.hex('#007bff'),
+          backgroundColor: FlartColors.blue,
         ),
         body: Center(
           child: Column(
-            mainAxisAlignment: AxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 'Welcome to Flart! 🎨',
                 style: TextStyle(
                   fontSize: 32,
-                  fontWeight: 'bold',
+                  fontWeight: FontWeight.bold,
                   color: '#007bff',
                 ),
               ),

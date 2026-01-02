@@ -13,7 +13,7 @@ class _CounterAppState extends State<CounterApp> {
   int counter = 0;
   bool showGlow = false;
 
-  void increment() {
+  increment() {
     setState(() {
       counter++;
       showGlow = true;
@@ -43,26 +43,22 @@ class _CounterAppState extends State<CounterApp> {
       home: Scaffold(
         appBar: AppBar(
           title: Text('Flart Counter App'),
-          backgroundColor: FlartColor.hex('#667eea'),
+          backgroundColor: FlartColors.blue,
         ),
         body: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: ['#667eea', '#764ba2'],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            color: FlartColor('#667eea'),
           ),
           child: Center(
             child: Column(
-              mainAxisAlignment: AxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Title
                 Text(
                   'Counter Demo',
                   style: TextStyle(
                     fontSize: 32,
-                    fontWeight: 'bold',
+                    fontWeight: FontWeight.bold,
                     color: '#ffffff',
                   ),
                 ),
@@ -106,7 +102,7 @@ class _CounterAppState extends State<CounterApp> {
                               '$counter',
                               style: TextStyle(
                                 fontSize: 72,
-                                fontWeight: 'bold',
+                                fontWeight: FontWeight.bold,
                                 color: '#667eea',
                               ),
                             ),
@@ -121,7 +117,7 @@ class _CounterAppState extends State<CounterApp> {
 
                 // Button Row
                 Row(
-                  mainAxisAlignment: AxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Decrement Button
                     ElevatedButton(
@@ -178,7 +174,6 @@ class _CounterAppState extends State<CounterApp> {
                   style: TextStyle(
                     color: '#ffffff',
                     fontSize: 16,
-                    textDecoration: 'underline',
                   ),
                 ),
 
@@ -194,13 +189,13 @@ class _CounterAppState extends State<CounterApp> {
                         'Statistics',
                         style: TextStyle(
                           fontSize: 18,
-                          fontWeight: 'bold',
+                          fontWeight: FontWeight.bold,
                           color: '#333333',
                         ),
                       ),
                       SizedBox(height: 10),
                       Row(
-                        mainAxisAlignment: AxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Column(
                             children: [
@@ -213,7 +208,7 @@ class _CounterAppState extends State<CounterApp> {
                                 '$counter',
                                 style: TextStyle(
                                   fontSize: 24,
-                                  fontWeight: 'bold',
+                                  fontWeight: FontWeight.bold,
                                   color: '#667eea',
                                 ),
                               ),
@@ -223,7 +218,7 @@ class _CounterAppState extends State<CounterApp> {
                             width: 1,
                             height: 40,
                             decoration:
-                                BoxDecoration(color: FlartColor.hex('#cccccc')),
+                                BoxDecoration(color: FlartColors.blue.shade50),
                           ),
                           Column(
                             children: [
@@ -232,18 +227,29 @@ class _CounterAppState extends State<CounterApp> {
                                 style:
                                     TextStyle(fontSize: 12, color: '#666666'),
                               ),
-                              Badge(
-                                label: counter > 10
-                                    ? 'High'
-                                    : counter > 5
-                                        ? 'Medium'
-                                        : 'Low',
-                                backgroundColor: counter > 10
-                                    ? FlartColor.hex('#dc3545')
-                                    : counter > 5
-                                        ? FlartColor.hex('#ffc107')
-                                        : FlartColor.hex('#28a745'),
-                                textColor: FlartColor.hex('#ffffff'),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: counter > 10
+                                      ? FlartColors.red
+                                      : counter > 5
+                                          ? FlartColor('#ffc107')
+                                          : FlartColors.green,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  counter > 10
+                                      ? 'High'
+                                      : counter > 5
+                                          ? 'Medium'
+                                          : 'Low',
+                                  style: TextStyle(
+                                    color: '#ffffff',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -268,9 +274,8 @@ class _CounterAppState extends State<CounterApp> {
                       LinearProgressIndicator(
                         value: counter / 20,
                         height: 8,
-                        color: FlartColor.hex('#00ff00'),
-                        backgroundColor:
-                            FlartColor.hex('rgba(255,255,255,0.3)'),
+                        color: FlartColors.white,
+                        backgroundColor: FlartColors.black,
                       ),
                       SizedBox(height: 4),
                       Text(
@@ -285,11 +290,12 @@ class _CounterAppState extends State<CounterApp> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: increment,
+          onPressed: () => increment(),
           child: Icon(icon: 'add', size: 32),
-          backgroundColor: FlartColor.hex('#667eea'),
+          backgroundColor: FlartColors.green,
         ),
       ),
+      title: 'Counter App',
     );
   }
 }
