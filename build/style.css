@@ -1,0 +1,171 @@
+/* Reset & base layout */
+html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 100%;
+    width: 100%;
+    font-size: 100%;
+    font-family: figtree, serif;
+    background-color: white;
+    box-sizing: border-box;
+}
+
+
+body.flart-light {
+    --primary-color: #6200ee;
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --card-color: #f5f5f5;
+    --appbar-color: #f9f9f9;
+}
+
+/* Dark Theme Variables */
+body.flart-dark {
+    --primary-color: #bb86fc;
+    --background-color: #121212;
+    --text-color: #ffffff;
+    --card-color: #1f1f1f;
+    --appbar-color: #1a1a1a;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 300ms ease-in forwards;
+}
+
+.fade-out {
+    animation: fadeOut 300ms ease-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Scaffold styles */
+.flart-scaffold {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* AppBar */
+.flart-appbar {
+    background-color: #6200ea;
+    color: white;
+    padding: 12px 16px;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Bottom Navigation */
+.flart-bottom-nav {
+    background-color: #eeeeee;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid #ccc;
+}
+
+/* Drawer */
+.flart-drawer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    background: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+/* Floating Action Button */
+.fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    background-color: #03a9f4;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.fab:hover {
+    background-color: #0288d1;
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+    .responsive-text {
+        font-size: 14px;
+    }
+
+    .responsive-padding {
+        padding: 8px;
+    }
+}
+
+/* Medium screens */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .responsive-text {
+        font-size: 16px;
+    }
+
+    .responsive-padding {
+        padding: 16px;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1025px) {
+    .responsive-text {
+        font-size: 18px;
+    }
+
+    .responsive-padding {
+        padding: 24px;
+    }
+}

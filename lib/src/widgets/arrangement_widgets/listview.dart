@@ -1,8 +1,8 @@
-import 'package:flart_project/flart.dart';
-
+import 'package:flart/flart.dart';
 
 typedef ItemWidgetBuilder = Widget Function(BuildContext context, int index);
-typedef SeparatorWidgetBuilder = Widget Function(BuildContext context, int index);
+typedef SeparatorWidgetBuilder = Widget Function(
+    BuildContext context, int index);
 
 enum ListViewType { static, builder, separated }
 
@@ -82,7 +82,8 @@ class ListView extends Widget {
       if (padding != null) 'padding': padding!.toCss(),
     };
 
-    final styleString = styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final styleString =
+        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     String content = '';
 
@@ -92,7 +93,8 @@ class ListView extends Widget {
         break;
 
       case ListViewType.builder:
-        content = List.generate(itemCount!, (i) => itemBuilder!(context, i).render(context)).join();
+        content = List.generate(
+            itemCount!, (i) => itemBuilder!(context, i).render(context)).join();
         break;
 
       case ListViewType.separated:

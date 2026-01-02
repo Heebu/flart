@@ -1,4 +1,4 @@
-import 'package:flart_project/flart.dart';
+import 'package:flart/flart.dart';
 
 class AppBar extends Widget {
   final Widget? title;
@@ -33,10 +33,12 @@ class AppBar extends Widget {
     ''');
 
     // Leading (e.g., menu icon)
-    buffer.write('<div style="margin-right: 16px;">${leading?.render(context) ?? ''}</div>');
+    buffer.write(
+        '<div style="margin-right: 16px;">${leading?.render(context) ?? ''}</div>');
 
     // Title
-    buffer.write('<div style="flex: 1; font-size: 20px; font-weight: 500;">${title?.render(context) ?? ''}</div>');
+    buffer.write(
+        '<div style="flex: 1; font-size: 20px; font-weight: 500;">${title?.render(context) ?? ''}</div>');
 
     // Actions
     if (actions != null && actions!.isNotEmpty) {

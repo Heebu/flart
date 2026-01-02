@@ -1,6 +1,5 @@
 import 'dart:async';
-import 'package:flart_project/flart.dart';
-
+import 'package:flart/flart.dart';
 
 class Button extends Widget {
   final String? text;

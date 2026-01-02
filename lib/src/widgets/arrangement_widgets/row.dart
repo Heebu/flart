@@ -1,4 +1,4 @@
-import 'package:flart_project/flart.dart';
+import 'package:flart/flart.dart';
 
 class Row extends Widget {
   final List<Widget> children;
@@ -26,7 +26,8 @@ class Row extends Widget {
       ...?cssStyle,
     };
 
-    final styleString = styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final styleString =
+        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
     final childrenHtml = children.map((child) => child.render(context)).join();
 
     return '<div ${key != null ? 'id="$key"' : ''} style="$styleString">$childrenHtml</div>';

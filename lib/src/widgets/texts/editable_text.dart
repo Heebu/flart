@@ -1,7 +1,4 @@
-import 'package:flart_project/src/widgets/utils/build_context.dart';
-
 import '../../../flart.dart';
-
 
 typedef OnTextChanged = void Function(String value);
 typedef OnTextSubmitted = void Function(String value);
@@ -28,8 +25,6 @@ class EditableText extends Widget {
     this.textAlign = TextAlign.start,
     this.cssStyle,
   });
-
-
 
   String _getTextAlignCss() {
     switch (textAlign) {
@@ -60,13 +55,16 @@ class EditableText extends Widget {
       ...?cssStyle,
     };
 
-    final styleString = baseStyle.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    final placeholderAttr = placeholder != null ? 'placeholder="$placeholder"' : '';
+    final styleString =
+        baseStyle.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final placeholderAttr =
+        placeholder != null ? 'placeholder="$placeholder"' : '';
     final maxLengthAttr = maxLength != null ? 'maxlength="$maxLength"' : '';
     final valueAttr = 'value="${controller.text}"';
 
     final buffer = StringBuffer();
-    buffer.writeln('<input id="$id" type="$type" $placeholderAttr $maxLengthAttr $valueAttr style="$styleString"/>');
+    buffer.writeln(
+        '<input id="$id" type="$type" $placeholderAttr $maxLengthAttr $valueAttr style="$styleString"/>');
 
     // JS handlers
     buffer.writeln('''

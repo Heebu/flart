@@ -1,4 +1,4 @@
-import 'package:flart_project/flart.dart';
+import 'package:flart/flart.dart';
 
 class Positioned extends Widget {
   final Widget child;
@@ -25,7 +25,8 @@ class Positioned extends Widget {
       if (bottom != null) 'bottom': '${bottom}px',
     };
 
-    final styleString = styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final styleString =
+        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     return '<div style="$styleString">${child.render(context)}</div>';
   }

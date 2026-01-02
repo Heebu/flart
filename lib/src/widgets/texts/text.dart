@@ -1,5 +1,4 @@
-import 'package:flart_project/flart.dart';
-
+import 'package:flart/flart.dart';
 
 class Text extends Widget {
   final String content;
@@ -9,12 +8,12 @@ class Text extends Widget {
   final TextAlign? textAlign;
 
   Text(
-      this.content, {
-        this.style,
-        this.cssStyle,
-        this.tag = TextTag.span,
-        this.textAlign,
-      });
+    this.content, {
+    this.style,
+    this.cssStyle,
+    this.tag = TextTag.span,
+    this.textAlign,
+  });
 
   @override
   String render(BuildContext context) {
@@ -27,13 +26,12 @@ class Text extends Widget {
       combinedStyle['text-align'] = textAlign.toString().split('.').last;
     }
 
-    final styleString = combinedStyle.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final styleString =
+        combinedStyle.entries.map((e) => '${e.key}: ${e.value};').join(' ');
     final tagName = tag.toString().split('.').last;
 
     return '<$tagName style="$styleString">$content</$tagName>';
   }
-
-
 }
 
 

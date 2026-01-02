@@ -1,4 +1,4 @@
-import 'package:flart_project/flart.dart';
+import 'package:flart/flart.dart';
 import 'utils/build_context.dart';
 
 /// Base class for State objects.
@@ -21,7 +21,8 @@ abstract class State<T extends StatefulWidget> {
     fn();
     // Temporary: you should wire this to your renderer to actually update DOM.
     // For now we just log so you can see it fires.
-    print('setState called on ${widget.runtimeType} — please hook into renderer to re-render');
+    print(
+        'setState called on ${widget.runtimeType} — please hook into renderer to re-render');
     reRenderApp();
   }
 
@@ -43,5 +44,3 @@ abstract class StatefulWidget extends Widget {
     return state.build(context).render(context);
   }
 }
-
-

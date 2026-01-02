@@ -1,7 +1,4 @@
-import 'package:flart_project/src/widgets/utils/build_context.dart';
-
 import '../../../flart.dart';
-
 
 class SelectableText extends Widget {
   final String content;
@@ -9,10 +6,10 @@ class SelectableText extends Widget {
   final Map<String, String>? cssStyle;
 
   SelectableText(
-      this.content, {
-        this.style,
-        this.cssStyle,
-      });
+    this.content, {
+    this.style,
+    this.cssStyle,
+  });
 
   @override
   String render(BuildContext context) {
@@ -22,11 +19,9 @@ class SelectableText extends Widget {
       ...?cssStyle,
     };
     final styleString =
-    styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
     return '<span style="$styleString">$content</span>';
   }
-
-
 }
 
 

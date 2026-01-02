@@ -1,9 +1,6 @@
-import 'package:flart_project/src/widgets/utils/build_context.dart';
-
 import '../../helper/callback_manager.dart';
 import 'dart:html';
 import '../../../flart.dart';
-
 
 class LinkText extends Widget {
   final String label;
@@ -24,9 +21,8 @@ class LinkText extends Widget {
 
   @override
   String render(BuildContext context) {
-    final idClick = onPressed != null
-        ? FlartCallbackManager.register(onPressed!)
-        : null;
+    final idClick =
+        onPressed != null ? FlartCallbackManager.register(onPressed!) : null;
     final idLongPress = onLongPress != null
         ? FlartCallbackManager.register(onLongPress!)
         : null;
@@ -40,11 +36,12 @@ class LinkText extends Widget {
       ...?cssStyle,
     };
     final styleString =
-    styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     final eventHandlers = [
       if (idClick != null) 'onclick="__flartHandleClick(\'$idClick\')"',
-      if (idLongPress != null) '''
+      if (idLongPress != null)
+        '''
         onmousedown="this._pressTimer = setTimeout(() => __flartHandleClick('$idLongPress'), 600)"
         onmouseup="clearTimeout(this._pressTimer)"
         onmouseleave="clearTimeout(this._pressTimer)"
@@ -61,8 +58,6 @@ class LinkText extends Widget {
       ''';
     }
   }
-
-
 }
 
 

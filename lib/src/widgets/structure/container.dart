@@ -1,4 +1,4 @@
-import 'package:flart_project/src/widgets/utils/build_context.dart';
+import 'package:flart/src/widgets/utils/build_context.dart';
 
 import '../widget.dart';
 import '../../styles/box_decoration.dart';
@@ -38,10 +38,9 @@ class Container extends Widget {
       ...?cssStyle,
     };
 
-    final styleString = styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final styleString =
+        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     return '<div style="$styleString">${child?.render(context) ?? ''}</div>';
   }
-
-
 }

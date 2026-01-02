@@ -1,4 +1,4 @@
-import 'package:flart_project/src/styles/colors.dart';
+import 'colors.dart';
 
 import '../../flart.dart';
 
@@ -34,19 +34,17 @@ class Border extends BoxBorder {
   }
 }
 
-
 class BorderSide {
   final double width;
   final FlartColor color;
 
   const BorderSide({
     this.width = 1.0,
-    this.color =  FlartColors.black,
+    this.color = FlartColors.black,
   });
 
   String toCss() => '${width}px solid ${color.toString()}';
 }
-
 
 abstract class BoxBorder {
   Map<String, String> toCss();

@@ -1,4 +1,3 @@
-
 import '../../../flart.dart';
 
 enum BoxFit {
@@ -9,6 +8,11 @@ enum BoxFit {
   scaleDown,
 }
 
+enum ImageLoading {
+  eager,
+  lazy,
+}
+
 class FlartImage extends Widget {
   final String src;
   final double? width;
@@ -16,24 +20,27 @@ class FlartImage extends Widget {
   final BoxFit? fit;
   final Map<String, String>? cssStyle;
   final String? alt;
+  final ImageLoading loading;
 
   FlartImage.network(
-      this.src, {
-        this.width,
-        this.height,
-        this.fit,
-        this.cssStyle,
-        this.alt,
-      });
+    this.src, {
+    this.width,
+    this.height,
+    this.fit,
+    this.cssStyle,
+    this.alt,
+    this.loading = ImageLoading.lazy,
+  });
 
   FlartImage.asset(
-      String assetPath, {
-        this.width,
-        this.height,
-        this.fit,
-        this.cssStyle,
-        this.alt,
-      }) : src = '/$assetPath'; // Adjust this based on your asset structure
+    String assetPath, {
+    this.width,
+    this.height,
+    this.fit,
+    this.cssStyle,
+    this.alt,
+    this.loading = ImageLoading.lazy,
+  }) : src = '/$assetPath'; // Adjust this based on your asset structure
 
   @override
   String render(BuildContext context) {
@@ -44,10 +51,13 @@ class FlartImage extends Widget {
       ...?cssStyle,
     };
 
-    final style = styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final style =
+        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final loadingAttr =
+        loading == ImageLoading.lazy ? 'loading="lazy"' : 'loading="eager"';
 
     return '''
-      <img src="$src" alt="${alt ?? ''}" style="$style" />
+      <img src="$src" alt="${alt ?? ''}" style="$style" $loadingAttr />
     ''';
   }
 

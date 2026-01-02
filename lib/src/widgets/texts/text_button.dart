@@ -1,9 +1,6 @@
-import 'package:flart_project/src/widgets/utils/build_context.dart';
-
 import '../../helper/callback_manager.dart';
 import 'dart:html';
 import '../../../flart.dart';
-
 
 class TextButton extends Widget {
   final String label;
@@ -25,9 +22,12 @@ class TextButton extends Widget {
   @override
   String render(BuildContext context) {
     final id = 'text_btn_${DateTime.now().millisecondsSinceEpoch}';
-    final pressId = onPressed != null ? FlartCallbackManager.register(onPressed!) : '';
-    final hoverId = onHover != null ? FlartCallbackManager.register(onHover!) : '';
-    final longPressId = onLongPress != null ? FlartCallbackManager.register(onLongPress!) : '';
+    final pressId =
+        onPressed != null ? FlartCallbackManager.register(onPressed!) : '';
+    final hoverId =
+        onHover != null ? FlartCallbackManager.register(onHover!) : '';
+    final longPressId =
+        onLongPress != null ? FlartCallbackManager.register(onLongPress!) : '';
 
     final styleMap = {
       'background': 'none',
@@ -41,7 +41,7 @@ class TextButton extends Widget {
       ...?cssStyle,
     };
     final styleString =
-    styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     return '''
       <button id="$id" style="$styleString">
@@ -63,8 +63,6 @@ class TextButton extends Widget {
       </script>
     ''';
   }
-
-
 }
 
 

@@ -1,4 +1,4 @@
-import 'package:flart_project/flart.dart';
+import 'package:flart/flart.dart';
 
 typedef OnChanged = void Function(String value);
 
@@ -34,10 +34,12 @@ class TextField extends Widget {
     // Input attributes
     final type = obscureText ? 'password' : 'text';
     final valueAttr = controller != null ? 'value="${controller!.text}"' : '';
-    final placeholderAttr = placeholder != null ? 'placeholder="$placeholder"' : '';
+    final placeholderAttr =
+        placeholder != null ? 'placeholder="$placeholder"' : '';
 
     final buffer = StringBuffer();
-    buffer.writeln('<input id="$id" type="$type" $valueAttr $placeholderAttr style="$style"/>');
+    buffer.writeln(
+        '<input id="$id" type="$type" $valueAttr $placeholderAttr style="$style"/>');
 
     // Attach a script for onChanged & controller binding
     if (onChanged != null || controller != null) {
