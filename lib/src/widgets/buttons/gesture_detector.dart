@@ -1,7 +1,5 @@
-import 'dart:html';
 import '../../../flart.dart';
 import '../../helper/callback_manager.dart';
-
 
 class GestureDetector extends Widget {
   final Widget child;

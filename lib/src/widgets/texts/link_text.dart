@@ -1,5 +1,4 @@
 import '../../helper/callback_manager.dart';
-import 'dart:html';
 import '../../../flart.dart';
 
 class LinkText extends Widget {

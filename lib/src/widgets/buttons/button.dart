@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:html';
+
 import 'package:flart/flart.dart';
 
 class Button extends Widget {

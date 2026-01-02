@@ -7,6 +7,9 @@ export 'src/widgets/stateful_widget.dart';
 export 'src/widgets/stateless_widget.dart';
 export 'run_app.dart';
 
+// Foundation
+export 'src/foundation/types.dart';
+
 // Enums
 export 'src/enums/axis.dart';
 export 'src/enums/axis_alignment.dart';

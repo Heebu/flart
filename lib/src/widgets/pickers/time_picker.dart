@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flart/flart.dart';
 
 typedef TimeCallback = void Function(String time); // or Duration

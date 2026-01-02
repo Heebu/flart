@@ -1,10 +1,10 @@
-import 'dart:io';
+import 'dart:html' as html;
 
 import 'package:flart/flart.dart';
 
 import '../../helper/file_picker_manager.dart';
 
-typedef ImagePickCallback = void Function(List<File> files);
+typedef ImagePickCallback = void Function(List<html.File> files);
 
 class ImagePicker extends Widget {
   final bool multiple;
