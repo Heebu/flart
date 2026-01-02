@@ -1,3 +1,6 @@
+import 'package:flart/src/controllers/text_editing_controller.dart';
+import 'package:flart/src/enums/text_align.dart';
+
 import '../../../flart.dart';
 
 typedef OnTextChanged = void Function(String value);

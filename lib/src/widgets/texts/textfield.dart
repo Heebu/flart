@@ -1,4 +1,5 @@
 import 'package:flart/flart.dart';
+import 'package:flart/src/controllers/text_editing_controller.dart';
 
 typedef OnChanged = void Function(String value);
 

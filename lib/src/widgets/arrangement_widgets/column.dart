@@ -43,7 +43,6 @@ class Column extends Widget {
       case MainAxisAlignment.spaceEvenly:
         return 'space-evenly';
       case MainAxisAlignment.start:
-      default:
         return 'flex-start';
     }
   }
@@ -57,7 +56,6 @@ class Column extends Widget {
       case CrossAxisAlignment.stretch:
         return 'stretch';
       case CrossAxisAlignment.start:
-      default:
         return 'flex-start';
     }
   }
