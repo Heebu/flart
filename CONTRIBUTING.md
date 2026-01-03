@@ -115,10 +115,11 @@ class GreetingWidget extends Widget {
 ## Questions?
 
 Feel free to ask questions in:
-- [GitHub Discussions](https://github.com/Heebu/flart/discussions)
+- [GitHub Discussions]( https://github.com/Heebu/flart/discussions)
 - [Issues](https://github.com/Heebu/flart/issues)
 
 ## Code of Conduct
+
 
 Be respectful, inclusive, and constructive. We're all here to make Flart better!
 

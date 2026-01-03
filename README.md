@@ -81,7 +81,7 @@ dart pub get
            ),
          ),
        ),
-     );
+     ).render(context);
    }
  }
  ```
@@ -130,7 +130,7 @@ dart pub get
  
  ```dart
  Form(
-   child: Column(
+child: Column(
      children: [
        TextFormField(
          label: 'Email',
@@ -250,7 +250,7 @@ Container(
       ),
     ],
     gradient: LinearGradient(
-      colors: ['#667eea', '#764ba2'],
+      colors: [FlartColors.red, FlartColors.green],
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
     ),
