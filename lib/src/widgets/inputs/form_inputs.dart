@@ -1,4 +1,5 @@
 import '../../../flart.dart';
+import '../../helper/callback_manager.dart';
 
 /// A checkbox widget
 class Checkbox extends Widget {
@@ -21,6 +22,13 @@ class Checkbox extends Widget {
     final check = checkColor?.toString() ?? '#ffffff';
     final disabled = onChanged == null;
 
+    String onChangeAttr = '';
+    if (onChanged != null) {
+      // Capture the NEXT state (toggle)
+      final cbId = FlartCallbackManager.register(() => onChanged!(!value));
+      onChangeAttr = 'onchange="window.__flartHandleClick(\'$cbId\')"';
+    }
+
     return '''
       <input 
         type="checkbox" 
@@ -33,15 +41,8 @@ class Checkbox extends Widget {
           cursor: ${disabled ? 'not-allowed' : 'pointer'};
           accent-color: $active;
         "
+        $onChangeAttr
       />
-      ${!disabled ? '''
-        <script>
-          document.getElementById('$id').addEventListener('change', function(e) {
-            // Handle change event
-            console.log('Checkbox changed:', e.target.checked);
-          });
-        </script>
-      ''' : ''}
     ''';
   }
 }
@@ -67,6 +68,13 @@ class Radio<T> extends Widget {
     final checked = value == groupValue;
     final disabled = onChanged == null;
 
+    String onChangeAttr = '';
+    if (onChanged != null) {
+      // Radio only triggers if not already checked (usually)
+      final cbId = FlartCallbackManager.register(() => onChanged!(value));
+      onChangeAttr = 'onchange="window.__flartHandleClick(\'$cbId\')"';
+    }
+
     return '''
       <input 
         type="radio" 
@@ -79,16 +87,8 @@ class Radio<T> extends Widget {
           cursor: ${disabled ? 'not-allowed' : 'pointer'};
           accent-color: $active;
         "
+        $onChangeAttr
       />
-      ${!disabled ? '''
-        <script>
-          document.getElementById('$id').addEventListener('change', function(e) {
-            if (e.target.checked) {
-              console.log('Radio selected:', '$value');
-            }
-          });
-        </script>
-      ''' : ''}
     ''';
   }
 }
@@ -114,6 +114,13 @@ class Switch extends Widget {
     final inactive = inactiveColor?.toString() ?? '#cccccc';
     final disabled = onChanged == null;
 
+    String onChangeAttr = '';
+    if (onChanged != null) {
+      // Toggle
+      final cbId = FlartCallbackManager.register(() => onChanged!(!value));
+      onChangeAttr = 'onchange="window.__flartHandleClick(\'$cbId\')"';
+    }
+
     return '''
       <label style="
         display: inline-flex;
@@ -127,6 +134,7 @@ class Switch extends Widget {
           ${value ? 'checked' : ''} 
           ${disabled ? 'disabled' : ''}
           style="display: none;"
+          $onChangeAttr
         />
         <div style="
           width: 50px;
@@ -149,13 +157,6 @@ class Switch extends Widget {
           "></div>
         </div>
       </label>
-      ${!disabled ? '''
-        <script>
-          document.getElementById('$id').addEventListener('change', function(e) {
-            console.log('Switch toggled:', e.target.checked);
-          });
-        </script>
-      ''' : ''}
     ''';
   }
 }

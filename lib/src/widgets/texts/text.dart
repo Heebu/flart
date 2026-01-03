@@ -8,6 +8,7 @@ class Text extends Widget {
   final Map<String, String>? cssStyle;
   final TextTag? tag;
   final TextAlign? textAlign;
+  final bool selectable;
 
   Text(
     this.content, {
@@ -15,12 +16,14 @@ class Text extends Widget {
     this.cssStyle,
     this.tag = TextTag.span,
     this.textAlign,
+    this.selectable = false,
   });
 
   @override
   String render(BuildContext context) {
     final combinedStyle = {
       ...(style?.toCss() ?? {}),
+      if (!selectable) 'user-select': 'none',
       ...(cssStyle ?? {}),
     };
 

@@ -30,6 +30,11 @@ topics:
 platforms:
   web:
 
+
+assets:
+  - assets/
+
+  
 # Funding (optional)
 # funding:
 #   - https://github.com/sponsors/yourusername

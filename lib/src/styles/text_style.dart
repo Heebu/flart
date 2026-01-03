@@ -19,7 +19,7 @@ class FontWeight {
 }
 
 class TextStyle {
-  final String? color;
+  final Object? color; // Accepts String (hex) or FlartColor
   final double? fontSize;
   final FontWeight? fontWeight;
   final String? fontFamily;
@@ -33,7 +33,7 @@ class TextStyle {
 
   Map<String, String> toCss() {
     final styles = <String, String>{};
-    if (color != null) styles['color'] = color!;
+    if (color != null) styles['color'] = color.toString();
     if (fontSize != null) styles['font-size'] = '${fontSize}px';
     if (fontWeight != null) styles['font-weight'] = fontWeight!.value;
     if (fontFamily != null) styles['font-family'] = fontFamily!;

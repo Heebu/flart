@@ -1,28 +1,21 @@
 import '../../flart.dart';
 import 'dart:html';
 
-abstract class FlartPage extends Widget {
-  const FlartPage();
-
-  @override
-  String render([BuildContext? context]);
-}
-
 class PageNavigator {
-  static final List<FlartPage> _stack = [];
-  static final Map<String, FlartPage> _routes = {};
+  static final List<Widget> _stack = [];
+  static final Map<String, Widget> _routes = {};
 
-  static FlartPage get current =>
-      _stack.isNotEmpty ? _stack.last : const _EmptyPage();
+  static Widget get current =>
+      _stack.isNotEmpty ? _stack.last : const _EmptyWidget();
 
   /// Register available routes before runApp()
-  static void registerRoutes(Map<String, FlartPage> routes) {
+  static void registerRoutes(Map<String, Widget> routes) {
     _routes.clear();
     _routes.addAll(routes);
   }
 
   /// Navigate within same tab (stack-based)
-  static void push(FlartPage page) {
+  static void push(Widget page) {
     _stack.add(page);
     _updateHistory(page);
     _refresh(withTransition: true);
@@ -40,7 +33,7 @@ class PageNavigator {
   }
 
   /// Replace current page
-  static void replace(FlartPage page) {
+  static void replace(Widget page) {
     if (_stack.isNotEmpty) _stack.removeLast();
     _stack.add(page);
     _updateHistory(page);
@@ -66,6 +59,8 @@ class PageNavigator {
       _stack.removeLast();
       window.history.back();
       _refresh(withTransition: true);
+    } else {
+      print('Cannot pop: stack empty or single item');
     }
   }
 
@@ -97,16 +92,24 @@ class PageNavigator {
       _stack.clear();
       _stack.add(_routes[routeName]!);
     } else {
-      _stack.add(const _EmptyPage());
+      // If no route match, maybe we don't interfere?
+      // Or add empty?
+      // _stack.add(const _EmptyWidget());
     }
+    // _refresh();
+  }
 
-    _refresh();
+  // Helper to manually seed stack (hack for partial adoption)
+  static void seed(Widget page) {
+    if (_stack.isEmpty) {
+      _stack.add(page);
+    }
   }
 
   // Internal helpers
 
   static void _updateHistory(
-    FlartPage page, [
+    Widget page, [
     String? routeName,
     Map<String, String>? queryParams,
   ]) {
@@ -124,16 +127,22 @@ class PageNavigator {
 
   static void _show404(String routeName) {
     final html = '<div>404: Route "$routeName" not found</div>';
-    querySelector('#app')?.setInnerHtml(
+    querySelector('#output')?.setInnerHtml(
       html,
       treeSanitizer: NodeTreeSanitizer.trusted,
     );
   }
 
   static void _refresh({bool withTransition = false}) {
-    final html = current.render();
+    // Current run_app render logic handles context.
+    // We need a context to render. Navigator acts as root?
+    // We'll create a dummy context since we are at root level.
+    // Or we should pass context?
+    // For now, let's create a fresh context for the root page.
+    final context = BuildContext(widget: current);
+    final html = current.render(context);
 
-    final app = querySelector('#app');
+    final app = querySelector('#output') ?? querySelector('#app');
     if (app != null) {
       if (withTransition) {
         app.classes.add('fade-out');
@@ -153,9 +162,9 @@ class PageNavigator {
   }
 }
 
-class _EmptyPage extends FlartPage {
-  const _EmptyPage();
+class _EmptyWidget extends Widget {
+  const _EmptyWidget();
 
   @override
-  String render([BuildContext? context]) => '<div>No route defined</div>';
+  String render(BuildContext context) => '<div>No route defined</div>';
 }

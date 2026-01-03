@@ -1,11 +1,12 @@
 import '../../../flart.dart';
+import '../../helper/callback_manager.dart';
 
 typedef FlartVoidCallback = String Function();
 
 class FloatingActionButton extends Widget {
   final Widget child;
   final FlartColor backgroundColor;
-  final FlartVoidCallback? onPressed;
+  final VoidCallback? onPressed;
   final Map<String, String>? cssStyle;
 
   FloatingActionButton({
@@ -21,6 +22,7 @@ class FloatingActionButton extends Widget {
 
     final style = {
       'position': 'fixed',
+      // ... same styles ...
       'bottom': '20px',
       'right': '20px',
       'width': '56px',
@@ -36,14 +38,16 @@ class FloatingActionButton extends Widget {
       ...?cssStyle,
     }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
-    final onClickAttr = onPressed != null ? 'onclick="${onPressed!()}"' : '';
+    String onClickAttr = '';
+    if (onPressed != null) {
+      final cbId = FlartCallbackManager.register(onPressed!);
+      onClickAttr = 'onclick="window.__flartHandleClick(\'$cbId\')"';
+    }
 
     final buffer = StringBuffer();
     buffer.writeln('<div id="$id" style="$style" $onClickAttr>');
     buffer.writeln(child.render(context));
     buffer.writeln('</div>');
-
-    // Script injection removed as it fails with innerHTML
 
     return buffer.toString();
   }

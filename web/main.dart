@@ -1,5 +1,4 @@
 import 'package:flart/flart.dart';
-import 'package:flart/src/helper/callback_manager.dart';
 
 void main() {
   runApp(const ShowcaseApp());
@@ -11,8 +10,11 @@ class ShowcaseApp extends Widget {
   @override
   String render(BuildContext context) {
     return MaterialApp(
+      context: context,
       title: 'Flart Kitchen Sink',
       home: const HomePage(),
+      favicon: '/assets/flart_logo.png',
+      darkMode: true,
     ).render(context);
   }
 }
@@ -29,9 +31,6 @@ class _HomePageState extends State<HomePage> {
   bool _switchValue = false;
   bool _checkboxValue = false;
   String _typedText = '';
-
-  // Tabs
-  int _currentTabIndex = 0;
 
   void _incrementCounter() {
     setState(() {
@@ -164,6 +163,47 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(height: 20),
+          _buildHeading('Colors & Icons'),
+          Card(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(icon: Icons.star, color: FlartColors.amber, size: 32),
+                    SizedBox(width: 10),
+                    Icon(
+                        icon: Icons.favorite, color: FlartColors.red, size: 32),
+                    SizedBox(width: 10),
+                    Icon(
+                        icon: Icons.thumb_up,
+                        color: FlartColors.blue,
+                        size: 32),
+                    SizedBox(width: 10),
+                    Icon(
+                        icon: Icons.check_circle,
+                        color: FlartColors.green,
+                        size: 32),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'This text uses FlartColors.purple',
+                  style: TextStyle(
+                      color: FlartColors.purple, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  'This text uses FlartColors.deepOrange',
+                  style: TextStyle(
+                      color: FlartColors.deepOrange,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
           _buildHeading('Inputs'),
           Card(
             padding: EdgeInsets.all(16),
@@ -217,6 +257,29 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(height: 20),
+          _buildHeading('Text Selection'),
+          Card(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                    'This text is NOT selectable (default default behavior). Try selecting me!'),
+                SizedBox(height: 10),
+                Text(
+                  'This text IS selectable (selectable: true). Select me!',
+                  selectable: true,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                SelectableText(
+                  'This is using the SelectableText widget.',
+                  style: TextStyle(color: FlartColors.blue.hex),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
           _buildHeading('Grid Layout'),
           GridView.count(
             crossAxisCount: 3,
@@ -230,10 +293,26 @@ class _HomePageState extends State<HomePage> {
                           color: FlartColors
                                   .blue.shades[100 * ((index % 9) + 1)] ??
                               FlartColors.blue),
-                      alignment: Alignment.center,
                       child:
                           Text('Item $index', style: TextStyle(color: '#fff')),
                     )),
+          ),
+          SizedBox(height: 20),
+          _buildHeading('Assets & Defaults'),
+          Card(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Text('Default Image Fallback (Empty Source):'),
+                SizedBox(height: 10),
+                FlartImage.network(
+                  '', // Empty source should trigger default
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.contain,
+                ),
+              ],
+            ),
           ),
         ],
       ),

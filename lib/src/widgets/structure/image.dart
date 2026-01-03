@@ -23,24 +23,28 @@ class FlartImage extends Widget {
   final ImageLoading loading;
 
   FlartImage.network(
-    this.src, {
+    String? src, {
     this.width,
     this.height,
     this.fit,
     this.cssStyle,
     this.alt,
     this.loading = ImageLoading.lazy,
-  });
+  }) : src = (src == null || src.isEmpty)
+            ? '/assets/flart_logo_with_text.png'
+            : src;
 
   FlartImage.asset(
-    String assetPath, {
+    String? assetPath, {
     this.width,
     this.height,
     this.fit,
     this.cssStyle,
     this.alt,
     this.loading = ImageLoading.lazy,
-  }) : src = '/$assetPath'; // Adjust this based on your asset structure
+  }) : src = (assetPath == null || assetPath.isEmpty)
+            ? '/assets/flart_logo_with_text.png'
+            : '/$assetPath'; // Adjust this based on your asset structure
 
   @override
   String render(BuildContext context) {
