@@ -8,7 +8,6 @@ class MaterialApp extends Widget {
   final Widget home;
   final bool darkMode;
 
-
   const MaterialApp({
     required this.title,
     required this.home,
@@ -30,9 +29,10 @@ class MaterialApp extends Widget {
     _injectViewportMeta();
 
     // Clear any existing DOM content
-    document.body?.children.clear();
+    // document.body?.children.clear();
 
-    final prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    final prefersDark =
+        window.matchMedia('(prefers-color-scheme: dark)').matches;
     document.body?.classes.add(prefersDark ? 'flart-dark' : 'flart-light');
 
     // Return the home widget's HTML
@@ -49,7 +49,8 @@ class MaterialApp extends Widget {
   void _injectGoogleFont(String fontFamily) {
     final fontLink = LinkElement()
       ..rel = 'stylesheet'
-      ..href = 'https://fonts.googleapis.com/css2?family=${fontFamily.replaceAll(" ", "+")}&display=swap';
+      ..href =
+          'https://fonts.googleapis.com/css2?family=${fontFamily.replaceAll(" ", "+")}&display=swap';
     document.head?.append(fontLink);
   }
 

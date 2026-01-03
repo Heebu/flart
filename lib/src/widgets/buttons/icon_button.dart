@@ -15,7 +15,8 @@ class IconButton extends Widget {
   @override
   String render(BuildContext context) {
     final id = 'icon_btn_${DateTime.now().millisecondsSinceEpoch}';
-    final cbId = onPressed != null ? FlartCallbackManager.register(onPressed!) : null;
+    final cbId =
+        onPressed != null ? FlartCallbackManager.register(onPressed!) : null;
 
     final style = {
       'font-family': 'Material Icons',
@@ -29,14 +30,9 @@ class IconButton extends Widget {
     }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     return '''
-      <button id="$id" style="$style">${icon.icon}</button>
-      ${cbId != null ? '''
-        <script>
-          document.getElementById('$id').addEventListener('click', () => {
-            window.__flartHandleClick('$cbId');
-          });
-        </script>
-      ''' : ''}
+      <button id="$id" style="$style" ${cbId != null ? 'onclick="window.__flartHandleClick(\'$cbId\')"' : ''}>
+        ${icon.icon}
+      </button>
     ''';
   }
 }

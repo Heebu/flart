@@ -36,21 +36,14 @@ class FloatingActionButton extends Widget {
       ...?cssStyle,
     }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
+    final onClickAttr = onPressed != null ? 'onclick="${onPressed!()}"' : '';
+
     final buffer = StringBuffer();
-    buffer.writeln('<div id="$id" style="$style">');
+    buffer.writeln('<div id="$id" style="$style" $onClickAttr>');
     buffer.writeln(child.render(context));
     buffer.writeln('</div>');
 
-    if (onPressed != null) {
-      final jsFunc = onPressed!();
-      buffer.writeln('''
-        <script>
-          document.getElementById('$id')?.addEventListener('click', () => {
-            $jsFunc
-          });
-        </script>
-      ''');
-    }
+    // Script injection removed as it fails with innerHTML
 
     return buffer.toString();
   }

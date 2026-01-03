@@ -51,10 +51,14 @@ class ElevatedButton extends Widget {
       ...?disabledStyle,
     };
 
-    final String baseStyleStr = baseStyle.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    final String hoverStyleStr = hoverCss.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    final String activeStyleStr = activeCss.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    final String disabledStyleStr = disabledCss.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final String baseStyleStr =
+        baseStyle.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final String hoverStyleStr =
+        hoverCss.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final String activeStyleStr =
+        activeCss.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final String disabledStyleStr =
+        disabledCss.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     final buffer = StringBuffer();
 
@@ -75,44 +79,33 @@ class ElevatedButton extends Widget {
       </style>
     ''');
 
-    buffer.writeln('<button id="$id" class="$classId">${child.render(context)}</button>');
+    // Event strings
+    String events = '';
 
-    // JavaScript callbacks
-    buffer.writeln('<script>');
     if (onPressed != null) {
       final cbId = FlartCallbackManager.register(onPressed!);
-      buffer.writeln('''
-        document.getElementById("$id").addEventListener("click", function() {
-          window.__flartHandleClick("$cbId");
-        });
-      ''');
-    }
-
-    if (onLongPress != null) {
-      final longPressId = FlartCallbackManager.register(onLongPress!);
-      buffer.writeln('''
-        let pressTimer;
-        document.getElementById("$id").addEventListener("mousedown", function(e) {
-          pressTimer = window.setTimeout(() => {
-            window.__flartHandleClick("$longPressId");
-          }, 600);
-        });
-        document.getElementById("$id").addEventListener("mouseup", function(e) {
-          clearTimeout(pressTimer);
-        });
-      ''');
+      events += ' onclick="window.__flartHandleClick(\'$cbId\')"';
     }
 
     if (onHover != null) {
       final hoverId = FlartCallbackManager.register(onHover!);
-      buffer.writeln('''
-        document.getElementById("$id").addEventListener("mouseenter", function() {
-          window.__flartHandleClick("$hoverId");
-        });
-      ''');
+      events += ' onmouseenter="window.__flartHandleClick(\'$hoverId\')"';
     }
 
-    buffer.writeln('</script>');
+    if (onLongPress != null) {
+      final longPressId = FlartCallbackManager.register(onLongPress!);
+      // Simple inline long press logic
+      events += '''
+        onmousedown="this.dataset.tmr = setTimeout(() => window.__flartHandleClick('$longPressId'), 600)"
+        onmouseup="clearTimeout(this.dataset.tmr)"
+        onmouseleave="clearTimeout(this.dataset.tmr)"
+      ''';
+    }
+
+    buffer.writeln(
+        '<button id="$id" class="$classId" $events>${child.render(context)}</button>');
+
+    // Scripts removed in favor of inline events
 
     return buffer.toString();
   }
