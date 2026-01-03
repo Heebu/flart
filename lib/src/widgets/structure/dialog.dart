@@ -1,6 +1,6 @@
 import 'dart:html';
 import 'dart:async';
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 class Dialog extends Widget {
   final Widget? child;

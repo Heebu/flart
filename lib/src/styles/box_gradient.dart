@@ -1,4 +1,4 @@
-import '../../flart.dart';
+import '../../flartdart.dart';
 
 class Gradient {
   final List<FlartColor> colors;

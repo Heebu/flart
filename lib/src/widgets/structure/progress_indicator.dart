@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// A circular progress indicator
 class CircularProgressIndicator extends Widget {

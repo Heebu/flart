@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// A tab bar widget
 class TabBar extends Widget {

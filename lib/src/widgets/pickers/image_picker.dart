@@ -1,7 +1,5 @@
 import 'dart:html' as html;
-
-import 'package:flart/flart.dart';
-
+import '../../../flartdart.dart';
 import '../../helper/file_picker_manager.dart';
 
 typedef ImagePickCallback = void Function(List<html.File> files);

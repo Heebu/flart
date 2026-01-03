@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:html';
-
-import 'package:flart/flart.dart';
+import '../../../flartdart.dart';
 
 class Button extends Widget {
   final String? text;

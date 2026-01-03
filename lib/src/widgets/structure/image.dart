@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 enum BoxFit {
   fill,

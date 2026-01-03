@@ -8,7 +8,7 @@ Before publishing to pub.dev, ensure all these items are complete:
 - [x] `README.md` - Comprehensive with examples
 - [x] `CHANGELOG.md` - Detailed version history
 - [x] `LICENSE` - MIT License
-- [x] `lib/flart.dart` - Main export file
+- [x] `lib/flartdart.dart` - Main export file
 - [x] Example files in `example/`
 
 ## ✅ Package Quality

@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// A widget that animates its opacity over time
 class AnimatedOpacity extends Widget {

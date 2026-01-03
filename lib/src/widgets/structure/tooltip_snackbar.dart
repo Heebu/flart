@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// A tooltip widget that shows on hover
 class Tooltip extends Widget {

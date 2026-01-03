@@ -1,4 +1,4 @@
-import '../../flart.dart';
+import '../../flartdart.dart';
 import 'dart:html';
 
 class PageNavigator {

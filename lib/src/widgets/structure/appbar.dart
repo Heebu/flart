@@ -1,4 +1,5 @@
-import 'package:flart/flart.dart';
+
+import '../../../flartdart.dart';
 
 class AppBar extends Widget {
   final Widget? title;

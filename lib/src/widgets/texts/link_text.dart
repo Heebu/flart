@@ -1,5 +1,5 @@
 import '../../helper/callback_manager.dart';
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 class LinkText extends Widget {
   final String label;

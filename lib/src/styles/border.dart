@@ -1,6 +1,6 @@
 import 'colors.dart';
 
-import '../../flart.dart';
+import '../../flartdart.dart';
 
 class Border extends BoxBorder {
   final BorderSide? top;

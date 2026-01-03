@@ -1,5 +1,5 @@
 import 'dart:html';
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// A widget that slides its child in and out
 class AnimatedSlide extends Widget {

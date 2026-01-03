@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// A widget that rotates its child
 class AnimatedRotation extends Widget {

@@ -1,4 +1,4 @@
-import 'package:flart/flart.dart';
+import '../../../flartdart.dart';
 
 class Row extends Widget {
   final List<Widget> children;

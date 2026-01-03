@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 class Scaffold extends Widget {
   final AppBar? appBar;

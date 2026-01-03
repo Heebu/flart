@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// A card widget with elevation and rounded corners
 class Card extends Widget {

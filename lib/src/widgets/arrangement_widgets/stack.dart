@@ -1,4 +1,4 @@
-import 'package:flart/flart.dart';
+import '../../../flartdart.dart';
 
 class Stack extends Widget {
   final List<Widget> children;

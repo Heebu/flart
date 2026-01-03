@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// A chip widget for displaying compact information
 class Chip extends Widget {

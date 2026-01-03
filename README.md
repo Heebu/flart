@@ -43,7 +43,7 @@ dart pub get
  ### Hello World
  
  ```dart
- import 'package:flart/flart.dart';
+ import 'package:flart/flartdart.dart';
  
  void main() {
    runApp(const MyApp());

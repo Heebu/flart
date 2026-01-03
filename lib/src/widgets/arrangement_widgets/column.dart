@@ -1,4 +1,5 @@
-import 'package:flart/flart.dart';
+
+import '../../../flartdart.dart';
 
 class Column extends Widget {
   final List<Widget> children;

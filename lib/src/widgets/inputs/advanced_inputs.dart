@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// A multi-line text input widget
 class TextArea extends Widget {

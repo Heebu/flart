@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// A widget that animates its position
 class AnimatedPositioned extends Widget {

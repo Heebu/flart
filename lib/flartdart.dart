@@ -1,4 +1,4 @@
-library flart;
+library flartdart;
 
 // Core
 export 'src/widgets/widget.dart';

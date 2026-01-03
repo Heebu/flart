@@ -1,4 +1,4 @@
-import 'package:flart/flart.dart';
+import 'package:flartdart/flartdart.dart';
 
 void main() {
   runApp(const ShowcaseApp());

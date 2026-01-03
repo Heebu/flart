@@ -1,6 +1,6 @@
-import 'package:flart/flart.dart';
-import 'package:flart/src/enums/text_align.dart';
-import 'package:flart/src/enums/text_tag.dart';
+
+
+import '../../../flartdart.dart';
 
 class Text extends Widget {
   final String content;

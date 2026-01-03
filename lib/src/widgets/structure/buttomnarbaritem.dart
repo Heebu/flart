@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 class BottomNavigationBarItem {
   final Icon icon;

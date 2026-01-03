@@ -1,5 +1,5 @@
 import 'dart:html';
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// A widget that fades in its child when it first appears
 class FadeIn extends Widget {

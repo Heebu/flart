@@ -1,3 +1,3 @@
-import '../../flart.dart';
+import '../../flartdart.dart';
 
 typedef IndexedWidgetBuilder = Widget Function(int index);

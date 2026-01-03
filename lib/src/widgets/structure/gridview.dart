@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 import '../../enums/indexed_widget_bulder.dart';
 
 enum GridViewType { count, extent, builder }

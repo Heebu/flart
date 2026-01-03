@@ -1,5 +1,5 @@
 import 'dart:html';
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 class MaterialApp extends Widget {
   final String title;

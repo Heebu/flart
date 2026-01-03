@@ -1,6 +1,5 @@
 import 'dart:html';
-
-import 'package:flart/flart.dart';
+import '../../../flartdart.dart';
 
 typedef DateCallback = void Function(DateTime date);
 

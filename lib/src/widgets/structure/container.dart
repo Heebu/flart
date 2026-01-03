@@ -1,5 +1,5 @@
-import 'package:flart/src/widgets/utils/build_context.dart';
 
+import '../../../flartdart.dart';
 import '../widget.dart';
 import '../../styles/box_decoration.dart';
 import '../../styles/edge_insets.dart';

@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// Base shader widget with customizable shader code
 class ShaderWidget extends Widget {

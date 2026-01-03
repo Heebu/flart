@@ -1,5 +1,5 @@
 import 'dart:html';
-import 'package:flart/src/animation/curves.dart';
+import '../../flartdart.dart';
 
 typedef AnimationListener = void Function();
 typedef AnimationStatusListener = void Function(AnimationStatus status);

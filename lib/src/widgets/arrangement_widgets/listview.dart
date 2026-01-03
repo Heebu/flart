@@ -1,4 +1,5 @@
-import 'package:flart/flart.dart';
+
+import '../../../flartdart.dart';
 
 typedef ItemWidgetBuilder = Widget Function(BuildContext context, int index);
 typedef SeparatorWidgetBuilder = Widget Function(

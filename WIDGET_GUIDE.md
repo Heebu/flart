@@ -1524,7 +1524,7 @@ BorderRadius.only(
 Here's a complete example combining multiple widgets:
 
 ```dart
-import 'package:flart/flart.dart';
+import 'package:flart/flartdart.dart';
 
 void main() {
   runApp(MyApp());

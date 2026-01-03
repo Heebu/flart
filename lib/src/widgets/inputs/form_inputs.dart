@@ -1,4 +1,4 @@
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 import '../../helper/callback_manager.dart';
 
 /// A checkbox widget

@@ -1,5 +1,5 @@
 import 'dart:html';
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// A widget that animates between two children with a crossfade effect
 class AnimatedCrossFade extends Widget {

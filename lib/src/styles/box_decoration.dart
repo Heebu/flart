@@ -1,4 +1,4 @@
-import '../../flart.dart';
+import '../../flartdart.dart';
 import 'border.dart';
 import 'box_gradient.dart';
 import 'border_radius.dart';

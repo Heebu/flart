@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'dart:async';
 import 'dart:math' as math;
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 class Size {
   final double width;

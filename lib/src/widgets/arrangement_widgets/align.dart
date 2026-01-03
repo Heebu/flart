@@ -1,4 +1,5 @@
-import 'package:flart/flart.dart';
+
+import '../../../flartdart.dart';
 
 class Align extends Widget {
   final Widget child;

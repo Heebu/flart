@@ -1,5 +1,5 @@
 import 'dart:html';
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 /// A widget that animates its size
 class AnimatedSize extends Widget {

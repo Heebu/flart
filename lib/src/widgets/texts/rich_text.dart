@@ -1,5 +1,5 @@
-import 'package:flart/src/widgets/utils/build_context.dart';
 
+import '../../../flartdart.dart';
 import '../widget.dart';
 import 'text_span.dart';
 

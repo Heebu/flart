@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:html' as html;
-import '../../../flart.dart';
+import '../../../flartdart.dart';
 
 class GestureDetector extends Widget {
   final Widget child;

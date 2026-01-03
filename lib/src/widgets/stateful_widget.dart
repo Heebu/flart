@@ -1,6 +1,6 @@
 import 'dart:html';
-import 'package:flart/flart.dart';
-import 'utils/build_context.dart';
+import '../../flartdart.dart';
+
 
 // Global state registry to persist state across renders
 final Map<String, State> _stateRegistry = {};
