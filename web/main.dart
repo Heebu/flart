@@ -94,6 +94,28 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         padding: EdgeInsets.all(20),
         children: [
+          _buildHeading('Animations & Navigation'),
+          Card(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Text('Navigation Demo'),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  child: Text('Push New Page'),
+                  onPressed: () {
+                    PageNavigator.seed(const HomePage());
+                    PageNavigator.push(const SecondPage());
+                  },
+                ),
+                SizedBox(height: 20),
+                Text('Animation Demo'),
+                SizedBox(height: 10),
+                AnimatedContainerDemo(),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
           _buildHeading('Buttons & Interactions'),
           Card(
             padding: EdgeInsets.all(16),
@@ -334,6 +356,82 @@ class _HomePageState extends State<HomePage> {
           color: '#444',
         ),
       ),
+    );
+  }
+}
+
+class SecondPage extends Widget {
+  const SecondPage();
+
+  @override
+  String render(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Second Page')),
+      body: Center(
+        child: Column(
+          children: [
+            Text('You have navigated to the second page!'),
+            SizedBox(height: 20),
+            ElevatedButton(
+              child: Text('Go Back'),
+              onPressed: () {
+                PageNavigator.pop();
+              },
+            ),
+          ],
+        ),
+      ),
+    ).render(context);
+  }
+}
+
+class AnimatedContainerDemo extends StatefulWidget {
+  @override
+  State<AnimatedContainerDemo> createState() => _AnimatedContainerDemoState();
+}
+
+class _AnimatedContainerDemoState extends State<AnimatedContainerDemo> {
+  late AnimationController _controller;
+  bool _toggled = false;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+        duration: Duration(seconds: 1), upperBound: 1.0, lowerBound: 0.0);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        AnimatedContainer(
+          controller: _controller,
+          beginColor: FlartColors.blue,
+          endColor: FlartColors.red,
+          beginWidth: 100,
+          endWidth: 200,
+          beginHeight: 100,
+          endHeight: 100,
+          child: Center(
+              child:
+                  Text('Animate', style: TextStyle(color: FlartColors.white))),
+        ),
+        SizedBox(height: 20),
+        ElevatedButton(
+          child: Text(_toggled ? 'Reverse' : 'Forward'),
+          onPressed: () {
+            _toggled = !_toggled;
+            if (_toggled) {
+              _controller.forward();
+            } else {
+              _controller.reverse();
+            }
+            // Force rebuild regarding button text
+            setState(() {});
+          },
+        ),
+      ],
     );
   }
 }
