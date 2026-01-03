@@ -39,118 +39,120 @@ dart pub get
 ---
 
 ## 🚀 Quick Start
-
-### Hello World
-
-```dart
-import 'package:flart/flart.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Hello Flart!'),
-          backgroundColor: FlartColor.hex('#007bff'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: AxisAlignment.center,
-            children: [
-              Text(
-                'Welcome to Flart! 🎨',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: 'bold',
-                  color: '#007bff',
-                ),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () => print('Button clicked!'),
-                child: Text('Click Me'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-```
-
----
-
-## 📚 What's Included
-
-### Widget Categories (100+)
-
-#### 🏗️ Structure (15)
-`Scaffold`, `AppBar`, `Container`, `Card`, `Drawer`, `BottomNavigationBar`, `FloatingActionButton`, `Dialog`, `Divider`, `VerticalDivider`, `SizedBox`, `Spacer`, `Expanded`, `Image`, `Icon`
-
-#### 📐 Layout (8)
-`Row`, `Column`, `Stack`, `Positioned`, `Center`, `Align`, `ListView`, `GridView`
-
-#### 📝 Input & Forms (15)
-`TextField`, `TextFormField`, `TextArea`, `Checkbox`, `Radio`, `Switch`, `Slider`, `DropdownButton`, `Form`, `FormField`, `AutocompleteField`, `ColorPicker`, `FileUpload`
-
-#### 🔘 Buttons (5)
-`Button`, `ElevatedButton`, `TextButton`, `IconButton`, `GestureDetector`
-
-#### 📄 Text (4)
-`Text`, `RichText`, `EditableText`, `LinkText`
-
-#### 📅 Pickers (9)
-`DatePicker`, `TimePicker`, `ImagePicker`, `DateRangePicker`, `MonthPicker`, `WeekPicker`, `DateTimePicker`, `RangePicker`, `ColorPicker`
-
-#### 🎬 Animations (9)
-`AnimatedContainer`, `AnimatedOpacity`, `AnimatedScale`, `AnimatedRotation`, `AnimatedSlide`, `AnimatedPositioned`, `AnimatedSize`, `AnimatedCrossFade`, `FadeIn`
-
-#### 🎥 Media (5)
-`VideoPlayer`, `AudioPlayer`, `YouTubePlayer`, `IFrame`, `MapEmbed`
-
-#### 🎨 Display (7)
-`Chip`, `Badge`, `Tooltip`, `SnackBar`, `CircularProgressIndicator`, `LinearProgressIndicator`, `TabBar`, `TabBarView`
-
-#### 🖌️ Painting (2)
-`CustomPaint`, `SvgPicture`
-
----
-
-## 💡 Feature Highlights
-
-### Complete Form System
-
-```dart
-Form(
-  child: Column(
-    children: [
-      TextFormField(
-        label: 'Email',
-        keyboardType: TextInputType.email,
-        validator: (value) => 
-          value?.contains('@') == true ? null : 'Invalid email',
-        prefixIcon: Icon(icon: 'email'),
-      ),
-      TextFormField(
-        label: 'Password',
-        obscureText: true,
-        validator: (value) =>
-          value != null && value.length >= 8 ? null : 'Too short',
-      ),
-      ElevatedButton(
-        onPressed: () => submitForm(),
-        child: Text('Submit'),
-      ),
-    ],
-  ),
-)
-```
+ 
+ ### Hello World
+ 
+ ```dart
+ import 'package:flart/flart.dart';
+ 
+ void main() {
+   runApp(const MyApp());
+ }
+ 
+ class MyApp extends StatelessWidget {
+   const MyApp();
+ 
+   @override
+   Widget build(BuildContext context) {
+     return MaterialApp(
+       home: Scaffold(
+         appBar: AppBar(
+           title: Text('Hello Flart!'),
+           backgroundColor: FlartColors.blue,
+         ),
+         body: Center(
+           child: Column(
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               Text(
+                 'Welcome to Flart! 🎨',
+                 style: TextStyle(
+                   fontSize: 32,
+                   fontWeight: FontWeight.bold,
+                   color: FlartColors.blue,
+                 ),
+               ),
+               SizedBox(height: 20),
+               ElevatedButton(
+                 onPressed: () => print('Button clicked!'),
+                 child: Text('Click Me'),
+               ),
+             ],
+           ),
+         ),
+       ),
+     );
+   }
+ }
+ ```
+ 
+ ---
+ 
+ ## 📚 What's Included
+ 
+ ### Widget Categories (100+)
+ 
+ #### 🏗️ Structure (15)
+ `Scaffold`, `AppBar`, `Container`, `Card`, `Drawer`, `BottomNavigationBar`, `FloatingActionButton`, `Dialog`, `Divider`, `VerticalDivider`, `SizedBox`, `Spacer`, `Expanded`, `Image`, `Icon`, `MaterialApp`, `PageNavigator`
+ 
+ #### 📐 Layout (8)
+ `Row`, `Column`, `Stack`, `Positioned`, `Center`, `Align`, `ListView`, `GridView`
+ 
+ #### 📝 Input & Forms (15)
+ `TextField`, `TextFormField`, `TextArea`, `Checkbox`, `Radio`, `Switch`, `Slider`, `DropdownButton`, `Form`, `FormField`, `AutocompleteField`, `ColorPicker`, `FileUpload`
+ 
+ #### 🔘 Buttons (5)
+ `Button`, `ElevatedButton`, `TextButton`, `IconButton`, `GestureDetector`
+ 
+ #### 📄 Text (4)
+ `Text`, `RichText`, `EditableText`, `LinkText`, `SelectableText`
+ 
+ #### 📅 Pickers (9)
+ `DatePicker`, `TimePicker`, `ImagePicker`, `DateRangePicker`, `MonthPicker`, `WeekPicker`, `DateTimePicker`, `RangePicker`
+ 
+ #### 🎬 Animations (10)
+ `AnimationController`, `AnimatedContainer`, `AnimatedOpacity`, `AnimatedScale`, `AnimatedRotation`, `AnimatedSlide`, `AnimatedPositioned`, `AnimatedSize`, `AnimatedCrossFade`, `FadeIn`
+ 
+ #### 🎥 Media (5)
+ `VideoPlayer`, `AudioPlayer`, `YouTubePlayer`, `IFrame`, `MapEmbed`
+ 
+ #### 🎨 Display (7)
+ `Chip`, `Badge`, `Tooltip`, `SnackBar`, `CircularProgressIndicator`, `LinearProgressIndicator`, `TabBar`, `TabBarView`
+ 
+ #### 🖌️ Painting (2)
+ `CustomPaint`, `SvgPicture`
+ 
+ ---
+ 
+ ## 💡 Feature Highlights
+ 
+ ### Complete Form System
+ 
+ ```dart
+ Form(
+   child: Column(
+     children: [
+       TextFormField(
+         label: 'Email',
+         keyboardType: TextInputType.email,
+         validator: (value) => 
+           value?.contains('@') == true ? null : 'Invalid email',
+         prefixIcon: Icon(icon: Icons.email),
+       ),
+       TextFormField(
+         label: 'Password',
+         obscureText: true,
+         validator: (value) =>
+           value != null && value.length >= 8 ? null : 'Too short',
+       ),
+       ElevatedButton(
+         onPressed: () => submitForm(),
+         child: Text('Submit'),
+       ),
+     ],
+   ),
+ )
+ ```
 
 ### Rich Animations
 
@@ -326,7 +328,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 ### Setup
 
 ```bash
-git clone https://github.com/yourusername/flart.git
+git clone https://github.com/Heebu/flart.git
 cd flart
 dart pub get
 ```
@@ -368,8 +370,8 @@ Inspired by Flutter's elegant widget system, Flart brings the power of declarati
 ## 🌐 Links
 
 - **Package**: [pub.dev/packages/flart](https://pub.dev/packages/flart)
-- **Repository**: [github.com/yourusername/flart](https://github.com/yourusername/flart)
-- **Issues**: [github.com/yourusername/flart/issues](https://github.com/yourusername/flart/issues)
+- **Repository**: [github.com/Heebu/flart](https://github.com/Heebu/flart)
+- **Issues**: [github.com/Heebu/flart/issues](https://github.com/Heebu/flart/issues)
 - **Documentation**: [pub.dev/documentation/flart](https://pub.dev/documentation/flart/latest/)
 
 ---

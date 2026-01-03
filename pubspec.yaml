@@ -1,10 +1,10 @@
 name: flart
 description: A comprehensive Flutter-inspired UI framework for Dart Web applications with 100+ widgets, animations, forms, and media support.
 version: 1.0.0
-homepage: https://github.com/yourusername/flart
-repository: https://github.com/yourusername/flart
-issue_tracker: https://github.com/yourusername/flart/issues
-documentation: https://github.com/yourusername/flart#readme
+homepage: https://github.com/Heebu/flart
+repository: https://github.com/Heebu/flart
+issue_tracker: https://github.com/Heebu/flart/issues
+documentation: https://github.com/Heebu/flart#readme
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -33,8 +33,3 @@ platforms:
 
 assets:
   - assets/
-
-  
-# Funding (optional)
-# funding:
-#   - https://github.com/sponsors/yourusername

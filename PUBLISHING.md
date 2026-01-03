@@ -23,7 +23,7 @@ Before publishing to pub.dev, ensure all these items are complete:
 ## ✅ Pre-Publication Steps
 
 ### 1. Update Repository URLs
-Replace `yourusername` in:
+Replace `yourusername` with `Heebu` in:
 - `pubspec.yaml` (homepage, repository, issue_tracker)
 - `README.md` (badges, links)
 - `CHANGELOG.md` (release links)

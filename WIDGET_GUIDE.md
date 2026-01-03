@@ -1315,45 +1315,130 @@ class MyCustomPainter extends CustomPainter {
 }
 ```
 
+### VideoPlayer
+
+Embeds a video player.
+
+```dart
+VideoPlayer(
+  src: '/assets/video.mp4',
+  controls: true,
+  autoplay: false,
+  loop: true,
+  width: 640,
+  height: 360,
+  poster: '/assets/poster.jpg',
+)
+```
+
 ### SvgPicture
 
 SVG rendering.
 
 ```dart
-SvgPicture(
-  src: '/images/logo.svg',
-  width: 100,
-  height: 100,
+SvgPicture.asset(
+  'assets/icon.svg',
+  width: 48,
+  height: 48,
   color: FlartColors.blue,
 )
 ```
 
 ---
 
-## Styling
+## Navigation & Routing
 
-### FlartColor
+### PageNavigator
 
-Color management.
+Manage navigation between pages (widgets).
 
 ```dart
-// Hex colors
-FlartColor.hex('#007bff')
-FlartColor.hex('#ff0000')
+// Setup routes in main
+void main() {
+  PageNavigator.registerRoutes({
+    '/': const HomePage(),
+    '/second': const SecondPage(),
+  });
+  runApp(const MyApp());
+}
 
-// RGB
-FlartColor.rgb(0, 123, 255)
+// Navigate
+PageNavigator.push(const SecondPage());
+PageNavigator.pushNamed('/second');
+PageNavigator.pushNewTab('/second'); // Opens in new tab
 
-// RGBA
-FlartColor.rgba(0, 123, 255, 0.5)
+// Go back
+PageNavigator.pop();
+```
 
-// Predefined colors
-FlartColors.blue
-FlartColors.red
-FlartColors.green
-FlartColors.white
-FlartColors.black
-FlartColors.grey
+---
+
+## Animation & Motion
+
+### AnimatedContainer
+
+A container that automatically transitions its values over a duration.
+
+```dart
+AnimatedContainer(
+  controller: _myAnimationController, // AnimationController with duration
+  beginColor: FlartColors.blue,
+  endColor: FlartColors.red,
+  beginWidth: 100,
+  endWidth: 200,
+  beginHeight: 100,
+  endHeight: 100,
+  child: Center(child: Text('Animate')),
+)
+```
+
+### AnimationController
+
+Manages animation state (forward, reverse, stop).
+
+```dart
+final controller = AnimationController(
+  duration: Duration(seconds: 1),
+);
+
+// Start
+controller.forward();
+
+// Reverse
+controller.reverse();
+```
+
+---
+
+## Styling
+
+### FlartColors
+
+Access the comprehensive Material Design color palette.
+
+```dart
+Container(
+  color: FlartColors.purple, // Base purple
+)
+
+Container(
+  color: FlartColors.deepOrange.shade100, // Light shade
+)
+
+Text(
+  'Error',
+  style: TextStyle(color: FlartColors.red),
+)
+```
+
+### Icons
+
+Use the `Icons` class for standard Material icons.
+
+```dart
+Icon(Icons.home)
+Icon(Icons.favorite, color: FlartColors.red)
+Icon(Icons.settings, size: 32)
 ```
 
 ### TextStyle

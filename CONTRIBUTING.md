@@ -6,7 +6,7 @@ Thank you for your interest in contributing to Flart! 🎉
 
 ### Reporting Bugs
 
-1. Check if the bug has already been reported in [Issues](https://github.com/yourusername/flart/issues)
+1. Check if the bug has already been reported in [Issues](https://github.com/Heebu/flart/issues)
 2. If not, create a new issue with:
    - Clear title and description
    - Steps to reproduce
@@ -16,7 +16,7 @@ Thank you for your interest in contributing to Flart! 🎉
 
 ### Suggesting Features
 
-1. Check existing [Issues](https://github.com/yourusername/flart/issues) for similar suggestions
+1. Check existing [Issues](https://github.com/Heebu/flart/issues) for similar suggestions
 2. Create a new issue with:
    - Clear use case
    - Proposed API (if applicable)
@@ -43,7 +43,7 @@ Thank you for your interest in contributing to Flart! 🎉
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/flart.git
+git clone https://github.com/Heebu/flart.git
 cd flart
 
 # Get dependencies
@@ -68,8 +68,7 @@ dart run build_runner serve
 
 When creating new widgets:
 
-1. Extend `Widget`, `StatelessWidget`, or `StatefulWidget`
-2. Implement the `render()` method
+1. Extend `StatelessWidget` (implement `build`), `StatefulWidget` (implement `createState`), or `Widget` (implement `render` for low-level control)
 3. Use semantic HTML
 4. Add proper accessibility attributes
 5. Include documentation comments
@@ -116,8 +115,8 @@ class GreetingWidget extends Widget {
 ## Questions?
 
 Feel free to ask questions in:
-- [GitHub Discussions](https://github.com/yourusername/flart/discussions)
-- [Issues](https://github.com/yourusername/flart/issues)
+- [GitHub Discussions](https://github.com/Heebu/flart/discussions)
+- [Issues](https://github.com/Heebu/flart/issues)
 
 ## Code of Conduct
 

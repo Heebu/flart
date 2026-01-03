@@ -91,12 +91,7 @@ class PageNavigator {
     if (_routes.containsKey(routeName)) {
       _stack.clear();
       _stack.add(_routes[routeName]!);
-    } else {
-      // If no route match, maybe we don't interfere?
-      // Or add empty?
-      // _stack.add(const _EmptyWidget());
     }
-    // _refresh();
   }
 
   // Helper to manually seed stack (hack for partial adoption)

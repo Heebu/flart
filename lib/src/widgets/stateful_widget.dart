@@ -36,7 +36,6 @@ abstract class State<T extends StatefulWidget> {
     if (element != null) {
       // 1. Capture scroll positions before update
       final scrollState = <String, Point<int>>{};
-      // Need to cast to Element to access scrollTop/Left properly in Dart HTML
       final scrollableElements = element.querySelectorAll('*');
       for (final el in scrollableElements) {
         if (el.scrollTop > 0 || el.scrollLeft > 0) {
@@ -59,10 +58,6 @@ abstract class State<T extends StatefulWidget> {
           el.scrollTop = point.y;
         }
       });
-
-      // Note: We might need to re-attach global listeners or ensure widgets attach their own.
-      // In Flart, widgets usually attach "onclick" or start Futures in their render method.
-      // Calling build().render() above triggers those logic paths.
     } else {
       // Fallback if element not found in DOM
       reRenderApp();

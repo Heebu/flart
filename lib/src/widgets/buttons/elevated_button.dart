@@ -105,8 +105,6 @@ class ElevatedButton extends Widget {
     buffer.writeln(
         '<button id="$id" class="$classId" $events>${child.render(context)}</button>');
 
-    // Scripts removed in favor of inline events
-
     return buffer.toString();
   }
 }
