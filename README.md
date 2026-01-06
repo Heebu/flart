@@ -2,7 +2,7 @@
 
 **A comprehensive Flutter-inspired UI framework for Dart Web applications**
 
-[![pub package](https://img.shields.io/pub/v/flart.svg)](https://pub.dev/packages/flart)
+[![pub package](https://img.shields.io/pub/v/flart.svg)](https://pub.dev/packages/flartdart)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 Build beautiful, responsive web applications using familiar Flutter-style widgets and APIs - all in pure Dart with zero dependencies.
