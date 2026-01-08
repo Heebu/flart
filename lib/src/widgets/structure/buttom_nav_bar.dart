@@ -1,13 +1,13 @@
+﻿import '../../../flartdart.dart';
+import '../../helper/callback_manager.dart';
 
-import '../../../flartdart.dart';
-
-class BottomNavigationBar extends Widget {
-  final List<BottomNavigationBarItem> items;
+class FDBottomNavigationBar extends Widget {
+  final List<FDBottomNavigationBarItem> items;
   final int currentIndex;
   final Function(int index)? onTap;
   final Map<String, String>? cssStyle;
 
-  BottomNavigationBar({
+  FDBottomNavigationBar({
     required this.items,
     this.currentIndex = 0,
     this.onTap,
@@ -34,35 +34,22 @@ class BottomNavigationBar extends Widget {
       final selected = i == currentIndex;
       final id = 'nav-item-$i';
 
+      String clickAttr = '';
+      if (onTap != null) {
+        final cbId = FlartCallbackManager.register(() => onTap!(i));
+        clickAttr = 'onclick="window.__flartHandleClick(\'$cbId\')"';
+      }
+
       buffer.writeln('''
-        <div id="$id" style="position: relative; cursor: pointer;">
+        <div id="$id" style="position: relative; cursor: pointer;" $clickAttr>
           ${selected ? (item.activeIcon?.render(context) ?? item.icon.render(context)) : item.icon.render(context)}
           ${item.label != null ? '<div style="font-size: 12px; color: ${selected ? '#007BFF' : '#555'}">${item.label}</div>' : ''}
           ${item.badge != null ? '<div style="position: absolute; top: 0; right: 0;">${item.badge!.render(context)}</div>' : ''}
         </div>
-        <script>
-          document.getElementById('$id')?.addEventListener('click', () => {
-            window.__flartNavHandlers?.[$i]?.();
-          });
-        </script>
       ''');
     }
 
     buffer.writeln('</div>');
-
-    // JS handler registration
-    buffer.writeln('<script>window.__flartNavHandlers = {};</script>');
-    for (int i = 0; i < items.length; i++) {
-      final jsFunc = onTap != null ? onTap!(i) : '';
-      buffer.writeln('''
-        <script>
-          window.__flartNavHandlers[$i] = function() {
-            $jsFunc
-          };
-        </script>
-      ''');
-    }
-
     return buffer.toString();
   }
 }

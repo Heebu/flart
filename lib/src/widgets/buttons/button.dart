@@ -1,8 +1,8 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:html';
 import '../../../flartdart.dart';
 
-class Button extends Widget {
+class FDButton extends Widget {
   final String? text;
   final String? label;
   final Widget? child;
@@ -33,7 +33,7 @@ class Button extends Widget {
   final Map<String, String>? cssStyle;
   final bool draggable;
 
-  Button({
+  FDButton({
     this.text,
     this.label,
     this.child,
@@ -139,3 +139,8 @@ class Button extends Widget {
     return styles.entries.map((e) => '${e.key}:${e.value}').join(';');
   }
 }
+
+
+
+
+

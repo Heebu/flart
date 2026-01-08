@@ -1,14 +1,14 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 import '../../helper/callback_manager.dart';
 
-/// A checkbox widget
-class Checkbox extends Widget {
+/// A FDCheckbox widget
+class FDCheckbox extends Widget {
   final bool value;
   final ValueChanged<bool>? onChanged;
   final FlartColor? activeColor;
   final FlartColor? checkColor;
 
-  Checkbox({
+  FDCheckbox({
     required this.value,
     this.onChanged,
     this.activeColor,
@@ -47,14 +47,14 @@ class Checkbox extends Widget {
   }
 }
 
-/// A radio button widget
-class Radio<T> extends Widget {
+/// A FDRadio FDButton widget
+class FDRadio<T> extends Widget {
   final T value;
   final T? groupValue;
   final ValueChanged<T>? onChanged;
   final FlartColor? activeColor;
 
-  Radio({
+  FDRadio({
     required this.value,
     required this.groupValue,
     this.onChanged,
@@ -70,7 +70,7 @@ class Radio<T> extends Widget {
 
     String onChangeAttr = '';
     if (onChanged != null) {
-      // Radio only triggers if not already checked (usually)
+      // FDRadio only triggers if not already checked (usually)
       final cbId = FlartCallbackManager.register(() => onChanged!(value));
       onChangeAttr = 'onchange="window.__flartHandleClick(\'$cbId\')"';
     }
@@ -94,13 +94,13 @@ class Radio<T> extends Widget {
 }
 
 /// A switch/toggle widget
-class Switch extends Widget {
+class FDSwitch extends Widget {
   final bool value;
   final ValueChanged<bool>? onChanged;
   final FlartColor? activeColor;
   final FlartColor? inactiveColor;
 
-  Switch({
+  FDSwitch({
     required this.value,
     this.onChanged,
     this.activeColor,

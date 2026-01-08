@@ -1,6 +1,7 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
+import '../../enums/box_fit.dart';
 
-class SvgPicture extends Widget {
+class FDSvgPicture extends Widget {
   final String? assetName;
   final String? string;
   final double? width;
@@ -8,7 +9,7 @@ class SvgPicture extends Widget {
   final FlartColor? color;
   final BoxFit fit;
 
-  SvgPicture.asset(
+  FDSvgPicture.asset(
     this.assetName, {
     this.width,
     this.height,
@@ -16,7 +17,7 @@ class SvgPicture extends Widget {
     this.fit = BoxFit.contain,
   }) : string = null;
 
-  SvgPicture.string(
+  FDSvgPicture.string(
     this.string, {
     this.width,
     this.height,

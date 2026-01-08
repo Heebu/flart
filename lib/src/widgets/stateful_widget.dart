@@ -1,4 +1,4 @@
-import 'dart:html';
+﻿import 'dart:html';
 import '../../flartdart.dart';
 
 
@@ -46,7 +46,7 @@ abstract class State<T extends StatefulWidget> {
 
       // Re-render only this widget
       final newHtml = build(context).render(context);
-      // We perform an innerHTML replacement on the wrapping container
+      // We perform an innerHTML replacement on the wrapping FDContainer
       // This preserves the wrapper itself with the ID
       element.setInnerHtml(newHtml, treeSanitizer: NodeTreeSanitizer.trusted);
 
@@ -125,7 +125,7 @@ abstract class StatefulWidget extends Widget {
 
     final childHtml = state.build(context).render(context);
 
-    // Wrap in a uniquely identified container to allow scoped updates.
+    // Wrap in a uniquely identified FDContainer to allow scoped updates.
     // display: contents allows the wrapper to be invisible to layout/CSS.
     return '<div id="$stateKey" style="display: contents;">$childHtml</div>';
   }
@@ -136,3 +136,6 @@ abstract class StatefulWidget extends Widget {
     state?.dispose();
   }
 }
+
+
+

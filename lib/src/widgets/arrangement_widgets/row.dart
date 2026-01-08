@@ -1,13 +1,13 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-class Row extends Widget {
+class FDRow extends Widget {
   final List<Widget> children;
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
   final Map<String, String>? cssStyle;
   final String? key;
 
-  const Row({
+  const FDRow({
     required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.start,
@@ -63,3 +63,4 @@ class Row extends Widget {
     }
   }
 }
+

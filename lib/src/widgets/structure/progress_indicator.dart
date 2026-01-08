@@ -1,13 +1,13 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
 /// A circular progress indicator
-class CircularProgressIndicator extends Widget {
+class FDCircularProgressIndicator extends Widget {
   final double size;
   final double strokeWidth;
   final FlartColor? color;
   final FlartColor? backgroundColor;
 
-  CircularProgressIndicator({
+  FDCircularProgressIndicator({
     this.size = 40.0,
     this.strokeWidth = 4.0,
     this.color,
@@ -39,13 +39,13 @@ class CircularProgressIndicator extends Widget {
 }
 
 /// A linear progress indicator
-class LinearProgressIndicator extends Widget {
+class FDLinearProgressIndicator extends Widget {
   final double? value;
   final double height;
   final FlartColor? color;
   final FlartColor? backgroundColor;
 
-  LinearProgressIndicator({
+  FDLinearProgressIndicator({
     this.value,
     this.height = 4.0,
     this.color,
@@ -106,3 +106,6 @@ class LinearProgressIndicator extends Widget {
     }
   }
 }
+
+
+

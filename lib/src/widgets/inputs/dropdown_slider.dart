@@ -1,4 +1,4 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
 /// A dropdown/select widget
 class DropdownButton<T> extends Widget {
@@ -63,8 +63,8 @@ class DropdownMenuItem<T> extends Widget {
   }
 }
 
-/// A slider widget
-class Slider extends Widget {
+/// A FDSlider widget
+class FDSlider extends Widget {
   final double value;
   final double min;
   final double max;
@@ -73,7 +73,7 @@ class Slider extends Widget {
   final FlartColor? activeColor;
   final FlartColor? inactiveColor;
 
-  Slider({
+  FDSlider({
     required this.value,
     this.min = 0.0,
     this.max = 1.0,
@@ -111,10 +111,13 @@ class Slider extends Widget {
       ${!disabled ? '''
         <script>
           document.getElementById('$id').addEventListener('input', function(e) {
-            console.log('Slider value:', parseFloat(e.target.value));
+            console.log('FDSlider value:', parseFloat(e.target.value));
           });
         </script>
       ''' : ''}
     ''';
   }
 }
+
+
+

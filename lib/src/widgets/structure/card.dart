@@ -1,7 +1,7 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-/// A card widget with elevation and rounded corners
-class Card extends Widget {
+/// A FDCard widget with elevation and rounded corners
+class FDCard extends Widget {
   final Widget? child;
   final FlartColor? color;
   final double elevation;
@@ -10,7 +10,7 @@ class Card extends Widget {
   final BorderRadius? borderRadius;
   final Map<String, String>? cssStyle;
 
-  Card({
+  FDCard({
     this.child,
     this.color,
     this.elevation = 1.0,
@@ -44,3 +44,6 @@ class Card extends Widget {
     return '<div style="$styleString">${child?.render(context) ?? ''}</div>';
   }
 }
+
+
+

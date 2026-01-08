@@ -1,3 +1,5 @@
+﻿import 'package:flartdart/src/widgets/inputs/textfield.dart';
+
 import '../../../flartdart.dart';
 
 /// A form field wrapper that provides validation and state management
@@ -67,8 +69,8 @@ class FormFieldState<T> {
   }
 }
 
-/// A text form field with built-in validation
-class TextFormField extends Widget {
+/// A FDText form field with built-in validation
+class FDTextFormField extends Widget {
   final TextEditingController? controller;
   final String? placeholder;
   final String? label;
@@ -86,7 +88,7 @@ class TextFormField extends Widget {
   final EdgeInsets? padding;
   final Map<String, String>? cssStyle;
 
-  TextFormField({
+  FDTextFormField({
     this.controller,
     this.placeholder,
     this.label,
@@ -114,7 +116,7 @@ class TextFormField extends Widget {
       enabled: enabled,
     );
 
-    return TextField(
+    return FDTextField(
       controller: controller,
       placeholder: placeholder,
       label: label,

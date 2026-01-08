@@ -1,7 +1,7 @@
-import '../../helper/callback_manager.dart';
+﻿import '../../helper/callback_manager.dart';
 import '../../../flartdart.dart';
 
-class LinkText extends Widget {
+class FDLinkText extends Widget {
   final String label;
   final String? href;
   final VoidCallback? onPressed;
@@ -9,7 +9,7 @@ class LinkText extends Widget {
   final TextStyle? style;
   final Map<String, String>? cssStyle;
 
-  LinkText({
+  FDLinkText({
     required this.label,
     this.href,
     this.onPressed,
@@ -29,7 +29,7 @@ class LinkText extends Widget {
     final styleMap = {
       'color': style?.color?.toString() ?? '#1a0dab',
       'font-size': style?.fontSize?.toString() ?? '16px',
-      'text-decoration': 'underline',
+      'FDText-decoration': 'underline',
       'cursor': 'pointer',
       'transition': 'opacity 0.2s ease',
       ...?cssStyle,
@@ -61,7 +61,7 @@ class LinkText extends Widget {
 
 
 
-//LinkText(
+//FDLinkText(
 //   label: 'Click to visit Flart',
 //   href: 'https://flart.dev', // Opens in new tab
 //   onPressed: () => print('Link clicked!'),
@@ -71,3 +71,5 @@ class LinkText extends Widget {
 //     color: FlartColor('#0057ff'),
 //   ),
 // )
+
+

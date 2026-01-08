@@ -1,4 +1,4 @@
-import 'dart:html';
+﻿import 'dart:html';
 import '../../../flartdart.dart';
 
 /// A widget that scales its child

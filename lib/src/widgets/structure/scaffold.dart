@@ -1,14 +1,14 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-class Scaffold extends Widget {
-  final AppBar? appBar;
+class FDScaffold extends Widget {
+  final FDAppBar? appBar;
   final Widget? body;
-  final Drawer? drawer;
-  final BottomNavigationBar? bottomNavigationBar;
-  final FloatingActionButton? floatingActionButton;
+  final FDDrawer? drawer;
+  final FDBottomNavigationBar? bottomNavigationBar;
+  final FDFloatingActionButton? floatingActionButton;
   final Map<String, String>? cssStyle;
 
-  Scaffold({
+  FDScaffold({
     this.appBar,
     this.body,
     this.drawer,
@@ -36,14 +36,14 @@ class Scaffold extends Widget {
       content.writeln(bottomNavigationBar!.render(context));
     }
 
-    // Build main scaffold layout
+    // Build main FDScaffold layout
     final scaffoldHtml = '''
     <div style="$style">
       ${content.toString()}
     </div>
     ''';
 
-    // Drawer layout
+    // FDDrawer layout
     final drawerHtml = drawer != null ? '''
       <div id="flart-drawer" style="
         position: fixed;
@@ -71,8 +71,8 @@ class Scaffold extends Widget {
       </script>
     ''' : '';
 
-    // Floating Action Button
-    final fabHtml = floatingActionButton != null ? '''
+    // Floating Action FDButton
+    final fabHtml = FDFloatingActionButton != null ? '''
       <div style="
         position: fixed;
         bottom: 16px;
@@ -88,3 +88,7 @@ class Scaffold extends Widget {
 
 
 }
+
+
+
+

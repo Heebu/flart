@@ -1,14 +1,14 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
 /// A date range picker
-class DateRangePicker extends Widget {
+class FDDateRangePicker extends Widget {
   final DateTime? startDate;
   final DateTime? endDate;
   final ValueChanged<DateTimeRange>? onChanged;
   final String? label;
   final Map<String, String>? cssStyle;
 
-  DateRangePicker({
+  FDDateRangePicker({
     this.startDate,
     this.endDate,
     this.onChanged,
@@ -88,12 +88,12 @@ class DateTimeRange {
 }
 
 /// A month picker
-class MonthPicker extends Widget {
+class FDMonthPicker extends Widget {
   final DateTime? initialDate;
   final ValueChanged<DateTime>? onChanged;
   final String? label;
 
-  MonthPicker({
+  FDMonthPicker({
     this.initialDate,
     this.onChanged,
     this.label,
@@ -138,12 +138,12 @@ class MonthPicker extends Widget {
 }
 
 /// A week picker
-class WeekPicker extends Widget {
+class FDWeekPicker extends Widget {
   final String? initialWeek;
   final ValueChanged<String>? onChanged;
   final String? label;
 
-  WeekPicker({
+  FDWeekPicker({
     this.initialWeek,
     this.onChanged,
     this.label,
@@ -319,3 +319,8 @@ class RangeValues {
 
   RangeValues(this.start, this.end);
 }
+
+
+
+
+

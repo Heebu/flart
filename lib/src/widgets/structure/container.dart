@@ -1,11 +1,11 @@
-
+﻿
 import '../../../flartdart.dart';
 import '../widget.dart';
 import '../../styles/box_decoration.dart';
 import '../../styles/edge_insets.dart';
 import '../../styles/alignment.dart';
 
-class Container extends Widget {
+class FDContainer extends Widget {
   final Widget? child;
   final double? width;
   final double? height;
@@ -15,7 +15,7 @@ class Container extends Widget {
   final Alignment? alignment;
   final Map<String, String>? cssStyle;
 
-  Container({
+  FDContainer({
     this.child,
     this.width,
     this.height,
@@ -44,3 +44,6 @@ class Container extends Widget {
     return '<div style="$styleString">${child?.render(context) ?? ''}</div>';
   }
 }
+
+
+

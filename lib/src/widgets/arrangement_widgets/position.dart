@@ -1,13 +1,13 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-class Positioned extends Widget {
+class FDPositioned extends Widget {
   final Widget child;
   final double? top;
   final double? left;
   final double? right;
   final double? bottom;
 
-  Positioned({
+  FDPositioned({
     required this.child,
     this.top,
     this.left,
@@ -31,3 +31,6 @@ class Positioned extends Widget {
     return '<div style="$styleString">${child.render(context)}</div>';
   }
 }
+
+
+

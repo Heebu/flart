@@ -1,4 +1,4 @@
-import 'package:flartdart/flartdart.dart';
+﻿import 'package:flartdart/flartdart.dart';
 
 void main() {
   runApp(const ShowcaseApp());
@@ -9,7 +9,7 @@ class ShowcaseApp extends Widget {
 
   @override
   String render(BuildContext context) {
-    return MaterialApp(
+    return FDMaterialApp(
       context: context,
       title: 'Flart Kitchen Sink',
       home: const HomePage(),
@@ -46,19 +46,19 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Flart Kitchen Sink'),
+    return FDScaffold(
+      appBar: FDAppBar(
+        title: FDText('Flart Kitchen Sink'),
       ),
-      drawer: Drawer(
-        child: ListView(
+      drawer: FDDrawer(
+        child: FDListView(
           padding: EdgeInsets.all(0),
           children: [
-            Container(
+            FDContainer(
               height: 150,
               decoration: BoxDecoration(color: FlartColors.blue),
               alignment: Alignment.center,
-              child: Text(
+              child: FDText(
                 'Flart Menu',
                 style: TextStyle(
                     color: '#FFFFFF',
@@ -66,117 +66,117 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            GestureDetector(
+            FDGestureDetector(
               onTap: () => print('Menu item 1 tapped'),
-              child: Container(
+              child: FDContainer(
                 padding: EdgeInsets.all(16),
-                child: Row(children: [
-                  Icon(icon: Icons.home),
-                  SizedBox(width: 16),
-                  Text('Home')
+                child: FDRow(children: [
+                  FDIcon(icon: FDIcons.home),
+                  FDSizedBox(width: 16),
+                  FDText('Home')
                 ]),
               ),
             ),
-            GestureDetector(
+            FDGestureDetector(
               onTap: () => print('Menu item 2 tapped'),
-              child: Container(
+              child: FDContainer(
                 padding: EdgeInsets.all(16),
-                child: Row(children: [
-                  Icon(icon: Icons.settings),
-                  SizedBox(width: 16),
-                  Text('Settings')
+                child: FDRow(children: [
+                  FDIcon(icon: FDIcons.settings),
+                  FDSizedBox(width: 16),
+                  FDText('Settings')
                 ]),
               ),
             ),
           ],
         ),
       ),
-      body: ListView(
+      body: FDListView(
         padding: EdgeInsets.all(20),
         children: [
           _buildHeading('Animations & Navigation'),
-          Card(
+          FDCard(
             padding: EdgeInsets.all(16),
-            child: Column(
+            child: FDColumn(
               children: [
-                Text('Navigation Demo'),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  child: Text('Push New Page'),
+                FDText('Navigation Demo'),
+                FDSizedBox(height: 10),
+                FDElevatedButton(
+                  child: FDText('Push New Page'),
                   onPressed: () {
                     PageNavigator.seed(const HomePage());
                     PageNavigator.push(const SecondPage());
                   },
                 ),
-                SizedBox(height: 20),
-                Text('Animation Demo'),
-                SizedBox(height: 10),
+                FDSizedBox(height: 20),
+                FDText('Animation Demo'),
+                FDSizedBox(height: 10),
                 AnimatedContainerDemo(),
               ],
             ),
           ),
-          SizedBox(height: 20),
+          FDSizedBox(height: 20),
           _buildHeading('Buttons & Interactions'),
-          Card(
+          FDCard(
             padding: EdgeInsets.all(16),
-            child: Column(
+            child: FDColumn(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                FDRow(
                   children: [
-                    ElevatedButton(
-                      child: Text('Elevated Button'),
+                    FDElevatedButton(
+                      child: FDText('Elevated FDButton'),
                       onPressed: () => print('Elevated Pressed'),
                     ),
-                    SizedBox(width: 10),
-                    Tooltip(
-                      message: 'I am an icon button',
-                      child: IconButton(
+                    FDSizedBox(width: 10),
+                    FDTooltip(
+                      message: 'I am an FDIcon FDButton',
+                      child: FDIconButton(
                         icon:
-                            Icon(icon: Icons.favorite, color: FlartColors.red),
-                        onPressed: () => print('Icon Pressed'),
+                            FDIcon(icon: FDIcons.favorite, color: FlartColors.red),
+                        onPressed: () => print('FDIcon Pressed'),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
-                GestureDetector(
+                FDSizedBox(height: 10),
+                FDGestureDetector(
                   onTap: _incrementCounter,
-                  child: Container(
+                  child: FDContainer(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       color: FlartColors.blue.shade100,
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    child: Text('Custom Gesture Button (Tap Me)'),
+                    child: FDText('Custom Gesture FDButton (Tap Me)'),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 20),
+          FDSizedBox(height: 20),
           _buildHeading('State & Counters'),
-          Card(
+          FDCard(
             padding: EdgeInsets.all(16),
-            child: Column(
+            child: FDColumn(
               children: [
-                Text('Counter: $_counter',
+                FDText('Counter: $_counter',
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: FlartColors.blue.hex)),
-                SizedBox(height: 10),
-                Row(
+                FDSizedBox(height: 10),
+                FDRow(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
+                    FDElevatedButton(
                       cssStyle: {'background-color': '#F44336'},
-                      child: Text('Decrement'),
+                      child: FDText('Decrement'),
                       onPressed: _decrementCounter,
                     ),
-                    SizedBox(width: 10),
-                    ElevatedButton(
-                      child: Text('Increment'),
+                    FDSizedBox(width: 10),
+                    FDElevatedButton(
+                      child: FDText('Increment'),
                       onPressed: _incrementCounter,
                     ),
                   ],
@@ -184,40 +184,40 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          SizedBox(height: 20),
-          _buildHeading('Colors & Icons'),
-          Card(
+          FDSizedBox(height: 20),
+          _buildHeading('Colors & FDIcons'),
+          FDCard(
             padding: EdgeInsets.all(16),
-            child: Column(
+            child: FDColumn(
               children: [
-                Row(
+                FDRow(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(icon: Icons.star, color: FlartColors.amber, size: 32),
-                    SizedBox(width: 10),
-                    Icon(
-                        icon: Icons.favorite, color: FlartColors.red, size: 32),
-                    SizedBox(width: 10),
-                    Icon(
-                        icon: Icons.thumb_up,
+                    FDIcon(icon: FDIcons.star, color: FlartColors.amber, size: 32),
+                    FDSizedBox(width: 10),
+                    FDIcon(
+                        icon: FDIcons.favorite, color: FlartColors.red, size: 32),
+                    FDSizedBox(width: 10),
+                    FDIcon(
+                        icon: FDIcons.thumb_up,
                         color: FlartColors.blue,
                         size: 32),
-                    SizedBox(width: 10),
-                    Icon(
-                        icon: Icons.check_circle,
+                    FDSizedBox(width: 10),
+                    FDIcon(
+                        icon: FDIcons.check_circle,
                         color: FlartColors.green,
                         size: 32),
                   ],
                 ),
-                SizedBox(height: 20),
-                Text(
-                  'This text uses FlartColors.purple',
+                FDSizedBox(height: 20),
+                FDText(
+                  'This FDText uses FlartColors.purple',
                   style: TextStyle(
                       color: FlartColors.purple, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 5),
-                Text(
-                  'This text uses FlartColors.deepOrange',
+                FDSizedBox(height: 5),
+                FDText(
+                  'This FDText uses FlartColors.deepOrange',
                   style: TextStyle(
                       color: FlartColors.deepOrange,
                       fontWeight: FontWeight.bold),
@@ -225,28 +225,28 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          SizedBox(height: 20),
+          FDSizedBox(height: 20),
           _buildHeading('Inputs'),
-          Card(
+          FDCard(
             padding: EdgeInsets.all(16),
-            child: Column(
+            child: FDColumn(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextField(
+                FDTextField(
                   label: 'Type something',
-                  placeholder: 'Enter text...',
+                  placeholder: 'Enter FDText...',
                   onChanged: (val) {
                     setState(() {
                       _typedText = val;
                     });
                   },
                 ),
-                SizedBox(height: 10),
-                Text('You typed: $_typedText'),
-                SizedBox(height: 20),
-                Row(
+                FDSizedBox(height: 10),
+                FDText('You typed: $_typedText'),
+                FDSizedBox(height: 20),
+                FDRow(
                   children: [
-                    Switch(
+                    FDSwitch(
                       value: _switchValue,
                       activeColor: FlartColors.green,
                       onChanged: (val) {
@@ -255,14 +255,14 @@ class _HomePageState extends State<HomePage> {
                         });
                       },
                     ),
-                    SizedBox(width: 8),
-                    Text('Switch is ${_switchValue ? "ON" : "OFF"}'),
+                    FDSizedBox(width: 8),
+                    FDText('switch is ${_switchValue ? "ON" : "OFF"}'),
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
+                FDSizedBox(height: 10),
+                FDRow(
                   children: [
-                    Checkbox(
+                    FDCheckbox(
                       value: _checkboxValue,
                       onChanged: (val) {
                         setState(() {
@@ -270,64 +270,64 @@ class _HomePageState extends State<HomePage> {
                         });
                       },
                     ),
-                    SizedBox(width: 8),
-                    Text(
-                        'Checkbox is ${_checkboxValue ? "Checked" : "Unchecked"}'),
+                    FDSizedBox(width: 8),
+                    FDText(
+                        'FDCheckbox is ${_checkboxValue ? "Checked" : "Unchecked"}'),
                   ],
                 ),
               ],
             ),
           ),
-          SizedBox(height: 20),
-          _buildHeading('Text Selection'),
-          Card(
+          FDSizedBox(height: 20),
+          _buildHeading('FDText Selection'),
+          FDCard(
             padding: EdgeInsets.all(16),
-            child: Column(
+            child: FDColumn(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                    'This text is NOT selectable (default default behavior). Try selecting me!'),
-                SizedBox(height: 10),
-                Text(
-                  'This text IS selectable (selectable: true). Select me!',
+                FDText(
+                    'This FDText is NOT selectable (default default behavior). Try selecting me!'),
+                FDSizedBox(height: 10),
+                FDText(
+                  'This FDText IS selectable (selectable: true). Select me!',
                   selectable: true,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
-                SelectableText(
-                  'This is using the SelectableText widget.',
+                FDSizedBox(height: 10),
+                FDSelectableText(
+                  'This is using the FDSelectableText widget.',
                   style: TextStyle(color: FlartColors.blue.hex),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 20),
+          FDSizedBox(height: 20),
           _buildHeading('Grid Layout'),
-          GridView.count(
+          FDGridView.count(
             crossAxisCount: 3,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             children: List.generate(
                 6,
-                (index) => Container(
+                (index) => FDContainer(
                       height: 80,
                       decoration: BoxDecoration(
                           color: FlartColors
                                   .blue.shades[100 * ((index % 9) + 1)] ??
                               FlartColors.blue),
                       child:
-                          Text('Item $index', style: TextStyle(color: '#fff')),
+                          FDText('Item $index', style: TextStyle(color: '#fff')),
                     )),
           ),
-          SizedBox(height: 20),
+          FDSizedBox(height: 20),
           _buildHeading('Assets & Defaults'),
-          Card(
+          FDCard(
             padding: EdgeInsets.all(16),
-            child: Column(
+            child: FDColumn(
               children: [
-                Text('Default Image Fallback (Empty Source):'),
-                SizedBox(height: 10),
-                FlartImage.network(
+                FDText('Default FDImage Fallback (Empty Source):'),
+                FDSizedBox(height: 10),
+                FDImage.network(
                   '', // Empty source should trigger default
                   width: 100,
                   height: 100,
@@ -338,18 +338,17 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FDFloatingActionButton(
         onPressed: _incrementCounter,
-        child: Icon(icon: Icons.add),
+        child: FDIcon(icon: FDIcons.add),
       ),
     );
   }
 
   Widget _buildHeading(String text) {
-    return Container(
+    return FDContainer(
       margin: EdgeInsets.only(bottom: 10),
-      child: Text(
-        text,
+      child: FDText(text,
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
@@ -365,15 +364,15 @@ class SecondPage extends Widget {
 
   @override
   String render(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Second Page')),
-      body: Center(
-        child: Column(
+    return FDScaffold(
+      appBar: FDAppBar(title: FDText('Second Page')),
+      body: FDCenter(
+        child: FDColumn(
           children: [
-            Text('You have navigated to the second page!'),
-            SizedBox(height: 20),
-            ElevatedButton(
-              child: Text('Go Back'),
+            FDText('You have navigated to the second page!'),
+            FDSizedBox(height: 20),
+            FDElevatedButton(
+              child: FDText('Go Back'),
               onPressed: () {
                 PageNavigator.pop();
               },
@@ -403,7 +402,7 @@ class _AnimatedContainerDemoState extends State<AnimatedContainerDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return FDColumn(
       children: [
         AnimatedContainer(
           controller: _controller,
@@ -413,13 +412,13 @@ class _AnimatedContainerDemoState extends State<AnimatedContainerDemo> {
           endWidth: 200,
           beginHeight: 100,
           endHeight: 100,
-          child: Center(
+          child: FDCenter(
               child:
-                  Text('Animate', style: TextStyle(color: FlartColors.white))),
+                  FDText('Animate', style: TextStyle(color: FlartColors.white))),
         ),
-        SizedBox(height: 20),
-        ElevatedButton(
-          child: Text(_toggled ? 'Reverse' : 'Forward'),
+        FDSizedBox(height: 20),
+        FDElevatedButton(
+          child: FDText(_toggled ? 'Reverse' : 'Forward'),
           onPressed: () {
             _toggled = !_toggled;
             if (_toggled) {
@@ -427,7 +426,7 @@ class _AnimatedContainerDemoState extends State<AnimatedContainerDemo> {
             } else {
               _controller.reverse();
             }
-            // Force rebuild regarding button text
+            // Force rebuild regarding FDButton FDText
             setState(() {});
           },
         ),
@@ -435,3 +434,8 @@ class _AnimatedContainerDemoState extends State<AnimatedContainerDemo> {
     );
   }
 }
+
+
+
+
+

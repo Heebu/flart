@@ -1,4 +1,4 @@
-import 'dart:html';
+﻿import 'dart:html';
 import 'src/widgets/widget.dart';
 import 'src/widgets/utils/build_context.dart';
 
@@ -8,7 +8,7 @@ Element? _appContainer;
 void runApp(Widget rootWidget) {
   _rootWidget = rootWidget;
 
-  // Find the app container
+  // Find the app FDContainer
   _appContainer = document.querySelector('#output') ??
       document.querySelector('#app') ??
       document.body;
@@ -22,7 +22,7 @@ void runApp(Widget rootWidget) {
 
 void _renderApp() {
   if (_rootWidget == null || _appContainer == null) {
-    print('Cannot render: root widget or container is null');
+    print('Cannot render: root widget or FDContainer is null');
     return;
   }
 
@@ -52,3 +52,6 @@ void reRenderApp() {
   print('Re-rendering app...');
   _renderApp();
 }
+
+
+

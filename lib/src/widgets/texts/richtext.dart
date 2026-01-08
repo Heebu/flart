@@ -1,21 +1,21 @@
-// import '../../styles/text_style.dart';
+﻿// import '../../styles/text_style.dart';
 // import '../widget.dart';
 // import 'text_span.dart';
 //
 //
-// class Text extends Widget {
+// class FDText extends Widget {
 //   final String? content;
 //   final TextStyle? style;
 //   final Map<String, String>? cssStyle;
 //   final TextSpan? richSpan;
 //
-//   Text(
+//   FDText(
 //       this.content, {
 //         this.style,
 //         this.cssStyle,
 //       }) : richSpan = null;
 //
-//   Text.rich(
+//   FDText.rich(
 //       this.richSpan, {
 //         this.style,
 //         this.cssStyle,
@@ -61,3 +61,7 @@
 //     buffer.write('</span>');
 //   }
 // }
+
+
+
+

@@ -1,14 +1,14 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-/// A tooltip widget that shows on hover
-class Tooltip extends Widget {
+/// A FDTooltip widget that shows on hover
+class FDTooltip extends Widget {
   final Widget child;
   final String message;
   final EdgeInsets? padding;
   final FlartColor? backgroundColor;
   final TextStyle? textStyle;
 
-  Tooltip({
+  FDTooltip({
     required this.child,
     required this.message,
     this.padding,
@@ -25,7 +25,7 @@ class Tooltip extends Widget {
     return '''
       <div id="$id" style="position: relative; display: inline-block;">
         ${child.render(context)}
-        <div class="tooltip-text" style="
+        <div class="FDTooltip-FDText" style="
           visibility: hidden;
           opacity: 0;
           background-color: $bgColor;
@@ -57,14 +57,14 @@ class Tooltip extends Widget {
       <script>
         (function() {
           const el = document.getElementById('$id');
-          const tooltip = el.querySelector('.tooltip-text');
+          const FDTooltip = el.querySelector('.FDTooltip-FDText');
           el.addEventListener('mouseenter', () => {
-            tooltip.style.visibility = 'visible';
-            tooltip.style.opacity = '1';
+            FDTooltip.style.visibility = 'visible';
+            FDTooltip.style.opacity = '1';
           });
           el.addEventListener('mouseleave', () => {
-            tooltip.style.visibility = 'hidden';
-            tooltip.style.opacity = '0';
+            FDTooltip.style.visibility = 'hidden';
+            FDTooltip.style.opacity = '0';
           });
         })();
       </script>
@@ -72,14 +72,14 @@ class Tooltip extends Widget {
   }
 }
 
-/// A snackbar for temporary messages
-class SnackBar extends Widget {
+/// A FDSnackBar for temporary messages
+class FDSnackBar extends Widget {
   final Widget content;
   final Duration duration;
   final Widget? action;
   final FlartColor? backgroundColor;
 
-  SnackBar({
+  FDSnackBar({
     required this.content,
     this.duration = const Duration(seconds: 4),
     this.action,
@@ -116,16 +116,21 @@ class SnackBar extends Widget {
       </div>
       <script>
         (function() {
-          const snackbar = document.getElementById('$id');
+          const FDSnackBar = document.getElementById('$id');
           setTimeout(() => {
-            snackbar.style.transform = 'translateX(-50%) translateY(0)';
+            FDSnackBar.style.transform = 'translateX(-50%) translateY(0)';
           }, 100);
           setTimeout(() => {
-            snackbar.style.transform = 'translateX(-50%) translateY(100px)';
-            setTimeout(() => snackbar.remove(), 300);
+            FDSnackBar.style.transform = 'translateX(-50%) translateY(100px)';
+            setTimeout(() => FDSnackBar.remove(), 300);
           }, $durationMs);
         })();
       </script>
     ''';
   }
 }
+
+
+
+
+

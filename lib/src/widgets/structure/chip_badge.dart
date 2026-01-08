@@ -1,7 +1,7 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-/// A chip widget for displaying compact information
-class Chip extends Widget {
+/// A FDChip widget for displaying compact information
+class FDChip extends Widget {
   final Widget label;
   final Widget? avatar;
   final Widget? deleteIcon;
@@ -9,7 +9,7 @@ class Chip extends Widget {
   final FlartColor? backgroundColor;
   final EdgeInsets? padding;
 
-  Chip({
+  FDChip({
     required this.label,
     this.avatar,
     this.deleteIcon,
@@ -46,7 +46,7 @@ class Chip extends Widget {
             border-radius: 50%;
             background-color: rgba(0,0,0,0.1);
           ">
-            ${deleteIcon?.render(context) ?? '×'}
+            ${deleteIcon?.render(context) ?? 'Ã—'}
           </div>
         ''' : ''}
       </div>
@@ -54,15 +54,15 @@ class Chip extends Widget {
   }
 }
 
-/// A badge widget for displaying notifications
-class Badge extends Widget {
+/// A FDBadge widget for displaying notifications
+class FDBadge extends Widget {
   final Widget child;
   final String? label;
   final FlartColor? backgroundColor;
   final FlartColor? textColor;
   final bool isVisible;
 
-  Badge({
+  FDBadge({
     required this.child,
     this.label,
     this.backgroundColor,
@@ -97,3 +97,8 @@ class Badge extends Widget {
     ''';
   }
 }
+
+
+
+
+

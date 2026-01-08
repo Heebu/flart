@@ -1,4 +1,4 @@
-# Wolf Analysis
+﻿# Wolf Analysis
 
 The code in this directory is __experimental__ and not yet ready for public
 consumption. This file briefly describes its design and intended use.
@@ -41,7 +41,7 @@ single method body.
 
 The design consists of multiple analysis stages:
 
-- AST-to-IR. The analyzer's AST is converted to a stack-based IR (intermediate
+- AST-to-IR. The analyzer's AST is converted to a FDStack-based IR (intermediate
   representation). The proposed IR and the approach for converting to it are
   described in https://flutter.dev/go/dart-static-analysis-ir.
 
@@ -52,7 +52,7 @@ The design consists of multiple analysis stages:
   each loop, block, closure, etc., for use in later analysis stages.
 
 - SSA (single static assignment) analysis. A pass is made through the IR to
-  assign SSA node ids to each state variable and stack value. Queries are
+  assign SSA node ids to each state variable and FDStack value. Queries are
   generated at points that are of interest to whatever lints are enabled (e.g. a
   lint that verifies that certain kinds of values are never null will generate
   queries that ask "is the value represented by this SSA node null?").
@@ -79,3 +79,6 @@ the output of this stage properly reflects Dart semantics. (If, instead, our
 unit tests simply compared the output of AST-to-IR conversion to an expected
 sequence of instructions, the unit tests would be much more brittle, and there
 would be a much greater risk of human error in reviewing them.)
+
+
+

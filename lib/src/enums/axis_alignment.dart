@@ -1,4 +1,4 @@
-enum MainAxisAlignment {
+﻿enum MainAxisAlignment {
   start,
   center,
   end,

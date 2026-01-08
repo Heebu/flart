@@ -1,19 +1,12 @@
-import '../../../flartdart.dart';
-
-enum BoxFit {
-  fill,
-  contain,
-  cover,
-  none,
-  scaleDown,
-}
+﻿import '../../../flartdart.dart';
+import '../../enums/box_fit.dart';
 
 enum ImageLoading {
   eager,
   lazy,
 }
 
-class FlartImage extends Widget {
+class FDImage extends Widget {
   final String src;
   final double? width;
   final double? height;
@@ -22,7 +15,7 @@ class FlartImage extends Widget {
   final String? alt;
   final ImageLoading loading;
 
-  FlartImage.network(
+  FDImage.network(
     String? src, {
     this.width,
     this.height,
@@ -34,7 +27,7 @@ class FlartImage extends Widget {
             ? '/assets/flart_logo_with_text.png'
             : src;
 
-  FlartImage.asset(
+  FDImage.asset(
     String? assetPath, {
     this.width,
     this.height,

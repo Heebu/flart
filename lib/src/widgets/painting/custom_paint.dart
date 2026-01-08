@@ -1,4 +1,4 @@
-import 'dart:html';
+﻿import 'dart:html';
 import 'dart:async';
 import 'dart:math' as math;
 import '../../../flartdart.dart';
@@ -17,12 +17,12 @@ abstract class CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate);
 }
 
-class CustomPaint extends Widget {
+class FDCustomPaint extends Widget {
   final CustomPainter painter;
   final Size size;
   final Widget? child;
 
-  CustomPaint({
+  FDCustomPaint({
     required this.painter,
     this.size = const Size(300, 150),
     this.child,
@@ -51,3 +51,6 @@ class CustomPaint extends Widget {
     ''';
   }
 }
+
+
+

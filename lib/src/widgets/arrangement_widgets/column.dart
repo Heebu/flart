@@ -1,13 +1,12 @@
+﻿import '../../../flartdart.dart';
 
-import '../../../flartdart.dart';
-
-class Column extends Widget {
+class FDColumn extends Widget {
   final List<Widget> children;
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
   final Map<String, String>? cssStyle;
 
-  Column({
+  FDColumn({
     required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.start,
@@ -18,7 +17,7 @@ class Column extends Widget {
   String render(BuildContext context) {
     final styleMap = <String, String>{
       'display': 'flex',
-      'flex-direction': 'column',
+      'flex-direction': 'FDColumn',
       'justify-content': _mapMainAxis(mainAxisAlignment),
       'align-items': _mapCrossAxis(crossAxisAlignment),
       ...?cssStyle,
@@ -61,3 +60,5 @@ class Column extends Widget {
     }
   }
 }
+
+

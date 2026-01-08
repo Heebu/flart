@@ -1,7 +1,7 @@
-import '../../helper/callback_manager.dart';
+﻿import '../../helper/callback_manager.dart';
 import '../../../flartdart.dart';
 
-class TextButton extends Widget {
+class FDTextButton extends Widget {
   final String label;
   final VoidCallback? onPressed;
   final VoidCallback? onHover;
@@ -9,7 +9,7 @@ class TextButton extends Widget {
   final TextStyle? style;
   final Map<String, String>? cssStyle;
 
-  TextButton({
+  FDTextButton({
     required this.label,
     this.onPressed,
     this.onHover,
@@ -36,7 +36,7 @@ class TextButton extends Widget {
       'cursor': 'pointer',
       'padding': '4px 8px',
       'transition': 'all 0.2s ease-in-out',
-      'text-decoration': 'underline',
+      'FDText-decoration': 'underline',
       ...?cssStyle,
     };
     final styleString =
@@ -65,14 +65,18 @@ class TextButton extends Widget {
 }
 
 
-//TextButton(
+//FDTextButton(
 //   text: 'Submit',
-//   onPressed: () => print('TextButton pressed'),
-//   onHover: () => print('Hovered over TextButton'),
-//   onLongPress: () => print('Long-pressed TextButton'),
+//   onPressed: () => print('FDTextButton pressed'),
+//   onHover: () => print('Hovered over FDTextButton'),
+//   onLongPress: () => print('Long-pressed FDTextButton'),
 //   style: TextStyle(
 //     fontSize: 14,
 //     color: FlartColor('#ffffff'),
 //   ),
 //   backgroundColor: FlartColor('#007acc'),
 // )
+
+
+
+

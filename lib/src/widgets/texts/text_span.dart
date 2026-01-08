@@ -1,3 +1,5 @@
+﻿import 'package:flartdart/flartdart.dart';
+
 import '../../styles/text_style.dart';
 
 class TextSpan {
@@ -12,12 +14,13 @@ class TextSpan {
   });
 
   String render() {
-    final styleString = (style?.toCss() ?? {}).entries
+    final styleString = (style?.toCss() ?? {})
+        .entries
         .map((e) => '${e.key}: ${e.value};')
         .join(' ');
 
     final buffer = StringBuffer();
-    buffer.write('<span style="$styleString">$text</span>');
+    buffer.write('<span style="$styleString">$FDText</span>');
 
     if (children != null && children!.isNotEmpty) {
       for (final child in children!) {
@@ -43,3 +46,6 @@ class TextSpan {
 //       ),
 //     ],
 //   ),
+
+
+

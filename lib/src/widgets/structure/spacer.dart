@@ -1,9 +1,12 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-class Spacer extends Expanded {
-  Spacer({int flex = 1})
+class FDSpacer extends FDExpanded {
+  FDSpacer({int flex = 1})
       : super(
     flex: flex,
-    child: SizedBox(), // Occupies the space
+    child: FDSizedBox(), // Occupies the space
   );
 }
+
+
+

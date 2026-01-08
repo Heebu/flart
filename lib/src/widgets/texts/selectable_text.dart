@@ -1,11 +1,11 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-class SelectableText extends Widget {
+class FDSelectableText extends Widget {
   final String content;
   final TextStyle? style;
   final Map<String, String>? cssStyle;
 
-  SelectableText(
+  FDSelectableText(
     this.content, {
     this.style,
     this.cssStyle,
@@ -26,11 +26,14 @@ class SelectableText extends Widget {
 
 
 
-//SelectableText(
-//   'You can copy this text.',
+//FDSelectableText(
+//   'You can copy this.text.',
 //   style: TextStyle(
 //     fontSize: 16,
 //     color: FlartColor('#333333'),
 //   ),
 //   textAlign: TextAlign.center,
 // )
+
+
+

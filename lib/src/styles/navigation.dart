@@ -1,4 +1,4 @@
-import '../../flartdart.dart';
+﻿import '../../flartdart.dart';
 import 'dart:html';
 
 class PageNavigator {
@@ -14,7 +14,7 @@ class PageNavigator {
     _routes.addAll(routes);
   }
 
-  /// Navigate within same tab (stack-based)
+  /// Navigate within same tab (FDStack-based)
   static void push(Widget page) {
     _stack.add(page);
     _updateHistory(page);
@@ -60,17 +60,17 @@ class PageNavigator {
       window.history.back();
       _refresh(withTransition: true);
     } else {
-      print('Cannot pop: stack empty or single item');
+      print('Cannot pop: FDStack empty or single item');
     }
   }
 
-  /// 🆕 Open route in new browser tab
+  /// ðŸ†• Open route in new browser tab
   static void pushNewTab(String routeName, {Map<String, String>? queryParams}) {
     final uri = _buildRouteUrl(routeName, queryParams);
     window.open(uri, '_blank');
   }
 
-  /// 🆕 Replace current tab with another route
+  /// ðŸ†• Replace current tab with another route
   static void replaceNewTab(String routeName,
       {Map<String, String>? queryParams}) {
     final uri = _buildRouteUrl(routeName, queryParams);
@@ -94,7 +94,7 @@ class PageNavigator {
     }
   }
 
-  // Helper to manually seed stack (hack for partial adoption)
+  // Helper to manually seed FDStack (hack for partial adoption)
   static void seed(Widget page) {
     if (_stack.isEmpty) {
       _stack.add(page);
@@ -163,3 +163,6 @@ class _EmptyWidget extends Widget {
   @override
   String render(BuildContext context) => '<div>No route defined</div>';
 }
+
+
+

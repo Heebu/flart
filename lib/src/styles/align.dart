@@ -1,4 +1,4 @@
-class Aligns {
+﻿class Aligns {
   final String x;
   final String y;
 
@@ -9,7 +9,7 @@ class Aligns {
   static const topRight = Aligns('flex-end', 'flex-start');
 
   static const centerLeft = Aligns('flex-start', 'center');
-  static const center = Aligns('center', 'center');
+  static const FDCenter = Aligns('center', 'center');
   static const centerRight = Aligns('flex-end', 'center');
 
   static const bottomLeft = Aligns('flex-start', 'flex-end');
@@ -22,3 +22,8 @@ class Aligns {
     'align-items': y,
   };
 }
+
+
+
+
+

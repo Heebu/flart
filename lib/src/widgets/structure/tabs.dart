@@ -1,7 +1,8 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
+import '../../helper/callback_manager.dart';
 
 /// A tab bar widget
-class TabBar extends Widget {
+class FDTabBar extends Widget {
   final List<Widget> tabs;
   final int currentIndex;
   final ValueChanged<int>? onTap;
@@ -9,7 +10,7 @@ class TabBar extends Widget {
   final FlartColor? labelColor;
   final FlartColor? unselectedLabelColor;
 
-  TabBar({
+  FDTabBar({
     required this.tabs,
     this.currentIndex = 0,
     this.onTap,
@@ -36,6 +37,12 @@ class TabBar extends Widget {
       final tab = entry.value;
       final isSelected = index == currentIndex;
 
+      String clickAttr = '';
+      if (onTap != null) {
+        final cbId = FlartCallbackManager.register(() => onTap!(index));
+        clickAttr = 'onclick="window.__flartHandleClick(\'$cbId\')"';
+      }
+
       return '''
             <div 
               class="tab-item" 
@@ -50,6 +57,7 @@ class TabBar extends Widget {
                 position: relative;
                 transition: color 0.3s;
               "
+              $clickAttr
             >
               ${tab.render(context)}
               ${isSelected ? '''
@@ -66,26 +74,16 @@ class TabBar extends Widget {
           ''';
     }).join()}
       </div>
-      ${onTap != null ? '''
-        <script>
-          document.querySelectorAll('#$id .tab-item').forEach(item => {
-            item.addEventListener('click', function() {
-              const index = parseInt(this.dataset.index);
-              console.log('Tab clicked:', index);
-            });
-          });
-        </script>
-      ''' : ''}
     ''';
   }
 }
 
 /// A tab view to display content for tabs
-class TabBarView extends Widget {
+class FDTabBarView extends Widget {
   final List<Widget> children;
   final int currentIndex;
 
-  TabBarView({
+  FDTabBarView({
     required this.children,
     this.currentIndex = 0,
   });

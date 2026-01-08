@@ -1,8 +1,8 @@
-import 'dart:html';
+﻿import 'dart:html';
 import 'dart:async';
 import '../../../flartdart.dart';
 
-class Dialog extends Widget {
+class FDDialog extends Widget {
   final Widget? child;
   final FlartColor? backgroundColor;
   final double? elevation;
@@ -13,7 +13,7 @@ class Dialog extends Widget {
   final ShapeBorder? shape;
   final Alignment? alignment;
 
-  Dialog({
+  FDDialog({
     this.child,
     this.backgroundColor,
     this.elevation,
@@ -32,7 +32,7 @@ class Dialog extends Widget {
     final padStyle =
         'padding: ${pad.top}px ${pad.right}px ${pad.bottom}px ${pad.left}px;';
 
-    // Very basic rendering of the dialog container
+    // Very basic rendering of the FDDialog FDContainer
     return '''
       <div style="
         background-color: $bgColor; 
@@ -85,7 +85,7 @@ Future<T?> showDialog<T>({
     });
   }
 
-  // Render the dialog content
+  // Render the FDDialog content
   final context = BuildContext(widget: builder);
   // Note: BuildContext usage here is a bit loose as it's not part of the main tree,
   // but for string generation it might be fine.
@@ -98,10 +98,15 @@ Future<T?> showDialog<T>({
   // method for dynamically added content unless we re-hydrate or use delegated events.
   // For this "Readme aligned" version, we assume basic static rendering or that the framework
   // handles hygiene elsewhere.
-  // However, `GestureDetector` works by attaching events to IDs or using global delegation.
+  // However, `FDGestureDetector` works by attaching events to IDs or using global delegation.
   // Since this is a new root, we might need to notify the system.
 
   document.body?.append(overlay);
 
   return completer.future;
 }
+
+
+
+
+

@@ -1,28 +1,28 @@
-# Flart 🎨
+﻿# Flart ðŸŽ¨
 
 **A comprehensive Flutter-inspired UI framework for Dart Web applications**
 
 [![pub package](https://img.shields.io/pub/v/flart.svg)](https://pub.dev/packages/flart)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/FDBadge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 Build beautiful, responsive web applications using familiar Flutter-style widgets and APIs - all in pure Dart with zero dependencies.
 
 ---
 
-## 🌟 Why Flart?
+## ðŸŒŸ Why Flart?
 
-- **🎯 100+ Widgets** - Complete widget library for any web application
-- **🎨 Flutter-Style API** - Familiar syntax for Flutter developers
-- **🚀 Zero Dependencies** - Pure Dart, lightweight and fast
-- **📱 Responsive** - Works on mobile and desktop
-- **🎭 Rich Animations** - Smooth CSS-based animations
-- **📝 Complete Forms** - Built-in validation and error handling
-- **🎬 Media Support** - Video, audio, YouTube, maps
-- **🎮 Gesture Detection** - 20+ touch and mouse events
+- **ðŸŽ¯ 100+ Widgets** - Complete widget library for any web application
+- **ðŸŽ¨ Flutter-Style API** - Familiar syntax for Flutter developers
+- **ðŸš€ Zero Dependencies** - Pure Dart, lightweight and fast
+- **ðŸ“± Responsive** - Works on mobile and desktop
+- **ðŸŽ­ Rich Animations** - Smooth CSS-based animations
+- **ðŸ“ Complete Forms** - Built-in validation and error handling
+- **ðŸŽ¬ Media Support** - Video, audio, YouTube, maps
+- **ðŸŽ® Gesture Detection** - 20+ touch and mouse events
 
 ---
 
-## 📦 Installation
+## ðŸ“¦ Installation
 
 Add Flart to your `pubspec.yaml`:
 
@@ -38,12 +38,12 @@ dart pub get
 
 ---
 
-## 🚀 Quick Start
+## ðŸš€ Quick Start
  
  ### Hello World
  
  ```dart
- import 'package:flart/flartdart.dart';
+ import 'package:flartdart/flartdart.dart';
  
  void main() {
    runApp(const MyApp());
@@ -54,28 +54,28 @@ dart pub get
  
    @override
    Widget build(BuildContext context) {
-     return MaterialApp(
-       home: Scaffold(
-         appBar: AppBar(
-           title: Text('Hello Flart!'),
+     return FDMaterialApp(
+       home: FDScaffold(
+         FDAppBar: FDAppBar(
+           title: FDText('Hello Flart!'),
            backgroundColor: FlartColors.blue,
          ),
-         body: Center(
-           child: Column(
-             mainAxisAlignment: MainAxisAlignment.center,
+         body: FDCenter(
+           child: FDColumn(
+             mainAxisAlignment: MainAxisAlignment.FDCenter,
              children: [
-               Text(
-                 'Welcome to Flart! 🎨',
+               FDText(
+                 'Welcome to Flart! ðŸŽ¨',
                  style: TextStyle(
                    fontSize: 32,
                    fontWeight: FontWeight.bold,
                    color: FlartColors.blue,
                  ),
                ),
-               SizedBox(height: 20),
-               ElevatedButton(
-                 onPressed: () => print('Button clicked!'),
-                 child: Text('Click Me'),
+               FDSizedBox(height: 20),
+               FDElevatedButton(
+                 onPressed: () => print('FDButton clicked!'),
+                 child: FDText('Click Me'),
                ),
              ],
            ),
@@ -88,66 +88,66 @@ dart pub get
  
  ---
  
- ## 📚 What's Included
+ ## ðŸ“š What's Included
  
  ### Widget Categories (100+)
  
- #### 🏗️ Structure (15)
- `Scaffold`, `AppBar`, `Container`, `Card`, `Drawer`, `BottomNavigationBar`, `FloatingActionButton`, `Dialog`, `Divider`, `VerticalDivider`, `SizedBox`, `Spacer`, `Expanded`, `Image`, `Icon`, `MaterialApp`, `PageNavigator`
+ #### ðŸ—ï¸ Structure (15)
+ `FDScaffold`, `FDAppBar`, `FDContainer`, `FDCard`, `FDDrawer`, `FDBottomNavigationBar`, `FDFloatingActionButton`, `FDDialog`, `FDDivider`, `FDVerticalDivider`, `FDSizedBox`, `FDSpacer`, `FDExpanded`, `FDImage`, `FDIcon`, `FDMaterialApp`, `PageNavigator`
  
- #### 📐 Layout (8)
- `Row`, `Column`, `Stack`, `Positioned`, `Center`, `Align`, `ListView`, `GridView`
+ #### ðŸ“ Layout (8)
+ `FDRow`, `FDColumn`, `FDStack`, `FDPositioned`, `FDCenter`, `FDAlign`, `FDListView`, `FDGridView`
  
- #### 📝 Input & Forms (15)
- `TextField`, `TextFormField`, `TextArea`, `Checkbox`, `Radio`, `Switch`, `Slider`, `DropdownButton`, `Form`, `FormField`, `AutocompleteField`, `ColorPicker`, `FileUpload`
+ #### ðŸ“ Input & Forms (15)
+ `FDTextField`, `FDTextFormField`, `TextArea`, `FDCheckbox`, `FDRadio`, `FDSwitch`, `FDSlider`, `DropdownButton`, `Form`, `FormField`, `AutocompleteField`, `ColorPicker`, `FileUpload`
  
- #### 🔘 Buttons (5)
- `Button`, `ElevatedButton`, `TextButton`, `IconButton`, `GestureDetector`
+ #### ðŸ”˜ Buttons (5)
+ `FDButton`, `FDElevatedButton`, `FDTextButton`, `FDIconButton`, `FDGestureDetector`
  
- #### 📄 Text (4)
- `Text`, `RichText`, `EditableText`, `LinkText`, `SelectableText`
+ #### ðŸ“„ FDText (4)
+ `FDText`, `FDRichText`, `FDEditableText`, `FDLinkText`, `FDSelectableText`
  
- #### 📅 Pickers (9)
- `DatePicker`, `TimePicker`, `ImagePicker`, `DateRangePicker`, `MonthPicker`, `WeekPicker`, `DateTimePicker`, `RangePicker`
+ #### ðŸ“… Pickers (9)
+ `FDDatePicker`, `FDTimePicker`, `FDImagePicker`, `FDDateRangePicker`, `FDMonthPicker`, `FDWeekPicker`, `DateTimePicker`, `RangePicker`
  
- #### 🎬 Animations (10)
+ #### ðŸŽ¬ Animations (10)
  `AnimationController`, `AnimatedContainer`, `AnimatedOpacity`, `AnimatedScale`, `AnimatedRotation`, `AnimatedSlide`, `AnimatedPositioned`, `AnimatedSize`, `AnimatedCrossFade`, `FadeIn`
  
- #### 🎥 Media (5)
+ #### ðŸŽ¥ Media (5)
  `VideoPlayer`, `AudioPlayer`, `YouTubePlayer`, `IFrame`, `MapEmbed`
  
- #### 🎨 Display (7)
- `Chip`, `Badge`, `Tooltip`, `SnackBar`, `CircularProgressIndicator`, `LinearProgressIndicator`, `TabBar`, `TabBarView`
+ #### ðŸŽ¨ Display (7)
+ `FDChip`, `FDBadge`, `FDTooltip`, `FDSnackBar`, `FDCircularProgressIndicator`, `FDLinearProgressIndicator`, `FDTabBar`, `FDTabBarView`
  
- #### 🖌️ Painting (2)
- `CustomPaint`, `SvgPicture`
+ #### ðŸ–Œï¸ Painting (2)
+ `FDCustomPaint`, `FDSvgPicture`
  
  ---
  
- ## 💡 Feature Highlights
+ ## ðŸ’¡ Feature Highlights
  
  ### Complete Form System
  
  ```dart
  Form(
-child: Column(
+child: FDColumn(
      children: [
-       TextFormField(
+       FDTextFormField(
          label: 'Email',
          keyboardType: TextInputType.email,
          validator: (value) => 
            value?.contains('@') == true ? null : 'Invalid email',
-         prefixIcon: Icon(icon: Icons.email),
+         prefixIcon: FDIcon(FDIcon: FDIcons.email),
        ),
-       TextFormField(
+       FDTextFormField(
          label: 'Password',
          obscureText: true,
          validator: (value) =>
            value != null && value.length >= 8 ? null : 'Too short',
        ),
-       ElevatedButton(
+       FDElevatedButton(
          onPressed: () => submitForm(),
-         child: Text('Submit'),
+         child: FDText('Submit'),
        ),
      ],
    ),
@@ -171,7 +171,7 @@ AnimatedContainer(
 ### Comprehensive Gesture Detection
 
 ```dart
-GestureDetector(
+FDGestureDetector(
   onTap: () => print('Tapped!'),
   onDoubleTap: () => print('Double tap!'),
   onLongPress: () => print('Long press!'),
@@ -186,7 +186,7 @@ GestureDetector(
 ### Media Integration
 
 ```dart
-Column(
+FDColumn(
   children: [
     VideoPlayer(
       src: '/videos/demo.mp4',
@@ -209,9 +209,9 @@ Column(
 ### Advanced Pickers
 
 ```dart
-Column(
+FDColumn(
   children: [
-    DateRangePicker(
+    FDDateRangePicker(
       label: 'Select Dates',
       onChanged: (range) => print('${range.start} to ${range.end}'),
     ),
@@ -231,12 +231,12 @@ Column(
 
 ---
 
-## 🎨 Styling System
+## ðŸŽ¨ Styling System
 
 Flart provides a comprehensive styling system similar to Flutter:
 
 ```dart
-Container(
+FDContainer(
   width: 300,
   height: 200,
   decoration: BoxDecoration(
@@ -257,25 +257,25 @@ Container(
   ),
   padding: EdgeInsets.all(16),
   margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-  child: Text('Styled Container'),
+  child: FDText('Styled FDContainer'),
 )
 ```
 
 ---
 
-## 🎯 Use Cases
+## ðŸŽ¯ Use Cases
 
 Perfect for building:
-- ✅ **Admin Dashboards** - Rich data displays and forms
-- ✅ **Landing Pages** - Beautiful, responsive layouts
-- ✅ **Web Applications** - Full-featured SPAs
-- ✅ **Interactive Forms** - Complex validation and input
-- ✅ **Media Sites** - Video and audio integration
-- ✅ **E-commerce** - Product catalogs and checkout
+- âœ… **Admin Dashboards** - Rich data displays and forms
+- âœ… **Landing Pages** - Beautiful, responsive layouts
+- âœ… **Web Applications** - Full-featured SPAs
+- âœ… **Interactive Forms** - Complex validation and input
+- âœ… **Media Sites** - Video and audio integration
+- âœ… **E-commerce** - Product catalogs and checkout
 
 ---
 
-## 📖 Documentation
+## ðŸ“– Documentation
 
 - **[Widget Guide](WIDGET_GUIDE.md)** - Complete reference for all widgets
 - **[API Documentation](https://pub.dev/documentation/flart/latest/)** - Detailed API docs
@@ -284,7 +284,7 @@ Perfect for building:
 
 ---
 
-## 🏗️ Architecture
+## ðŸ—ï¸ Architecture
 
 Flart uses a simple, efficient architecture:
 
@@ -297,7 +297,7 @@ All widgets extend the base `Widget` class and implement a `render()` method tha
 
 ---
 
-## 🤝 Contributing
+## ðŸ¤ Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
@@ -311,7 +311,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 
 ---
 
-## 📊 Package Stats
+## ðŸ“Š Package Stats
 
 - **100+ Widgets** across 10 categories
 - **Zero Dependencies** - Pure Dart implementation
@@ -323,7 +323,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 
 ---
 
-## 🔧 Development
+## ðŸ”§ Development
 
 ### Setup
 
@@ -355,19 +355,19 @@ dart format .
 
 ---
 
-## 📄 License
+## ðŸ“„ License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Acknowledgments
+## ðŸ™ Acknowledgments
 
 Inspired by Flutter's elegant widget system, Flart brings the power of declarative UI to Dart Web development.
 
 ---
 
-## 🌐 Links
+## ðŸŒ Links
 
 - **Package**: [pub.dev/packages/flart](https://pub.dev/packages/flart)
 - **Repository**: [github.com/Heebu/flart](https://github.com/Heebu/flart)
@@ -376,17 +376,20 @@ Inspired by Flutter's elegant widget system, Flart brings the power of declarati
 
 ---
 
-## ⭐ Show Your Support
+## â­ Show Your Support
 
 If you find Flart useful, please consider:
-- ⭐ Starring the repository
-- 👍 Liking the package on pub.dev
-- 🐛 Reporting issues
-- 💡 Suggesting features
-- 🤝 Contributing code
+- â­ Starring the repository
+- ðŸ‘ Liking the package on pub.dev
+- ðŸ› Reporting issues
+- ðŸ’¡ Suggesting features
+- ðŸ¤ Contributing code
 
 ---
 
-**Made with ❤️ for the Dart community**
+**Made with â¤ï¸ for the Dart community**
 
 *Flart - Flutter-style UI for Dart Web*
+
+
+

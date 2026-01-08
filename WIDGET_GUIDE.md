@@ -9,8 +9,8 @@ Complete reference guide for all 100+ Flart widgets with examples and usage patt
 1. [Structure Widgets](#structure-widgets)
 2. [Layout Widgets](#layout-widgets)
 3. [Input & Form Widgets](#input--form-widgets)
-4. [Button Widgets](#button-widgets)
-5. [Text Widgets](#text-widgets)
+4. [FDButton Widgets](#FDButton-widgets)
+5. [FDText Widgets](#FDText-widgets)
 6. [Picker Widgets](#picker-widgets)
 7. [Animation Widgets](#animation-widgets)
 8. [Media Widgets](#media-widgets)
@@ -23,53 +23,53 @@ Complete reference guide for all 100+ Flart widgets with examples and usage patt
 
 ## Structure Widgets
 
-### Scaffold
+### FDScaffold
 
-The main application structure providing app bar, body, drawer, and more.
+The main application structure providing app bar, body, FDDrawer, and more.
 
 ```dart
-Scaffold(
-  appBar: AppBar(title: Text('My App')),
-  drawer: Drawer(child: Text('Menu')),
-  body: Center(child: Text('Content')),
-  floatingActionButton: FloatingActionButton(
+FDScaffold(
+  FDAppBar: FDAppBar(title: FDText('My App')),
+  FDDrawer: FDDrawer(child: FDText('Menu')),
+  body: FDCenter(child: FDText('Content')),
+  FDFloatingActionButton: FDFloatingActionButton(
     onPressed: () => print('FAB clicked'),
-    child: Icon(icon: 'add'),
+    child: FDIcon(FDIcon: 'add'),
   ),
-  bottomNavigationBar: BottomNavigationBar(
+  FDBottomNavigationBar: FDBottomNavigationBar(
     items: [
-      BottomNavigationBarItem(icon: Icon(icon: 'home'), label: 'Home'),
-      BottomNavigationBarItem(icon: Icon(icon: 'search'), label: 'Search'),
+      FDBottomNavigationBarItem(FDIcon: FDIcon(FDIcon: 'home'), label: 'Home'),
+      FDBottomNavigationBarItem(FDIcon: FDIcon(FDIcon: 'search'), label: 'Search'),
     ],
   ),
 )
 ```
 
-### AppBar
+### FDAppBar
 
 Top application bar with title and actions.
 
 ```dart
-AppBar(
-  title: Text('Title'),
-  leading: IconButton(
-    icon: Icon(icon: 'menu'),
+FDAppBar(
+  title: FDText('Title'),
+  leading: FDIconButton(
+    FDIcon: FDIcon(FDIcon: 'menu'),
     onPressed: () => openDrawer(),
   ),
   actions: [
-    IconButton(icon: Icon(icon: 'search'), onPressed: () {}),
-    IconButton(icon: Icon(icon: 'more_vert'), onPressed: () {}),
+    FDIconButton(FDIcon: FDIcon(FDIcon: 'search'), onPressed: () {}),
+    FDIconButton(FDIcon: FDIcon(FDIcon: 'more_vert'), onPressed: () {}),
   ],
   backgroundColor: FlartColor.hex('#007bff'),
 )
 ```
 
-### Container
+### FDContainer
 
 Versatile box for layout and styling.
 
 ```dart
-Container(
+FDContainer(
   width: 200,
   height: 100,
   padding: EdgeInsets.all(16),
@@ -79,121 +79,121 @@ Container(
     borderRadius: BorderRadius.circular(8),
     border: Border.all(color: '#cccccc', width: 1),
   ),
-  child: Text('Container content'),
+  child: FDText('FDContainer content'),
 )
 ```
 
-### Card
+### FDCard
 
-Material design card with elevation.
+Material design FDCard with elevation.
 
 ```dart
-Card(
+FDCard(
   elevation: 4.0,
   padding: EdgeInsets.all(16),
   margin: EdgeInsets.all(8),
   borderRadius: BorderRadius.circular(12),
-  child: Column(
+  child: FDColumn(
     children: [
-      Text('Card Title', style: TextStyle(fontSize: 18, fontWeight: 'bold')),
-      SizedBox(height: 8),
-      Text('Card content goes here'),
+      FDText('FDCard Title', style: TextStyle(fontSize: 18, fontWeight: 'bold')),
+      FDSizedBox(height: 8),
+      FDText('FDCard content goes here'),
     ],
   ),
 )
 ```
 
-### Drawer
+### FDDrawer
 
-Side navigation drawer.
+Side navigation FDDrawer.
 
 ```dart
-Drawer(
-  child: Column(
+FDDrawer(
+  child: FDColumn(
     children: [
-      Container(
+      FDContainer(
         height: 150,
         color: FlartColors.blue,
-        child: Center(child: Text('Header')),
+        child: FDCenter(child: FDText('Header')),
       ),
-      ListTile(title: Text('Item 1'), onTap: () {}),
-      ListTile(title: Text('Item 2'), onTap: () {}),
-      Divider(),
-      ListTile(title: Text('Settings'), onTap: () {}),
+      ListTile(title: FDText('Item 1'), onTap: () {}),
+      ListTile(title: FDText('Item 2'), onTap: () {}),
+      FDDivider(),
+      ListTile(title: FDText('Settings'), onTap: () {}),
     ],
   ),
 )
 ```
 
-### Dialog
+### FDDialog
 
-Modal dialog box.
+Modal FDDialog box.
 
 ```dart
-Dialog(
-  title: Text('Confirm'),
-  content: Text('Are you sure you want to delete this item?'),
+FDDialog(
+  title: FDText('Confirm'),
+  content: FDText('Are you sure you want to delete this item?'),
   actions: [
-    TextButton(
+    FDTextButton(
       onPressed: () => closeDialog(),
-      child: Text('Cancel'),
+      child: FDText('Cancel'),
     ),
-    ElevatedButton(
+    FDElevatedButton(
       onPressed: () => confirmDelete(),
-      child: Text('Delete'),
+      child: FDText('Delete'),
     ),
   ],
 )
 ```
 
-### SizedBox
+### FDSizedBox
 
 Fixed size box for spacing.
 
 ```dart
-Column(
+FDColumn(
   children: [
-    Text('First'),
-    SizedBox(height: 20), // Vertical spacing
-    Text('Second'),
+    FDText('First'),
+    FDSizedBox(height: 20), // Vertical spacing
+    FDText('Second'),
   ],
 )
 
-Row(
+FDRow(
   children: [
-    Text('Left'),
-    SizedBox(width: 30), // Horizontal spacing
-    Text('Right'),
+    FDText('Left'),
+    FDSizedBox(width: 30), // Horizontal spacing
+    FDText('Right'),
   ],
 )
 ```
 
-### Spacer
+### FDSpacer
 
-Flexible spacing in Row/Column.
+Flexible spacing in FDRow/FDColumn.
 
 ```dart
-Row(
+FDRow(
   children: [
-    Text('Left'),
-    Spacer(), // Takes all available space
-    Text('Right'),
+    FDText('Left'),
+    FDSpacer(), // Takes all available space
+    FDText('Right'),
   ],
 )
 ```
 
-### Expanded
+### FDExpanded
 
 Flexible child that fills available space.
 
 ```dart
-Row(
+FDRow(
   children: [
-    Text('Fixed'),
-    Expanded(
-      child: Container(color: FlartColors.blue),
+    FDText('Fixed'),
+    FDExpanded(
+      child: FDContainer(color: FlartColors.blue),
     ),
-    Text('Fixed'),
+    FDText('Fixed'),
   ],
 )
 ```
@@ -202,167 +202,167 @@ Row(
 
 ## Layout Widgets
 
-### Row
+### FDRow
 
 Horizontal layout.
 
 ```dart
-Row(
+FDRow(
   mainAxisAlignment: AxisAlignment.spaceBetween,
-  crossAxisAlignment: AxisAlignment.center,
+  crossAxisAlignment: Axis.center,
   children: [
-    Icon(icon: 'star'),
-    Text('Rating'),
-    Text('4.5'),
+    FDIcon(FDIcon: 'star'),
+    FDText('Rating'),
+    FDText('4.5'),
   ],
 )
 ```
 
 **Alignment Options:**
-- `AxisAlignment.start` - Align to start
-- `AxisAlignment.center` - Center align
-- `AxisAlignment.end` - Align to end
+- `AxisAlignment.start` - FDAlign to start
+- `Axis.center` - FDCenter FDAlign
+- `AxisAlignment.end` - FDAlign to end
 - `AxisAlignment.spaceBetween` - Space between items
 - `AxisAlignment.spaceAround` - Space around items
 - `AxisAlignment.spaceEvenly` - Even spacing
 
-### Column
+### FDColumn
 
 Vertical layout.
 
 ```dart
-Column(
-  mainAxisAlignment: AxisAlignment.center,
+FDColumn(
+  mainAxisAlignment: Axis.center,
   crossAxisAlignment: AxisAlignment.stretch,
   children: [
-    Text('Title'),
-    SizedBox(height: 10),
-    Text('Subtitle'),
-    SizedBox(height: 20),
-    ElevatedButton(
+    FDText('Title'),
+    FDSizedBox(height: 10),
+    FDText('Subtitle'),
+    FDSizedBox(height: 20),
+    FDElevatedButton(
       onPressed: () {},
-      child: Text('Action'),
+      child: FDText('Action'),
     ),
   ],
 )
 ```
 
-### Stack
+### FDStack
 
-Layered layout with positioned children.
+Layered layout with FDPositioned children.
 
 ```dart
-Stack(
+FDStack(
   children: [
-    Image(src: '/images/background.jpg'),
-    Positioned(
+    FDImage(src: '/images/background.jpg'),
+    FDPositioned(
       top: 20,
       right: 20,
-      child: Icon(icon: 'favorite', color: '#ff0000'),
+      child: FDIcon(FDIcon: 'favorite', color: '#ff0000'),
     ),
-    Positioned(
+    FDPositioned(
       bottom: 0,
       left: 0,
       right: 0,
-      child: Container(
+      child: FDContainer(
         color: 'rgba(0,0,0,0.5)',
         padding: EdgeInsets.all(16),
-        child: Text('Overlay Text', style: TextStyle(color: '#ffffff')),
+        child: FDText('Overlay FDText', style: TextStyle(color: '#ffffff')),
       ),
     ),
   ],
 )
 ```
 
-### Positioned
+### FDPositioned
 
-Absolute positioning within Stack.
+Absolute positioning within FDStack.
 
 ```dart
-Positioned(
+FDPositioned(
   top: 10,
   left: 10,
   width: 100,
   height: 100,
-  child: Container(color: FlartColors.red),
+  child: FDContainer(color: FlartColors.red),
 )
 ```
 
-### Center
+### FDCenter
 
 Centers its child.
 
 ```dart
-Center(
-  child: Text('Centered Text'),
+FDCenter(
+  child: FDText('Centered FDText'),
 )
 ```
 
-### Align
+### FDAlign
 
 Custom alignment.
 
 ```dart
-Align(
+FDAlign(
   alignment: Alignment.topRight,
-  child: Icon(icon: 'close'),
+  child: FDIcon(FDIcon: 'close'),
 )
 ```
 
 **Alignment Options:**
 - `Alignment.topLeft`, `Alignment.topCenter`, `Alignment.topRight`
-- `Alignment.centerLeft`, `Alignment.center`, `Alignment.centerRight`
+- `Alignment.centerLeft`, `.center`, `Alignment.centerRight`
 - `Alignment.bottomLeft`, `Alignment.bottomCenter`, `Alignment.bottomRight`
 
-### ListView
+### FDListView
 
 Scrollable list.
 
 ```dart
 // Static list
-ListView(
+FDListView(
   children: [
-    ListTile(title: Text('Item 1')),
-    ListTile(title: Text('Item 2')),
-    ListTile(title: Text('Item 3')),
+    ListTile(title: FDText('Item 1')),
+    ListTile(title: FDText('Item 2')),
+    ListTile(title: FDText('Item 3')),
   ],
 )
 
 // Builder pattern
-ListView.builder(
+FDListView.builder(
   itemCount: items.length,
   itemBuilder: (context, index) {
     return ListTile(
-      title: Text(items[index].title),
-      subtitle: Text(items[index].subtitle),
+      title: FDText(items[index].title),
+      subtitle: FDText(items[index].subtitle),
       onTap: () => selectItem(index),
     );
   },
 )
 
 // Separated list
-ListView.separated(
+FDListView.separated(
   itemCount: items.length,
-  itemBuilder: (context, index) => ListTile(title: Text(items[index])),
-  separatorBuilder: (context, index) => Divider(),
+  itemBuilder: (context, index) => ListTile(title: FDText(items[index])),
+  separatorBuilder: (context, index) => FDDivider(),
 )
 ```
 
-### GridView
+### FDGridView
 
 Grid layout.
 
 ```dart
-GridView(
+FDGridView(
   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
     crossAxisCount: 3,
     crossAxisSpacing: 10,
     mainAxisSpacing: 10,
   ),
   children: [
-    Card(child: Center(child: Text('1'))),
-    Card(child: Center(child: Text('2'))),
-    Card(child: Center(child: Text('3'))),
+    FDCard(child: FDCenter(child: FDText('1'))),
+    FDCard(child: FDCenter(child: FDText('2'))),
+    FDCard(child: FDCenter(child: FDText('3'))),
   ],
 )
 ```
@@ -371,17 +371,17 @@ GridView(
 
 ## Input & Form Widgets
 
-### TextField
+### FDTextField
 
-Text input with validation and styling.
+FDText input with validation and styling.
 
 ```dart
-TextField(
+FDTextField(
   label: 'Email',
   placeholder: 'Enter your email',
   keyboardType: TextInputType.email,
-  prefixIcon: Icon(icon: 'email'),
-  suffixIcon: Icon(icon: 'check'),
+  prefixIcon: FDIcon(FDIcon: 'email'),
+  suffixIcon: FDIcon(FDIcon: 'check'),
   errorText: hasError ? 'Invalid email' : null,
   helperText: 'We\'ll never share your email',
   onChanged: (value) => validateEmail(value),
@@ -391,18 +391,18 @@ TextField(
 ```
 
 **Input Types:**
-- `TextInputType.text` - Regular text
+- `TextInputType.FDText` - Regular FDText
 - `TextInputType.email` - Email keyboard
 - `TextInputType.number` - Numeric keyboard
 - `TextInputType.phone` - Phone keyboard
 - `TextInputType.url` - URL keyboard
 
-### TextFormField
+### FDTextFormField
 
-TextField with built-in validation.
+FDTextField with built-in validation.
 
 ```dart
-TextFormField(
+FDTextFormField(
   label: 'Password',
   obscureText: true,
   validator: (value) {
@@ -420,7 +420,7 @@ TextFormField(
 
 ### TextArea
 
-Multi-line text input.
+Multi-line FDText input.
 
 ```dart
 TextArea(
@@ -433,63 +433,63 @@ TextArea(
 )
 ```
 
-### Checkbox
+### FDCheckbox
 
 Boolean selection.
 
 ```dart
-Checkbox(
+FDCheckbox(
   value: isChecked,
   onChanged: (value) => setState(() => isChecked = value),
   activeColor: FlartColors.blue,
 )
 
 // With label
-Row(
+FDRow(
   children: [
-    Checkbox(value: agreed, onChanged: (v) => setState(() => agreed = v)),
-    Text('I agree to the terms'),
+    FDCheckbox(value: agreed, onChanged: (v) => setState(() => agreed = v)),
+    FDText('I agree to the terms'),
   ],
 )
 ```
 
-### Radio
+### FDRadio
 
 Single selection from options.
 
 ```dart
-Column(
+FDColumn(
   children: [
-    Row(
+    FDRow(
       children: [
-        Radio<String>(
+        FDRadio<String>(
           value: 'option1',
           groupValue: selectedOption,
           onChanged: (value) => setState(() => selectedOption = value),
         ),
-        Text('Option 1'),
+        FDText('Option 1'),
       ],
     ),
-    Row(
+    FDRow(
       children: [
-        Radio<String>(
+        FDRadio<String>(
           value: 'option2',
           groupValue: selectedOption,
           onChanged: (value) => setState(() => selectedOption = value),
         ),
-        Text('Option 2'),
+        FDText('Option 2'),
       ],
     ),
   ],
 )
 ```
 
-### Switch
+### FDSwitch
 
-Toggle switch.
+Toggle FDSwitch.
 
 ```dart
-Switch(
+FDSwitch(
   value: isEnabled,
   onChanged: (value) => setState(() => isEnabled = value),
   activeColor: FlartColors.green,
@@ -497,21 +497,21 @@ Switch(
 )
 
 // With label
-Row(
+FDRow(
   mainAxisAlignment: AxisAlignment.spaceBetween,
   children: [
-    Text('Enable notifications'),
-    Switch(value: notifications, onChanged: toggleNotifications),
+    FDText('Enable notifications'),
+    FDSwitch(value: notifications, onChanged: toggleNotifications),
   ],
 )
 ```
 
-### Slider
+### FDSlider
 
 Range selection.
 
 ```dart
-Slider(
+FDSlider(
   value: volume,
   min: 0.0,
   max: 100.0,
@@ -521,10 +521,10 @@ Slider(
 )
 
 // With label
-Column(
+FDColumn(
   children: [
-    Text('Volume: ${volume.toInt()}'),
-    Slider(
+    FDText('Volume: ${volume.toInt()}'),
+    FDSlider(
       value: volume,
       min: 0,
       max: 100,
@@ -541,11 +541,11 @@ Dropdown selection menu.
 ```dart
 DropdownButton<String>(
   value: selectedCountry,
-  hint: Text('Select Country'),
+  hint: FDText('Select Country'),
   items: [
-    DropdownMenuItem(value: 'us', child: Text('United States')),
-    DropdownMenuItem(value: 'uk', child: Text('United Kingdom')),
-    DropdownMenuItem(value: 'ca', child: Text('Canada')),
+    DropdownMenuItem(value: 'us', child: FDText('United States')),
+    DropdownMenuItem(value: 'uk', child: FDText('United Kingdom')),
+    DropdownMenuItem(value: 'ca', child: FDText('Canada')),
   ],
   onChanged: (value) => setState(() => selectedCountry = value),
   width: 200,
@@ -554,31 +554,31 @@ DropdownButton<String>(
 
 ### Form
 
-Form container with validation.
+Form FDContainer with validation.
 
 ```dart
 final formKey = GlobalKey<FormState>();
 
 Form(
   key: formKey,
-  child: Column(
+  child: FDColumn(
     children: [
-      TextFormField(
+      FDTextFormField(
         label: 'Name',
         validator: (v) => v?.isEmpty ?? true ? 'Required' : null,
       ),
-      TextFormField(
+      FDTextFormField(
         label: 'Email',
         validator: (v) => v?.contains('@') == true ? null : 'Invalid',
       ),
-      ElevatedButton(
+      FDElevatedButton(
         onPressed: () {
           if (formKey.currentState!.validate()) {
             formKey.currentState!.save();
             submitForm();
           }
         },
-        child: Text('Submit'),
+        child: FDText('Submit'),
       ),
     ],
   ),
@@ -594,7 +594,7 @@ AutocompleteField(
   label: 'Country',
   placeholder: 'Type to search...',
   suggestions: ['USA', 'UK', 'Canada', 'Australia', 'Germany'],
-  prefixIcon: Icon(icon: 'search'),
+  prefixIcon: FDIcon(FDIcon: 'search'),
   onSelected: (value) => selectCountry(value),
   onChanged: (value) => filterSuggestions(value),
 )
@@ -618,10 +618,10 @@ File selection.
 
 ```dart
 FileUpload(
-  label: 'Upload Image',
-  accept: 'image/*',
+  label: 'Upload FDImage',
+  accept: 'FDImage/*',
   multiple: false,
-  buttonText: 'Choose Image',
+  buttonText: 'Choose FDImage',
   onChanged: (files) => uploadFiles(files),
 )
 
@@ -636,15 +636,15 @@ FileUpload(
 
 ---
 
-## Button Widgets
+## FDButton Widgets
 
-### Button
+### FDButton
 
-Generic button with comprehensive events.
+Generic FDButton with comprehensive events.
 
 ```dart
-Button(
-  text: 'Click Me',
+FDButton(
+  FDText: 'Click Me',
   onPressed: () => print('Clicked'),
   onDoubleClick: () => print('Double clicked'),
   onLongPress: () => print('Long pressed'),
@@ -672,14 +672,14 @@ Button(
 - `onFocus`, `onBlur` - Focus events
 - `onContextMenu` - Right click
 
-### ElevatedButton
+### FDElevatedButton
 
-Material design elevated button.
+Material design elevated FDButton.
 
 ```dart
-ElevatedButton(
+FDElevatedButton(
   onPressed: () => submitForm(),
-  child: Text('Submit'),
+  child: FDText('Submit'),
   cssStyle: {
     'background-color': '#28a745',
     'padding': '12px 24px',
@@ -687,35 +687,35 @@ ElevatedButton(
 )
 ```
 
-### TextButton
+### FDTextButton
 
-Flat text button.
+Flat FDText FDButton.
 
 ```dart
-TextButton(
+FDTextButton(
   label: 'Cancel',
   onPressed: () => cancel(),
   style: TextStyle(color: '#6c757d'),
 )
 ```
 
-### IconButton
+### FDIconButton
 
-Icon-only button.
+FDIcon-only FDButton.
 
 ```dart
-IconButton(
-  icon: Icon(icon: 'favorite', size: 24, color: '#ff0000'),
+FDIconButton(
+  FDIcon: FDIcon(FDIcon: 'favorite', size: 24, color: '#ff0000'),
   onPressed: () => toggleFavorite(),
 )
 ```
 
-### GestureDetector
+### FDGestureDetector
 
 Comprehensive gesture detection.
 
 ```dart
-GestureDetector(
+FDGestureDetector(
   // Tap events
   onTap: () => print('Tapped'),
   onDoubleTap: () => print('Double tapped'),
@@ -746,25 +746,25 @@ GestureDetector(
   onScroll: () => print('Scrolled'),
   onMouseMove: () => print('Mouse moved'),
   
-  child: Container(
+  child: FDContainer(
     width: 200,
     height: 200,
     color: FlartColors.blue,
-    child: Center(child: Text('Interact with me')),
+    child: FDCenter(child: FDText('Interact with me')),
   ),
 )
 ```
 
 ---
 
-## Text Widgets
+## FDText Widgets
 
-### Text
+### FDText
 
-Basic text display.
+Basic FDText display.
 
 ```dart
-Text(
+FDText(
   'Hello World',
   style: TextStyle(
     fontSize: 24,
@@ -773,11 +773,11 @@ Text(
     fontFamily: 'Arial',
     textDecoration: 'underline',
   ),
-  textAlign: TextAlign.center,
+  textAlign: .center,
 )
 ```
 
-**Text Styles:**
+**FDText Styles:**
 - `fontSize` - Size in pixels
 - `fontWeight` - 'normal', 'bold', '100'-'900'
 - `color` - Hex color
@@ -785,35 +785,35 @@ Text(
 - `textDecoration` - 'none', 'underline', 'line-through'
 - `fontStyle` - 'normal', 'italic'
 
-### RichText
+### FDRichText
 
-Styled text with multiple styles.
+Styled FDText with multiple styles.
 
 ```dart
-RichText(
+FDRichText(
   children: [
     TextSpan(
-      text: 'Bold ',
+      FDText: 'Bold ',
       style: TextStyle(fontWeight: 'bold'),
     ),
     TextSpan(
-      text: 'Italic ',
+      FDText: 'Italic ',
       style: TextStyle(fontStyle: 'italic'),
     ),
     TextSpan(
-      text: 'Colored',
+      FDText: 'Colored',
       style: TextStyle(color: '#ff0000'),
     ),
   ],
 )
 ```
 
-### LinkText
+### FDLinkText
 
 Clickable hyperlink.
 
 ```dart
-LinkText(
+FDLinkText(
   label: 'Visit Website',
   href: 'https://example.com',
   style: TextStyle(
@@ -824,12 +824,12 @@ LinkText(
 )
 ```
 
-### EditableText
+### FDEditableText
 
-Inline editable text.
+Inline editable FDText.
 
 ```dart
-EditableText(
+FDEditableText(
   initialValue: 'Edit me',
   onChanged: (value) => updateText(value),
   style: TextStyle(fontSize: 16),
@@ -840,47 +840,47 @@ EditableText(
 
 ## Picker Widgets
 
-### DatePicker
+### FDDatePicker
 
 Date selection.
 
 ```dart
-DatePicker(
+FDDatePicker(
   label: 'Select Date',
   initialDate: DateTime.now(),
   onChanged: (date) => selectDate(date),
 )
 ```
 
-### TimePicker
+### FDTimePicker
 
 Time selection.
 
 ```dart
-TimePicker(
+FDTimePicker(
   label: 'Select Time',
   initialTime: TimeOfDay.now(),
   onChanged: (time) => selectTime(time),
 )
 ```
 
-### ImagePicker
+### FDImagePicker
 
-Image file selection.
+FDImage file selection.
 
 ```dart
-ImagePicker(
-  label: 'Choose Image',
+FDImagePicker(
+  label: 'Choose FDImage',
   onChanged: (file) => uploadImage(file),
 )
 ```
 
-### DateRangePicker
+### FDDateRangePicker
 
 Date range selection.
 
 ```dart
-DateRangePicker(
+FDDateRangePicker(
   label: 'Select Date Range',
   startDate: DateTime.now(),
   endDate: DateTime.now().add(Duration(days: 7)),
@@ -888,24 +888,24 @@ DateRangePicker(
 )
 ```
 
-### MonthPicker
+### FDMonthPicker
 
 Month and year selection.
 
 ```dart
-MonthPicker(
+FDMonthPicker(
   label: 'Select Month',
   initialDate: DateTime.now(),
   onChanged: (date) => selectMonth(date),
 )
 ```
 
-### WeekPicker
+### FDWeekPicker
 
 Week selection.
 
 ```dart
-WeekPicker(
+FDWeekPicker(
   label: 'Select Week',
   initialWeek: '2026-W01',
   onChanged: (week) => selectWeek(week),
@@ -946,7 +946,7 @@ RangePicker(
 
 ### AnimatedContainer
 
-Animated container transitions.
+Animated FDContainer transitions.
 
 ```dart
 AnimatedContainer(
@@ -957,7 +957,7 @@ AnimatedContainer(
     color: isExpanded ? FlartColors.blue : FlartColors.red,
     borderRadius: BorderRadius.circular(isExpanded ? 50 : 10),
   ),
-  child: Center(child: Text('Tap to animate')),
+  child: FDCenter(child: FDText('Tap to animate')),
 )
 ```
 
@@ -969,7 +969,7 @@ Opacity transitions.
 AnimatedOpacity(
   opacity: isVisible ? 1.0 : 0.0,
   duration: Duration(milliseconds: 500),
-  child: Text('Fading text'),
+  child: FDText('Fading FDText'),
 )
 ```
 
@@ -981,7 +981,7 @@ Scale transitions.
 AnimatedScale(
   scale: isLarge ? 1.5 : 1.0,
   duration: Duration(milliseconds: 300),
-  child: Icon(icon: 'star', size: 48),
+  child: FDIcon(FDIcon: 'star', size: 48),
 )
 ```
 
@@ -993,7 +993,7 @@ Rotation transitions.
 AnimatedRotation(
   turns: rotations, // 0.5 = 180 degrees, 1.0 = 360 degrees
   duration: Duration(milliseconds: 500),
-  child: Icon(icon: 'refresh', size: 48),
+  child: FDIcon(FDIcon: 'refresh', size: 48),
 )
 ```
 
@@ -1005,7 +1005,7 @@ Slide transitions.
 AnimatedSlide(
   offset: isSlid ? Offset(1.0, 0) : Offset.zero,
   duration: Duration(milliseconds: 400),
-  child: Container(
+  child: FDContainer(
     width: 200,
     height: 100,
     color: FlartColors.blue,
@@ -1015,16 +1015,16 @@ AnimatedSlide(
 
 ### AnimatedPositioned
 
-Position transitions in Stack.
+Position transitions in FDStack.
 
 ```dart
-Stack(
+FDStack(
   children: [
     AnimatedPositioned(
       left: isRight ? 200 : 0,
       top: isBottom ? 200 : 0,
       duration: Duration(milliseconds: 500),
-      child: Container(
+      child: FDContainer(
         width: 100,
         height: 100,
         color: FlartColors.red,
@@ -1041,7 +1041,7 @@ Size transitions.
 ```dart
 AnimatedSize(
   duration: Duration(milliseconds: 300),
-  child: Container(
+  child: FDContainer(
     width: currentWidth,
     height: currentHeight,
     color: FlartColors.green,
@@ -1055,8 +1055,8 @@ Crossfade between two widgets.
 
 ```dart
 AnimatedCrossFade(
-  firstChild: Icon(icon: 'play_arrow', size: 48),
-  secondChild: Icon(icon: 'pause', size: 48),
+  firstChild: FDIcon(FDIcon: 'play_arrow', size: 48),
+  secondChild: FDIcon(FDIcon: 'pause', size: 48),
   showFirst: isPlaying,
   duration: Duration(milliseconds: 300),
 )
@@ -1070,8 +1070,8 @@ Auto fade-in on render.
 FadeIn(
   duration: Duration(milliseconds: 800),
   delay: Duration(milliseconds: 200),
-  child: Card(
-    child: Text('This card fades in automatically'),
+  child: FDCard(
+    child: FDText('This FDCard fades in automatically'),
   ),
 )
 ```
@@ -1163,58 +1163,58 @@ MapEmbed(
 
 ## Display Widgets
 
-### Chip
+### FDChip
 
 Compact information display.
 
 ```dart
-Chip(
-  label: Text('Flutter'),
-  avatar: Icon(icon: 'code', size: 20),
-  deleteIcon: Icon(icon: 'close', size: 18),
+FDChip(
+  label: FDText('Flutter'),
+  avatar: FDIcon(FDIcon: 'code', size: 20),
+  deleteIcon: FDIcon(FDIcon: 'close', size: 18),
   onDeleted: () => removeChip(),
   backgroundColor: FlartColor.hex('#e0e0e0'),
 )
 ```
 
-### Badge
+### FDBadge
 
-Notification badge.
+Notification FDBadge.
 
 ```dart
-Badge(
+FDBadge(
   label: '5',
-  child: Icon(icon: 'notifications', size: 24),
+  child: FDIcon(FDIcon: 'notifications', size: 24),
   backgroundColor: FlartColors.red,
   textColor: FlartColors.white,
   isVisible: true,
 )
 ```
 
-### Tooltip
+### FDTooltip
 
-Hover tooltip.
+Hover FDTooltip.
 
 ```dart
-Tooltip(
+FDTooltip(
   message: 'Click to favorite',
-  child: IconButton(
-    icon: Icon(icon: 'favorite'),
+  child: FDIconButton(
+    FDIcon: FDIcon(FDIcon: 'favorite'),
     onPressed: () => toggleFavorite(),
   ),
   backgroundColor: FlartColor.hex('#333333'),
 )
 ```
 
-### SnackBar
+### FDSnackBar
 
 Temporary message.
 
 ```dart
-SnackBar(
-  content: Text('Item deleted'),
+FDSnackBar(
+  content: FDText('Item deleted'),
   duration: Duration(seconds: 3),
-  action: TextButton(
+  action: FDTextButton(
     label: 'UNDO',
     onPressed: () => undoDelete(),
   ),
@@ -1222,12 +1222,12 @@ SnackBar(
 )
 ```
 
-### CircularProgressIndicator
+### FDCircularProgressIndicator
 
 Circular loading indicator.
 
 ```dart
-CircularProgressIndicator(
+FDCircularProgressIndicator(
   size: 40,
   strokeWidth: 4,
   color: FlartColors.blue,
@@ -1235,13 +1235,13 @@ CircularProgressIndicator(
 )
 ```
 
-### LinearProgressIndicator
+### FDLinearProgressIndicator
 
 Linear progress bar.
 
 ```dart
 // Determinate
-LinearProgressIndicator(
+FDLinearProgressIndicator(
   value: 0.7, // 70% complete
   height: 4,
   color: FlartColors.green,
@@ -1249,13 +1249,13 @@ LinearProgressIndicator(
 )
 
 // Indeterminate
-LinearProgressIndicator(
+FDLinearProgressIndicator(
   value: null, // Indeterminate
   height: 4,
 )
 ```
 
-### TabBar & TabBarView
+### FDTabBar & FDTabBarView
 
 Tabbed navigation.
 
@@ -1265,13 +1265,13 @@ class MyTabs extends StatefulWidget {
   
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return FDColumn(
       children: [
-        TabBar(
+        FDTabBar(
           tabs: [
-            Text('Tab 1'),
-            Text('Tab 2'),
-            Text('Tab 3'),
+            FDText('Tab 1'),
+            FDText('Tab 2'),
+            FDText('Tab 3'),
           ],
           currentIndex: currentTab,
           onTap: (index) => setState(() => currentTab = index),
@@ -1279,12 +1279,12 @@ class MyTabs extends StatefulWidget {
           labelColor: FlartColors.blue,
           unselectedLabelColor: FlartColors.grey,
         ),
-        TabBarView(
+        FDTabBarView(
           currentIndex: currentTab,
           children: [
-            Center(child: Text('Content 1')),
-            Center(child: Text('Content 2')),
-            Center(child: Text('Content 3')),
+            FDCenter(child: FDText('Content 1')),
+            FDCenter(child: FDText('Content 2')),
+            FDCenter(child: FDText('Content 3')),
           ],
         ),
       ],
@@ -1297,12 +1297,12 @@ class MyTabs extends StatefulWidget {
 
 ## Painting Widgets
 
-### CustomPaint
+### FDCustomPaint
 
 Canvas-based custom painting.
 
 ```dart
-CustomPaint(
+FDCustomPaint(
   painter: MyCustomPainter(),
   size: Size(200, 200),
 )
@@ -1331,13 +1331,13 @@ VideoPlayer(
 )
 ```
 
-### SvgPicture
+### FDSvgPicture
 
 SVG rendering.
 
 ```dart
-SvgPicture.asset(
-  'assets/icon.svg',
+FDSvgPicture.asset(
+  'assets/FDIcon.svg',
   width: 48,
   height: 48,
   color: FlartColors.blue,
@@ -1377,7 +1377,7 @@ PageNavigator.pop();
 
 ### AnimatedContainer
 
-A container that automatically transitions its values over a duration.
+A FDContainer that automatically transitions its values over a duration.
 
 ```dart
 AnimatedContainer(
@@ -1388,7 +1388,7 @@ AnimatedContainer(
   endWidth: 200,
   beginHeight: 100,
   endHeight: 100,
-  child: Center(child: Text('Animate')),
+  child: FDCenter(child: FDText('Animate')),
 )
 ```
 
@@ -1417,33 +1417,33 @@ controller.reverse();
 Access the comprehensive Material Design color palette.
 
 ```dart
-Container(
+FDContainer(
   color: FlartColors.purple, // Base purple
 )
 
-Container(
+FDContainer(
   color: FlartColors.deepOrange.shade100, // Light shade
 )
 
-Text(
+FDText(
   'Error',
   style: TextStyle(color: FlartColors.red),
 )
 ```
 
-### Icons
+### FDIcons
 
-Use the `Icons` class for standard Material icons.
+Use the `FDIcons` class for standard Material FDIcons.
 
 ```dart
-Icon(Icons.home)
-Icon(Icons.favorite, color: FlartColors.red)
-Icon(Icons.settings, size: 32)
+FDIcon(FDIcons.home)
+FDIcon(FDIcons.favorite, color: FlartColors.red)
+FDIcon(FDIcons.settings, size: 32)
 ```
 
 ### TextStyle
 
-Text styling.
+FDText styling.
 
 ```dart
 TextStyle(
@@ -1460,7 +1460,7 @@ TextStyle(
 
 ### BoxDecoration
 
-Container decoration.
+FDContainer decoration.
 
 ```dart
 BoxDecoration(
@@ -1524,7 +1524,7 @@ BorderRadius.only(
 Here's a complete example combining multiple widgets:
 
 ```dart
-import 'package:flart/flartdart.dart';
+import 'package:flartdart/flartdart.dart';
 
 void main() {
   runApp(MyApp());
@@ -1533,68 +1533,68 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Flart Demo'),
+    return FDMaterialApp(
+      home: FDScaffold(
+        FDAppBar: FDAppBar(
+          title: FDText('Flart Demo'),
           backgroundColor: FlartColor.hex('#007bff'),
         ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(16),
-            child: Column(
+            child: FDColumn(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Card with content
-                Card(
+                // FDCard with content
+                FDCard(
                   elevation: 2,
                   child: Padding(
                     padding: EdgeInsets.all(16),
-                    child: Column(
+                    child: FDColumn(
                       children: [
-                        Text(
+                        FDText(
                           'Welcome to Flart',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: 'bold',
                           ),
                         ),
-                        SizedBox(height: 8),
-                        Text('Build beautiful web apps with Flutter-style widgets'),
+                        FDSizedBox(height: 8),
+                        FDText('Build beautiful web apps with Flutter-style widgets'),
                       ],
                     ),
                   ),
                 ),
                 
-                SizedBox(height: 20),
+                FDSizedBox(height: 20),
                 
                 // Form
                 Form(
-                  child: Column(
+                  child: FDColumn(
                     children: [
-                      TextFormField(
+                      FDTextFormField(
                         label: 'Email',
                         keyboardType: TextInputType.email,
-                        prefixIcon: Icon(icon: 'email'),
+                        prefixIcon: FDIcon(FDIcon: 'email'),
                         validator: (v) => v?.contains('@') == true ? null : 'Invalid',
                       ),
-                      SizedBox(height: 16),
-                      TextFormField(
+                      FDSizedBox(height: 16),
+                      FDTextFormField(
                         label: 'Password',
                         obscureText: true,
-                        prefixIcon: Icon(icon: 'lock'),
+                        prefixIcon: FDIcon(FDIcon: 'lock'),
                         validator: (v) => v != null && v.length >= 8 ? null : 'Too short',
                       ),
-                      SizedBox(height: 24),
-                      ElevatedButton(
+                      FDSizedBox(height: 24),
+                      FDElevatedButton(
                         onPressed: () => print('Submit'),
-                        child: Text('Sign In'),
+                        child: FDText('Sign In'),
                       ),
                     ],
                   ),
                 ),
                 
-                SizedBox(height: 20),
+                FDSizedBox(height: 20),
                 
                 // Animated widget
                 AnimatedContainer(
@@ -1605,8 +1605,8 @@ class MyApp extends StatelessWidget {
                     color: FlartColors.blue,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Center(
-                    child: Text(
+                  child: FDCenter(
+                    child: FDText(
                       'Animated!',
                       style: TextStyle(color: '#ffffff'),
                     ),
@@ -1644,7 +1644,7 @@ ShaderWidget(
   width: 400,
   height: 400,
   animate: true,
-  child: Center(child: Text('Shader Background')),
+  child: FDCenter(child: FDText('Shader Background')),
 )
 ```
 
@@ -1683,7 +1683,7 @@ GradientShader(
 - `'horizontal'` - Left to right
 - `'vertical'` - Top to bottom
 - `'diagonal'` - Top-left to bottom-right
-- `'radial'` - Center outward
+- `'radial'` - FDCenter outward
 
 ### WaveShader
 
@@ -1696,8 +1696,8 @@ WaveShader(
   height: 200,
   speed: 1.5,
   amplitude: 0.1,
-  child: Center(
-    child: Text(
+  child: FDCenter(
+    child: FDText(
       'Wave Effect',
       style: TextStyle(color: '#ffffff', fontSize: 24),
     ),
@@ -1707,7 +1707,7 @@ WaveShader(
 
 ### RippleShader
 
-Ripple effect from center.
+Ripple effect from FDCenter.
 
 ```dart
 RippleShader(
@@ -1727,8 +1727,8 @@ PlasmaShader(
   width: 400,
   height: 400,
   speed: 0.5,
-  child: Center(
-    child: Text(
+  child: FDCenter(
+    child: FDText(
       'Plasma Background',
       style: TextStyle(color: '#ffffff', fontSize: 28, fontWeight: 'bold'),
     ),
@@ -1787,7 +1787,7 @@ NoiseShader(
 #### Hero Section with Gradient
 
 ```dart
-Stack(
+FDStack(
   children: [
     GradientShader(
       colors: ['#667eea', '#764ba2'],
@@ -1795,11 +1795,11 @@ Stack(
       width: double.infinity,
       height: 400,
     ),
-    Center(
-      child: Column(
-        mainAxisAlignment: AxisAlignment.center,
+    FDCenter(
+      child: FDColumn(
+        mainAxisAlignment: Axis.center,
         children: [
-          Text(
+          FDText(
             'Welcome',
             style: TextStyle(
               fontSize: 48,
@@ -1807,10 +1807,10 @@ Stack(
               color: '#ffffff',
             ),
           ),
-          SizedBox(height: 20),
-          ElevatedButton(
+          FDSizedBox(height: 20),
+          FDElevatedButton(
             onPressed: () => navigate(),
-            child: Text('Get Started'),
+            child: FDText('Get Started'),
           ),
         ],
       ),
@@ -1819,10 +1819,10 @@ Stack(
 )
 ```
 
-#### Card with Glow Effect
+#### FDCard with Glow Effect
 
 ```dart
-Stack(
+FDStack(
   children: [
     GlowShader(
       color: '#007bff',
@@ -1831,13 +1831,13 @@ Stack(
       intensity: 1.0,
       pulse: true,
     ),
-    Card(
+    FDCard(
       padding: EdgeInsets.all(20),
-      child: Column(
+      child: FDColumn(
         children: [
-          Text('Premium Feature', style: TextStyle(fontSize: 24)),
-          SizedBox(height: 10),
-          Text('Unlock amazing capabilities'),
+          FDText('Premium Feature', style: TextStyle(fontSize: 24)),
+          FDSizedBox(height: 10),
+          FDText('Unlock amazing capabilities'),
         ],
       ),
     ),
@@ -1852,13 +1852,13 @@ PlasmaShader(
   width: double.infinity,
   height: double.infinity,
   speed: 1.0,
-  child: Center(
-    child: Column(
-      mainAxisAlignment: AxisAlignment.center,
+  child: FDCenter(
+    child: FDColumn(
+      mainAxisAlignment: Axis.center,
       children: [
-        CircularProgressIndicator(color: FlartColors.white),
-        SizedBox(height: 20),
-        Text(
+        FDCircularProgressIndicator(color: FlartColors.white),
+        FDSizedBox(height: 20),
+        FDText(
           'Loading...',
           style: TextStyle(color: '#ffffff', fontSize: 20),
         ),
@@ -1875,7 +1875,7 @@ PlasmaShader(
 ### Performance
 - Use `const` constructors when possible
 - Minimize widget rebuilds
-- Use `ListView.builder` for long lists
+- Use `FDListView.builder` for long lists
 
 ### Styling
 - Define common styles as constants
@@ -1905,3 +1905,7 @@ PlasmaShader(
 ---
 
 **For more information, visit the [Flart documentation](https://pub.dev/packages/flart)**
+
+
+
+

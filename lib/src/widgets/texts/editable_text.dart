@@ -1,10 +1,9 @@
-
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
 typedef OnTextChanged = void Function(String value);
 typedef OnTextSubmitted = void Function(String value);
 
-class EditableText extends Widget {
+class FDEditableText extends Widget {
   final TextEditingController controller;
   final TextStyle? style;
   final String? placeholder;
@@ -15,7 +14,7 @@ class EditableText extends Widget {
   final TextAlign textAlign;
   final Map<String, String>? cssStyle;
 
-  EditableText({
+  FDEditableText({
     required this.controller,
     this.style,
     this.placeholder,
@@ -29,7 +28,7 @@ class EditableText extends Widget {
 
   String _getTextAlignCss() {
     switch (textAlign) {
-      case TextAlign.center:
+      case TextAlign.FDCenter:
         return 'center';
       case TextAlign.end:
         return 'right';
@@ -90,9 +89,9 @@ class EditableText extends Widget {
 }
 
 
-//EditableText(
+//FDEditableText(
 //   controller: TextEditingController(text: 'Edit me'),
-//   placeholder: 'Enter text',
+//   placeholder: 'Enter FDText',
 //   textAlign: TextAlign.center,
 //   style: TextStyle(
 //     fontSize: 18,
@@ -102,3 +101,6 @@ class EditableText extends Widget {
 //   onChanged: (value) => print('Changed: $value'),
 //   onSubmitted: (value) => print('Submitted: $value'),
 // )
+
+
+

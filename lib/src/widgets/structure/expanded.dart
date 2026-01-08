@@ -1,10 +1,10 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-class Expanded extends Widget {
+class FDExpanded extends Widget {
   final Widget child;
   final int flex;
 
-  Expanded({
+  FDExpanded({
     required this.child,
     this.flex = 1,
   });
@@ -20,3 +20,6 @@ class Expanded extends Widget {
 
 
 }
+
+
+

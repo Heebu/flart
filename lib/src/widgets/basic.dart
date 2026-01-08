@@ -1,11 +1,11 @@
-import 'dart:html';
+﻿import 'dart:html';
 
 import '../framework.dart';
 
-class Text extends StatelessWidget {
+class FDText extends StatelessWidget {
   final String text;
 
-  Text(this.text);
+  FDText(this.text);
 
   @override
   Widget build() {

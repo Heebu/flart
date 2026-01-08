@@ -1,14 +1,14 @@
-
+﻿
 import '../../../flartdart.dart';
 
-class AppBar extends Widget {
+class FDAppBar extends Widget {
   final Widget? title;
   final Widget? leading;
   final List<Widget>? actions;
   final FlartColor backgroundColor;
   final double elevation;
 
-  AppBar({
+  FDAppBar({
     this.title,
     this.leading,
     this.actions,
@@ -33,7 +33,7 @@ class AppBar extends Widget {
     ">
     ''');
 
-    // Leading (e.g., menu icon)
+    // Leading (e.g., menu FDIcon)
     buffer.write(
         '<div style="margin-right: 16px;">${leading?.render(context) ?? ''}</div>');
 
@@ -54,3 +54,7 @@ class AppBar extends Widget {
     return buffer.toString();
   }
 }
+
+
+
+

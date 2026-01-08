@@ -1,6 +1,6 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-/// A multi-line text input widget
+/// A multi-line FDText input widget
 class TextArea extends Widget {
   final TextEditingController? controller;
   final String? placeholder;

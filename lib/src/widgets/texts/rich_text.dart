@@ -1,31 +1,25 @@
+﻿import '../../../flartdart.dart';
 
-import '../../../flartdart.dart';
-import '../widget.dart';
-import 'text_span.dart';
-
-class RichText extends Widget {
+class FDRichText extends Widget {
   final TextSpan textSpan;
   final Map<String, String>? cssStyle;
 
-  RichText({
+  FDRichText({
     required this.textSpan,
     this.cssStyle,
   });
 
   @override
   String render(BuildContext context) {
-    final styleString = (cssStyle ?? {}).entries
-        .map((e) => '${e.key}: ${e.value};')
-        .join(' ');
+    final styleString =
+        (cssStyle ?? {}).entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     return '<div style="$styleString">${textSpan.render()}</div>';
   }
-
-
 }
 
 
-//RichText(
+//FDRichText(
 //   textSpan: TextSpan(
 //     text: "Hello ",
 //     style: TextStyle(color: FlartColor('#000')),
@@ -40,3 +34,6 @@ class RichText extends Widget {
 //     ],
 //   ),
 // )
+
+
+

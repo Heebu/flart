@@ -1,8 +1,6 @@
+﻿import '../../../flartdart.dart';
 
-
-import '../../../flartdart.dart';
-
-class Text extends Widget {
+class FDText extends Widget {
   final String content;
   final TextStyle? style;
   final Map<String, String>? cssStyle;
@@ -10,7 +8,7 @@ class Text extends Widget {
   final TextAlign? textAlign;
   final bool selectable;
 
-  Text(
+  FDText(
     this.content, {
     this.style,
     this.cssStyle,
@@ -41,9 +39,12 @@ class Text extends Widget {
 
 
 
-//Text(
+//FDText(
 //   'Welcome to Flart!',
 //   tag: TextTag.h1,
 //   textAlign: TextAlign.center,
 //   style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
 // );
+
+
+

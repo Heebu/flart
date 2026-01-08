@@ -1,4 +1,4 @@
-
+﻿
 import '../../../flartdart.dart';
 
 typedef ItemWidgetBuilder = Widget Function(BuildContext context, int index);
@@ -7,7 +7,7 @@ typedef SeparatorWidgetBuilder = Widget Function(
 
 enum ListViewType { static, builder, separated }
 
-class ListView extends Widget {
+class FDListView extends Widget {
   final Axis scrollDirection;
   final EdgeInsets? padding;
   final List<Widget>? children;
@@ -16,7 +16,7 @@ class ListView extends Widget {
   final SeparatorWidgetBuilder? separatorBuilder;
   final ListViewType type;
 
-  ListView._({
+  FDListView._({
     this.scrollDirection = Axis.vertical,
     this.padding,
     this.children,
@@ -27,12 +27,12 @@ class ListView extends Widget {
   });
 
   /// Regular children list
-  factory ListView({
+  factory FDListView({
     Axis scrollDirection = Axis.vertical,
     EdgeInsets? padding,
     required List<Widget> children,
   }) {
-    return ListView._(
+    return FDListView._(
       scrollDirection: scrollDirection,
       padding: padding,
       children: children,
@@ -41,13 +41,13 @@ class ListView extends Widget {
   }
 
   /// Builder variant
-  factory ListView.builder({
+  factory FDListView.builder({
     Axis scrollDirection = Axis.vertical,
     EdgeInsets? padding,
     required int itemCount,
     required ItemWidgetBuilder itemBuilder,
   }) {
-    return ListView._(
+    return FDListView._(
       scrollDirection: scrollDirection,
       padding: padding,
       itemCount: itemCount,
@@ -57,14 +57,14 @@ class ListView extends Widget {
   }
 
   /// Separated variant
-  factory ListView.separated({
+  factory FDListView.separated({
     Axis scrollDirection = Axis.vertical,
     EdgeInsets? padding,
     required int itemCount,
     required ItemWidgetBuilder itemBuilder,
     required SeparatorWidgetBuilder separatorBuilder,
   }) {
-    return ListView._(
+    return FDListView._(
       scrollDirection: scrollDirection,
       padding: padding,
       itemCount: itemCount,
@@ -78,7 +78,7 @@ class ListView extends Widget {
   String render(BuildContext context) {
     final styleMap = <String, String>{
       'display': 'flex',
-      'flex-direction': scrollDirection == Axis.vertical ? 'column' : 'row',
+      'flex-direction': scrollDirection == Axis.vertical ? 'FDColumn' : 'FDRow',
       'overflow': scrollDirection == Axis.vertical ? 'auto' : 'auto hidden',
       if (padding != null) 'padding': padding!.toCss(),
     };
@@ -113,3 +113,7 @@ class ListView extends Widget {
     return '<div style="$styleString">$content</div>';
   }
 }
+
+
+
+

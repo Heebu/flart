@@ -1,7 +1,8 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
+import '../../enums/text_input_type.dart';
 
-/// A text field widget for user input
-class TextField extends Widget {
+/// A FDText field widget for user input
+class FDTextField extends Widget {
   final TextEditingController? controller;
   final String? placeholder;
   final String? label;
@@ -27,7 +28,7 @@ class TextField extends Widget {
   final Widget? suffixIcon;
   final Map<String, String>? cssStyle;
 
-  TextField({
+  FDTextField({
     this.controller,
     this.placeholder,
     this.label,
@@ -117,19 +118,19 @@ class TextField extends Widget {
           const input = document.getElementById('$id');
           ${onChanged != null ? '''
             input.addEventListener('input', function(e) {
-              console.log('TextField changed:', e.target.value);
+              console.log('FDTextField changed:', e.target.value);
             });
           ''' : ''}
           ${onSubmitted != null ? '''
             input.addEventListener('keypress', function(e) {
               if (e.key === 'Enter') {
-                console.log('TextField submitted:', e.target.value);
+                console.log('FDTextField submitted:', e.target.value);
               }
             });
           ''' : ''}
           ${onTap != null ? '''
             input.addEventListener('click', function() {
-              console.log('TextField tapped');
+              console.log('FDTextField tapped');
             });
           ''' : ''}
         })();
@@ -145,14 +146,4 @@ class TextField extends Widget {
     if (keyboardType == TextInputType.url) return 'url';
     return 'text';
   }
-}
-
-/// Text input types
-enum TextInputType {
-  text,
-  number,
-  email,
-  phone,
-  url,
-  multiline,
 }

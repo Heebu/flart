@@ -1,4 +1,4 @@
-library flartdart;
+﻿library flartdart;
 
 // Core
 export 'src/widgets/widget.dart';
@@ -17,6 +17,8 @@ export 'src/enums/grid_view_type.dart';
 export 'src/enums/indexed_widget_bulder.dart';
 export 'src/enums/text_align.dart';
 export 'src/enums/text_tag.dart';
+export 'src/enums/text_input_type.dart';
+export 'src/enums/box_fit.dart';
 
 // Controllers
 export 'src/controllers/text_editing_controller.dart';
@@ -36,7 +38,7 @@ export 'src/styles/media_querry.dart';
 export 'src/styles/navigation.dart';
 export 'src/styles/text_style.dart';
 export 'src/styles/shape.dart';
-export 'src/styles/custom_painting.dart' hide CustomPainter, CustomPaint;
+export 'src/styles/custom_painting.dart' hide CustomPainter, FDCustomPaint;
 export 'src/styles/decoration_image.dart';
 
 // Animation
@@ -97,7 +99,6 @@ export 'src/widgets/texts/text_span.dart';
 export 'src/widgets/texts/selectable_text.dart';
 export 'src/widgets/texts/link_text.dart';
 export 'src/widgets/texts/editable_text.dart';
-
 // Pickers
 export 'src/widgets/pickers/date_picker.dart';
 export 'src/widgets/pickers/time_picker.dart';

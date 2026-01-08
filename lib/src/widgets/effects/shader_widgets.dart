@@ -1,4 +1,4 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
 /// Base shader widget with customizable shader code
 class ShaderWidget extends Widget {
@@ -279,8 +279,8 @@ class RippleShader extends Widget {
     final shader = '''
       void main() {
         vec2 uv = gl_FragCoord.xy / resolution;
-        vec2 center = vec2(0.5);
-        float dist = distance(uv, center);
+        vec2 FDCenter = vec2(0.5);
+        float dist = distance(uv, FDCenter);
         float ripple = sin(dist * 20.0 - time * $speed * 5.0) * 0.5 + 0.5;
         vec3 color = vec3(${_hexToRgb(color)});
         gl_FragColor = vec4(color * ripple, ripple);
@@ -370,8 +370,8 @@ class GlowShader extends Widget {
     final shader = '''
       void main() {
         vec2 uv = gl_FragCoord.xy / resolution;
-        vec2 center = vec2(0.5);
-        float dist = distance(uv, center);
+        vec2 FDCenter = vec2(0.5);
+        float dist = distance(uv, FDCenter);
         float glow = exp(-dist * 5.0) * $intensity;
         ${pulse ? 'glow *= (sin(time * 2.0) * 0.5 + 0.5);' : ''}
         vec3 color = vec3(${_hexToRgb(color)});
@@ -436,3 +436,6 @@ class NoiseShader extends Widget {
     ).render(context);
   }
 }
+
+
+

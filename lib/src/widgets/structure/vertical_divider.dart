@@ -1,6 +1,6 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-class VerticalDivider extends Widget {
+class FDVerticalDivider extends Widget {
   final double thickness;
   final double? indent;
   final double? endIndent;
@@ -9,7 +9,7 @@ class VerticalDivider extends Widget {
   final EdgeInsets? margin;
   final Map<String, String>? cssStyle;
 
-  VerticalDivider({
+  FDVerticalDivider({
     this.thickness = 1.0,
     this.indent,
     this.endIndent,
@@ -39,3 +39,6 @@ class VerticalDivider extends Widget {
 
 
 }
+
+
+

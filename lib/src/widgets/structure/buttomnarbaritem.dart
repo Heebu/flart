@@ -1,12 +1,12 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-class BottomNavigationBarItem {
-  final Icon icon;
-  final Icon? activeIcon;
+class FDBottomNavigationBarItem {
+  final FDIcon icon;
+  final FDIcon? activeIcon;
   final String? label;
   final Widget? badge;
 
-  BottomNavigationBarItem({
+  FDBottomNavigationBarItem({
     required this.icon,
     this.activeIcon,
     this.label,

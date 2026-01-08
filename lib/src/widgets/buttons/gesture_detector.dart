@@ -1,8 +1,8 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:html' as html;
 import '../../../flartdart.dart';
 
-class GestureDetector extends Widget {
+class FDGestureDetector extends Widget {
   final Widget child;
 
   // Tap events
@@ -44,7 +44,7 @@ class GestureDetector extends Widget {
   // Wheel/Scroll events
   final VoidCallback? onScroll;
 
-  GestureDetector({
+  FDGestureDetector({
     required this.child,
     this.onTap,
     this.onDoubleTap,
@@ -191,3 +191,6 @@ class GestureDetector extends Widget {
     return '<div id="$id" tabindex="0" style="outline: none; display: inherit;">${child.render(context)}</div>';
   }
 }
+
+
+

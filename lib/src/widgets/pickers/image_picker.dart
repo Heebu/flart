@@ -1,20 +1,20 @@
-import 'dart:html' as html;
+﻿import 'dart:html' as html;
 import '../../../flartdart.dart';
 import '../../helper/file_picker_manager.dart';
 
 typedef ImagePickCallback = void Function(List<html.File> files);
 
-class ImagePicker extends Widget {
+class FDImagePicker extends Widget {
   final bool multiple;
   final ImagePickCallback onImageSelected;
   final Map<String, String>? cssStyle;
   final String buttonLabel;
 
-  ImagePicker({
+  FDImagePicker({
     required this.onImageSelected,
     this.multiple = false,
     this.cssStyle,
-    this.buttonLabel = 'Pick Image',
+    this.buttonLabel = 'Pick FDImage',
   });
 
   @override
@@ -25,7 +25,7 @@ class ImagePicker extends Widget {
 
     return '''
       <div>
-        <input type="file" id="$id" accept="image/*" style="display:none;" ${multiple ? 'multiple' : ''} />
+        <input type="file" id="$id" accept="FDImage/*" style="display:none;" ${multiple ? 'multiple' : ''} />
         <button style="$styleString" onclick="document.getElementById('$id').click()">
           $buttonLabel
         </button>
@@ -40,7 +40,7 @@ class ImagePicker extends Widget {
 }
 
 
-//ImagePicker(
+//FDImagePicker(
 //   multiple: false,
 //   buttonLabel: "Upload Profile Pic",
 //   cssStyle: {
@@ -56,3 +56,6 @@ class ImagePicker extends Widget {
 //     // You can generate a Blob URL or base64 if needed
 //   },
 // )
+
+
+

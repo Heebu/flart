@@ -1,9 +1,9 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-class Center extends Widget {
+class FDCenter extends Widget {
   final Widget child;
 
-  Center({required this.child});
+  FDCenter({required this.child});
 
   @override
   String render(BuildContext context) {
@@ -20,3 +20,7 @@ class Center extends Widget {
     ''';
   }
 }
+
+
+
+

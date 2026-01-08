@@ -1,12 +1,15 @@
+﻿import 'package:flartdart/flartdart.dart';
+import 'package:flartdart/src/widgets/structure/icons.dart';
+
 import '../../../flartdart.dart';
 import '../../helper/callback_manager.dart';
 
-class IconButton extends Widget {
-  final Icon icon;
+class FDIconButton extends Widget {
+  final FDIcon icon;
   final VoidCallback? onPressed;
   final Map<String, String>? cssStyle;
 
-  IconButton({
+  FDIconButton({
     required this.icon,
     this.onPressed,
     this.cssStyle,

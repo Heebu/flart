@@ -1,10 +1,10 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-class Stack extends Widget {
+class FDStack extends Widget {
   final List<Widget> children;
   final Map<String, String>? cssStyle;
 
-  Stack({
+  FDStack({
     required this.children,
     this.cssStyle,
   });
@@ -26,3 +26,6 @@ class Stack extends Widget {
     return buffer.toString();
   }
 }
+
+
+

@@ -1,4 +1,4 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-01-02
 
-### 🎉 Initial Release
+### ðŸŽ‰ Initial Release
 
 #### Added - Core Framework
 - **Widget System**: Base `Widget`, `StatelessWidget`, and `StatefulWidget` classes
@@ -16,72 +16,72 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Run App**: Application entry point
 
 #### Added - Structure Widgets (15)
-- `Scaffold` - Application structure
-- `AppBar` - Top app bar
-- `Container` - Layout container
-- `Card` - Material design card
-- `Drawer` - Side navigation drawer
-- `BottomNavigationBar` - Bottom navigation
-- `FloatingActionButton` - Floating action button
-- `Dialog` - Modal dialogs
-- `Divider` & `VerticalDivider` - Visual separators
-- `SizedBox` - Fixed size box
-- `Spacer` - Flexible space
-- `Expanded` - Flexible child
-- `Image` - Image display
-- `Icon` - Icon display
+- `FDScaffold` - Application structure
+- `FDAppBar` - Top app bar
+- `FDContainer` - Layout FDContainer
+- `FDCard` - Material design FDCard
+- `FDDrawer` - Side navigation FDDrawer
+- `FDBottomNavigationBar` - Bottom navigation
+- `FDFloatingActionButton` - Floating action FDButton
+- `FDDialog` - Modal dialogs
+- `FDDivider` & `FDVerticalDivider` - Visual separators
+- `FDSizedBox` - Fixed size box
+- `FDSpacer` - Flexible space
+- `FDExpanded` - Flexible child
+- `FDImage` - FDImage display
+- `FDIcon` - FDIcon display
 
 #### Added - Layout Widgets (8)
-- `Row` - Horizontal layout
-- `Column` - Vertical layout
-- `Stack` - Layered layout
-- `Positioned` - Absolute positioning
-- `Center` - Center alignment
-- `Align` - Custom alignment
-- `ListView` - Scrollable list
-- `GridView` - Grid layout
+- `FDRow` - Horizontal layout
+- `FDColumn` - Vertical layout
+- `FDStack` - Layered layout
+- `FDPositioned` - Absolute positioning
+- `FDCenter` - FDCenter alignment
+- `FDAlign` - Custom alignment
+- `FDListView` - Scrollable list
+- `FDGridView` - Grid layout
 
 #### Added - Input & Form Widgets (15)
-- `TextField` - Text input with validation
-- `TextFormField` - Form text field
+- `FDTextField` - FDText input with validation
+- `FDTextFormField` - Form FDText field
 - `TextArea` - Multi-line input
-- `Checkbox` - Checkbox input
-- `Radio` - Radio button
-- `Switch` - Toggle switch
-- `Slider` - Range slider
+- `FDCheckbox` - FDCheckbox input
+- `FDRadio` - FDRadio FDButton
+- `FDSwitch` - Toggle FDSwitch
+- `FDSlider` - Range FDSlider
 - `DropdownButton` - Dropdown menu
-- `Form` - Form container
+- `Form` - Form FDContainer
 - `FormField` - Generic form field
 - `AutocompleteField` - Autocomplete input
 - `ColorPicker` - Color selection
 - `FileUpload` - File upload
 
-#### Added - Button Widgets (5)
-- `Button` - Generic button with 13 event handlers
-- `ElevatedButton` - Material elevated button
-- `TextButton` - Text-only button
-- `IconButton` - Icon button
-- `GestureDetector` - Comprehensive gesture detection (20+ events)
+#### Added - FDButton Widgets (5)
+- `FDButton` - Generic FDButton with 13 event handlers
+- `FDElevatedButton` - Material elevated FDButton
+- `FDTextButton` - FDText-only FDButton
+- `FDIconButton` - FDIcon FDButton
+- `FDGestureDetector` - Comprehensive gesture detection (20+ events)
 
-#### Added - Text Widgets (5)
-- `Text` - Basic text display
-- `RichText` - Styled text
-- `EditableText` - Editable text
-- `LinkText` - Hyperlink text
+#### Added - FDText Widgets (5)
+- `FDText` - Basic FDText display
+- `FDRichText` - Styled FDText
+- `FDEditableText` - Editable FDText
+- `FDLinkText` - Hyperlink FDText
 
 #### Added - Picker Widgets (9)
-- `DatePicker` - Date selection
-- `TimePicker` - Time selection
-- `ImagePicker` - Image file selection
-- `DateRangePicker` - Date range selection
-- `MonthPicker` - Month selection
-- `WeekPicker` - Week selection
+- `FDDatePicker` - Date selection
+- `FDTimePicker` - Time selection
+- `FDImagePicker` - FDImage file selection
+- `FDDateRangePicker` - Date range selection
+- `FDMonthPicker` - Month selection
+- `FDWeekPicker` - Week selection
 - `DateTimePicker` - Date and time selection
 - `RangePicker` - Numeric range selection
 - `ColorPicker` - Color selection
 
 #### Added - Animated Widgets (8)
-- `AnimatedContainer` - Animated container
+- `AnimatedContainer` - Animated FDContainer
 - `AnimatedOpacity` - Opacity animation
 - `AnimatedPositioned` - Position animation
 - `AnimatedRotation` - Rotation animation
@@ -99,22 +99,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `MapEmbed` - Google Maps embed
 
 #### Added - Display Widgets (7)
-- `Chip` - Compact info display
-- `Badge` - Notification badge
-- `Tooltip` - Hover tooltip
-- `SnackBar` - Temporary message
-- `CircularProgressIndicator` - Circular loader
-- `LinearProgressIndicator` - Linear progress bar
-- `TabBar` & `TabBarView` - Tabbed navigation
+- `FDChip` - Compact info display
+- `FDBadge` - Notification FDBadge
+- `FDTooltip` - Hover FDTooltip
+- `FDSnackBar` - Temporary message
+- `FDCircularProgressIndicator` - Circular loader
+- `FDLinearProgressIndicator` - Linear progress bar
+- `FDTabBar` & `FDTabBarView` - Tabbed navigation
 
 #### Added - Painting Widgets (2)
-- `CustomPaint` - Canvas painting
-- `SvgPicture` - SVG rendering
+- `FDCustomPaint` - Canvas painting
+- `FDSvgPicture` - SVG rendering
 
 #### Added - Styling System
 - `FlartColor` - Color management
-- `TextStyle` - Text styling
-- `BoxDecoration` - Container decoration
+- `TextStyle` - FDText styling
+- `BoxDecoration` - FDContainer decoration
 - `Border` & `BorderSide` - Border styling
 - `BorderRadius` - Corner rounding
 - `BoxShadow` - Shadow effects
@@ -123,14 +123,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Gradient` - Color gradients
 
 #### Added - Controllers
-- `TextEditingController` - Text input control
+- `TextEditingController` - FDText input control
 - `AnimationController` - Animation control
 
 #### Added - Enums
 - `Axis` - Layout direction
 - `AxisAlignment` - Alignment options
-- `TextAlign` - Text alignment
-- `TextTag` - HTML text tags
+- `TextAlign` - FDText alignment
+- `TextTag` - HTML FDText tags
 - `GridViewType` - Grid layout types
 - `TextInputType` - Input types
 
@@ -141,7 +141,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Duration` - Time duration
 - `Curve` - Animation curves
 
-### 📚 Documentation
+### ðŸ“š Documentation
 - Comprehensive README with examples
 - API documentation
 - Widget catalog
@@ -149,7 +149,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Animation examples
 - Media integration examples
 
-### 🎯 Features
+### ðŸŽ¯ Features
 - **Zero Dependencies**: Pure Dart web framework
 - **100+ Widgets**: Comprehensive widget library
 - **Flutter-Style API**: Familiar for Flutter developers
@@ -160,7 +160,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Gesture Detection**: 20+ gesture events
 - **Theming**: Customizable styles
 
-### 🔧 Technical
+### ðŸ”§ Technical
 - Dart SDK: >=3.0.0 <4.0.0
 - Platform: Web only
 - No external dependencies
@@ -185,3 +185,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 
 [1.0.0]: https://github.com/Heebu/flart/releases/tag/v1.0.0
+
+
+

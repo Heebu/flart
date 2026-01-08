@@ -1,22 +1,22 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-class Icon extends Widget {
+class FDIcon extends Widget {
   final String icon;
   final double size;
   final FlartColor color;
-  final String? tooltip;
+  final String? FDTooltip;
 
-  Icon({
+  FDIcon({
     required this.icon,
     this.size = 24.0,
     this.color = const FlartColor('0xFF000000'),
-    this.tooltip,
+    this.FDTooltip,
   });
 
   @override
   String render(BuildContext context) {
     final colorHex = color.toString();
-    final tooltipAttr = tooltip != null ? 'title="$tooltip"' : '';
+    final tooltipAttr = FDTooltip != null ? 'title="$FDTooltip"' : '';
 
     return '''
       <i class="material-icons" style="font-size: ${size}px; color: $colorHex;" $tooltipAttr>
@@ -26,7 +26,7 @@ class Icon extends Widget {
   }
 }
 
-class Icons {
+class FDIcons {
   static const String add = 'add';
   static const String home = 'home';
   static const String menu = 'menu';
@@ -81,3 +81,7 @@ class Icons {
   static const String more_vert = 'more_vert';
   static const String more_horiz = 'more_horiz';
 }
+
+
+
+

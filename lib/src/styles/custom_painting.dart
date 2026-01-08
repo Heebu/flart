@@ -1,16 +1,16 @@
-import '../../flartdart.dart';
+﻿import '../../flartdart.dart';
 import 'dart:html';
 
 abstract class CustomPainter {
   void paint(CanvasRenderingContext2D context, num width, num height);
 }
 
-class CustomPaint extends Widget {
+class FDCustomPaint extends Widget {
   final CustomPainter painter;
   final double width;
   final double height;
 
-  CustomPaint({
+  FDCustomPaint({
     required this.painter,
     this.width = 300,
     this.height = 150,
@@ -48,8 +48,11 @@ class MyPainter extends CustomPainter {
 
 //useage
 
-// CustomPaint(
+// FDCustomPaint(
 // width: 500,
 // height: 300,
 // painter: MyPainter(),
 // )
+
+
+

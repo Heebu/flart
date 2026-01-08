@@ -1,7 +1,7 @@
-import 'dart:html';
+﻿import 'dart:html';
 import '../../../flartdart.dart';
 
-class MaterialApp extends Widget {
+class FDMaterialApp extends Widget {
   final String title;
   final FlartColor? backgroundColor;
   final String? fontFamily;
@@ -11,7 +11,7 @@ class MaterialApp extends Widget {
   final String? favicon;
   final BuildContext? context; // Optional context parameter
 
-  const MaterialApp({
+  const FDMaterialApp({
     required this.title,
     required this.home,
     this.backgroundColor,
@@ -53,12 +53,12 @@ class MaterialApp extends Widget {
 
   void _injectFavicon() {
     // Remove existing
-    final existingParams = document.head?.querySelectorAll("link[rel*='icon']");
+    final existingParams = document.head?.querySelectorAll("link[rel*='FDIcon']");
     existingParams?.forEach((el) => el.remove());
 
     final link = LinkElement()
-      ..type = 'image/x-icon'
-      ..rel = 'shortcut icon'
+      ..type = 'FDImage/x-FDIcon'
+      ..rel = 'shortcut FDIcon'
       ..href = favicon ?? 'assets/flart_logo.png';
     document.head?.append(link);
   }
@@ -66,7 +66,7 @@ class MaterialApp extends Widget {
   void _injectMaterialIcons() {
     final iconLink = LinkElement()
       ..rel = 'stylesheet'
-      ..href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+      ..href = 'https://fonts.googleapis.com/FDIcon?family=Material+FDIcons';
     document.head?.append(iconLink);
   }
 
@@ -85,3 +85,6 @@ class MaterialApp extends Widget {
     document.head?.append(metaViewport);
   }
 }
+
+
+

@@ -1,4 +1,4 @@
-import '../../flartdart.dart';
+﻿import '../../flartdart.dart';
 import 'border.dart';
 import 'box_gradient.dart';
 import 'border_radius.dart';
@@ -9,7 +9,7 @@ class BoxDecoration {
   final BorderRadius? borderRadius;
   final List<BoxShadow>? boxShadow;
   final Border? border;
-  final String? image; // URL string
+  final String? FDImage; // URL string
   final Gradient? gradient;
 
   const BoxDecoration({
@@ -17,7 +17,7 @@ class BoxDecoration {
     this.borderRadius,
     this.boxShadow,
     this.border,
-    this.image,
+    this.FDImage,
     this.gradient,
   });
 
@@ -42,9 +42,9 @@ class BoxDecoration {
     }
 
     if (gradient != null) {
-      style['background-image'] = gradient!.toCss();
-    } else if (image != null) {
-      style['background-image'] = 'url("$image")';
+      style['background-FDImage'] = gradient!.toCss();
+    } else if (FDImage != null) {
+      style['background-FDImage'] = 'url("$FDImage")';
       style['background-size'] = 'cover';
       style['background-position'] = 'center';
     }
@@ -52,3 +52,7 @@ class BoxDecoration {
     return style;
   }
 }
+
+
+
+

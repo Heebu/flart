@@ -1,14 +1,14 @@
-
+﻿
 import '../../../flartdart.dart';
 
-class Align extends Widget {
+class FDAlign extends Widget {
   final Widget child;
   final Aligns alignment;
   final Map<String, String>? cssStyle;
 
-  Align({
+  FDAlign({
     required this.child,
-    this.alignment = Aligns.center,
+    this.alignment = Aligns.FDCenter,
     this.cssStyle,
   });
 
@@ -23,3 +23,6 @@ class Align extends Widget {
     return '<div style="$combinedStyle">${child.render(context)}</div>';
   }
 }
+
+
+

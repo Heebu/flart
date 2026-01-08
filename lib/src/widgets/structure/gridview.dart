@@ -1,9 +1,9 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 import '../../enums/indexed_widget_bulder.dart';
 
 enum GridViewType { count, extent, builder }
 
-class GridView extends Widget {
+class FDGridView extends Widget {
   final GridViewType type;
   final int? crossAxisCount;       // for count
   final double? maxCrossAxisExtent; // for extent
@@ -15,7 +15,7 @@ class GridView extends Widget {
   final double? childAspectRatio;
   final Map<String, String>? cssStyle;
 
-  GridView.count({
+  FDGridView.count({
     required this.crossAxisCount,
     required this.children,
     this.crossAxisSpacing = 0,
@@ -27,7 +27,7 @@ class GridView extends Widget {
         itemCount = null,
         maxCrossAxisExtent = null;
 
-  GridView.extent({
+  FDGridView.extent({
     required this.maxCrossAxisExtent,
     required this.children,
     this.crossAxisSpacing = 0,
@@ -39,7 +39,7 @@ class GridView extends Widget {
         itemCount = null,
         crossAxisCount = null;
 
-  GridView.builder({
+  FDGridView.builder({
     required this.itemBuilder,
     required this.itemCount,
     this.crossAxisCount = 2,
@@ -91,3 +91,7 @@ class GridView extends Widget {
     return '<div style="$styleString">$childrenHtml</div>';
   }
 }
+
+
+
+

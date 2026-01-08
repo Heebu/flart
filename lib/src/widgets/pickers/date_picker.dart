@@ -1,14 +1,14 @@
-import 'dart:html';
+﻿import 'dart:html';
 import '../../../flartdart.dart';
 
 typedef DateCallback = void Function(DateTime date);
 
-class DatePicker extends Widget {
+class FDDatePicker extends Widget {
   final DateCallback onDateSelected;
   final String? initialDate;
   final Map<String, String>? cssStyle;
 
-  DatePicker({
+  FDDatePicker({
     required this.onDateSelected,
     this.initialDate,
     this.cssStyle,
@@ -40,3 +40,6 @@ class DatePicker extends Widget {
     });
   }
 }
+
+
+

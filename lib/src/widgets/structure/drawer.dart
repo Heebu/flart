@@ -1,11 +1,11 @@
-
+﻿
 import '../../../flartdart.dart';
 
-class Drawer extends Widget {
+class FDDrawer extends Widget {
   final Widget child;
   final Map<String, String>? cssStyle;
 
-  const Drawer({
+  const FDDrawer({
     required this.child,
     this.cssStyle,
   });
@@ -33,7 +33,9 @@ class Drawer extends Widget {
 }
 
 
-//GestureDetector(
+//FDGestureDetector(
 //   onTap: () => "toggleDrawer();",
-//   child: Icon(Icons.menu),
+//   child: FDIcon(FDIcons.menu),
 // )
+
+

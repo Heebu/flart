@@ -1,4 +1,4 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
 /// A video player widget
 class VideoPlayer extends Widget {
@@ -9,7 +9,7 @@ class VideoPlayer extends Widget {
   final bool controls;
   final bool loop;
   final bool muted;
-  final String? poster; // Thumbnail image
+  final String? poster; // Thumbnail FDImage
   final VoidCallback? onPlay;
   final VoidCallback? onPause;
   final VoidCallback? onEnded;
@@ -240,3 +240,6 @@ class MapEmbed extends Widget {
     ''';
   }
 }
+
+
+

@@ -1,4 +1,4 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 import 'dart:html';
 
 class AnimatedContainer extends Widget {
@@ -28,7 +28,7 @@ class AnimatedContainer extends Widget {
   String render(BuildContext context) {
     final id = 'animated_container_${DateTime.now().millisecondsSinceEpoch}';
 
-    // Create the initial container with base styles
+    // Create the initial FDContainer with base styles
     final initialStyle = {
       'width': '${beginWidth}px',
       'height': '${beginHeight}px',
@@ -37,7 +37,7 @@ class AnimatedContainer extends Widget {
       ...?cssStyle,
     }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
-    // Initialize the container HTML
+    // Initialize the FDContainer HTML
     final containerHtml = '''
       <div id="$id" style="$initialStyle">
         ${child?.render(context) ?? ''}
@@ -46,7 +46,7 @@ class AnimatedContainer extends Widget {
 
     // Schedule the animation updates
     controller.addListener(() {
-      // Update the animation container styles on each controller value change
+      // Update the animation FDContainer styles on each controller value change
       _animateContainer(id, controller);
     });
 
@@ -56,7 +56,7 @@ class AnimatedContainer extends Widget {
     return containerHtml;
   }
 
-  // Function to animate the container based on the controller's progress
+  // Function to animate the FDContainer based on the controller's progress
   void _animateContainer(String id, AnimationController controller) {
     final progress = controller.value; // Get the current progress
 
@@ -65,10 +65,10 @@ class AnimatedContainer extends Widget {
     final currentWidth = beginWidth + (endWidth - beginWidth) * progress;
     final currentHeight = beginHeight + (endHeight - beginHeight) * progress;
 
-    // Get the container element and update its style
-    final container = document.getElementById(id);
-    if (container != null) {
-      container.style
+    // Get the FDContainer element and update its style
+    final FDContainer = document.getElementById(id);
+    if (FDContainer != null) {
+      FDContainer.style
         ..backgroundColor = interpolatedColor.toString()
         ..width = '${currentWidth}px'
         ..height = '${currentHeight}px';
@@ -95,3 +95,5 @@ class AnimatedContainer extends Widget {
 //
 // // then call this when needed
 // controller.forward();
+
+

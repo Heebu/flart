@@ -1,7 +1,7 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 import '../../helper/callback_manager.dart';
 
-class ElevatedButton extends Widget {
+class FDElevatedButton extends Widget {
   final Widget child;
   final VoidCallback? onPressed;
   final VoidCallback? onLongPress;
@@ -11,7 +11,7 @@ class ElevatedButton extends Widget {
   final Map<String, String>? activeStyle;
   final Map<String, String>? disabledStyle;
 
-  ElevatedButton({
+  FDElevatedButton({
     required this.child,
     this.onPressed,
     this.onLongPress,
@@ -108,3 +108,7 @@ class ElevatedButton extends Widget {
     return buffer.toString();
   }
 }
+
+
+
+

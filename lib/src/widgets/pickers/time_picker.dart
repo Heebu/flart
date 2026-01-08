@@ -1,14 +1,14 @@
-import 'dart:html';
+﻿import 'dart:html';
 import '../../../flartdart.dart';
 
 typedef TimeCallback = void Function(String time); // or Duration
 
-class TimePicker extends Widget {
+class FDTimePicker extends Widget {
   final TimeCallback onTimeSelected;
   final String? initialTime;
   final Map<String, String>? cssStyle;
 
-  TimePicker({
+  FDTimePicker({
     required this.onTimeSelected,
     this.initialTime,
     this.cssStyle,
@@ -40,3 +40,6 @@ class TimePicker extends Widget {
     });
   }
 }
+
+
+

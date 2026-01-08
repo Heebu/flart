@@ -1,15 +1,15 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 import '../../helper/callback_manager.dart';
 
 typedef FlartVoidCallback = String Function();
 
-class FloatingActionButton extends Widget {
+class FDFloatingActionButton extends Widget {
   final Widget child;
   final FlartColor backgroundColor;
   final VoidCallback? onPressed;
   final Map<String, String>? cssStyle;
 
-  FloatingActionButton({
+  FDFloatingActionButton({
     required this.child,
     this.backgroundColor = FlartColors.green,
     this.onPressed,
@@ -57,3 +57,8 @@ class FloatingActionButton extends Widget {
     return 'fab_${now.millisecondsSinceEpoch}_${now.microsecondsSinceEpoch}';
   }
 }
+
+
+
+
+

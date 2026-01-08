@@ -1,12 +1,12 @@
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
-class SizedBox extends Widget {
+class FDSizedBox extends Widget {
   final double? width;
   final double? height;
   final Widget? child;
   final Map<String, String>? cssStyle;
 
-  SizedBox({this.width, this.height, this.child, this.cssStyle});
+  FDSizedBox({this.width, this.height, this.child, this.cssStyle});
 
   @override
   String render(BuildContext context) {
@@ -25,3 +25,6 @@ class SizedBox extends Widget {
 
 
 }
+
+
+
