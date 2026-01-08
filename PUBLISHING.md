@@ -56,6 +56,8 @@ Ensure package follows pub.dev best practices:
 ```bash
 cd example
 dart run build_runner serve
+# Also verify production build
+dart run build_runner build --output build
 ```
 
 ## 📝 Publishing Commands

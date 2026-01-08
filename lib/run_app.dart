@@ -8,15 +8,12 @@ Element? _appContainer;
 void runApp(Widget rootWidget) {
   _rootWidget = rootWidget;
 
-  // Find the app FDContainer
   _appContainer = document.querySelector('#output') ??
       document.querySelector('#app') ??
       document.body;
 
-  // Initial render
   _renderApp();
 
-  // Set up mutation observer to handle dynamic content
   print('Flart app initialized and rendered');
 }
 
@@ -30,10 +27,8 @@ void _renderApp() {
     final context = BuildContext(widget: _rootWidget!);
     final html = _rootWidget!.render(context);
 
-    // Clear and render
     _appContainer!.setInnerHtml(html, treeSanitizer: NodeTreeSanitizer.trusted);
 
-    // Attach event listeners after rendering
     _attachEventListeners();
 
     print('App rendered successfully');
@@ -52,6 +47,3 @@ void reRenderApp() {
   print('Re-rendering app...');
   _renderApp();
 }
-
-
-

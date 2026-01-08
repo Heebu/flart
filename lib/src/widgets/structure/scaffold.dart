@@ -39,14 +39,12 @@ class FDScaffold extends Widget {
       content.writeln(bottomNavigationBar!.render(context));
     }
 
-    // Build main FDScaffold layout
     final scaffoldHtml = '''
     <div style="$style ${rawCss ?? ''}">
       ${content.toString()}
     </div>
     ''';
 
-    // FDDrawer layout
     final drawerHtml = drawer != null
         ? '''
       <div id="flart-drawer" style="
@@ -76,7 +74,6 @@ class FDScaffold extends Widget {
     '''
         : '';
 
-    // Floating Action FDButton
     final fabHtml = FDFloatingActionButton != null
         ? '''
       <div style="

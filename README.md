@@ -334,11 +334,32 @@ cd flart
 dart pub get
 ```
 
+### Installation
+
+Add Flart to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  flart: ^1.1.0
+```
+
+Then run:
+```bash
+dart pub get
+```
+
 ### Run Examples
 
 ```bash
 cd example
 dart run build_runner serve
+```
+
+### Build for Production
+
+```bash
+cd example
+dart run build_runner build --output build
 ```
 
 ### Run Tests

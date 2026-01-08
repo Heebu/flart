@@ -2,7 +2,6 @@ class FlartColor {
   final String hex;
   const FlartColor(this.hex);
 
-  // Convert hex color to RGB components
   Map<String, int> _hexToRgb() {
     final hexWithoutHash = hex.replaceFirst('#', '');
     final r = int.parse(hexWithoutHash.substring(0, 2), radix: 16);
@@ -11,7 +10,6 @@ class FlartColor {
     return {'r': r, 'g': g, 'b': b};
   }
 
-  // Interpolate between two FlartColor objects
   FlartColor lerp(FlartColor other, double t) {
     final thisRgb = _hexToRgb();
     final otherRgb = other._hexToRgb();
@@ -24,12 +22,10 @@ class FlartColor {
     return FlartColor(hex);
   }
 
-  // Helper method to interpolate color components
   int _lerpComponent(int start, int end, double t) {
     return (start + ((end - start) * t)).toInt();
   }
 
-  // Convert RGB values back to hex
   String _rgbToHex(int r, int g, int b) {
     return '#${r.toRadixString(16).padLeft(2, '0')}${g.toRadixString(16).padLeft(2, '0')}${b.toRadixString(16).padLeft(2, '0')}';
   }

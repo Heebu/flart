@@ -11,10 +11,9 @@ class ShowcaseApp extends Widget {
   String render(BuildContext context) {
     return FDMaterialApp(
       context: context,
-      title: 'Flart Kitchen Sink',
+      title: 'Flart Premium Showcase',
       home: const HomePage(),
-      favicon: '/assets/flart_logo.png',
-      darkMode: true,
+      darkMode: false,
     ).render(context);
   }
 }
@@ -28,9 +27,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _counter = 0;
-  bool _switchValue = false;
-  bool _checkboxValue = false;
-  String _typedText = '';
+  bool _showEffects = true;
 
   void _incrementCounter() {
     setState(() {
@@ -38,404 +35,301 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void _decrementCounter() {
-    setState(() {
-      _counter--;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return FDScaffold(
+      // Gradient FDAppBar using rawCss
       appBar: FDAppBar(
-        title: FDText('Flart Kitchen Sink'),
+        title: FDText(
+          'Flart Premium',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
+        rawCss:
+            'background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 15px rgba(0,0,0,0.1);',
       ),
       drawer: FDDrawer(
-        child: FDListView(
-          padding: EdgeInsets.all(0),
+        child: FDColumn(
           children: [
-            FDContainer(
-              height: 150,
-              decoration: BoxDecoration(color: FlartColors.blue),
-              alignment: Alignment.center,
-              child: FDText(
-                'Flart Menu',
-                style: TextStyle(
-                    color: '#FFFFFF',
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold),
+            // Header with GradientShader
+            GradientShader(
+              height: 180,
+              width: double.infinity,
+              colors: ['#a18cd1', '#fbc2eb'],
+              direction: 'diagonal',
+              child: FDCenter(
+                child: FDColumn(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FDIcon(
+                        icon: FDIcons.person,
+                        size: 60,
+                        color: FlartColors.white),
+                    FDSizedBox(height: 10),
+                    FDText('User Profile',
+                        style: TextStyle(
+                            color: FlartColors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
             ),
-            FDGestureDetector(
-              onTap: () => print('Menu item 1 tapped'),
-              child: FDContainer(
-                padding: EdgeInsets.all(16),
-                child: FDRow(children: [
-                  FDIcon(icon: FDIcons.home),
-                  FDSizedBox(width: 16),
-                  FDText('Home')
-                ]),
-              ),
-            ),
-            FDGestureDetector(
-              onTap: () => print('Menu item 2 tapped'),
-              child: FDContainer(
-                padding: EdgeInsets.all(16),
-                child: FDRow(children: [
-                  FDIcon(icon: FDIcons.settings),
-                  FDSizedBox(width: 16),
-                  FDText('Settings')
-                ]),
-              ),
-            ),
+            // Menu Items with rawCss hover effects
+            _buildMenuItem(FDIcons.home, 'Home'),
+            _buildMenuItem(FDIcons.settings, 'Settings'),
+            _buildMenuItem(FDIcons.info, 'About'),
           ],
         ),
       ),
-      body: FDListView(
+      body: FDSingleChildScrollView(
         padding: EdgeInsets.all(20),
-        children: [
-          _buildHeading('Animations & Navigation'),
-          FDCard(
-            padding: EdgeInsets.all(16),
-            child: FDColumn(
+        child: FDColumn(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // 1. Hero Section using Raw CSS & FDStack
+            FDStack(
               children: [
-                FDText('Navigation Demo'),
-                FDSizedBox(height: 10),
-                FDElevatedButton(
-                  child: FDText('Push New Page'),
-                  onPressed: () {
-                    PageNavigator.seed(const HomePage());
-                    PageNavigator.push(const SecondPage());
-                  },
+                FDContainer(
+                  height: 250,
+                  rawCss: '''
+                    background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+                    border-radius: 20px;
+                    box-shadow: 0 10px 25px rgba(132, 250, 176, 0.4);
+                  ''',
                 ),
-                FDSizedBox(height: 20),
-                FDText('Animation Demo'),
-                FDSizedBox(height: 10),
-                AnimatedContainerDemo(),
+                FDPositioned(
+                  top: 40,
+                  left: 30,
+                  child: FDColumn(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FDText(
+                        'Next Gen Web UI',
+                        style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: FlartColors.white),
+                      ),
+                      FDSizedBox(height: 10),
+                      FDText(
+                        'Built with pure Dart & love',
+                        style:
+                            TextStyle(fontSize: 18, color: FlartColors.white),
+                      ),
+                      FDSizedBox(height: 20),
+                      FDElevatedButton(
+                        child: FDText('Get Started ✨'),
+                        onPressed: _incrementCounter,
+                        cssStyle: {
+                          'background': 'white',
+                          'color': '#333',
+                          'font-weight': 'bold',
+                        },
+                        rawCss:
+                            'border-radius: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.2s;',
+                      )
+                    ],
+                  ),
+                ),
+                FDPositioned(
+                  right: 30,
+                  bottom: -20,
+                  child: FDSvgPicture.asset(
+                    'assets/hero_image.svg',
+                    width: 150,
+                    height: 150,
+                    rawCss:
+                        'filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2)); transform: rotate(-10deg);',
+                  ),
+                  // Note: In a real app ensure asset exists or use a fallback
+                ),
               ],
             ),
-          ),
-          FDSizedBox(height: 20),
-          _buildHeading('Buttons & Interactions'),
-          FDCard(
-            padding: EdgeInsets.all(16),
-            child: FDColumn(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FDRow(
-                  children: [
-                    FDElevatedButton(
-                      child: FDText('Elevated FDButton'),
-                      onPressed: () => print('Elevated Pressed'),
-                    ),
-                    FDSizedBox(width: 10),
-                    FDTooltip(
-                      message: 'I am an FDIcon FDButton',
-                      child: FDIconButton(
-                        icon:
-                            FDIcon(icon: FDIcons.favorite, color: FlartColors.red),
-                        onPressed: () => print('FDIcon Pressed'),
+
+            FDSizedBox(height: 40),
+
+            _buildSectionHeader('Interactive Shaders'),
+
+            // 2. Interactive Shader Playground
+            FDCard(
+              padding: EdgeInsets.all(0),
+              rawCss:
+                  'overflow: hidden; border-radius: 16px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.05);',
+              child: FDColumn(
+                children: [
+                  FDRow(
+                    children: [
+                      // Plasma Shader
+                      FDExpanded(
+                        child: FDContainer(
+                          height: 200,
+                          child: PlasmaShader(
+                            speed: 1.5,
+                            child: FDCenter(
+                              child: FDText(
+                                'Plasma',
+                                style: TextStyle(
+                                    color: FlartColors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                      // Wave Shader with rawCss overlay
+                      FDExpanded(
+                        child: FDContainer(
+                          height: 200,
+                          child: WaveShader(
+                            color: '#4facfe',
+                            amplitude: 0.2,
+                            speed: 2.0,
+                            child: FDCenter(
+                              child: FDContainer(
+                                padding: EdgeInsets.all(10),
+                                rawCss:
+                                    'background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); border-radius: 10px;',
+                                child: FDText(
+                                  'Waves & Glass',
+                                  style: TextStyle(
+                                      color: FlartColors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            FDSizedBox(height: 40),
+
+            _buildSectionHeader('Standard vs Raw CSS'),
+
+            // 3. Comparison Section
+            FDRow(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildDemoCard(
+                  'Standard Widget',
+                  FDElevatedButton(
+                    child: FDText('Click Me'),
+                    onPressed: () {},
+                    cssStyle: {'background-color': '#2196F3'}, // Standard way
+                  ),
                 ),
-                FDSizedBox(height: 10),
-                FDGestureDetector(
-                  onTap: _incrementCounter,
-                  child: FDContainer(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: FlartColors.blue.shade100,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: FDText('Custom Gesture FDButton (Tap Me)'),
+                FDSizedBox(width: 20),
+                _buildDemoCard(
+                  'Raw CSS Enhanced',
+                  FDElevatedButton(
+                    child: FDText('Hover Me!'),
+                    onPressed: () {},
+                    // Raw CSS for advanced effects like gradients, shadows, and transforms
+                    rawCss: '''
+                      background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
+                      border: 0;
+                      box-shadow: 0 3px 5px 2px rgba(255, 105, 135, .3);
+                      color: white;
+                      border-radius: 3px;
+                      transition: transform 0.3s;
+                    ''',
                   ),
                 ),
               ],
             ),
-          ),
-          FDSizedBox(height: 20),
-          _buildHeading('State & Counters'),
-          FDCard(
-            padding: EdgeInsets.all(16),
-            child: FDColumn(
-              children: [
-                FDText('Counter: $_counter',
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: FlartColors.blue.hex)),
-                FDSizedBox(height: 10),
-                FDRow(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FDElevatedButton(
-                      cssStyle: {'background-color': '#F44336'},
-                      child: FDText('Decrement'),
-                      onPressed: _decrementCounter,
-                    ),
-                    FDSizedBox(width: 10),
-                    FDElevatedButton(
-                      child: FDText('Increment'),
-                      onPressed: _incrementCounter,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          FDSizedBox(height: 20),
-          _buildHeading('Colors & FDIcons'),
-          FDCard(
-            padding: EdgeInsets.all(16),
-            child: FDColumn(
-              children: [
-                FDRow(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FDIcon(icon: FDIcons.star, color: FlartColors.amber, size: 32),
-                    FDSizedBox(width: 10),
-                    FDIcon(
-                        icon: FDIcons.favorite, color: FlartColors.red, size: 32),
-                    FDSizedBox(width: 10),
-                    FDIcon(
-                        icon: FDIcons.thumb_up,
-                        color: FlartColors.blue,
-                        size: 32),
-                    FDSizedBox(width: 10),
-                    FDIcon(
-                        icon: FDIcons.check_circle,
-                        color: FlartColors.green,
-                        size: 32),
-                  ],
-                ),
-                FDSizedBox(height: 20),
-                FDText(
-                  'This FDText uses FlartColors.purple',
-                  style: TextStyle(
-                      color: FlartColors.purple, fontWeight: FontWeight.bold),
-                ),
-                FDSizedBox(height: 5),
-                FDText(
-                  'This FDText uses FlartColors.deepOrange',
-                  style: TextStyle(
-                      color: FlartColors.deepOrange,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-          FDSizedBox(height: 20),
-          _buildHeading('Inputs'),
-          FDCard(
-            padding: EdgeInsets.all(16),
-            child: FDColumn(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FDTextField(
-                  label: 'Type something',
-                  placeholder: 'Enter FDText...',
-                  onChanged: (val) {
-                    setState(() {
-                      _typedText = val;
-                    });
-                  },
-                ),
-                FDSizedBox(height: 10),
-                FDText('You typed: $_typedText'),
-                FDSizedBox(height: 20),
-                FDRow(
-                  children: [
-                    FDSwitch(
-                      value: _switchValue,
-                      activeColor: FlartColors.green,
-                      onChanged: (val) {
-                        setState(() {
-                          _switchValue = !_switchValue;
-                        });
-                      },
-                    ),
-                    FDSizedBox(width: 8),
-                    FDText('switch is ${_switchValue ? "ON" : "OFF"}'),
-                  ],
-                ),
-                FDSizedBox(height: 10),
-                FDRow(
-                  children: [
-                    FDCheckbox(
-                      value: _checkboxValue,
-                      onChanged: (val) {
-                        setState(() {
-                          _checkboxValue = !_checkboxValue;
-                        });
-                      },
-                    ),
-                    FDSizedBox(width: 8),
-                    FDText(
-                        'FDCheckbox is ${_checkboxValue ? "Checked" : "Unchecked"}'),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          FDSizedBox(height: 20),
-          _buildHeading('FDText Selection'),
-          FDCard(
-            padding: EdgeInsets.all(16),
-            child: FDColumn(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FDText(
-                    'This FDText is NOT selectable (default default behavior). Try selecting me!'),
-                FDSizedBox(height: 10),
-                FDText(
-                  'This FDText IS selectable (selectable: true). Select me!',
-                  selectable: true,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                FDSizedBox(height: 10),
-                FDSelectableText(
-                  'This is using the FDSelectableText widget.',
-                  style: TextStyle(color: FlartColors.blue.hex),
-                ),
-              ],
-            ),
-          ),
-          FDSizedBox(height: 20),
-          _buildHeading('Grid Layout'),
-          FDGridView.count(
-            crossAxisCount: 3,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            children: List.generate(
-                6,
-                (index) => FDContainer(
-                      height: 80,
-                      decoration: BoxDecoration(
-                          color: FlartColors
-                                  .blue.shades[100 * ((index % 9) + 1)] ??
-                              FlartColors.blue),
-                      child:
-                          FDText('Item $index', style: TextStyle(color: '#fff')),
-                    )),
-          ),
-          FDSizedBox(height: 20),
-          _buildHeading('Assets & Defaults'),
-          FDCard(
-            padding: EdgeInsets.all(16),
-            child: FDColumn(
-              children: [
-                FDText('Default FDImage Fallback (Empty Source):'),
-                FDSizedBox(height: 10),
-                FDImage.network(
-                  '', // Empty source should trigger default
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.contain,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FDFloatingActionButton(
-        onPressed: _incrementCounter,
-        child: FDIcon(icon: FDIcons.add),
-      ),
-    );
-  }
 
-  Widget _buildHeading(String text) {
-    return FDContainer(
-      margin: EdgeInsets.only(bottom: 10),
-      child: FDText(text,
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: '#444',
-        ),
-      ),
-    );
-  }
-}
+            FDSizedBox(height: 40),
 
-class SecondPage extends Widget {
-  const SecondPage();
+            _buildSectionHeader('Web Integration'),
 
-  @override
-  String render(BuildContext context) {
-    return FDScaffold(
-      appBar: FDAppBar(title: FDText('Second Page')),
-      body: FDCenter(
-        child: FDColumn(
-          children: [
-            FDText('You have navigated to the second page!'),
-            FDSizedBox(height: 20),
-            FDElevatedButton(
-              child: FDText('Go Back'),
-              onPressed: () {
-                PageNavigator.pop();
-              },
+            // 4. Web Component (Iframe)
+            FDContainer(
+              height: 300,
+              rawCss:
+                  'border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #eee;',
+              child: FDIframe(
+                src: 'https://flutter.dev',
+                title: 'Flutter Website',
+                rawCss:
+                    'filter: grayscale(100%); transition: filter 0.5s;', // Start grayscale
+              ),
+            ),
+            FDText(
+              '* Hover logic could remove grayscale via JS, or just use rawCss for initial styling.',
+              style: TextStyle(fontSize: 12, color: FlartColors.grey),
             ),
           ],
         ),
       ),
-    ).render(context);
-  }
-}
-
-class AnimatedContainerDemo extends StatefulWidget {
-  @override
-  State<AnimatedContainerDemo> createState() => _AnimatedContainerDemoState();
-}
-
-class _AnimatedContainerDemoState extends State<AnimatedContainerDemo> {
-  late AnimationController _controller;
-  bool _toggled = false;
-
-  @override
-  void initState() {
-    _controller = AnimationController(
-        duration: Duration(seconds: 1), upperBound: 1.0, lowerBound: 0.0);
-    super.initState();
+      floatingActionButton: FDFloatingActionButton(
+        onPressed: _incrementCounter,
+        child: FDIcon(icon: FDIcons.add),
+        rawCss:
+            'background: #ff512f; background: -webkit-linear-gradient(to right, #dd2476, #ff512f); background: linear-gradient(to right, #dd2476, #ff512f);', // Instagram-like gradient
+      ),
+    );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return FDColumn(
-      children: [
-        AnimatedContainer(
-          controller: _controller,
-          beginColor: FlartColors.blue,
-          endColor: FlartColors.red,
-          beginWidth: 100,
-          endWidth: 200,
-          beginHeight: 100,
-          endHeight: 100,
-          child: FDCenter(
-              child:
-                  FDText('Animate', style: TextStyle(color: FlartColors.white))),
+  Widget _buildSectionHeader(String title) {
+    return FDContainer(
+      margin: EdgeInsets.only(bottom: 15),
+      child: FDRow(
+        children: [
+          FDContainer(
+              width: 4,
+              height: 24,
+              rawCss: 'background: #667eea; border-radius: 2px;'),
+          FDSizedBox(width: 10),
+          FDText(
+            title,
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: '#2d3748'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDemoCard(String title, Widget content) {
+    return FDExpanded(
+      child: FDContainer(
+        padding: EdgeInsets.all(20),
+        rawCss:
+            'background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;',
+        child: FDColumn(
+          children: [
+            FDText(title,
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: '#718096')),
+            FDSizedBox(height: 15),
+            content,
+          ],
         ),
-        FDSizedBox(height: 20),
-        FDElevatedButton(
-          child: FDText(_toggled ? 'Reverse' : 'Forward'),
-          onPressed: () {
-            _toggled = !_toggled;
-            if (_toggled) {
-              _controller.forward();
-            } else {
-              _controller.reverse();
-            }
-            // Force rebuild regarding FDButton FDText
-            setState(() {});
-          },
+      ),
+    );
+  }
+
+  Widget _buildMenuItem(String icon, String title) {
+    return FDGestureDetector(
+      onTap: () => print('$title tapped'),
+      rawCss: 'cursor: pointer;',
+      child: FDContainer(
+        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+        rawCss:
+            'border-bottom: 1px solid #f7fafc; transition: background 0.2s;',
+        child: FDRow(
+          children: [
+            FDIcon(icon: icon, color: FlartColors.grey, size: 20),
+            FDSizedBox(width: 15),
+            FDText(title, style: TextStyle(color: '#4a5568', fontSize: 16)),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
-
-
-
-
-
