@@ -31,6 +31,7 @@ class FDButton extends Widget {
   final VoidCallback? onContextMenu;
 
   final Map<String, String>? cssStyle;
+  final String? rawCss;
   final bool draggable;
 
   FDButton({
@@ -52,6 +53,7 @@ class FDButton extends Widget {
     this.onContextMenu,
     this.cssStyle,
     this.draggable = false,
+    this.rawCss,
   });
 
   @override
@@ -131,7 +133,7 @@ class FDButton extends Widget {
 
     final content = child?.render(context) ?? (text ?? label ?? 'Button');
 
-    return '<button id="$id" style="$styles" ${draggable ? 'draggable="true"' : ''}">$content</button>';
+    return '<button id="$id" style="$styles ${rawCss ?? ''}" ${draggable ? 'draggable="true"' : ''}">$content</button>';
   }
 
   String _styleToString(Map<String, String>? styles) {
@@ -139,8 +141,3 @@ class FDButton extends Widget {
     return styles.entries.map((e) => '${e.key}:${e.value}').join(';');
   }
 }
-
-
-
-
-

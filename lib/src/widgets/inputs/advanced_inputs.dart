@@ -18,6 +18,7 @@ class TextArea extends Widget {
   final String? errorText;
   final String? helperText;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   TextArea({
     this.controller,
@@ -36,6 +37,7 @@ class TextArea extends Widget {
     this.errorText,
     this.helperText,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -73,6 +75,7 @@ class TextArea extends Widget {
             ${!enabled ? 'opacity: 0.6; cursor: not-allowed;' : ''}
             ${readOnly ? 'background-color: #f5f5f5;' : ''}
             ${cssStyle?.entries.map((e) => '${e.key}: ${e.value};').join(' ') ?? ''}
+            ${rawCss ?? ''}
           "
         >$value</textarea>
         
@@ -111,6 +114,7 @@ class AutocompleteField extends Widget {
   final ValueChanged<String>? onChanged;
   final Widget? prefixIcon;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   AutocompleteField({
     this.placeholder,
@@ -120,6 +124,7 @@ class AutocompleteField extends Widget {
     this.onChanged,
     this.prefixIcon,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -149,6 +154,7 @@ class AutocompleteField extends Widget {
               font-size: 14px;
               outline: none;
               ${cssStyle?.entries.map((e) => '${e.key}: ${e.value};').join(' ') ?? ''}
+              ${rawCss ?? ''}
             "
           />
           
@@ -189,12 +195,9 @@ class ColorPicker extends Widget {
   final FlartColor? initialColor;
   final ValueChanged<FlartColor>? onChanged;
   final String? label;
+  final String? rawCss;
 
-  ColorPicker({
-    this.initialColor,
-    this.onChanged,
-    this.label,
-  });
+  ColorPicker({this.initialColor, this.onChanged, this.label, this.rawCss});
 
   @override
   String render(BuildContext context) {
@@ -215,6 +218,7 @@ class ColorPicker extends Widget {
             border: 1px solid #cccccc;
             border-radius: 4px;
             cursor: pointer;
+            ${rawCss ?? ''}
           "
         />
       </div>
@@ -240,6 +244,7 @@ class FileUpload extends Widget {
   final String? accept;
   final ValueChanged<List<String>>? onChanged;
   final String buttonText;
+  final String? rawCss;
 
   FileUpload({
     this.label,
@@ -247,6 +252,7 @@ class FileUpload extends Widget {
     this.accept,
     this.onChanged,
     this.buttonText = 'Choose File',
+    this.rawCss,
   });
 
   @override
@@ -276,6 +282,7 @@ class FileUpload extends Widget {
               border-radius: 4px;
               cursor: pointer;
               font-size: 14px;
+              ${rawCss ?? ''}
             "
           >$buttonText</button>
           <span id="${id}_filename" style="margin-left: 12px; font-size: 14px; color: #666;"></span>

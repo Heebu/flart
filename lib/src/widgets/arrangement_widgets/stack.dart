@@ -3,10 +3,12 @@
 class FDStack extends Widget {
   final List<Widget> children;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDStack({
     required this.children,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -17,7 +19,7 @@ class FDStack extends Widget {
     }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     final buffer = StringBuffer();
-    buffer.writeln('<div style="$style">');
+    buffer.writeln('<div style="$style ${rawCss ?? ''}">');
     for (final child in children) {
       buffer.writeln(child.render(context));
     }
@@ -26,6 +28,3 @@ class FDStack extends Widget {
     return buffer.toString();
   }
 }
-
-
-

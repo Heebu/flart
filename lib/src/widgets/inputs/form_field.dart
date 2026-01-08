@@ -87,6 +87,7 @@ class FDTextFormField extends Widget {
   final Widget? suffixIcon;
   final EdgeInsets? padding;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDTextFormField({
     this.controller,
@@ -105,6 +106,7 @@ class FDTextFormField extends Widget {
     this.suffixIcon,
     this.padding,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -135,6 +137,7 @@ class FDTextFormField extends Widget {
       suffixIcon: suffixIcon,
       padding: padding,
       cssStyle: cssStyle,
+      rawCss: rawCss,
     ).render(context);
   }
 }

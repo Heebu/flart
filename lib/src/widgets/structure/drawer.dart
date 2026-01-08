@@ -1,13 +1,14 @@
-﻿
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
 class FDDrawer extends Widget {
   final Widget child;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   const FDDrawer({
     required this.child,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -20,16 +21,15 @@ class FDDrawer extends Widget {
       ...?cssStyle,
     };
 
-    final style = styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final style =
+        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     return '''
-      <div style="$style">
+      <div style="$style ${rawCss ?? ''}">
         ${child.render(context)}
       </div>
     ''';
   }
-
-
 }
 
 

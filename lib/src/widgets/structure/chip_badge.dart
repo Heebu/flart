@@ -8,6 +8,7 @@ class FDChip extends Widget {
   final VoidCallback? onDeleted;
   final FlartColor? backgroundColor;
   final EdgeInsets? padding;
+  final String? rawCss;
 
   FDChip({
     required this.label,
@@ -16,6 +17,7 @@ class FDChip extends Widget {
     this.onDeleted,
     this.backgroundColor,
     this.padding,
+    this.rawCss,
   });
 
   @override
@@ -32,6 +34,7 @@ class FDChip extends Widget {
         border-radius: 16px;
         padding: ${pad.toCss()};
         gap: 8px;
+        ${rawCss ?? ''}
       ">
         ${avatar != null ? '<div style="width: 24px; height: 24px; border-radius: 50%; overflow: hidden;">${avatar!.render(context)}</div>' : ''}
         ${label.render(context)}
@@ -61,6 +64,7 @@ class FDBadge extends Widget {
   final FlartColor? backgroundColor;
   final FlartColor? textColor;
   final bool isVisible;
+  final String? rawCss;
 
   FDBadge({
     required this.child,
@@ -68,6 +72,7 @@ class FDBadge extends Widget {
     this.backgroundColor,
     this.textColor,
     this.isVisible = true,
+    this.rawCss,
   });
 
   @override
@@ -76,7 +81,7 @@ class FDBadge extends Widget {
     final color = textColor?.toString() ?? '#ffffff';
 
     return '''
-      <div style="position: relative; display: inline-block;">
+      <div style="position: relative; display: inline-block; ${rawCss ?? ''}">
         ${child.render(context)}
         ${isVisible && label != null ? '''
           <div style="
@@ -97,8 +102,3 @@ class FDBadge extends Widget {
     ''';
   }
 }
-
-
-
-
-

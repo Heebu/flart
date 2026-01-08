@@ -19,6 +19,7 @@ Build beautiful, responsive web applications using familiar Flutter-style widget
 - **ðŸ“ Complete Forms** - Built-in validation and error handling
 - **ðŸŽ¬ Media Support** - Video, audio, YouTube, maps
 - **ðŸŽ® Gesture Detection** - 20+ touch and mouse events
+- **🎨 Custom Styling** - `rawCss` support for direct style injection
 
 ---
 
@@ -114,7 +115,7 @@ dart pub get
  `AnimationController`, `AnimatedContainer`, `AnimatedOpacity`, `AnimatedScale`, `AnimatedRotation`, `AnimatedSlide`, `AnimatedPositioned`, `AnimatedSize`, `AnimatedCrossFade`, `FadeIn`
  
  #### ðŸŽ¥ Media (5)
- `VideoPlayer`, `AudioPlayer`, `YouTubePlayer`, `IFrame`, `MapEmbed`
+ `VideoPlayer`, `AudioPlayer`, `YouTubePlayer`, `FDIframe`, `MapEmbed`
  
  #### ðŸŽ¨ Display (7)
  `FDChip`, `FDBadge`, `FDTooltip`, `FDSnackBar`, `FDCircularProgressIndicator`, `FDLinearProgressIndicator`, `FDTabBar`, `FDTabBarView`

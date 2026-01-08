@@ -4,11 +4,13 @@ class FDSelectableText extends Widget {
   final String content;
   final TextStyle? style;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDSelectableText(
     this.content, {
     this.style,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -20,7 +22,7 @@ class FDSelectableText extends Widget {
     };
     final styleString =
         styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    return '<span style="$styleString">$content</span>';
+    return '<span style="$styleString ${rawCss ?? ''}">$content</span>';
   }
 }
 

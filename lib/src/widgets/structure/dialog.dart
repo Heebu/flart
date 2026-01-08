@@ -12,6 +12,7 @@ class FDDialog extends Widget {
   final Clip clipBehavior;
   final ShapeBorder? shape;
   final Alignment? alignment;
+  final String? rawCss;
 
   FDDialog({
     this.child,
@@ -23,6 +24,7 @@ class FDDialog extends Widget {
     this.clipBehavior = Clip.none,
     this.shape,
     this.alignment,
+    this.rawCss,
   });
 
   @override
@@ -45,6 +47,7 @@ class FDDialog extends Widget {
         display: flex;
         flex-direction: column;
         pointer-events: auto;
+        ${rawCss ?? ''}
       ">
         ${child?.render(context) ?? ''}
       </div>
@@ -105,8 +108,3 @@ Future<T?> showDialog<T>({
 
   return completer.future;
 }
-
-
-
-
-

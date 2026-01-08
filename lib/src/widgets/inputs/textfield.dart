@@ -27,6 +27,7 @@ class FDTextField extends Widget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDTextField({
     this.controller,
@@ -53,6 +54,7 @@ class FDTextField extends Widget {
     this.prefixIcon,
     this.suffixIcon,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -96,6 +98,7 @@ class FDTextField extends Widget {
               ${!enabled ? 'opacity: 0.6; cursor: not-allowed;' : ''}
               ${readOnly ? 'background-color: #f5f5f5;' : ''}
               ${cssStyle?.entries.map((e) => '${e.key}: ${e.value};').join(' ') ?? ''}
+              ${rawCss ?? ''}
             "
           />
           

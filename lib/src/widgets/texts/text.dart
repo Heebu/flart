@@ -4,6 +4,7 @@ class FDText extends Widget {
   final String content;
   final TextStyle? style;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
   final TextTag? tag;
   final TextAlign? textAlign;
   final bool selectable;
@@ -12,6 +13,7 @@ class FDText extends Widget {
     this.content, {
     this.style,
     this.cssStyle,
+    this.rawCss,
     this.tag = TextTag.span,
     this.textAlign,
     this.selectable = false,
@@ -33,7 +35,7 @@ class FDText extends Widget {
         combinedStyle.entries.map((e) => '${e.key}: ${e.value};').join(' ');
     final tagName = tag.toString().split('.').last;
 
-    return '<$tagName style="$styleString">$content</$tagName>';
+    return '<$tagName style="$styleString ${rawCss ?? ''}">$content</$tagName>';
   }
 }
 

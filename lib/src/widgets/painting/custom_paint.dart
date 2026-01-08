@@ -21,11 +21,13 @@ class FDCustomPaint extends Widget {
   final CustomPainter painter;
   final Size size;
   final Widget? child;
+  final String? rawCss;
 
   FDCustomPaint({
     required this.painter,
     this.size = const Size(300, 150),
     this.child,
+    this.rawCss,
   });
 
   @override
@@ -42,7 +44,7 @@ class FDCustomPaint extends Widget {
     });
 
     return '''
-      <div style="position: relative; width: ${size.width}px; height: ${size.height}px;">
+      <div style="position: relative; width: ${size.width}px; height: ${size.height}px; ${rawCss ?? ''}">
         <canvas id="$id" width="${size.width}" height="${size.height}" style="position: absolute; top: 0; left: 0;"></canvas>
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
           ${child?.render(context) ?? ''}

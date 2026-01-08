@@ -198,9 +198,90 @@ FDRow(
 )
 ```
 
+### FDSingleChildScrollView
+
+A scrollable container for when content exceeds the screen size.
+
+```dart
+FDSingleChildScrollView(
+  padding: EdgeInsets.all(16),
+  child: FDColumn(
+    children: List.generate(20, (i) => ListTile(title: FDText('Item $i'))),
+  ),
+)
+```
+
+### FDPadding
+
+Insets its child by the given padding.
+
+```dart
+FDPadding(
+  padding: EdgeInsets.all(16),
+  child: FDText('Padded Text'),
+)
+```
+
+### FDConstrainedBox
+
+Imposes additional constraints on its child.
+
+```dart
+FDConstrainedBox(
+  constraints: BoxConstraints(
+    minWidth: 100,
+    maxWidth: 200,
+    minHeight: 50,
+  ),
+  child: FDContainer(color: FlartColors.red),
+)
+```
+
 ---
 
 ## Layout Widgets
+
+### FDWrap
+
+Displays children in multiple horizontal or vertical runs.
+
+```dart
+FDWrap(
+  spacing: 8.0, // gap between adjacent chips
+  runSpacing: 4.0, // gap between lines
+  children: [
+    Chip(label: FDText('Hamilton')),
+    Chip(label: FDText('Lafayette')),
+    Chip(label: FDText('Mulligan')),
+    Chip(label: FDText('Laurens')),
+  ],
+)
+```
+
+### FDIframe (Web Specific)
+
+Embeds an external website or content.
+
+```dart
+FDIframe(
+  src: 'https://flutter.dev',
+  width: 800,
+  height: 600,
+  title: 'Flutter Website',
+)
+```
+
+### FDLink (Web Specific)
+
+Wrapper for standard HTML anchor tags.
+
+```dart
+FDLink(
+  url: 'https://google.com',
+  openInNewTab: true,
+  child: FDText('Go to Google', style: TextStyle(color: 'blue')),
+)
+```
 
 ### FDRow
 
@@ -1870,7 +1951,27 @@ PlasmaShader(
 
 ---
 
+
+### Raw CSS
+
+Most core widgets support a `rawCss` property for direct CSS injection. This provides flexibility for custom styling not covered by the standard properties.
+
+```dart
+FDContainer(
+  rawCss: 'border: 1px dashed red; transform: rotate(15deg);',
+  child: FDText('Custom Styled'),
+)
+
+FDElevatedButton(
+  rawCss: 'box-shadow: 0 10px 20px rgba(0,0,0,0.5);',
+  child: FDText('Shadow Button'),
+)
+```
+
+---
+
 ## Tips & Best Practices
+
 
 ### Performance
 - Use `const` constructors when possible

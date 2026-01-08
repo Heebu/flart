@@ -8,11 +8,13 @@ class FDIconButton extends Widget {
   final FDIcon icon;
   final VoidCallback? onPressed;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDIconButton({
     required this.icon,
     this.onPressed,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -33,7 +35,7 @@ class FDIconButton extends Widget {
     }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     return '''
-      <button id="$id" style="$style" ${cbId != null ? 'onclick="window.__flartHandleClick(\'$cbId\')"' : ''}>
+      <button id="$id" style="$style ${rawCss ?? ''}" ${cbId != null ? 'onclick="window.__flartHandleClick(\'$cbId\')"' : ''}>
         ${icon.icon}
       </button>
     ''';

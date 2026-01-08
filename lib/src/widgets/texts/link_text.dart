@@ -8,6 +8,7 @@ class FDLinkText extends Widget {
   final VoidCallback? onLongPress;
   final TextStyle? style;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDLinkText({
     required this.label,
@@ -16,6 +17,7 @@ class FDLinkText extends Widget {
     this.onLongPress,
     this.style,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -49,11 +51,11 @@ class FDLinkText extends Widget {
 
     if (href != null) {
       return '''
-        <a href="$href" style="$styleString" target="_blank" $eventHandlers>$label</a>
+        <a href="$href" style="$styleString ${rawCss ?? ''}" target="_blank" $eventHandlers>$label</a>
       ''';
     } else {
       return '''
-        <span style="$styleString" $eventHandlers>$label</span>
+        <span style="$styleString ${rawCss ?? ''}" $eventHandlers>$label</span>
       ''';
     }
   }

@@ -6,12 +6,14 @@ class FDBottomNavigationBar extends Widget {
   final int currentIndex;
   final Function(int index)? onTap;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDBottomNavigationBar({
     required this.items,
     this.currentIndex = 0,
     this.onTap,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -27,7 +29,7 @@ class FDBottomNavigationBar extends Widget {
     }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     final buffer = StringBuffer();
-    buffer.writeln('<div style="$style">');
+    buffer.writeln('<div style="$style ${rawCss ?? ''}">');
 
     for (int i = 0; i < items.length; i++) {
       final item = items[i];

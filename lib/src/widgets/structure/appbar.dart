@@ -1,5 +1,4 @@
-﻿
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
 class FDAppBar extends Widget {
   final Widget? title;
@@ -7,6 +6,7 @@ class FDAppBar extends Widget {
   final List<Widget>? actions;
   final FlartColor backgroundColor;
   final double elevation;
+  final String? rawCss;
 
   FDAppBar({
     this.title,
@@ -14,6 +14,7 @@ class FDAppBar extends Widget {
     this.actions,
     this.backgroundColor = FlartColors.blue,
     this.elevation = 4.0,
+    this.rawCss,
   });
 
   @override
@@ -30,6 +31,7 @@ class FDAppBar extends Widget {
       background-color: $backgroundColor;
       box-shadow: 0 ${elevation}px ${elevation * 2}px rgba(0,0,0,0.2);
       color: white;
+      ${rawCss ?? ''}
     ">
     ''');
 
@@ -54,7 +56,3 @@ class FDAppBar extends Widget {
     return buffer.toString();
   }
 }
-
-
-
-

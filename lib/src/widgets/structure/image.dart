@@ -14,6 +14,7 @@ class FDImage extends Widget {
   final Map<String, String>? cssStyle;
   final String? alt;
   final ImageLoading loading;
+  final String? rawCss;
 
   FDImage.network(
     String? src, {
@@ -23,6 +24,7 @@ class FDImage extends Widget {
     this.cssStyle,
     this.alt,
     this.loading = ImageLoading.lazy,
+    this.rawCss,
   }) : src = (src == null || src.isEmpty)
             ? '/assets/flart_logo_with_text.png'
             : src;
@@ -35,6 +37,7 @@ class FDImage extends Widget {
     this.cssStyle,
     this.alt,
     this.loading = ImageLoading.lazy,
+    this.rawCss,
   }) : src = (assetPath == null || assetPath.isEmpty)
             ? '/assets/flart_logo_with_text.png'
             : '/$assetPath'; // Adjust this based on your asset structure
@@ -54,7 +57,7 @@ class FDImage extends Widget {
         loading == ImageLoading.lazy ? 'loading="lazy"' : 'loading="eager"';
 
     return '''
-      <img src="$src" alt="${alt ?? ''}" style="$style" $loadingAttr />
+      <img src="$src" alt="${alt ?? ''}" style="$style ${rawCss ?? ''}" $loadingAttr />
     ''';
   }
 

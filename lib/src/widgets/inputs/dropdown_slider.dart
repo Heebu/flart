@@ -7,6 +7,7 @@ class DropdownButton<T> extends Widget {
   final ValueChanged<T?>? onChanged;
   final Widget? hint;
   final double? width;
+  final String? rawCss;
 
   DropdownButton({
     this.value,
@@ -14,6 +15,7 @@ class DropdownButton<T> extends Widget {
     this.onChanged,
     this.hint,
     this.width,
+    this.rawCss,
   });
 
   @override
@@ -29,6 +31,7 @@ class DropdownButton<T> extends Widget {
         background-color: white;
         cursor: ${disabled ? 'not-allowed' : 'pointer'};
         ${width != null ? 'width: ${width}px;' : ''}
+        ${rawCss ?? ''}
       ">
         ${hint != null && value == null ? '<option value="" disabled selected>${hint!.render(context)}</option>' : ''}
         ${items.map((item) => '''
@@ -72,6 +75,7 @@ class FDSlider extends Widget {
   final ValueChanged<double>? onChanged;
   final FlartColor? activeColor;
   final FlartColor? inactiveColor;
+  final String? rawCss;
 
   FDSlider({
     required this.value,
@@ -81,6 +85,7 @@ class FDSlider extends Widget {
     this.onChanged,
     this.activeColor,
     this.inactiveColor,
+    this.rawCss,
   });
 
   @override
@@ -106,6 +111,7 @@ class FDSlider extends Widget {
           outline: none;
           cursor: ${disabled ? 'not-allowed' : 'pointer'};
           accent-color: $active;
+          ${rawCss ?? ''}
         "
       />
       ${!disabled ? '''
@@ -118,6 +124,3 @@ class FDSlider extends Widget {
     ''';
   }
 }
-
-
-

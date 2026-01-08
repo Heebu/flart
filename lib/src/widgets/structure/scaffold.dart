@@ -7,6 +7,7 @@ class FDScaffold extends Widget {
   final FDBottomNavigationBar? bottomNavigationBar;
   final FDFloatingActionButton? floatingActionButton;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDScaffold({
     this.appBar,
@@ -15,10 +16,11 @@ class FDScaffold extends Widget {
     this.bottomNavigationBar,
     this.floatingActionButton,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
-  String render(BuildContext context)  {
+  String render(BuildContext context) {
     final style = {
       'display': 'flex',
       'flex-direction': 'column',
@@ -30,7 +32,8 @@ class FDScaffold extends Widget {
     final content = StringBuffer();
     if (appBar != null) content.writeln(appBar!.render(context));
 
-    content.writeln('<div style="flex: 1; overflow: auto;">${body?.render(context) ?? ''}</div>');
+    content.writeln(
+        '<div style="flex: 1; overflow: auto;">${body?.render(context) ?? ''}</div>');
 
     if (bottomNavigationBar != null) {
       content.writeln(bottomNavigationBar!.render(context));
@@ -38,13 +41,14 @@ class FDScaffold extends Widget {
 
     // Build main FDScaffold layout
     final scaffoldHtml = '''
-    <div style="$style">
+    <div style="$style ${rawCss ?? ''}">
       ${content.toString()}
     </div>
     ''';
 
     // FDDrawer layout
-    final drawerHtml = drawer != null ? '''
+    final drawerHtml = drawer != null
+        ? '''
       <div id="flart-drawer" style="
         position: fixed;
         top: 0;
@@ -69,10 +73,12 @@ class FDScaffold extends Widget {
           }
         }
       </script>
-    ''' : '';
+    '''
+        : '';
 
     // Floating Action FDButton
-    final fabHtml = FDFloatingActionButton != null ? '''
+    final fabHtml = FDFloatingActionButton != null
+        ? '''
       <div style="
         position: fixed;
         bottom: 16px;
@@ -81,14 +87,9 @@ class FDScaffold extends Widget {
       ">
         ${floatingActionButton!.render(context)}
       </div>
-    ''' : '';
+    '''
+        : '';
 
     return drawerHtml + scaffoldHtml + fabHtml;
   }
-
-
 }
-
-
-
-

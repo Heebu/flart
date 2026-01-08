@@ -43,6 +43,7 @@ class FDGestureDetector extends Widget {
 
   // Wheel/Scroll events
   final VoidCallback? onScroll;
+  final String? rawCss;
 
   FDGestureDetector({
     required this.child,
@@ -69,6 +70,7 @@ class FDGestureDetector extends Widget {
     this.onMouseUp,
     this.onMouseMove,
     this.onScroll,
+    this.rawCss,
   });
 
   @override
@@ -188,9 +190,6 @@ class FDGestureDetector extends Widget {
       }
     });
 
-    return '<div id="$id" tabindex="0" style="outline: none; display: inherit;">${child.render(context)}</div>';
+    return '<div id="$id" tabindex="0" style="outline: none; display: inherit; ${rawCss ?? ''}">${child.render(context)}</div>';
   }
 }
-
-
-

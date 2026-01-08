@@ -8,12 +8,14 @@ class FDFloatingActionButton extends Widget {
   final FlartColor backgroundColor;
   final VoidCallback? onPressed;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDFloatingActionButton({
     required this.child,
     this.backgroundColor = FlartColors.green,
     this.onPressed,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -45,7 +47,8 @@ class FDFloatingActionButton extends Widget {
     }
 
     final buffer = StringBuffer();
-    buffer.writeln('<div id="$id" style="$style" $onClickAttr>');
+    buffer
+        .writeln('<div id="$id" style="$style ${rawCss ?? ''}" $onClickAttr>');
     buffer.writeln(child.render(context));
     buffer.writeln('</div>');
 
@@ -57,8 +60,3 @@ class FDFloatingActionButton extends Widget {
     return 'fab_${now.millisecondsSinceEpoch}_${now.microsecondsSinceEpoch}';
   }
 }
-
-
-
-
-

@@ -13,6 +13,7 @@ class FDEditableText extends Widget {
   final OnTextSubmitted? onSubmitted;
   final TextAlign textAlign;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDEditableText({
     required this.controller,
@@ -24,6 +25,7 @@ class FDEditableText extends Widget {
     this.onSubmitted,
     this.textAlign = TextAlign.start,
     this.cssStyle,
+    this.rawCss,
   });
 
   String _getTextAlignCss() {
@@ -64,7 +66,7 @@ class FDEditableText extends Widget {
 
     final buffer = StringBuffer();
     buffer.writeln(
-        '<input id="$id" type="$type" $placeholderAttr $maxLengthAttr $valueAttr style="$styleString"/>');
+        '<input id="$id" type="$type" $placeholderAttr $maxLengthAttr $valueAttr style="$styleString ${rawCss ?? ''}"/>');
 
     // JS handlers
     buffer.writeln('''

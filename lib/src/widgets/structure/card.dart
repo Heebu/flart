@@ -9,6 +9,7 @@ class FDCard extends Widget {
   final EdgeInsets? padding;
   final BorderRadius? borderRadius;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDCard({
     this.child,
@@ -18,6 +19,7 @@ class FDCard extends Widget {
     this.padding,
     this.borderRadius,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -41,9 +43,6 @@ class FDCard extends Widget {
     final styleString =
         styles.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
-    return '<div style="$styleString">${child?.render(context) ?? ''}</div>';
+    return '<div style="$styleString ${rawCss ?? ''}">${child?.render(context) ?? ''}</div>';
   }
 }
-
-
-

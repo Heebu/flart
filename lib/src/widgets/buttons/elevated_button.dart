@@ -10,6 +10,7 @@ class FDElevatedButton extends Widget {
   final Map<String, String>? hoverStyle;
   final Map<String, String>? activeStyle;
   final Map<String, String>? disabledStyle;
+  final String? rawCss;
 
   FDElevatedButton({
     required this.child,
@@ -20,6 +21,7 @@ class FDElevatedButton extends Widget {
     this.hoverStyle,
     this.activeStyle,
     this.disabledStyle,
+    this.rawCss,
   });
 
   @override
@@ -66,6 +68,7 @@ class FDElevatedButton extends Widget {
       <style>
         .$classId {
           $baseStyleStr
+          ${rawCss ?? ''}
         }
         .$classId:hover {
           $hoverStyleStr
@@ -108,7 +111,3 @@ class FDElevatedButton extends Widget {
     return buffer.toString();
   }
 }
-
-
-
-

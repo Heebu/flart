@@ -7,7 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-01-02
 
-### ðŸŽ‰ Initial Release
+
+## [1.1.0] - 2026-01-08
+
+### 🌟 New Features
+
+#### Styling
+- **Raw CSS Support**: Added `rawCss` property to all widgets for direct CSS styling
+- Enhanced `FDSvgPicture` and `FDCustomPaint` with custom styling capabilities
+
+### 🐛 Bug Fixes
+- Fixed `FDIframe` naming consistency (was previously referred to as `IFrame`)
+- Improved constructor initialization for input widgets
+
+## [1.0.0] - 2026-01-02
+
+### 🎉 Initial Release
 
 #### Added - Core Framework
 - **Widget System**: Base `Widget`, `StatelessWidget`, and `StatefulWidget` classes
@@ -95,7 +110,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `VideoPlayer` - HTML5 video player
 - `AudioPlayer` - HTML5 audio player
 - `YouTubePlayer` - YouTube embed
-- `IFrame` - External content embed
+- `FDIframe` - External content embed
 - `MapEmbed` - Google Maps embed
 
 #### Added - Display Widgets (7)

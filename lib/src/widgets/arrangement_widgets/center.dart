@@ -3,7 +3,9 @@
 class FDCenter extends Widget {
   final Widget child;
 
-  FDCenter({required this.child});
+  final String? rawCss;
+
+  FDCenter({required this.child, this.rawCss});
 
   @override
   String render(BuildContext context) {
@@ -14,13 +16,10 @@ class FDCenter extends Widget {
         justify-content: center;
         width: 100%;
         height: 100%;
+        ${rawCss ?? ''}
       ">
         ${child.render(context)}
       </div>
     ''';
   }
 }
-
-
-
-

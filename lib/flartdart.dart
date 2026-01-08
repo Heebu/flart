@@ -69,8 +69,18 @@ export 'src/widgets/structure/progress_indicator.dart';
 export 'src/widgets/structure/chip_badge.dart';
 export 'src/widgets/structure/tooltip_snackbar.dart';
 export 'src/widgets/structure/tabs.dart';
+// New Structure Widgets
+export 'src/widgets/structure/scroll_view.dart';
+export 'src/widgets/structure/padding.dart';
+export 'src/widgets/structure/constrained_box.dart';
 
 // Arrangement Widgets
+export 'src/widgets/arrangement_widgets/wrap.dart';
+
+// Web Widgets
+export 'src/widgets/web/web_widgets.dart';
+
+// Existing Arrangement Widgets
 export 'src/widgets/arrangement_widgets/align.dart';
 export 'src/widgets/arrangement_widgets/center.dart';
 export 'src/widgets/arrangement_widgets/column.dart';

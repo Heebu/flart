@@ -5,12 +5,14 @@ class FDColumn extends Widget {
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDColumn({
     required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -27,7 +29,7 @@ class FDColumn extends Widget {
         styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
     final childrenHtml = children.map((child) => child.render(context)).join();
 
-    return '<div style="$styleString">$childrenHtml</div>';
+    return '<div style="$styleString ${rawCss ?? ''}">$childrenHtml</div>';
   }
 
   String _mapMainAxis(MainAxisAlignment value) {
@@ -60,5 +62,3 @@ class FDColumn extends Widget {
     }
   }
 }
-
-

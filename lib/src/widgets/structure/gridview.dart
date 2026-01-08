@@ -5,15 +5,16 @@ enum GridViewType { count, extent, builder }
 
 class FDGridView extends Widget {
   final GridViewType type;
-  final int? crossAxisCount;       // for count
+  final int? crossAxisCount; // for count
   final double? maxCrossAxisExtent; // for extent
   final double crossAxisSpacing;
   final double mainAxisSpacing;
-  final List<Widget>? children;     // count/extent
+  final List<Widget>? children; // count/extent
   final IndexedWidgetBuilder? itemBuilder; // builder
-  final int? itemCount;             // builder
+  final int? itemCount; // builder
   final double? childAspectRatio;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDGridView.count({
     required this.crossAxisCount,
@@ -22,6 +23,7 @@ class FDGridView extends Widget {
     this.mainAxisSpacing = 0,
     this.childAspectRatio,
     this.cssStyle,
+    this.rawCss,
   })  : type = GridViewType.count,
         itemBuilder = null,
         itemCount = null,
@@ -34,6 +36,7 @@ class FDGridView extends Widget {
     this.mainAxisSpacing = 0,
     this.childAspectRatio,
     this.cssStyle,
+    this.rawCss,
   })  : type = GridViewType.extent,
         itemBuilder = null,
         itemCount = null,
@@ -47,6 +50,7 @@ class FDGridView extends Widget {
     this.mainAxisSpacing = 0,
     this.childAspectRatio,
     this.cssStyle,
+    this.rawCss,
   })  : type = GridViewType.builder,
         children = null,
         maxCrossAxisExtent = null;
@@ -74,7 +78,7 @@ class FDGridView extends Widget {
       'display': 'grid',
       if (type == GridViewType.extent)
         'grid-template-columns':
-        'repeat(auto-fit, minmax(${maxCrossAxisExtent!.toInt()}px, 1fr))'
+            'repeat(auto-fit, minmax(${maxCrossAxisExtent!.toInt()}px, 1fr))'
       else
         'grid-template-columns': 'repeat($resolvedCount, 1fr)',
       'gap': '${mainAxisSpacing}px ${crossAxisSpacing}px',
@@ -82,16 +86,12 @@ class FDGridView extends Widget {
     };
 
     final styleString =
-    styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     final childrenHtml = builtChildren
         .map((child) => '<div>${child.render(context)}</div>')
         .join();
 
-    return '<div style="$styleString">$childrenHtml</div>';
+    return '<div style="$styleString ${rawCss ?? ''}">$childrenHtml</div>';
   }
 }
-
-
-
-

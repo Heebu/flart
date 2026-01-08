@@ -1,5 +1,4 @@
-﻿
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 import '../widget.dart';
 import '../../styles/box_decoration.dart';
 import '../../styles/edge_insets.dart';
@@ -14,6 +13,7 @@ class FDContainer extends Widget {
   final BoxDecoration? decoration;
   final Alignment? alignment;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDContainer({
     this.child,
@@ -24,6 +24,7 @@ class FDContainer extends Widget {
     this.decoration,
     this.alignment,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -41,9 +42,6 @@ class FDContainer extends Widget {
     final styleString =
         styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
-    return '<div style="$styleString">${child?.render(context) ?? ''}</div>';
+    return '<div style="$styleString ${rawCss ?? ''}">${child?.render(context) ?? ''}</div>';
   }
 }
-
-
-

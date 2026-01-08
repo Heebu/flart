@@ -8,6 +8,7 @@ class FDSvgPicture extends Widget {
   final double? height;
   final FlartColor? color;
   final BoxFit fit;
+  final String? rawCss;
 
   FDSvgPicture.asset(
     this.assetName, {
@@ -15,6 +16,7 @@ class FDSvgPicture extends Widget {
     this.height,
     this.color,
     this.fit = BoxFit.contain,
+    this.rawCss,
   }) : string = null;
 
   FDSvgPicture.string(
@@ -23,6 +25,7 @@ class FDSvgPicture extends Widget {
     this.height,
     this.color,
     this.fit = BoxFit.contain,
+    this.rawCss,
   }) : assetName = null;
 
   @override
@@ -37,6 +40,7 @@ class FDSvgPicture extends Widget {
         if (height != null) 'height': h,
         if (color != null) 'fill': color.toString(),
         if (color != null) 'color': color.toString(),
+        ..._parseRawCss(rawCss),
       }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
       return '<div style="display: inline-block; $style">$string</div>';
@@ -56,6 +60,7 @@ class FDSvgPicture extends Widget {
             mask-size: ${_boxFitToCss(fit)};
             -webkit-mask-size: ${_boxFitToCss(fit)};
             display: inline-block;
+            ${rawCss ?? ''}
           "></div>
         ''';
       }
@@ -64,6 +69,7 @@ class FDSvgPicture extends Widget {
         if (width != null) 'width': w,
         if (height != null) 'height': h,
         'object-fit': _boxFitToCss(fit),
+        ..._parseRawCss(rawCss),
       }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
       return '<img src="/$assetName" style="$style" alt="svg" />';
@@ -84,5 +90,17 @@ class FDSvgPicture extends Widget {
       case BoxFit.scaleDown:
         return 'contain'; // approximation
     }
+  }
+
+  Map<String, String> _parseRawCss(String? css) {
+    if (css == null) return {};
+    final map = <String, String>{};
+    css.split(';').forEach((element) {
+      final parts = element.split(':');
+      if (parts.length == 2) {
+        map[parts[0].trim()] = parts[1].trim();
+      }
+    });
+    return map;
   }
 }

@@ -3,10 +3,12 @@
 class FDRichText extends Widget {
   final TextSpan textSpan;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDRichText({
     required this.textSpan,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -14,7 +16,7 @@ class FDRichText extends Widget {
     final styleString =
         (cssStyle ?? {}).entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
-    return '<div style="$styleString">${textSpan.render()}</div>';
+    return '<div style="$styleString ${rawCss ?? ''}">${textSpan.render()}</div>';
   }
 }
 

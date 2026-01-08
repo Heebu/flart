@@ -1,5 +1,4 @@
-﻿
-import '../../../flartdart.dart';
+﻿import '../../../flartdart.dart';
 
 typedef ItemWidgetBuilder = Widget Function(BuildContext context, int index);
 typedef SeparatorWidgetBuilder = Widget Function(
@@ -15,6 +14,7 @@ class FDListView extends Widget {
   final ItemWidgetBuilder? itemBuilder;
   final SeparatorWidgetBuilder? separatorBuilder;
   final ListViewType type;
+  final String? rawCss;
 
   FDListView._({
     this.scrollDirection = Axis.vertical,
@@ -24,6 +24,7 @@ class FDListView extends Widget {
     this.itemBuilder,
     this.separatorBuilder,
     required this.type,
+    this.rawCss,
   });
 
   /// Regular children list
@@ -31,12 +32,14 @@ class FDListView extends Widget {
     Axis scrollDirection = Axis.vertical,
     EdgeInsets? padding,
     required List<Widget> children,
+    String? rawCss,
   }) {
     return FDListView._(
       scrollDirection: scrollDirection,
       padding: padding,
       children: children,
       type: ListViewType.static,
+      rawCss: rawCss,
     );
   }
 
@@ -46,6 +49,7 @@ class FDListView extends Widget {
     EdgeInsets? padding,
     required int itemCount,
     required ItemWidgetBuilder itemBuilder,
+    String? rawCss,
   }) {
     return FDListView._(
       scrollDirection: scrollDirection,
@@ -53,6 +57,7 @@ class FDListView extends Widget {
       itemCount: itemCount,
       itemBuilder: itemBuilder,
       type: ListViewType.builder,
+      rawCss: rawCss,
     );
   }
 
@@ -63,6 +68,7 @@ class FDListView extends Widget {
     required int itemCount,
     required ItemWidgetBuilder itemBuilder,
     required SeparatorWidgetBuilder separatorBuilder,
+    String? rawCss,
   }) {
     return FDListView._(
       scrollDirection: scrollDirection,
@@ -71,6 +77,7 @@ class FDListView extends Widget {
       itemBuilder: itemBuilder,
       separatorBuilder: separatorBuilder,
       type: ListViewType.separated,
+      rawCss: rawCss,
     );
   }
 
@@ -110,10 +117,6 @@ class FDListView extends Widget {
         break;
     }
 
-    return '<div style="$styleString">$content</div>';
+    return '<div style="$styleString ${rawCss ?? ''}">$content</div>';
   }
 }
-
-
-
-

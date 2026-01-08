@@ -5,8 +5,9 @@ class FDSizedBox extends Widget {
   final double? height;
   final Widget? child;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
-  FDSizedBox({this.width, this.height, this.child, this.cssStyle});
+  FDSizedBox({this.width, this.height, this.child, this.cssStyle, this.rawCss});
 
   @override
   String render(BuildContext context) {
@@ -17,14 +18,9 @@ class FDSizedBox extends Widget {
     }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     return '''
-      <div style="$style">
+      <div style="$style ${rawCss ?? ''}">
         ${child?.render(context) ?? ''}
       </div>
     ''';
   }
-
-
 }
-
-
-

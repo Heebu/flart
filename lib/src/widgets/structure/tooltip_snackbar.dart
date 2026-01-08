@@ -7,6 +7,7 @@ class FDTooltip extends Widget {
   final EdgeInsets? padding;
   final FlartColor? backgroundColor;
   final TextStyle? textStyle;
+  final String? rawCss;
 
   FDTooltip({
     required this.child,
@@ -14,6 +15,7 @@ class FDTooltip extends Widget {
     this.padding,
     this.backgroundColor,
     this.textStyle,
+    this.rawCss,
   });
 
   @override
@@ -23,7 +25,7 @@ class FDTooltip extends Widget {
     final pad = padding ?? EdgeInsets.all(8);
 
     return '''
-      <div id="$id" style="position: relative; display: inline-block;">
+      <div id="$id" style="position: relative; display: inline-block; ${rawCss ?? ''}">
         ${child.render(context)}
         <div class="FDTooltip-FDText" style="
           visibility: hidden;
@@ -78,12 +80,14 @@ class FDSnackBar extends Widget {
   final Duration duration;
   final Widget? action;
   final FlartColor? backgroundColor;
+  final String? rawCss;
 
   FDSnackBar({
     required this.content,
     this.duration = const Duration(seconds: 4),
     this.action,
     this.backgroundColor,
+    this.rawCss,
   });
 
   @override
@@ -108,6 +112,7 @@ class FDSnackBar extends Widget {
         gap: 16px;
         z-index: 9999;
         transition: transform 0.3s ease;
+        ${rawCss ?? ''}
       ">
         <div style="flex: 1;">
           ${content.render(context)}
@@ -129,8 +134,3 @@ class FDSnackBar extends Widget {
     ''';
   }
 }
-
-
-
-
-

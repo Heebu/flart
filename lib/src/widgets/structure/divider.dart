@@ -7,6 +7,7 @@ class FDDivider extends Widget {
   final FlartColor? color;
   final EdgeInsets? margin;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDDivider({
     this.thickness = 1.0,
@@ -15,6 +16,7 @@ class FDDivider extends Widget {
     this.color,
     this.margin,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -32,13 +34,8 @@ class FDDivider extends Widget {
     };
 
     final styleString =
-    styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
-    return '<hr style="$styleString" />';
+    return '<hr style="$styleString ${rawCss ?? ''}" />';
   }
-
-
 }
-
-
-

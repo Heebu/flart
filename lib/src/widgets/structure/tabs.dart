@@ -9,6 +9,7 @@ class FDTabBar extends Widget {
   final FlartColor? indicatorColor;
   final FlartColor? labelColor;
   final FlartColor? unselectedLabelColor;
+  final String? rawCss;
 
   FDTabBar({
     required this.tabs,
@@ -17,6 +18,7 @@ class FDTabBar extends Widget {
     this.indicatorColor,
     this.labelColor,
     this.unselectedLabelColor,
+    this.rawCss,
   });
 
   @override
@@ -31,6 +33,7 @@ class FDTabBar extends Widget {
         display: flex;
         border-bottom: 2px solid #e0e0e0;
         position: relative;
+        ${rawCss ?? ''}
       ">
         ${tabs.asMap().entries.map((entry) {
       final index = entry.key;
@@ -82,10 +85,12 @@ class FDTabBar extends Widget {
 class FDTabBarView extends Widget {
   final List<Widget> children;
   final int currentIndex;
+  final String? rawCss;
 
   FDTabBarView({
     required this.children,
     this.currentIndex = 0,
+    this.rawCss,
   });
 
   @override
@@ -95,7 +100,7 @@ class FDTabBarView extends Widget {
     }
 
     return '''
-      <div style="padding: 16px;">
+      <div style="padding: 16px; ${rawCss ?? ''}">
         ${children[currentIndex].render(context)}
       </div>
     ''';

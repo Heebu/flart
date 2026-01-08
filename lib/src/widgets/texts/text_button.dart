@@ -8,6 +8,7 @@ class FDTextButton extends Widget {
   final VoidCallback? onLongPress;
   final TextStyle? style;
   final Map<String, String>? cssStyle;
+  final String? rawCss;
 
   FDTextButton({
     required this.label,
@@ -16,6 +17,7 @@ class FDTextButton extends Widget {
     this.onLongPress,
     this.style,
     this.cssStyle,
+    this.rawCss,
   });
 
   @override
@@ -43,7 +45,7 @@ class FDTextButton extends Widget {
         styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     return '''
-      <button id="$id" style="$styleString">
+      <button id="$id" style="$styleString ${rawCss ?? ''}">
         $label
       </button>
       <script>

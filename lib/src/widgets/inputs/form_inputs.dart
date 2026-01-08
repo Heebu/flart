@@ -7,12 +7,14 @@ class FDCheckbox extends Widget {
   final ValueChanged<bool>? onChanged;
   final FlartColor? activeColor;
   final FlartColor? checkColor;
+  final String? rawCss;
 
   FDCheckbox({
     required this.value,
     this.onChanged,
     this.activeColor,
     this.checkColor,
+    this.rawCss,
   });
 
   @override
@@ -40,6 +42,7 @@ class FDCheckbox extends Widget {
           height: 20px;
           cursor: ${disabled ? 'not-allowed' : 'pointer'};
           accent-color: $active;
+          ${rawCss ?? ''}
         "
         $onChangeAttr
       />
@@ -53,12 +56,14 @@ class FDRadio<T> extends Widget {
   final T? groupValue;
   final ValueChanged<T>? onChanged;
   final FlartColor? activeColor;
+  final String? rawCss;
 
   FDRadio({
     required this.value,
     required this.groupValue,
     this.onChanged,
     this.activeColor,
+    this.rawCss,
   });
 
   @override
@@ -86,6 +91,7 @@ class FDRadio<T> extends Widget {
           height: 20px;
           cursor: ${disabled ? 'not-allowed' : 'pointer'};
           accent-color: $active;
+          ${rawCss ?? ''}
         "
         $onChangeAttr
       />
@@ -99,12 +105,14 @@ class FDSwitch extends Widget {
   final ValueChanged<bool>? onChanged;
   final FlartColor? activeColor;
   final FlartColor? inactiveColor;
+  final String? rawCss;
 
   FDSwitch({
     required this.value,
     this.onChanged,
     this.activeColor,
     this.inactiveColor,
+    this.rawCss,
   });
 
   @override
@@ -127,6 +135,7 @@ class FDSwitch extends Widget {
         align-items: center;
         cursor: ${disabled ? 'not-allowed' : 'pointer'};
         opacity: ${disabled ? '0.5' : '1'};
+        ${rawCss ?? ''}
       ">
         <input 
           type="checkbox" 
