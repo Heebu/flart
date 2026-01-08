@@ -10,6 +10,7 @@ class FDMaterialApp extends Widget {
 
   final String? favicon;
   final BuildContext? context; // Optional context parameter
+  final String? rawCss;
 
   const FDMaterialApp({
     required this.title,
@@ -19,6 +20,7 @@ class FDMaterialApp extends Widget {
     this.darkMode = false,
     this.favicon,
     this.context,
+    this.rawCss,
   });
 
   @override
@@ -47,13 +49,37 @@ class FDMaterialApp extends Widget {
         window.matchMedia('(prefers-color-scheme: dark)').matches;
     document.body?.classes.add(prefersDark ? 'flart-dark' : 'flart-light');
 
+    // Apply global CSS if provided
+    if (rawCss != null) {
+      final styleElement = StyleElement()
+        ..innerText = '''
+        /* Global Reset */
+        *, *::before, *::after {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+        
+        body {
+          margin: 0;
+          padding: 0;
+          width: 100vw;
+          height: 100vh;
+          overflow: hidden;
+          $rawCss
+        }
+      ''';
+      document.head?.append(styleElement);
+    }
+
     // Return the home widget's HTML
     return home.render(context);
   }
 
   void _injectFavicon() {
     // Remove existing
-    final existingParams = document.head?.querySelectorAll("link[rel*='FDIcon']");
+    final existingParams =
+        document.head?.querySelectorAll("link[rel*='FDIcon']");
     existingParams?.forEach((el) => el.remove());
 
     final link = LinkElement()
@@ -85,6 +111,3 @@ class FDMaterialApp extends Widget {
     document.head?.append(metaViewport);
   }
 }
-
-
-

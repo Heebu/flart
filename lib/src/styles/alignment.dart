@@ -9,6 +9,11 @@
   static const topRight = Alignment('flex-end', 'flex-start');
   static const bottomcenter = Alignment('center', 'flex-end');
   static const spaceBetween = Alignment('space-between', 'center');
+  static const centerLeft = Alignment('flex-start', 'center');
+  static const centerRight = Alignment('flex-end', 'center');
+  static const bottomLeft = Alignment('flex-start', 'flex-end');
+  static const bottomRight = Alignment('flex-end', 'flex-end');
+  static const topCenter = Alignment('center', 'flex-start');
 
   Map<String, String> toCss() {
     return {

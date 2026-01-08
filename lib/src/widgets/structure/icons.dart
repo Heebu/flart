@@ -80,8 +80,14 @@ class FDIcons {
 
   static const String more_vert = 'more_vert';
   static const String more_horiz = 'more_horiz';
+
+  // New additions
+  static const String pie_chart = 'pie_chart';
+  static const String file_upload = 'file_upload';
+  static const String work = 'work';
+  static const String shopping_cart = 'shopping_cart';
+  static const String notifications_active = 'notifications_active';
+  static const String dashboard = 'dashboard';
+  static const String insert_chart = 'insert_chart';
+  static const String monetization_on = 'monetization_on';
 }
-
-
-
-

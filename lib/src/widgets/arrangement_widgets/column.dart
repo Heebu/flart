@@ -19,7 +19,7 @@ class FDColumn extends Widget {
   String render(BuildContext context) {
     final styleMap = <String, String>{
       'display': 'flex',
-      'flex-direction': 'FDColumn',
+      'flex-direction': 'column',
       'justify-content': _mapMainAxis(mainAxisAlignment),
       'align-items': _mapCrossAxis(crossAxisAlignment),
       ...?cssStyle,
