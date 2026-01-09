@@ -22,9 +22,11 @@ class FDScaffold extends Widget {
   @override
   String render(BuildContext context) {
     final style = {
+      'width': '100vw',
+      'height': '100vh',
+      'overflow': 'hidden',
       'display': 'flex',
       'flex-direction': 'column',
-      'height': '100vh',
       'position': 'relative',
       ...?cssStyle,
     }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
@@ -74,7 +76,7 @@ class FDScaffold extends Widget {
     '''
         : '';
 
-    final fabHtml = FDFloatingActionButton != null
+    final fabHtml = floatingActionButton != null
         ? '''
       <div style="
         position: fixed;

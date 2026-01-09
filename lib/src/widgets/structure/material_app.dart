@@ -66,8 +66,9 @@ class FDMaterialApp extends Widget {
           width: 100vw;
           height: 100vh;
           overflow: hidden;
-          $rawCss
         }
+        
+        $rawCss
       ''';
       document.head?.append(styleElement);
     }
@@ -92,7 +93,7 @@ class FDMaterialApp extends Widget {
   void _injectMaterialIcons() {
     final iconLink = LinkElement()
       ..rel = 'stylesheet'
-      ..href = 'https://fonts.googleapis.com/FDIcon?family=Material+FDIcons';
+      ..href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
     document.head?.append(iconLink);
   }
 

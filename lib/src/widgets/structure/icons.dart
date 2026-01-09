@@ -19,7 +19,7 @@ class FDIcon extends Widget {
     final tooltipAttr = FDTooltip != null ? 'title="$FDTooltip"' : '';
 
     return '''
-      <i class="material-icons" style="font-size: ${size}px; color: $colorHex;" $tooltipAttr>
+      <i class="material-icons" style="font-size: ${size}px; color: $colorHex; user-select: none;" $tooltipAttr>
         $icon
       </i>
     ''';
