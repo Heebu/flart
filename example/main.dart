@@ -64,9 +64,10 @@ class IntroPage extends StatelessWidget {
         },
         alignment: Alignment.center,
         decoration: BoxDecoration(
+          // color: FlartColors.brown,
           gradient: Gradient(
-            direction: '135deg',
-            colors: [FlartColor('#e0c3fc'), FlartColor('#8ec5fc')],
+            // direction: '135deg',
+            colors: [FlartColors.blue, FlartColors.blueGrey],
           ),
         ),
         child: FDColumn(
@@ -162,16 +163,30 @@ class IntroPage extends StatelessWidget {
             FDSizedBox(height: 30.0),
 
             // Link
-            FDLinkText(
-              label: 'View Documentation',
-              href: 'https://github.com/Heebu/flart',
-              style: TextStyle(
-                color: FlartColor('#6200ea'),
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
+            FDRow(children: [
+              FDLinkText(
+                label: 'View Documentation ',
+                href: 'https://github.com/Heebu/flart',
+                style: TextStyle(
+                  color: FlartColor('#6200ea'),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                ),
+                rawCss:
+                    'animation: fadeIn 1s ease-out 1s forwards; opacity: 0;',
               ),
-              rawCss: 'animation: fadeIn 1s ease-out 1s forwards; opacity: 0;',
-            ),
+              FDSizedBox(width: 3.0),
+              FDText(
+                ' and feel free to contribute',
+                style: TextStyle(
+                  color: FlartColor('#6200ea'),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                ),
+                rawCss:
+                    'animation: fadeIn 1s ease-out 1s forwards; opacity: 0;',
+              ),
+            ])
           ],
         ),
       ),

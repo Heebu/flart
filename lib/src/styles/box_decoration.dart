@@ -29,7 +29,7 @@ class BoxDecoration {
     if (borderRadius != null) {
       style.addAll({
         'border-radius':
-        '${borderRadius!.topLeft}px ${borderRadius!.topRight}px ${borderRadius!.bottomRight}px ${borderRadius!.bottomLeft}px',
+            '${borderRadius!.topLeft}px ${borderRadius!.topRight}px ${borderRadius!.bottomRight}px ${borderRadius!.bottomLeft}px',
       });
     }
 
@@ -42,9 +42,9 @@ class BoxDecoration {
     }
 
     if (gradient != null) {
-      style['background-FDImage'] = gradient!.toCss();
+      style['background-image'] = gradient!.toCss();
     } else if (FDImage != null) {
-      style['background-FDImage'] = 'url("$FDImage")';
+      style['background-image'] = 'url("$FDImage")';
       style['background-size'] = 'cover';
       style['background-position'] = 'center';
     }
@@ -52,7 +52,3 @@ class BoxDecoration {
     return style;
   }
 }
-
-
-
-
