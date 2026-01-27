@@ -32,9 +32,44 @@ dependencies:
   flart: ^1.0.0
 ```
 
-Then run:
+---
+
+## 🛠️ CLI Tool
+
+Flartdart comes with a powerful CLI tool to help you scaffold new projects instantly.
+
+### Global Installation
+
+To use the `flartdart` command from anywhere, activate it globally:
+
 ```bash
+dart pub global activate flartdart
+```
+
+### Usage
+
+Create a new project with a single command:
+
+```bash
+# Create a new project
+flartdart create my_app
+
+# Navigate to project
+cd my_app
+
+# Get dependencies
 dart pub get
+
+# Run the development server
+dart run build_runner serve
+```
+
+### Local Development (Linking)
+
+If you are developing the Flartdart framework itself or want to link a project to a local version of the package:
+
+```bash
+flartdart create my_app --local-path /path/to/flartdart
 ```
 
 ---
