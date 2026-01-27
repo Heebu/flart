@@ -1,128 +1,96 @@
-# Contributing to Flart
+# Contributing to Flart 🤝
 
-Thank you for your interest in contributing to Flart! 🎉
+First off, thank you for considering contributing to Flart! It's people like you that make Flart such a great tool.
 
-## How to Contribute
+## 🌈 How Can I Contribute?
 
-### Reporting Bugs
+### Reporting Bugs 🐛
+- Document the steps to reproduce the bug.
+- Include information about your environment (Dart version, Browser, OS).
+- Provide a minimal code sample that reproduces the issue.
 
-1. Check if the bug has already been reported in [Issues](https://github.com/Heebu/flart/issues)
-2. If not, create a new issue with:
-   - Clear title and description
-   - Steps to reproduce
-   - Expected vs actual behavior
-   - Code samples if applicable
-   - Dart/Browser version
+### Suggesting Features 💡
+- Explain why this feature would be useful.
+- Provide examples of the proposed API.
+- Check if it aligns with the "Flutter-like" philosophy of the project.
 
-### Suggesting Features
+### Improving Documentation 📖
+- Fix typos or update outdated information.
+- Add better examples to `WIDGET_GUIDE.md`.
+- Improve inline documentation comments (JSDoc-style for Dart).
 
-1. Check existing [Issues](https://github.com/Heebu/flart/issues) for similar suggestions
-2. Create a new issue with:
-   - Clear use case
-   - Proposed API (if applicable)
-   - Examples of how it would be used
+---
 
-### Pull Requests
+## 💻 Local Development Setup
 
-1. **Fork** the repository
-2. **Create a branch** for your feature/fix
-3. **Make your changes**
-4. **Test your changes** thoroughly
-5. **Update documentation** if needed
-6. **Submit a pull request**
+To set up your development environment:
 
-#### PR Guidelines
+1.  **Fork and Clone**:
+    ```bash
+    git clone https://github.com/Heebu/flart.git
+    cd flart
+    ```
 
-- Follow existing code style
-- Add tests for new features
-- Update CHANGELOG.md
-- Keep commits focused and atomic
-- Write clear commit messages
+2.  **Install Dependencies**:
+    ```bash
+    dart pub get
+    ```
 
-## Development Setup
+3.  **Run the CLI (Development Mode)**:
+    You can test the CLI tool directly from the source:
+    ```bash
+    dart run bin/flartdart.dart create test_app --local-path .
+    ```
 
-```bash
-# Clone the repository
-git clone https://github.com/Heebu/flart.git
-cd flart
+4.  **Run the Example App**:
+    ```bash
+    cd example
+    dart run build_runner serve
+    ```
 
-# Get dependencies
-dart pub get
+---
 
-# Run tests
-dart test
+## 🎨 Widget Development Guidelines
 
-# Run example
-cd example
-dart run build_runner serve
-```
+When adding a new widget, please follow these conventions:
 
-## Code Style
+- **Naming**: Use the `FD` prefix for consistency (e.g., `FDMyNewWidget`).
+- **Styles**: Always include a `style` or `decoration` property where applicable.
+- **Raw CSS**: Include a `rawCss` property to allow users to override styles if needed.
+- **Semantics**: Use semantic HTML tags (e.g., `<nav>`, `<aside>`, `<main>`) within the `render()` method.
+- **Accessibility**: Add appropriate ARIA labels and roles.
 
-- Follow [Effective Dart](https://dart.dev/guides/language/effective-dart) guidelines
-- Use meaningful variable and function names
-- Add comments for complex logic
-- Keep functions small and focused
-
-## Widget Development
-
-When creating new widgets:
-
-1. Extend `StatelessWidget` (implement `build`), `StatefulWidget` (implement `createState`), or `Widget` (implement `render` for low-level control)
-3. Use semantic HTML
-4. Add proper accessibility attributes
-5. Include documentation comments
-6. Add examples in documentation
-
-Example:
-
+### Example Widget Structure:
 ```dart
-/// A custom widget that displays a greeting.
-/// 
-/// Example:
-/// ```dart
-/// GreetingWidget(
-///   name: 'World',
-///   style: TextStyle(fontSize: 24),
-/// )
-/// ```
-class GreetingWidget extends Widget {
-  final String name;
-  final TextStyle? style;
+class FDNewWidget extends StatelessWidget {
+  final Widget child;
+  final String? rawCss;
 
-  GreetingWidget({required this.name, this.style});
+  const FDNewWidget({required this.child, this.rawCss});
 
   @override
-  String render(BuildContext context) {
-    // Implementation
+  Widget build(BuildContext context) {
+    return FDContainer(
+      rawCss: 'border: 1px solid blue; $rawCss',
+      child: child,
+    );
   }
 }
 ```
 
-## Testing
+---
 
-- Write unit tests for new features
-- Ensure all tests pass before submitting PR
-- Aim for high code coverage
+## ✅ Pull Request Process
 
-## Documentation
-
-- Update README.md for new features
-- Add examples for new widgets
-- Update CHANGELOG.md
-- Add inline documentation
-
-## Questions?
-
-Feel free to ask questions in:
-- [GitHub Discussions]( https://github.com/Heebu/flart/discussions)
-- [Issues](https://github.com/Heebu/flart/issues)
-
-## Code of Conduct
-
-
-Be respectful, inclusive, and constructive. We're all here to make Flart better!
+1.  Create a feature branch (`git checkout -b feature/amazing-feature`).
+2.  Commit your changes (`git commit -m 'Add some amazing feature'`).
+3.  Ensure all tests pass (`dart test`).
+4.  Push to your fork (`git push origin feature/amazing-feature`).
+5.  Open a Pull Request with a clear description of the changes.
 
 ---
 
-Thank you for contributing to Flart! 🙏
+## 📜 Code of Conduct
+We are committed to providing a friendly, safe, and welcoming environment for all. Please be respectful and constructive in your communications.
+
+Happy Coding! 🚀

@@ -34,7 +34,6 @@ linter:
     # Style rules
     - always_declare_return_types
     - always_put_control_body_on_new_line
-    - always_require_non_null_named_parameters
     - annotate_overrides
     - avoid_init_to_null
     - avoid_null_checks_in_equality_operators
@@ -55,7 +54,6 @@ linter:
     - prefer_collection_literals
     - prefer_conditional_assignment
     - prefer_contains
-    - prefer_equal_for_default_values
     - prefer_final_fields
     - prefer_for_elements_to_map_fromIterable
     - prefer_generic_function_type_aliases
@@ -76,4 +74,3 @@ linter:
     - unnecessary_this
     - unrelated_type_equality_checks
     - use_rethrow_when_possible
-    - valid_regexps
