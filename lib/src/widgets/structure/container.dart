@@ -25,7 +25,8 @@ class FDContainer extends Widget {
     this.alignment,
     this.cssStyle,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {

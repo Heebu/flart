@@ -5,7 +5,8 @@ class FDMaterialApp extends Widget {
   final String title;
   final FlartColor? backgroundColor;
   final String? fontFamily;
-  final Widget home;
+  final Widget? home;
+  final ThemeData? theme;
   final bool darkMode;
 
   final String? favicon;
@@ -14,7 +15,8 @@ class FDMaterialApp extends Widget {
 
   const FDMaterialApp({
     required this.title,
-    required this.home,
+    this.home,
+    this.theme,
     this.backgroundColor,
     this.fontFamily,
     this.darkMode = false,
@@ -25,6 +27,15 @@ class FDMaterialApp extends Widget {
 
   @override
   String render(BuildContext context) {
+    // Initialize navigation
+    PageNavigator.init();
+
+    final effectiveTheme =
+        theme ?? (darkMode ? ThemeData.dark() : ThemeData.light());
+    final homeWidget = Theme(
+      data: effectiveTheme,
+      child: home ?? PageNavigator.current,
+    );
     // Prefer passed context if available, otherwise use method argument
     // (In a real scenario, this distinction might matter regarding scope,
     // but here we just use what is available).
@@ -45,9 +56,13 @@ class FDMaterialApp extends Widget {
     // Clear any existing DOM content
     // document.body?.children.clear();
 
-    final prefersDark =
-        window.matchMedia('(prefers-color-scheme: dark)').matches;
+    final prefersDark = effectiveTheme.isDark;
+    document.body?.classes.remove('flart-light');
+    document.body?.classes.remove('flart-dark');
     document.body?.classes.add(prefersDark ? 'flart-dark' : 'flart-light');
+    document.body?.style.backgroundColor =
+        effectiveTheme.scaffoldBackgroundColor.toString();
+    document.body?.style.color = effectiveTheme.textStyle.color.toString();
 
     // Apply global CSS if provided
     if (rawCss != null) {
@@ -74,7 +89,7 @@ class FDMaterialApp extends Widget {
     }
 
     // Return the home widget's HTML
-    return home.render(context);
+    return homeWidget.render(context);
   }
 
   void _injectFavicon() {
@@ -91,6 +106,8 @@ class FDMaterialApp extends Widget {
   }
 
   void _injectMaterialIcons() {
+    if (document.head?.querySelector('link[href*="Material+Icons"]') != null)
+      return;
     final iconLink = LinkElement()
       ..rel = 'stylesheet'
       ..href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
@@ -106,6 +123,7 @@ class FDMaterialApp extends Widget {
   }
 
   void _injectViewportMeta() {
+    if (document.head?.querySelector('meta[name="viewport"]') != null) return;
     final metaViewport = MetaElement()
       ..name = 'viewport'
       ..content = 'width=device-width, initial-scale=1.0';

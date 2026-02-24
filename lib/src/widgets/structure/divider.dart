@@ -21,10 +21,11 @@ class FDDivider extends Widget {
 
   @override
   String render(BuildContext context) {
+    final theme = Theme.of(context);
     final styleMap = <String, String>{
       'height': '${thickness}px',
       'width': '100%',
-      'background-color': color?.toString() ?? '#000000',
+      'background-color': color?.toString() ?? theme.dividerColor.toString(),
       'border': 'none',
       'display': 'block',
       'margin-left': '${indent ?? 0}px',

@@ -29,10 +29,12 @@ class FDElevatedButton extends Widget {
     final id = 'elevated_btn_${DateTime.now().millisecondsSinceEpoch}';
     final classId = 'btn-$id';
 
+    final theme = Theme.of(context);
+
     final baseStyle = {
       'padding': '10px 16px',
       'font-size': '14px',
-      'background-color': '#6200ea',
+      'background-color': theme.primaryColor.toString(),
       'color': '#ffffff',
       'border': 'none',
       'border-radius': '4px',

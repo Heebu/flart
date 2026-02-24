@@ -1,16 +1,34 @@
-﻿import '../../flartdart.dart';
+﻿import '../widgets/widget.dart';
+import '../widgets/utils/build_context.dart';
+import '../../run_app.dart';
 import 'dart:html';
+
+typedef RouteGuard = bool Function(String routeName);
+typedef PageBuilder = Widget Function(Map<String, String> params);
 
 class PageNavigator {
   static final List<Widget> _stack = [];
-  static final Map<String, Widget> _routes = {};
+  static final Map<String, PageBuilder> _routes = {};
+  static RouteGuard? _guard;
+  static String? _unauthorizedRoute;
+  static bool _isInitialized = false;
 
   static Widget get current =>
       _stack.isNotEmpty ? _stack.last : const _EmptyWidget();
 
-  /// Register available routes before runApp()
-  static void registerRoutes(Map<String, Widget> routes) {
+  /// Register available routes with optional guards
+  static void registerRoutes(Map<String, Widget> routes,
+      {RouteGuard? guard, String? unauthorizedRoute}) {
     _routes.clear();
+    routes.forEach((key, value) {
+      _routes[key] = (_) => value;
+    });
+    _guard = guard;
+    _unauthorizedRoute = unauthorizedRoute;
+  }
+
+  /// Register dynamic routes
+  static void registerDynamicRoutes(Map<String, PageBuilder> routes) {
     _routes.addAll(routes);
   }
 
@@ -22,8 +40,16 @@ class PageNavigator {
   }
 
   static void pushNamed(String routeName, {Map<String, String>? queryParams}) {
-    final page = _routes[routeName];
-    if (page != null) {
+    if (_guard != null && !_guard!(routeName)) {
+      if (_unauthorizedRoute != null) {
+        pushNamed(_unauthorizedRoute!);
+      }
+      return;
+    }
+
+    final builder = _routes[routeName];
+    if (builder != null) {
+      final page = builder(queryParams ?? {});
       _stack.add(page);
       _updateHistory(page, routeName, queryParams);
       _refresh(withTransition: true);
@@ -42,8 +68,16 @@ class PageNavigator {
 
   static void replaceNamed(String routeName,
       {Map<String, String>? queryParams}) {
-    final page = _routes[routeName];
-    if (page != null) {
+    if (_guard != null && !_guard!(routeName)) {
+      if (_unauthorizedRoute != null) {
+        replaceNamed(_unauthorizedRoute!);
+      }
+      return;
+    }
+
+    final builder = _routes[routeName];
+    if (builder != null) {
+      final page = builder(queryParams ?? {});
       if (_stack.isNotEmpty) _stack.removeLast();
       _stack.add(page);
       _updateHistory(page, routeName, queryParams);
@@ -79,6 +113,8 @@ class PageNavigator {
 
   /// Initialize the Navigator and load correct route
   static void init() {
+    if (_isInitialized) return;
+    _isInitialized = true;
     window.onPopState.listen((event) {
       if (_stack.length > 1) {
         _stack.removeLast();
@@ -87,10 +123,19 @@ class PageNavigator {
     });
 
     final hash = window.location.hash.replaceFirst('#', '');
-    final routeName = hash.startsWith('/') ? hash : '/';
+    final uri = Uri.parse(
+        hash.startsWith('/') ? hash : (hash.isEmpty ? '/' : '/$hash'));
+    final routeName = uri.path;
+    final params = uri.queryParameters;
+
     if (_routes.containsKey(routeName)) {
       _stack.clear();
-      _stack.add(_routes[routeName]!);
+      _stack.add(_routes[routeName]!(params));
+    } else if (routeName == '/' && _routes.isNotEmpty) {
+      // Fallback for root if exactly '/' is not found but we have routes
+      final firstRoute = _routes.entries.first;
+      _stack.clear();
+      _stack.add(firstRoute.value({}));
     }
   }
 
@@ -129,31 +174,7 @@ class PageNavigator {
   }
 
   static void _refresh({bool withTransition = false}) {
-    // Current run_app render logic handles context.
-    // We need a context to render. Navigator acts as root?
-    // We'll create a dummy context since we are at root level.
-    // Or we should pass context?
-    // For now, let's create a fresh context for the root page.
-    final context = BuildContext(widget: current);
-    final html = current.render(context);
-
-    final app = querySelector('#output') ?? querySelector('#app');
-    if (app != null) {
-      if (withTransition) {
-        app.classes.add('fade-out');
-        Future.delayed(const Duration(milliseconds: 300), () {
-          app.setInnerHtml(html, treeSanitizer: NodeTreeSanitizer.trusted);
-          app.classes
-            ..remove('fade-out')
-            ..add('fade-in');
-          Future.delayed(const Duration(milliseconds: 300), () {
-            app.classes.remove('fade-in');
-          });
-        });
-      } else {
-        app.setInnerHtml(html, treeSanitizer: NodeTreeSanitizer.trusted);
-      }
-    }
+    reRenderApp();
   }
 }
 
@@ -163,6 +184,3 @@ class _EmptyWidget extends Widget {
   @override
   String render(BuildContext context) => '<div>No route defined</div>';
 }
-
-
-

@@ -1,7 +1,6 @@
 ﻿import 'dart:html';
 import '../../flartdart.dart';
 
-
 // Global state registry to persist state across renders
 final Map<String, State> _stateRegistry = {};
 
@@ -94,16 +93,17 @@ abstract class State<T extends StatefulWidget> {
 }
 
 abstract class StatefulWidget extends Widget {
-  const StatefulWidget();
+  const StatefulWidget({Key? key}) : super(key: key);
 
   State<StatefulWidget> createState();
 
   @override
   String render(BuildContext context) {
-    // Generate a unique key for this widget instance
-    // Note: Relying on hashCode means state is lost if new instance created.
-    // Ideally user provides Key, but for now we stick to this.
-    final stateKey = '${runtimeType}_${hashCode}';
+    // Generate a unique key for this widget instance.
+    // If a key is provided, we use it to maintain state across re-renders.
+    final stateKey = key != null
+        ? '${runtimeType}_${key.toString()}'
+        : '${runtimeType}_${hashCode}';
 
     // Get or create state
     State state;
@@ -136,6 +136,3 @@ abstract class StatefulWidget extends Widget {
     state?.dispose();
   }
 }
-
-
-

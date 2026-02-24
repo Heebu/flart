@@ -6,16 +6,14 @@ class FDRow extends Widget {
   final CrossAxisAlignment crossAxisAlignment;
   final Map<String, String>? cssStyle;
   final String? rawCss;
-  final String? key;
-
   const FDRow({
     required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.cssStyle,
     this.rawCss,
-    this.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {

@@ -1,4 +1,9 @@
-﻿import '../../../flartdart.dart';
+﻿import '../widget.dart';
+import '../utils/build_context.dart';
+import '../../styles/text_style.dart';
+import '../../styles/theme.dart';
+import '../../enums/text_tag.dart';
+import '../../enums/text_align.dart';
 
 class FDText extends Widget {
   final String content;
@@ -21,7 +26,10 @@ class FDText extends Widget {
 
   @override
   String render(BuildContext context) {
+    final themeStyle = Theme.of(context).textStyle;
+
     final combinedStyle = {
+      ...themeStyle.toCss(),
       ...(style?.toCss() ?? {}),
       if (!selectable) 'user-select': 'none',
       ...(cssStyle ?? {}),

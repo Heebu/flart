@@ -5,10 +5,14 @@ export 'src/widgets/widget.dart';
 export 'src/widgets/utils/build_context.dart';
 export 'src/widgets/stateful_widget.dart';
 export 'src/widgets/stateless_widget.dart';
+export 'src/widgets/inherited_widget.dart';
 export 'run_app.dart';
 
 // Foundation
 export 'src/foundation/types.dart';
+export 'src/foundation/key.dart';
+export 'src/foundation/ticker.dart';
+export 'src/foundation/input.dart';
 
 // Enums
 export 'src/enums/axis.dart';
@@ -38,6 +42,7 @@ export 'src/styles/media_querry.dart';
 export 'src/styles/navigation.dart';
 export 'src/styles/text_style.dart';
 export 'src/styles/shape.dart';
+export 'src/styles/theme.dart';
 export 'src/styles/custom_painting.dart' hide CustomPainter, FDCustomPaint;
 export 'src/styles/decoration_image.dart';
 
@@ -73,6 +78,7 @@ export 'src/widgets/structure/tabs.dart';
 export 'src/widgets/structure/scroll_view.dart';
 export 'src/widgets/structure/padding.dart';
 export 'src/widgets/structure/constrained_box.dart';
+export 'src/widgets/structure/overlay.dart';
 
 // Arrangement Widgets
 export 'src/widgets/arrangement_widgets/wrap.dart';
@@ -88,6 +94,7 @@ export 'src/widgets/arrangement_widgets/listview.dart';
 export 'src/widgets/arrangement_widgets/position.dart';
 export 'src/widgets/arrangement_widgets/row.dart';
 export 'src/widgets/arrangement_widgets/stack.dart';
+export 'src/widgets/arrangement_widgets/virtualized_list_view.dart';
 
 // Input & Buttons
 export 'src/widgets/buttons/button.dart';

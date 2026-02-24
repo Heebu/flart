@@ -24,7 +24,8 @@ class FDCard extends Widget {
 
   @override
   String render(BuildContext context) {
-    final bgColor = color?.toString() ?? '#ffffff';
+    final theme = Theme.of(context);
+    final bgColor = color?.toString() ?? theme.cardColor.toString();
     final shadowBlur = elevation * 2;
     final shadowSpread = elevation * 0.5;
 

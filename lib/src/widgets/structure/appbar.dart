@@ -4,7 +4,7 @@ class FDAppBar extends Widget {
   final Widget? title;
   final Widget? leading;
   final List<Widget>? actions;
-  final FlartColor backgroundColor;
+  final FlartColor? backgroundColor;
   final double elevation;
   final String? rawCss;
 
@@ -12,13 +12,15 @@ class FDAppBar extends Widget {
     this.title,
     this.leading,
     this.actions,
-    this.backgroundColor = FlartColors.blue,
+    this.backgroundColor,
     this.elevation = 4.0,
     this.rawCss,
   });
 
   @override
   String render(BuildContext context) {
+    final theme = Theme.of(context);
+    final bg = backgroundColor ?? theme.primaryColor;
     final buffer = StringBuffer();
 
     buffer.writeln('''
@@ -28,8 +30,8 @@ class FDAppBar extends Widget {
       justify-content: space-between;
       padding: 0 16px;
       height: 56px;
-      background-color: $backgroundColor;
-      box-shadow: 0 ${elevation}px ${elevation * 2}px rgba(0,0,0,0.2);
+      background-color: $bg;
+      box-shadow: 0 ${elevation}px ${elevation * 2}px rgba(0,0,0,0.15);
       color: white;
       ${rawCss ?? ''}
     ">

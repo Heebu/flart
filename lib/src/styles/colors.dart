@@ -3,11 +3,18 @@ class FlartColor {
   const FlartColor(this.hex);
 
   Map<String, int> _hexToRgb() {
+    if (!hex.startsWith('#') || hex.length < 7) {
+      return {'r': 0, 'g': 0, 'b': 0};
+    }
     final hexWithoutHash = hex.replaceFirst('#', '');
-    final r = int.parse(hexWithoutHash.substring(0, 2), radix: 16);
-    final g = int.parse(hexWithoutHash.substring(2, 4), radix: 16);
-    final b = int.parse(hexWithoutHash.substring(4, 6), radix: 16);
-    return {'r': r, 'g': g, 'b': b};
+    try {
+      final r = int.parse(hexWithoutHash.substring(0, 2), radix: 16);
+      final g = int.parse(hexWithoutHash.substring(2, 4), radix: 16);
+      final b = int.parse(hexWithoutHash.substring(4, 6), radix: 16);
+      return {'r': r, 'g': g, 'b': b};
+    } catch (_) {
+      return {'r': 0, 'g': 0, 'b': 0};
+    }
   }
 
   FlartColor lerp(FlartColor other, double t) {

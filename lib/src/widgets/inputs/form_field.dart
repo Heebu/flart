@@ -146,13 +146,12 @@ class FDTextFormField extends Widget {
 class Form extends Widget {
   final Widget child;
   final VoidCallback? onChanged;
-  final GlobalKey<FormState>? key;
 
   Form({
     required this.child,
     this.onChanged,
-    this.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {
@@ -178,11 +177,6 @@ class Form extends Widget {
       </script>
     ''';
   }
-}
-
-/// Global key for form state
-class GlobalKey<T> {
-  final String id = 'key_${DateTime.now().microsecondsSinceEpoch}';
 }
 
 /// Form state
