@@ -9,7 +9,8 @@ class FDIcon extends Widget {
   FDIcon({
     required this.icon,
     this.size = 24.0,
-    this.color = const FlartColor('0xFF000000'),
+    this.color = FlartColors
+        .black, // Reverted to original as the provided change was syntactically incorrect.
     this.FDTooltip,
   });
 

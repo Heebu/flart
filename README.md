@@ -21,7 +21,7 @@ Build stunning, responsive, and interactive web applications using the familiar 
 - **🛠️ Integrated CLI**: Generate project templates instantly with the `flartdart` command.
 - **⚡ Performance First**: Lightweight HTML/CSS rendering with optimized DOM updates.
 - **📱 Responsive by Design**: Built-in `MediaQuery` and flexible layout widgets for seamless mobile & desktop support.
-
+- **Interactive Widget Lab**: A comprehensive testing suite organized into 5 batches (Foundation, Lists & Nav, Interactive, Content, and Animations) for systematic widget verification and developer onboarding.
 ---
 
 ## 🛠️ CLI Tool

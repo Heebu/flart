@@ -16,9 +16,11 @@ class FDCircularProgressIndicator extends Widget {
 
   @override
   String render(BuildContext context) {
+    final theme = Theme.of(context);
     final id = 'progress_${DateTime.now().microsecondsSinceEpoch}';
-    final mainColor = color?.toString() ?? '#6200ea';
-    final bgColor = backgroundColor?.toString() ?? '#e0e0e0';
+    final mainColor = color?.toString() ?? theme.primaryColor.toString();
+    final bgColor =
+        backgroundColor?.toString() ?? theme.dividerColor.toString();
 
     return '''
       <div id="$id" style="
@@ -54,9 +56,11 @@ class FDLinearProgressIndicator extends Widget {
 
   @override
   String render(BuildContext context) {
+    final theme = Theme.of(context);
     final id = 'linear_progress_${DateTime.now().microsecondsSinceEpoch}';
-    final mainColor = color?.toString() ?? '#6200ea';
-    final bgColor = backgroundColor?.toString() ?? '#e0e0e0';
+    final mainColor = color?.toString() ?? theme.primaryColor.toString();
+    final bgColor =
+        backgroundColor?.toString() ?? theme.dividerColor.toString();
     final progress = value != null ? (value! * 100).clamp(0, 100) : null;
 
     if (progress != null) {
@@ -106,6 +110,3 @@ class FDLinearProgressIndicator extends Widget {
     }
   }
 }
-
-
-

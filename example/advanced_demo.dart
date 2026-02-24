@@ -1,4 +1,9 @@
 import 'package:flartdart/flartdart.dart';
+import 'batch_1_lab.dart';
+import 'batch_2_lab.dart';
+import 'batch_3_lab.dart';
+import 'batch_4_lab.dart';
+import 'batch_5_lab.dart';
 
 void main() {
   Input.init();
@@ -8,6 +13,11 @@ void main() {
     '/dashboard': const DashboardPage(),
     '/login': const LoginPage(),
     '/virtual-list': const VirtualListPage(),
+    '/lab-batch-1': const Batch1Lab(),
+    '/lab-batch-2': const Batch2Lab(),
+    '/lab-batch-3': const Batch3Lab(),
+    '/lab-batch-4': const Batch4Lab(),
+    '/lab-batch-5': const Batch5Lab(),
   }, guard: (route) {
     if ((route == '/dashboard' || route == '/virtual-list') &&
         !Session.isLoggedIn) {
@@ -68,6 +78,31 @@ class WelcomePage extends StatelessWidget {
             FDElevatedButton(
               onPressed: () => PageNavigator.pushNamed('/dashboard'),
               child: FDText('Enter Dashboard'),
+            ),
+            FDSizedBox(height: 16),
+            FDElevatedButton(
+              onPressed: () => PageNavigator.pushNamed('/lab-batch-1'),
+              child: FDText('🛠️ Open Widget Lab (Batch 1)'),
+            ),
+            FDSizedBox(height: 12),
+            FDElevatedButton(
+              onPressed: () => PageNavigator.pushNamed('/lab-batch-2'),
+              child: FDText('🚄 Open Widget Lab (Batch 2)'),
+            ),
+            FDSizedBox(height: 12),
+            FDElevatedButton(
+              onPressed: () => PageNavigator.pushNamed('/lab-batch-3'),
+              child: FDText('⌨️ Open Widget Lab (Batch 3)'),
+            ),
+            FDSizedBox(height: 12),
+            FDElevatedButton(
+              onPressed: () => PageNavigator.pushNamed('/lab-batch-4'),
+              child: FDText('🖼️ Open Widget Lab (Batch 4)'),
+            ),
+            FDSizedBox(height: 12),
+            FDElevatedButton(
+              onPressed: () => PageNavigator.pushNamed('/lab-batch-5'),
+              child: FDText('🎞️ Open Widget Lab (Batch 5)'),
             ),
           ],
         ),

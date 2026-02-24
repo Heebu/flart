@@ -60,18 +60,29 @@ class FDTextField extends Widget {
   @override
   String render(BuildContext context) {
     final id = 'textfield_${DateTime.now().microsecondsSinceEpoch}';
+    final theme = Theme.of(context);
     final inputType = _getInputType();
     final value = controller?.text ?? initialValue ?? '';
-    final bgColor = backgroundColor?.toString() ?? '#ffffff';
-    final border = borderColor?.toString() ?? '#cccccc';
-    final focusBorder = focusedBorderColor?.toString() ?? '#007bff';
+
+    final bgColor = backgroundColor?.toString() ?? theme.cardColor.toString();
+    final border = borderColor?.toString() ?? theme.dividerColor.toString();
+    final focusBorder =
+        focusedBorderColor?.toString() ?? theme.primaryColor.toString();
+    final errorColor = theme.errorColor.toString();
+
     final radius = borderRadius ?? 4.0;
     final pad = padding ?? EdgeInsets.symmetric(horizontal: 12, vertical: 8);
     final hasError = errorText != null;
 
+    final placeholderColor = theme.textStyle.color is FlartColor
+        ? (theme.textStyle.color as FlartColor)
+            .lerp(FlartColors.grey, 0.5)
+            .toString()
+        : '#888888';
+
     return '''
       <div style="display: flex; flex-direction: column; gap: 4px;">
-        ${label != null ? '<label for="$id" style="font-size: 14px; font-weight: 500; color: #333;">${label!}</label>' : ''}
+        ${label != null ? '<label for="$id" style="font-size: 14px; font-weight: 500; color: ${theme.textStyle.color};">${label!}</label>' : ''}
         
         <div style="position: relative; display: flex; align-items: center;">
           ${prefixIcon != null ? '<div style="position: absolute; left: 8px; display: flex; align-items: center;">${prefixIcon!.render(context)}</div>' : ''}
@@ -86,17 +97,19 @@ class FDTextField extends Widget {
             ${maxLength != null ? 'maxlength="$maxLength"' : ''}
             style="
               width: 100%;
+              box-sizing: border-box;
               padding: ${pad.toCss()};
               ${prefixIcon != null ? 'padding-left: 40px;' : ''}
               ${suffixIcon != null ? 'padding-right: 40px;' : ''}
               background-color: $bgColor;
-              border: 1px solid ${hasError ? '#dc3545' : border};
+              border: 1px solid ${hasError ? errorColor : border};
               border-radius: ${radius}px;
               font-size: 14px;
+              color: ${theme.textStyle.color};
               outline: none;
-              transition: border-color 0.2s;
+              transition: border-color 0.2s, box-shadow 0.2s;
               ${!enabled ? 'opacity: 0.6; cursor: not-allowed;' : ''}
-              ${readOnly ? 'background-color: #f5f5f5;' : ''}
+              ${readOnly ? 'background-color: ${theme.dividerColor};' : ''}
               ${cssStyle?.entries.map((e) => '${e.key}: ${e.value};').join(' ') ?? ''}
               ${rawCss ?? ''}
             "
@@ -105,39 +118,19 @@ class FDTextField extends Widget {
           ${suffixIcon != null ? '<div style="position: absolute; right: 8px; display: flex; align-items: center;">${suffixIcon!.render(context)}</div>' : ''}
         </div>
         
-        ${errorText != null ? '<span style="font-size: 12px; color: #dc3545;">$errorText</span>' : ''}
-        ${helperText != null && errorText == null ? '<span style="font-size: 12px; color: #666;">$helperText</span>' : ''}
+        ${errorText != null ? '<span style="font-size: 12px; color: $errorColor;">$errorText</span>' : ''}
+        ${helperText != null && errorText == null ? '<span style="font-size: 12px; color: $placeholderColor; opacity: 0.7;">$helperText</span>' : ''}
       </div>
       
       <style>
+        #$id::placeholder {
+          color: $placeholderColor;
+        }
         #$id:focus {
-          border-color: ${hasError ? '#dc3545' : focusBorder} !important;
+          border-color: ${hasError ? errorColor : focusBorder} !important;
           box-shadow: 0 0 0 3px ${hasError ? 'rgba(220, 53, 69, 0.1)' : 'rgba(0, 123, 255, 0.1)'};
         }
       </style>
-      
-      <script>
-        (function() {
-          const input = document.getElementById('$id');
-          ${onChanged != null ? '''
-            input.addEventListener('input', function(e) {
-              console.log('FDTextField changed:', e.target.value);
-            });
-          ''' : ''}
-          ${onSubmitted != null ? '''
-            input.addEventListener('keypress', function(e) {
-              if (e.key === 'Enter') {
-                console.log('FDTextField submitted:', e.target.value);
-              }
-            });
-          ''' : ''}
-          ${onTap != null ? '''
-            input.addEventListener('click', function() {
-              console.log('FDTextField tapped');
-            });
-          ''' : ''}
-        })();
-      </script>
     ''';
   }
 

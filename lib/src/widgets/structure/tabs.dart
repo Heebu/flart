@@ -23,15 +23,23 @@ class FDTabBar extends Widget {
 
   @override
   String render(BuildContext context) {
+    final theme = Theme.of(context);
+    final themeColor = theme.textStyle.color is FlartColor
+        ? theme.textStyle.color as FlartColor
+        : FlartColors.black;
+
     final id = 'tabbar_${DateTime.now().microsecondsSinceEpoch}';
-    final indicator = indicatorColor?.toString() ?? '#6200ea';
-    final selected = labelColor?.toString() ?? '#6200ea';
-    final unselected = unselectedLabelColor?.toString() ?? '#757575';
+    final indicator =
+        indicatorColor?.toString() ?? theme.primaryColor.toString();
+    final selected = labelColor?.toString() ?? theme.primaryColor.toString();
+    final unselected = unselectedLabelColor?.toString() ??
+        themeColor.lerp(FlartColors.grey, 0.4).toString();
 
     return '''
       <div id="$id" style="
         display: flex;
-        border-bottom: 2px solid #e0e0e0;
+        border-bottom: 2px solid ${theme.dividerColor};
+        transition: border-color 0.3s;
         position: relative;
         ${rawCss ?? ''}
       ">

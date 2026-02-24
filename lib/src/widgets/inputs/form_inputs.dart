@@ -20,13 +20,12 @@ class FDCheckbox extends Widget {
   @override
   String render(BuildContext context) {
     final id = 'checkbox_${DateTime.now().microsecondsSinceEpoch}';
-    final active = activeColor?.toString() ?? '#6200ea';
-    final check = checkColor?.toString() ?? '#ffffff';
+    final theme = Theme.of(context);
+    final active = activeColor?.toString() ?? theme.primaryColor.toString();
     final disabled = onChanged == null;
 
     String onChangeAttr = '';
     if (onChanged != null) {
-      // Capture the NEXT state (toggle)
       final cbId = FlartCallbackManager.register(() => onChanged!(!value));
       onChangeAttr = 'onchange="window.__flartHandleClick(\'$cbId\')"';
     }
@@ -42,6 +41,7 @@ class FDCheckbox extends Widget {
           height: 20px;
           cursor: ${disabled ? 'not-allowed' : 'pointer'};
           accent-color: $active;
+          transition: accent-color 0.2s;
           ${rawCss ?? ''}
         "
         $onChangeAttr
@@ -50,7 +50,7 @@ class FDCheckbox extends Widget {
   }
 }
 
-/// A FDRadio FDButton widget
+/// A FDRadio Button widget
 class FDRadio<T> extends Widget {
   final T value;
   final T? groupValue;
@@ -69,13 +69,13 @@ class FDRadio<T> extends Widget {
   @override
   String render(BuildContext context) {
     final id = 'radio_${DateTime.now().microsecondsSinceEpoch}';
-    final active = activeColor?.toString() ?? '#6200ea';
+    final theme = Theme.of(context);
+    final active = activeColor?.toString() ?? theme.primaryColor.toString();
     final checked = value == groupValue;
     final disabled = onChanged == null;
 
     String onChangeAttr = '';
     if (onChanged != null) {
-      // FDRadio only triggers if not already checked (usually)
       final cbId = FlartCallbackManager.register(() => onChanged!(value));
       onChangeAttr = 'onchange="window.__flartHandleClick(\'$cbId\')"';
     }
@@ -91,6 +91,7 @@ class FDRadio<T> extends Widget {
           height: 20px;
           cursor: ${disabled ? 'not-allowed' : 'pointer'};
           accent-color: $active;
+          transition: accent-color 0.2s;
           ${rawCss ?? ''}
         "
         $onChangeAttr
@@ -118,13 +119,13 @@ class FDSwitch extends Widget {
   @override
   String render(BuildContext context) {
     final id = 'switch_${DateTime.now().microsecondsSinceEpoch}';
-    final active = activeColor?.toString() ?? '#6200ea';
-    final inactive = inactiveColor?.toString() ?? '#cccccc';
+    final theme = Theme.of(context);
+    final active = activeColor?.toString() ?? theme.primaryColor.toString();
+    final inactive = inactiveColor?.toString() ?? theme.dividerColor.toString();
     final disabled = onChanged == null;
 
     String onChangeAttr = '';
     if (onChanged != null) {
-      // Toggle
       final cbId = FlartCallbackManager.register(() => onChanged!(!value));
       onChangeAttr = 'onchange="window.__flartHandleClick(\'$cbId\')"';
     }
