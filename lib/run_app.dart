@@ -14,11 +14,7 @@ void runApp(Widget rootWidget) {
       document.body;
 
   _ensureOverlayContainer();
-  // Clear any dynamic style/links from previous renders to avoid pollution
-  document.head
-      ?.querySelectorAll('link[rel="stylesheet"]')
-      .forEach((e) => e.remove());
-  document.head?.querySelectorAll('style').forEach((e) => e.remove());
+  // We no longer clear the entire head, as it removes the original style.css from index.html.
 
   _renderApp();
 

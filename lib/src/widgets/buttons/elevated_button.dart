@@ -44,10 +44,18 @@ class FDElevatedButton extends Widget {
     };
 
     final hoverCss = {
+      'background-color':
+          theme.primaryColor.lerp(FlartColors.white, 0.2).toString(),
+      'box-shadow': '0 6px 12px rgba(0,0,0,0.2)',
+      'transform': 'translateY(-1px) scale(1.02)',
       ...?hoverStyle,
     };
 
     final activeCss = {
+      'background-color':
+          theme.primaryColor.lerp(FlartColors.black, 0.1).toString(),
+      'transform': 'translateY(1px) scale(0.98)',
+      'box-shadow': '0 2px 4px rgba(0,0,0,0.1)',
       ...?activeStyle,
     };
 

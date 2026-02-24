@@ -100,6 +100,15 @@ class FlartColors {
     700: FlartColor('#616161'),
   });
 
+  static const pink = FlartMaterialColor('#E91E63', {
+    50: FlartColor('#FCE4EC'),
+    100: FlartColor('#F8BBD0'),
+    500: FlartColor('#E91E63'),
+    900: FlartColor('#880E4F'),
+  });
+
+  static const lightGrey = FlartColor('#F9F9F9');
+
   // Extended Material Colors
   static const purple = FlartMaterialColor('#9C27B0', {
     50: FlartColor('#F3E5F5'),

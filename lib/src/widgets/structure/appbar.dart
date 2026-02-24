@@ -31,6 +31,7 @@ class FDAppBar extends Widget {
       padding: 0 16px;
       height: 56px;
       background-color: $bg;
+      transition: background-color 0.3s ease, color 0.3s ease;
       box-shadow: 0 ${elevation}px ${elevation * 2}px rgba(0,0,0,0.15);
       color: white;
       ${rawCss ?? ''}

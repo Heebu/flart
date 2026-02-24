@@ -57,12 +57,26 @@ class FDMaterialApp extends Widget {
     // document.body?.children.clear();
 
     final prefersDark = effectiveTheme.isDark;
-    document.body?.classes.remove('flart-light');
-    document.body?.classes.remove('flart-dark');
-    document.body?.classes.add(prefersDark ? 'flart-dark' : 'flart-light');
-    document.body?.style.backgroundColor =
-        effectiveTheme.scaffoldBackgroundColor.toString();
-    document.body?.style.color = effectiveTheme.textStyle.color.toString();
+    final body = document.body;
+    if (body != null) {
+      body.classes.remove('flart-light');
+      body.classes.remove('flart-dark');
+      body.classes.add(prefersDark ? 'flart-dark' : 'flart-light');
+
+      // Force set CSS variables for safety
+      body.style.setProperty(
+          '--primary-color', effectiveTheme.primaryColor.toString());
+      body.style.setProperty('--background-color',
+          effectiveTheme.scaffoldBackgroundColor.toString());
+      body.style.setProperty(
+          '--text-color', effectiveTheme.textStyle.color.toString());
+      body.style
+          .setProperty('--card-color', effectiveTheme.cardColor.toString());
+
+      body.style.backgroundColor =
+          effectiveTheme.scaffoldBackgroundColor.toString();
+      body.style.color = effectiveTheme.textStyle.color.toString();
+    }
 
     // Apply global CSS if provided
     if (rawCss != null) {
@@ -115,6 +129,9 @@ class FDMaterialApp extends Widget {
   }
 
   void _injectGoogleFont(String fontFamily) {
+    if (document.head?.querySelector(
+            'link[href*="fonts.googleapis.com/css2?family=${fontFamily.replaceAll(" ", "+")}"]') !=
+        null) return;
     final fontLink = LinkElement()
       ..rel = 'stylesheet'
       ..href =

@@ -1,5 +1,5 @@
-/* Reset & base layout */
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     border: 0;
@@ -7,7 +7,9 @@ html, body {
     width: 100%;
     font-size: 100%;
     font-family: figtree, serif;
-    background-color: white;
+    background-color: var(--background-color, white);
+    color: var(--text-color, black);
+    transition: background-color 0.3s ease, color 0.3s ease;
     box-sizing: border-box;
 }
 
@@ -29,7 +31,9 @@ body.flart-dark {
     --appbar-color: #1a1a1a;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: inherit;
 }
 
@@ -54,6 +58,7 @@ body.flart-dark {
         opacity: 0;
         transform: translateY(20px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -65,6 +70,7 @@ body.flart-dark {
         opacity: 1;
         transform: translateY(0);
     }
+
     100% {
         opacity: 0;
         transform: translateY(-20px);

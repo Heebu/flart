@@ -34,6 +34,7 @@ class AdvancedApp extends StatefulWidget {
 class _AdvancedAppState extends State<AdvancedApp> {
   @override
   Widget build(BuildContext context) {
+    print('Root rebuild: dark mode = ${Session.isDarkMode}');
     return FDMaterialApp(
       title: 'Flart Advanced Demo',
       darkMode: Session.isDarkMode,

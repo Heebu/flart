@@ -15,9 +15,10 @@ Build stunning, responsive, and interactive web applications using the familiar 
 
 - **🎯 Flutter-Native Syntax**: If you know Flutter, you know Flart. Use `Row`, `Column`, `Container`, `Scaffold`, and `StatefulWidget` just like you do in Flutter.
 - **🏗️ 100+ Pre-built Widgets**: From basic layout components to complex pickers, media players, and animated transitions.
+- **🎨 Global Theming (v1.2)**: Instant Light/Dark mode switching using the `Theme` InheritedWidget. Define your brand once, apply it everywhere.
+- **⚡ Virtualized Performance (v1.2)**: Handle lists with 10,000+ items at 60fps using `FDVirtualizedListView`.
 - **⚙️ Zero External Dependencies**: A lightweight core built on top of standard web APIs.
 - **🛠️ Integrated CLI**: Generate project templates instantly with the `flartdart` command.
-- **🎨 Infinite Styling**: Native support for `BoxDecoration`, `TextStyle`, and a unique `rawCss` property for surgical style overrides.
 - **⚡ Performance First**: Lightweight HTML/CSS rendering with optimized DOM updates.
 - **📱 Responsive by Design**: Built-in `MediaQuery` and flexible layout widgets for seamless mobile & desktop support.
 

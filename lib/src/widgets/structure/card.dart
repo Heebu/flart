@@ -31,6 +31,7 @@ class FDCard extends Widget {
 
     final styles = <String, String>{
       'background-color': bgColor,
+      'transition': 'background-color 0.3s ease',
       'border-radius': borderRadius != null
           ? '${borderRadius!.topLeft}px ${borderRadius!.topRight}px ${borderRadius!.bottomRight}px ${borderRadius!.bottomLeft}px'
           : '4px',
