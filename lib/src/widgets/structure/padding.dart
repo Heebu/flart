@@ -6,11 +6,12 @@ class FDPadding extends Widget {
   final Widget child;
   final String? rawCss;
 
-  FDPadding({
+  const FDPadding({
     required this.padding,
     required this.child,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {

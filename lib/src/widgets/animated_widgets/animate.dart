@@ -11,6 +11,7 @@ class FDAnimate extends Widget {
   final double? slideX;
   final double? slideY;
   final double? startScale;
+  final double? scale; // Alias for startScale
   final bool fadeIn;
   final String? rawCss;
 
@@ -21,6 +22,7 @@ class FDAnimate extends Widget {
     this.slideX,
     this.slideY,
     this.startScale,
+    this.scale,
     this.fadeIn = true,
     this.rawCss,
     Key? key,
@@ -31,7 +33,8 @@ class FDAnimate extends Widget {
     final id = 'animate_${DateTime.now().microsecondsSinceEpoch}';
 
     final initialOpacity = fadeIn ? '0' : '1';
-    final initialScale = startScale != null ? 'scale($startScale)' : '';
+    final currentScale = scale ?? startScale;
+    final initialScale = currentScale != null ? 'scale($currentScale)' : '';
     final initialTranslate = (slideX != null || slideY != null)
         ? 'translate(${slideX ?? 0}px, ${slideY ?? 0}px)'
         : '';

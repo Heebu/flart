@@ -8,6 +8,7 @@ export 'src/widgets/utils/view_model_builder.dart';
 export 'src/widgets/stateful_widget.dart';
 export 'src/widgets/stateless_widget.dart';
 export 'src/widgets/inherited_widget.dart';
+export 'src/widgets/utils/async_widgets.dart';
 export 'run_app.dart';
 
 // Foundation
@@ -17,6 +18,7 @@ export 'src/foundation/ticker.dart';
 export 'src/foundation/input.dart';
 export 'src/foundation/change_notifier.dart';
 export 'src/foundation/websocket.dart';
+export 'src/foundation/offset.dart';
 
 // Enums
 export 'src/enums/axis.dart';

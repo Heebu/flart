@@ -7,14 +7,15 @@ class FDColumn extends Widget {
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
-  FDColumn({
+  const FDColumn({
     required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.spacing,
     this.cssStyle,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final double? spacing;
 

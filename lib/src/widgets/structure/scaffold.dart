@@ -9,7 +9,7 @@ class FDScaffold extends Widget {
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
-  FDScaffold({
+  const FDScaffold({
     this.appBar,
     this.body,
     this.drawer,
@@ -17,7 +17,8 @@ class FDScaffold extends Widget {
     this.floatingActionButton,
     this.cssStyle,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {

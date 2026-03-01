@@ -132,6 +132,8 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
                             '/painter-demo', theme),
                         _demoCard(FDIcons.add_circle, 'Counter Reactive',
                             '/counter-demo', theme),
+                        _demoCard(FDIcons.swap_vert, 'WebSocket Echo',
+                            '/websocket-demo', theme),
                       ],
                     ),
                   ),

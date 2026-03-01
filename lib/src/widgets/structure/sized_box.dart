@@ -7,7 +7,14 @@ class FDSizedBox extends Widget {
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
-  FDSizedBox({this.width, this.height, this.child, this.cssStyle, this.rawCss});
+  const FDSizedBox({
+    this.width,
+    this.height,
+    this.child,
+    this.cssStyle,
+    this.rawCss,
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {

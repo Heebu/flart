@@ -10,7 +10,7 @@ class FDChip extends Widget {
   final EdgeInsets? padding;
   final String? rawCss;
 
-  FDChip({
+  const FDChip({
     required this.label,
     this.avatar,
     this.deleteIcon,
@@ -18,7 +18,8 @@ class FDChip extends Widget {
     this.backgroundColor,
     this.padding,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {
@@ -26,7 +27,8 @@ class FDChip extends Widget {
     final id = 'chip_${DateTime.now().microsecondsSinceEpoch}';
     final bgColor =
         backgroundColor?.toString() ?? theme.dividerColor.toString();
-    final pad = padding ?? EdgeInsets.symmetric(horizontal: 12, vertical: 6);
+    final pad =
+        padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 6);
 
     return '''
       <div id="$id" style="
@@ -69,14 +71,15 @@ class FDBadge extends Widget {
   final bool isVisible;
   final String? rawCss;
 
-  FDBadge({
+  const FDBadge({
     required this.child,
     this.label,
     this.backgroundColor,
     this.textColor,
     this.isVisible = true,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {

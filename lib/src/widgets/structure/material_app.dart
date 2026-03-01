@@ -152,13 +152,12 @@ class FDMaterialApp extends Widget {
 
   void _injectFavicon() {
     // Remove existing
-    final existingParams =
-        document.head?.querySelectorAll("link[rel*='FDIcon']");
-    existingParams?.forEach((el) => el.remove());
+    final existingIcons = document.head?.querySelectorAll("link[rel*='icon']");
+    existingIcons?.forEach((el) => el.remove());
 
     final link = LinkElement()
-      ..type = 'FDImage/x-FDIcon'
-      ..rel = 'shortcut FDIcon'
+      ..type = 'image/x-icon'
+      ..rel = 'shortcut icon'
       ..href = favicon ?? 'assets/flart_logo.png';
     document.head?.append(link);
   }

@@ -23,12 +23,14 @@ class TextStyle {
   final double? fontSize;
   final FontWeight? fontWeight;
   final String? fontFamily;
+  final double? letterSpacing;
 
   const TextStyle({
     this.color,
     this.fontSize,
     this.fontWeight,
     this.fontFamily,
+    this.letterSpacing,
   });
 
   Map<String, String> toCss() {
@@ -37,6 +39,7 @@ class TextStyle {
     if (fontSize != null) styles['font-size'] = '${fontSize}px';
     if (fontWeight != null) styles['font-weight'] = fontWeight!.value;
     if (fontFamily != null) styles['font-family'] = fontFamily!;
+    if (letterSpacing != null) styles['letter-spacing'] = '${letterSpacing}px';
     return styles;
   }
 }

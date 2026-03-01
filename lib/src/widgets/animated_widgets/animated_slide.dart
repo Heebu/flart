@@ -1,4 +1,3 @@
-import 'dart:html';
 import '../../../flartdart.dart';
 
 /// A widget that slides its child in and out
@@ -33,14 +32,4 @@ class AnimatedSlide extends Widget {
       </div>
     ''';
   }
-}
-
-/// Represents a 2D offset
-class Offset {
-  final double dx;
-  final double dy;
-
-  const Offset(this.dx, this.dy);
-
-  static const Offset zero = Offset(0, 0);
 }

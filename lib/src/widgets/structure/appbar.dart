@@ -8,14 +8,15 @@ class FDAppBar extends Widget {
   final double elevation;
   final String? rawCss;
 
-  FDAppBar({
+  const FDAppBar({
     this.title,
     this.leading,
     this.actions,
     this.backgroundColor,
     this.elevation = 4.0,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {
@@ -39,8 +40,10 @@ class FDAppBar extends Widget {
     ''');
 
     // Leading (e.g., menu FDIcon)
-    buffer.write(
-        '<div style="margin-right: 16px;">${leading?.render(context) ?? ''}</div>');
+    if (leading != null) {
+      buffer.write(
+          '<div style="margin-right: 16px;">${leading!.render(context)}</div>');
+    }
 
     // Title
     buffer.write(

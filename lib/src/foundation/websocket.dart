@@ -6,24 +6,30 @@ import '../../../flartdart.dart';
 /// A simpler way to handle WebSockets in Flart.
 class FDWebSocket extends ChangeNotifier {
   WebSocket? _socket;
-  final String url;
+  String? url;
 
   bool _isConnected = false;
   bool get isConnected => _isConnected;
 
   final _messageController = StreamController<dynamic>.broadcast();
-  Stream<dynamic> get messages => _messageController.stream;
+  Stream<dynamic> get onMessage => _messageController.stream;
 
-  FDWebSocket(this.url);
+  FDWebSocket([this.url]);
 
-  void connect() {
+  void connect([String? connectUrl]) {
+    final finalUrl = connectUrl ?? url;
+    if (finalUrl == null) {
+      print('WebSocket Error: No URL provided');
+      return;
+    }
+
     try {
-      _socket = WebSocket(url);
+      _socket = WebSocket(finalUrl);
 
       _socket!.onOpen.listen((_) {
         _isConnected = true;
         notifyListeners();
-        print('Connected to WebSocket: $url');
+        print('Connected to WebSocket: $finalUrl');
       });
 
       _socket!.onClose.listen((_) {
@@ -57,6 +63,8 @@ class FDWebSocket extends ChangeNotifier {
   void disconnect() {
     _socket?.close();
     _socket = null;
+    _isConnected = false;
+    notifyListeners();
   }
 
   @override

@@ -1,5 +1,4 @@
 import 'colors.dart';
-
 import '../../flartdart.dart';
 
 class Border extends BoxBorder {
@@ -8,11 +7,13 @@ class Border extends BoxBorder {
   final BorderSide? bottom;
   final BorderSide? left;
 
-  Border({this.top, this.right, this.bottom, this.left});
+  const Border({this.top, this.right, this.bottom, this.left});
 
   factory Border.all({
-    BorderSide side = const BorderSide(),
+    FlartColor color = FlartColors.black,
+    double width = 1.0,
   }) {
+    final side = BorderSide(color: color, width: width);
     return Border(
       top: side,
       right: side,
@@ -47,5 +48,6 @@ class BorderSide {
 }
 
 abstract class BoxBorder {
+  const BoxBorder();
   Map<String, String> toCss();
 }

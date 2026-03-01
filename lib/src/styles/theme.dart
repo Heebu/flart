@@ -55,6 +55,33 @@ class ThemeData {
         accentColor: FlartColor('#03dac6'),
         isDark: true,
       );
+
+  ThemeData copyWith({
+    FlartColor? primaryColor,
+    FlartColor? scaffoldBackgroundColor,
+    FlartColor? cardColor,
+    TextStyle? textStyle,
+    FlartColor? dividerColor,
+    FlartColor? errorColor,
+    FlartColor? successColor,
+    FlartColor? warningColor,
+    FlartColor? accentColor,
+    bool? isDark,
+  }) {
+    return ThemeData(
+      primaryColor: primaryColor ?? this.primaryColor,
+      scaffoldBackgroundColor:
+          scaffoldBackgroundColor ?? this.scaffoldBackgroundColor,
+      cardColor: cardColor ?? this.cardColor,
+      textStyle: textStyle ?? this.textStyle,
+      dividerColor: dividerColor ?? this.dividerColor,
+      errorColor: errorColor ?? this.errorColor,
+      successColor: successColor ?? this.successColor,
+      warningColor: warningColor ?? this.warningColor,
+      accentColor: accentColor ?? this.accentColor,
+      isDark: isDark ?? this.isDark,
+    );
+  }
 }
 
 class Theme extends InheritedWidget {

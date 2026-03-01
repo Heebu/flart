@@ -2,43 +2,38 @@
 import '../../../flartdart.dart';
 
 class FDTextButton extends Widget {
-  final String label;
+  final Widget? child;
+  final String? label;
   final VoidCallback? onPressed;
-  final VoidCallback? onHover;
-  final VoidCallback? onLongPress;
   final TextStyle? style;
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
-  FDTextButton({
-    required this.label,
+  const FDTextButton({
+    this.child,
+    this.label,
     this.onPressed,
-    this.onHover,
-    this.onLongPress,
     this.style,
     this.cssStyle,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {
     final id = 'text_btn_${DateTime.now().millisecondsSinceEpoch}';
     final pressId =
         onPressed != null ? FlartCallbackManager.register(onPressed!) : '';
-    final hoverId =
-        onHover != null ? FlartCallbackManager.register(onHover!) : '';
-    final longPressId =
-        onLongPress != null ? FlartCallbackManager.register(onLongPress!) : '';
 
     final styleMap = {
       'background': 'none',
       'border': 'none',
-      'color': style?.color?.toString() ?? '#007BFF',
-      'font-size': style?.fontSize?.toString() ?? '16px',
+      'color': style?.color?.toString() ?? 'inherit',
+      'font-size': style?.fontSize?.toString() ?? 'inherit',
       'cursor': 'pointer',
       'padding': '4px 8px',
       'transition': 'all 0.2s ease-in-out',
-      'FDText-decoration': 'underline',
+      'text-decoration': 'underline',
       ...?cssStyle,
     };
     final styleString =
@@ -46,39 +41,13 @@ class FDTextButton extends Widget {
 
     return '''
       <button id="$id" style="$styleString ${rawCss ?? ''}">
-        $label
+        ${child?.render(context) ?? label ?? ''}
       </button>
       <script>
-        const btn = document.getElementById('$id');
-        
-        ${onPressed != null ? "btn.addEventListener('click', () => __flartHandleClick('$pressId'));" : ''}
-        ${onHover != null ? "btn.addEventListener('mouseover', () => __flartHandleClick('$hoverId'));" : ''}
-        ${onLongPress != null ? """
-          let longPressTimer;
-          btn.addEventListener('mousedown', () => {
-            longPressTimer = setTimeout(() => __flartHandleClick('$longPressId'), 600);
-          });
-          btn.addEventListener('mouseup', () => clearTimeout(longPressTimer));
-          btn.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
-        """ : ''}
+        document.getElementById('$id').addEventListener('click', () => {
+          ${onPressed != null ? "__flartHandleClick('$pressId')" : ''}
+        });
       </script>
     ''';
   }
 }
-
-
-//FDTextButton(
-//   text: 'Submit',
-//   onPressed: () => print('FDTextButton pressed'),
-//   onHover: () => print('Hovered over FDTextButton'),
-//   onLongPress: () => print('Long-pressed FDTextButton'),
-//   style: TextStyle(
-//     fontSize: 14,
-//     color: FlartColor('#ffffff'),
-//   ),
-//   backgroundColor: FlartColor('#007acc'),
-// )
-
-
-
-

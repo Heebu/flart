@@ -37,6 +37,15 @@ class FlartColor {
     return '#${r.toRadixString(16).padLeft(2, '0')}${g.toRadixString(16).padLeft(2, '0')}${b.toRadixString(16).padLeft(2, '0')}';
   }
 
+  FlartColor withOpacity(double opacity) {
+    if (hex.startsWith('#')) {
+      final rgb = _hexToRgb();
+      return FlartColor(
+          'rgba(${rgb['r']}, ${rgb['g']}, ${rgb['b']}, $opacity)');
+    }
+    return this;
+  }
+
   @override
   String toString() => hex;
 }
@@ -109,7 +118,6 @@ class FlartColors {
 
   static const lightGrey = FlartColor('#F9F9F9');
 
-  // Extended Material Colors
   static const purple = FlartMaterialColor('#9C27B0', {
     50: FlartColor('#F3E5F5'),
     100: FlartColor('#E1BEE7'),
@@ -149,8 +157,6 @@ class FlartColors {
     900: FlartColor('#1A237E'),
   });
 
-  // Blue is already defined
-
   static const lightBlue = FlartMaterialColor('#03A9F4', {
     50: FlartColor('#E1F5FE'),
     100: FlartColor('#B3E5FC'),
@@ -171,8 +177,6 @@ class FlartColors {
     500: FlartColor('#009688'),
     900: FlartColor('#004D40'),
   });
-
-  // Green is already defined
 
   static const lightGreen = FlartMaterialColor('#8BC34A', {
     50: FlartColor('#F1F8E9'),

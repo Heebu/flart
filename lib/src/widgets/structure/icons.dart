@@ -6,13 +6,13 @@ class FDIcon extends Widget {
   final FlartColor color;
   final String? FDTooltip;
 
-  FDIcon({
+  const FDIcon({
     required this.icon,
     this.size = 24.0,
-    this.color = FlartColors
-        .black, // Reverted to original as the provided change was syntactically incorrect.
+    this.color = FlartColors.black,
     this.FDTooltip,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {
@@ -42,8 +42,7 @@ class FDIcons {
   static const String refresh = 'refresh';
   static const String delete = 'delete';
   static const String done = 'done';
-  static const String check =
-      'check'; // Alias for done usually, but using Material names
+  static const String check = 'check'; // Alias for done usually
   static const String check_circle = 'check_circle';
   static const String info = 'info';
   static const String warning = 'warning';
@@ -82,7 +81,6 @@ class FDIcons {
   static const String more_vert = 'more_vert';
   static const String more_horiz = 'more_horiz';
 
-  // New additions
   static const String pie_chart = 'pie_chart';
   static const String file_upload = 'file_upload';
   static const String work = 'work';
@@ -95,4 +93,6 @@ class FDIcons {
   static const String layers = 'layers';
   static const String brush = 'brush';
   static const String add_circle = 'add_circle';
+  static const String remove = 'remove';
+  static const String swap_vert = 'swap_vert';
 }

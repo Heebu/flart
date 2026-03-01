@@ -4,6 +4,7 @@ import '../../styles/text_style.dart';
 import '../../styles/theme.dart';
 import '../../enums/text_tag.dart';
 import '../../enums/text_align.dart';
+import '../../../flartdart.dart';
 
 class FDText extends Widget {
   final String content;
@@ -14,7 +15,7 @@ class FDText extends Widget {
   final TextAlign? textAlign;
   final bool selectable;
 
-  FDText(
+  const FDText(
     this.content, {
     this.style,
     this.cssStyle,
@@ -22,7 +23,8 @@ class FDText extends Widget {
     this.tag = TextTag.span,
     this.textAlign,
     this.selectable = false,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {
@@ -46,15 +48,3 @@ class FDText extends Widget {
     return '<$tagName style="$styleString ${rawCss ?? ''}">$content</$tagName>';
   }
 }
-
-
-
-//FDText(
-//   'Welcome to Flart!',
-//   tag: TextTag.h1,
-//   textAlign: TextAlign.center,
-//   style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-// );
-
-
-

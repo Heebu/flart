@@ -2,10 +2,13 @@
 
 class FDCenter extends Widget {
   final Widget child;
-
   final String? rawCss;
 
-  FDCenter({required this.child, this.rawCss});
+  const FDCenter({
+    required this.child,
+    this.rawCss,
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {
