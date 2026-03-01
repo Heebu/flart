@@ -1,12 +1,31 @@
-﻿# Changelog 📝
+# Changelog 📝
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.2.0] - 2026-01-27
+## [1.4.0] - 2026-03-01
 
+### 🚀 Major Framework Upgrades
+- **Reactive State Management**: Introduced a robust `StatefulWidget` and `State` architecture that perfectly scopes DOM repaints to individual component wrappers. Say goodbye to full-page re-renders!
+- **Pure CSS Animations**: Overhauled `FDAnimate` to dynamically inject highly performant `@keyframes` animations instead of relying on inline JS `requestAnimationFrame`. Wait-for-mount delays and multi-step animations now work flawlessly.
+- **Form Controls & Inputs**: Added the comprehensive `FDEditableText` and refactored `FDTextField`. These now natively bind to `TextEditingController` which extends the newly introduced pure-Dart `ChangeNotifier`. Inputs maintain their focus and cursor position smoothly across renders.
+
+### 🌟 New UI Components
+- **Advanced Layout**: Added `FDSliverAppBar` and `FDDataTable` for creating complex, scrollable structures and dynamic admin dashboards natively in Dart Web.
+- **Glassmorphism & Theming**: Expanded the `flartdart` theming engine and styling API to rigorously support deep web layouts. `FDGestureDetector` now cleanly formats standard Web button UX out of the box.
+- **Utility Widgets**: Introduced `FDRawHTML` for specialized DOM injection and `FDSpacer`/`FDExpanded` which now correctly utilize layout constraints.
+- **Real-Time Context**: Added a fully usable `FDWebSocket` implementation natively binding WS protocols into widget trees.
+
+### 🛠️ Improvements & Fixes
+- `FDViewModelBuilder` no longer forces page-level rebuilds.
+- `FDGestureDetector` properly wraps bounds and avoids destroying CSS border/border-radius geometry.
+- The default flart starter template has been optimized into an ultra-clean, standalone `main.dart` demonstrating the core reactivity features.
+
+---
+
+## [1.2.0] - 2026-01-27
 ### 🌟 New Features
 - **Flartdart CLI**: Introduced a new command-line tool `flartdart` for scaffolding new projects.
   - Usage: `flartdart create <project_name>`
