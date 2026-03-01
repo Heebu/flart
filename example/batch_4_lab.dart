@@ -95,6 +95,65 @@ class _Batch4LabState extends State<Batch4Lab> {
             ],
           ),
 
+          FDSizedBox(height: 32),
+          _sectionTitle('4. Skeleton Loaders'),
+          FDColumn(
+            children: [
+              FDRow(
+                children: [
+                  FDSkeleton.circle(radius: 20),
+                  FDSizedBox(width: 12),
+                  FDColumn(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      FDSkeleton(width: 120, height: 16),
+                      FDSizedBox(height: 8),
+                      FDSkeleton(width: 80, height: 12),
+                    ],
+                  ),
+                ],
+              ),
+              FDSizedBox(height: 24),
+              FDSkeleton(height: 150, borderRadius: BorderRadius.circular(12)),
+              FDSizedBox(height: 12),
+              FDSkeleton(width: 200, height: 20),
+            ],
+          ),
+
+          FDSizedBox(height: 32),
+          _sectionTitle('5. Data Tables'),
+          FDDataTable(
+            columns: [
+              FDDataColumn(label: FDText('ID'), numeric: true),
+              FDDataColumn(label: FDText('Name')),
+              FDDataColumn(label: FDText('Status')),
+            ],
+            rows: [
+              FDDataRow(cells: [
+                FDDataCell(child: FDText('1')),
+                FDDataCell(child: FDText('Widget Alpha')),
+                FDDataCell(
+                  child: FDChip(
+                    label: FDText('Active'),
+                    backgroundColor: theme.successColor,
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  ),
+                ),
+              ]),
+              FDDataRow(cells: [
+                FDDataCell(child: FDText('2')),
+                FDDataCell(child: FDText('Component Beta')),
+                FDDataCell(
+                  child: FDChip(
+                    label: FDText('Deprecated'),
+                    backgroundColor: theme.errorColor,
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  ),
+                ),
+              ]),
+            ],
+          ),
+
           FDSizedBox(height: 40),
         ],
       ),

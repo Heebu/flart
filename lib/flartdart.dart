@@ -70,8 +70,10 @@ export 'src/widgets/structure/buttomnarbaritem.dart';
 export 'src/widgets/structure/expanded.dart';
 export 'src/widgets/structure/material_app.dart';
 export 'src/widgets/structure/card.dart';
+export 'src/widgets/structure/datatable.dart';
 export 'src/widgets/structure/progress_indicator.dart';
 export 'src/widgets/structure/chip_badge.dart';
+export 'src/widgets/structure/skeleton.dart';
 export 'src/widgets/structure/tooltip_snackbar.dart';
 export 'src/widgets/structure/tabs.dart';
 // New Structure Widgets
