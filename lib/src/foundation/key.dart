@@ -30,6 +30,16 @@ class GlobalKey<T> extends Key {
       : _id = 'globalkey_${DateTime.now().microsecondsSinceEpoch}',
         super._();
 
+  T? _currentState;
+  T? get currentState => _currentState;
+
+  // Internal usage by framework
+  void setInternalState(dynamic state) {
+    if (state is T) {
+      _currentState = state;
+    }
+  }
+
   @override
   String toString() => _id;
 

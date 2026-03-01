@@ -13,6 +13,8 @@ class FDMaterialApp extends Widget {
   final BuildContext? context; // Optional context parameter
   final String? rawCss;
 
+  final bool debugShowCheckedModeBanner;
+
   const FDMaterialApp({
     required this.title,
     this.home,
@@ -23,10 +25,12 @@ class FDMaterialApp extends Widget {
     this.favicon,
     this.context,
     this.rawCss,
+    this.debugShowCheckedModeBanner = true,
   });
 
   @override
   String render(BuildContext context) {
+    final stopwatch = Stopwatch()..start();
     // Initialize navigation
     PageNavigator.init();
 
@@ -103,7 +107,47 @@ class FDMaterialApp extends Widget {
     }
 
     // Return the home widget's HTML
-    return homeWidget.render(context);
+    final mainHtml = homeWidget.render(context);
+    final elapsed = stopwatch.elapsedMilliseconds;
+    if (elapsed > 100) {
+      print('⚠️ Slow Render Warning: ${elapsed}ms');
+    }
+
+    if (!debugShowCheckedModeBanner) return mainHtml;
+
+    return '''
+      <div id="flart-root-wrapper" style="position: relative; width: 100vw; height: 100vh; overflow: hidden;">
+        $mainHtml
+        <div title="Flart Debug Mode (v1.3.0)" style="
+          position: fixed; 
+          top: 0; 
+          right: 0; 
+          z-index: 10000;
+          pointer-events: none;
+          width: 80px; 
+          height: 80px;
+          overflow: hidden;
+        ">
+          <div style="
+            background: #B71C1C; 
+            color: white;
+            text-align: center;
+            font-size: 10px; 
+            font-weight: bold;
+            font-family: sans-serif;
+            padding: 4px 0;
+            width: 120px;
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+          ">Debug</div>
+        </div>
+      </div>
+    ''';
   }
 
   void _injectFavicon() {

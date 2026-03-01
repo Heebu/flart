@@ -127,7 +127,17 @@ abstract class StatefulWidget extends Widget {
       state.didChangeDependencies();
     }
 
-    final childHtml = state.build(context).render(context);
+    // Link GlobalKey if present
+    if (key is GlobalKey) {
+      (key as GlobalKey).setInternalState(state);
+    }
+
+    // Pass this state down to children via a new context
+    final childContext = context.copyWith(
+      states: {...context.states, state.runtimeType: state},
+    );
+
+    final childHtml = state.build(childContext).render(childContext);
 
     // Wrap in a uniquely identified FDContainer to allow scoped updates.
     // display: contents allows the wrapper to be invisible to layout/CSS.

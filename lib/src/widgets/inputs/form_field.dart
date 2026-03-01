@@ -1,83 +1,141 @@
-﻿import 'package:flartdart/src/widgets/inputs/textfield.dart';
+﻿import '../../../flartdart.dart';
 
-import '../../../flartdart.dart';
+/// A container for grouping form fields.
+class FDForm extends StatefulWidget {
+  final Widget child;
 
-/// A form field wrapper that provides validation and state management
-class FormField<T> extends Widget {
-  final Widget Function(FormFieldState<T> state) builder;
+  const FDForm({
+    required this.child,
+    Key? key,
+  }) : super(key: key);
+
+  static FDFormState? of(BuildContext context) {
+    return context.findAncestorStateOfType<FDFormState>();
+  }
+
+  @override
+  State<FDForm> createState() => FDFormState();
+}
+
+class FDFormState extends State<FDForm> {
+  final Set<FDFormFieldState> _fields = {};
+
+  void registerField(FDFormFieldState field) {
+    _fields.add(field);
+  }
+
+  void unregisterField(FDFormFieldState field) {
+    _fields.remove(field);
+  }
+
+  /// Validates every [FDFormField] that is a descendant of this [FDForm].
+  bool validate() {
+    bool hasError = false;
+    for (final field in _fields) {
+      if (!field.validate()) {
+        hasError = true;
+      }
+    }
+    return !hasError;
+  }
+
+  /// Saves every [FDFormField] that is a descendant of this [FDForm].
+  void save() {
+    for (final field in _fields) {
+      field.save();
+    }
+  }
+
+  /// Resets every [FDFormField] that is a descendant of this [FDForm].
+  void reset() {
+    for (final field in _fields) {
+      field.reset();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
+}
+
+/// A single form field.
+abstract class FDFormField<T> extends StatefulWidget {
   final T? initialValue;
   final String? Function(T? value)? validator;
-  final ValueChanged<T?>? onSaved;
-  final bool enabled;
+  final void Function(T? value)? onSaved;
+  final Widget Function(FDFormFieldState<T, FDFormField<T>> state) builder;
 
-  FormField({
+  const FDFormField({
     required this.builder,
     this.initialValue,
     this.validator,
     this.onSaved,
-    this.enabled = true,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
-  String render(BuildContext context) {
-    final state = FormFieldState<T>(
-      value: initialValue,
-      validator: validator,
-      onSaved: onSaved,
-      enabled: enabled,
-    );
-
-    return builder(state).render(context);
-  }
+  FDFormFieldState<T, FDFormField<T>> createState();
 }
 
-/// State for FormField
-class FormFieldState<T> {
-  T? value;
-  String? errorText;
-  final String? Function(T? value)? validator;
-  final ValueChanged<T?>? onSaved;
-  final bool enabled;
+class FDFormFieldState<T, W extends FDFormField<T>> extends State<W> {
+  late T? _value;
+  String? _errorText;
 
-  FormFieldState({
-    this.value,
-    this.validator,
-    this.onSaved,
-    this.enabled = true,
-  });
+  T? get value => _value;
+  String? get errorText => _errorText;
+  bool get hasError => _errorText != null;
 
-  void didChange(T? newValue) {
-    value = newValue;
-    validate();
+  @override
+  void initState() {
+    super.initState();
+    _value = widget.initialValue;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    FDForm.of(context)?.registerField(this);
+  }
+
+  @override
+  void dispose() {
+    FDForm.of(context)?.unregisterField(this);
+    super.dispose();
+  }
+
+  void didChange(T? value) {
+    setState(() {
+      _value = value;
+    });
   }
 
   bool validate() {
-    if (validator != null) {
-      errorText = validator!(value);
-      return errorText == null;
-    }
-    return true;
-  }
-
-  void save() {
-    onSaved?.call(value);
+    final result = widget.validator?.call(_value);
+    setState(() {
+      _errorText = result;
+    });
+    return result == null;
   }
 
   void reset() {
-    value = null;
-    errorText = null;
+    setState(() {
+      _value = widget.initialValue;
+      _errorText = null;
+    });
   }
+
+  void save() {
+    widget.onSaved?.call(_value);
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.builder(this);
 }
 
 /// A FDText form field with built-in validation
-class FDTextFormField extends Widget {
+class FDTextFormField extends FDFormField<String> {
   final TextEditingController? controller;
   final String? placeholder;
   final String? label;
-  final String? initialValue;
-  final String? Function(String? value)? validator;
-  final ValueChanged<String>? onChanged;
-  final ValueChanged<String>? onSaved;
   final TextInputType? keyboardType;
   final bool obscureText;
   final bool enabled;
@@ -86,17 +144,14 @@ class FDTextFormField extends Widget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final EdgeInsets? padding;
-  final Map<String, String>? cssStyle;
-  final String? rawCss;
 
   FDTextFormField({
+    super.initialValue,
+    super.validator,
+    super.onSaved,
     this.controller,
     this.placeholder,
     this.label,
-    this.initialValue,
-    this.validator,
-    this.onChanged,
-    this.onSaved,
     this.keyboardType,
     this.obscureText = false,
     this.enabled = true,
@@ -105,92 +160,33 @@ class FDTextFormField extends Widget {
     this.prefixIcon,
     this.suffixIcon,
     this.padding,
-    this.cssStyle,
-    this.rawCss,
-  });
-
-  @override
-  String render(BuildContext context) {
-    final state = FormFieldState<String>(
-      value: initialValue,
-      validator: validator,
-      onSaved: onSaved != null ? (value) => onSaved!(value ?? '') : null,
-      enabled: enabled,
-    );
-
-    return FDTextField(
-      controller: controller,
-      placeholder: placeholder,
-      label: label,
-      initialValue: state.value,
-      onChanged: (value) {
-        state.didChange(value);
-        onChanged?.call(value);
-      },
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      enabled: enabled,
-      maxLines: maxLines,
-      maxLength: maxLength,
-      errorText: state.errorText,
-      prefixIcon: prefixIcon,
-      suffixIcon: suffixIcon,
-      padding: padding,
-      cssStyle: cssStyle,
-      rawCss: rawCss,
-    ).render(context);
-  }
-}
-
-/// A form widget that groups form fields
-class Form extends Widget {
-  final Widget child;
-  final VoidCallback? onChanged;
-
-  Form({
-    required this.child,
-    this.onChanged,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          builder: (state) {
+            final field = state.widget as FDTextFormField;
+            return FDTextField(
+              controller: field.controller,
+              initialValue: state.value,
+              placeholder: field.placeholder,
+              label: field.label,
+              errorText: state.errorText,
+              onChanged: (v) {
+                state.didChange(v);
+              },
+              keyboardType: field.keyboardType,
+              obscureText: field.obscureText,
+              enabled: field.enabled,
+              maxLines: field.maxLines,
+              maxLength: field.maxLength,
+              prefixIcon: field.prefixIcon,
+              suffixIcon: field.suffixIcon,
+              padding: field.padding,
+            );
+          },
+        );
 
   @override
-  String render(BuildContext context) {
-    final id = 'form_${DateTime.now().microsecondsSinceEpoch}';
-
-    return '''
-      <form id="$id" style="width: 100%;">
-        ${child.render(context)}
-      </form>
-      <script>
-        (function() {
-          const form = document.getElementById('$id');
-          form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            console.log('Form submitted');
-          });
-          ${onChanged != null ? '''
-            form.addEventListener('change', function() {
-              console.log('Form changed');
-            });
-          ''' : ''}
-        })();
-      </script>
-    ''';
-  }
-}
-
-/// Form state
-class FormState {
-  bool validate() {
-    // Validate all fields
-    return true;
-  }
-
-  void save() {
-    // Save all fields
-  }
-
-  void reset() {
-    // Reset all fields
-  }
+  FDFormFieldState<String, FDTextFormField> createState() =>
+      FDFormFieldState<String, FDTextFormField>();
 }

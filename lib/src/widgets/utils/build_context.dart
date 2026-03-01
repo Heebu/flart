@@ -6,23 +6,37 @@ class BuildContext {
   final Widget widget;
   final BuildContext? parent;
   final Map<Type, Widget> inheritedWidgets;
+  final Map<Type, dynamic> _states;
 
   BuildContext({
     required this.widget,
     this.parent,
     Map<Type, Widget>? inheritedWidgets,
-  }) : inheritedWidgets = inheritedWidgets ?? parent?.inheritedWidgets ?? {};
+    Map<Type, dynamic>? states,
+  })  : inheritedWidgets = inheritedWidgets ?? parent?.inheritedWidgets ?? {},
+        _states = states ?? parent?._states ?? {};
 
   T? dependOnInheritedWidgetOfExactType<T>() {
     final widget = inheritedWidgets[T];
     return widget is T ? widget as T : null;
   }
 
-  BuildContext copyWith({Widget? widget, Map<Type, Widget>? inheritedWidgets}) {
+  T? findAncestorStateOfType<T>() {
+    return _states[T] as T?;
+  }
+
+  Map<Type, dynamic> get states => _states;
+
+  BuildContext copyWith({
+    Widget? widget,
+    Map<Type, Widget>? inheritedWidgets,
+    Map<Type, dynamic>? states,
+  }) {
     return BuildContext(
       widget: widget ?? this.widget,
       parent: this,
       inheritedWidgets: inheritedWidgets ?? this.inheritedWidgets,
+      states: states ?? this._states,
     );
   }
 

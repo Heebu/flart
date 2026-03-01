@@ -31,8 +31,10 @@ class FDContainer extends Widget {
   @override
   String render(BuildContext context) {
     final styleMap = <String, String>{
-      if (width != null) 'width': '${width}px',
-      if (height != null) 'height': '${height}px',
+      if (width != null)
+        'width': width == double.infinity ? '100%' : '${width}px',
+      if (height != null)
+        'height': height == double.infinity ? '100%' : '${height}px',
       if (padding != null) 'padding': padding!.toCss(),
       if (margin != null) 'margin': margin!.toCss(),
       ...?decoration?.toCss(),
