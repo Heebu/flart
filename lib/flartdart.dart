@@ -4,6 +4,7 @@
 export 'src/widgets/widget.dart';
 export 'src/widgets/utils/build_context.dart';
 export 'src/widgets/utils/provider.dart';
+export 'src/widgets/utils/view_model_builder.dart';
 export 'src/widgets/stateful_widget.dart';
 export 'src/widgets/stateless_widget.dart';
 export 'src/widgets/inherited_widget.dart';
@@ -138,6 +139,7 @@ export 'src/widgets/animated_widgets/animated_size.dart';
 export 'src/widgets/animated_widgets/animated_crossfade.dart';
 export 'src/widgets/animated_widgets/fade_in.dart';
 export 'src/widgets/animated_widgets/animate.dart';
+export 'src/widgets/animated_widgets/hero.dart';
 
 // Painting
 export 'src/widgets/painting/custom_paint.dart';
