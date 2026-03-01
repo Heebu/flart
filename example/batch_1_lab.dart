@@ -59,7 +59,8 @@ class _Batch1LabState extends State<Batch1Lab> {
                   ),
                   borderRadius: BorderRadius.circular(50), // Circle
                   border: Border.all(
-                    side: BorderSide(color: FlartColors.white, width: 3),
+                    color: FlartColors.white,
+                    width: 3,
                   ),
                 ),
                 child: FDCenter(
@@ -93,7 +94,7 @@ class _Batch1LabState extends State<Batch1Lab> {
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
               border: Border.all(
-                side: BorderSide(color: theme.dividerColor),
+                color: theme.dividerColor,
               ),
               borderRadius: BorderRadius.circular(8),
             ),
@@ -153,7 +154,7 @@ class _Batch1LabState extends State<Batch1Lab> {
               decoration: BoxDecoration(
                   color: theme.cardColor,
                   border: Border.all(
-                    side: BorderSide(color: theme.dividerColor),
+                    color: theme.dividerColor,
                   )),
               child: FDStack(
                 children: [

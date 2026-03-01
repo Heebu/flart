@@ -1,8 +1,7 @@
-﻿import '../../../flartdart.dart';
-import '../../enums/text_input_type.dart';
+import '../../../flartdart.dart';
 
 /// A FDText field widget for user input
-class FDTextField extends Widget {
+class FDTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? placeholder;
   final String? label;
@@ -29,7 +28,7 @@ class FDTextField extends Widget {
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
-  FDTextField({
+  const FDTextField({
     this.controller,
     this.placeholder,
     this.label,
@@ -55,91 +54,112 @@ class FDTextField extends Widget {
     this.suffixIcon,
     this.cssStyle,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
-  String render(BuildContext context) {
-    final id = 'textfield_${DateTime.now().microsecondsSinceEpoch}';
-    final theme = Theme.of(context);
-    final inputType = _getInputType();
-    final value = controller?.text ?? initialValue ?? '';
+  Widget build(BuildContext context) {
+    final theme = context.theme;
+    
+    // Create an internal controller if none provided
+    final effectiveController = controller ?? TextEditingController(text: initialValue ?? '');
 
     final bgColor = backgroundColor?.toString() ?? theme.cardColor.toString();
     final border = borderColor?.toString() ?? theme.dividerColor.toString();
-    final focusBorder =
-        focusedBorderColor?.toString() ?? theme.primaryColor.toString();
+    final focusBorder = focusedBorderColor?.toString() ?? theme.primaryColor.toString();
     final errorColor = theme.errorColor.toString();
 
     final radius = borderRadius ?? 4.0;
-    final pad = padding ?? EdgeInsets.symmetric(horizontal: 12, vertical: 8);
+    final pad = padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 8);
     final hasError = errorText != null;
 
     final placeholderColor = theme.textStyle.color is FlartColor
-        ? (theme.textStyle.color as FlartColor)
-            .lerp(FlartColors.grey, 0.5)
-            .toString()
+        ? (theme.textStyle.color as FlartColor).lerp(FlartColors.grey, 0.5).toString()
         : '#888888';
 
-    return '''
-      <div style="display: flex; flex-direction: column; gap: 4px;">
-        ${label != null ? '<label for="$id" style="font-size: 14px; font-weight: 500; color: ${theme.textStyle.color};">${label!}</label>' : ''}
-        
-        <div style="position: relative; display: flex; align-items: center;">
-          ${prefixIcon != null ? '<div style="position: absolute; left: 8px; display: flex; align-items: center;">${prefixIcon!.render(context)}</div>' : ''}
-          
-          <input
-            type="$inputType"
-            id="$id"
-            value="$value"
-            placeholder="${placeholder ?? ''}"
-            ${!enabled ? 'disabled' : ''}
-            ${readOnly ? 'readonly' : ''}
-            ${maxLength != null ? 'maxlength="$maxLength"' : ''}
-            style="
-              width: 100%;
-              box-sizing: border-box;
-              padding: ${pad.toCss()};
-              ${prefixIcon != null ? 'padding-left: 40px;' : ''}
-              ${suffixIcon != null ? 'padding-right: 40px;' : ''}
-              background-color: $bgColor;
-              border: 1px solid ${hasError ? errorColor : border};
-              border-radius: ${radius}px;
-              font-size: 14px;
-              color: ${theme.textStyle.color};
-              outline: none;
-              transition: border-color 0.2s, box-shadow 0.2s;
-              ${!enabled ? 'opacity: 0.6; cursor: not-allowed;' : ''}
-              ${readOnly ? 'background-color: ${theme.dividerColor};' : ''}
-              ${cssStyle?.entries.map((e) => '${e.key}: ${e.value};').join(' ') ?? ''}
-              ${rawCss ?? ''}
-            "
-          />
-          
-          ${suffixIcon != null ? '<div style="position: absolute; right: 8px; display: flex; align-items: center;">${suffixIcon!.render(context)}</div>' : ''}
-        </div>
-        
-        ${errorText != null ? '<span style="font-size: 12px; color: $errorColor;">$errorText</span>' : ''}
-        ${helperText != null && errorText == null ? '<span style="font-size: 12px; color: $placeholderColor; opacity: 0.7;">$helperText</span>' : ''}
-      </div>
-      
-      <style>
-        #$id::placeholder {
-          color: $placeholderColor;
-        }
-        #$id:focus {
-          border-color: ${hasError ? errorColor : focusBorder} !important;
-          box-shadow: 0 0 0 3px ${hasError ? 'rgba(220, 53, 69, 0.1)' : 'rgba(0, 123, 255, 0.1)'};
-        }
-      </style>
-    ''';
-  }
+    final textFieldId = 'tf_${hashCode}';
 
-  String _getInputType() {
-    if (obscureText) return 'password';
-    if (keyboardType == TextInputType.email) return 'email';
-    if (keyboardType == TextInputType.number) return 'number';
-    if (keyboardType == TextInputType.phone) return 'tel';
-    if (keyboardType == TextInputType.url) return 'url';
-    return 'text';
+    return FDContainer(
+      cssStyle: {
+        'display': 'flex',
+        'flex-direction': 'column',
+        'gap': '4px',
+        ...?cssStyle,
+      },
+      child: FDColumn(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (label != null)
+            FDText(
+              label!,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: theme.textStyle.color,
+              ),
+            ),
+          
+          FDContainer(
+            decoration: BoxDecoration(
+              color: backgroundColor ?? theme.cardColor,
+              borderRadius: BorderRadius.circular(radius),
+              border: Border.all(
+                color: hasError ? theme.errorColor : (borderColor ?? theme.dividerColor),
+                width: 1,
+              ),
+            ),
+            child: FDStack(
+              children: [
+                FDEditableText(
+                  controller: effectiveController,
+                  placeholder: placeholder,
+                  obscureText: obscureText,
+                  maxLength: maxLength,
+                  onChanged: onChanged,
+                  onSubmitted: onSubmitted,
+                  style: style ?? theme.textStyle,
+                  textAlign: TextAlign.start,
+                  padding: pad,
+                  rawCss: '''
+                    ${prefixIcon != null ? 'padding-left: 40px;' : ''}
+                    ${suffixIcon != null ? 'padding-right: 40px;' : ''}
+                    border: none !important;
+                    background: transparent !important;
+                    ${rawCss ?? ''}
+                  ''',
+                ),
+                
+                if (prefixIcon != null)
+                  FDPositioned(
+                    left: 8,
+                    top: 0,
+                    bottom: 0,
+                    child: FDCenter(child: prefixIcon!),
+                  ),
+                  
+                if (suffixIcon != null)
+                  FDPositioned(
+                    right: 8,
+                    top: 0,
+                    bottom: 0,
+                    child: FDCenter(child: suffixIcon!),
+                  ),
+              ],
+            ),
+          ),
+          
+          if (errorText != null)
+            FDText(
+              errorText!,
+              style: TextStyle(fontSize: 12, color: theme.errorColor),
+            )
+          else if (helperText != null)
+            FDText(
+              helperText!,
+              style: TextStyle(fontSize: 12, color: FlartColors.grey),
+            ),
+        ],
+      ),
+    );
   }
 }

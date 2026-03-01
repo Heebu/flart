@@ -11,7 +11,7 @@ class FDCard extends Widget {
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
-  FDCard({
+  const FDCard({
     this.child,
     this.color,
     this.elevation = 1.0,
@@ -20,7 +20,8 @@ class FDCard extends Widget {
     this.borderRadius,
     this.cssStyle,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {

@@ -128,7 +128,40 @@ class MyPainter extends CustomPainter {
 
 ---
 
-## 🏗️ Building for Production
+## � Async Flow & Builders
+
+Flart brings Flutter's signature async patterns to Dart web. Use `StreamBuilder` for real-time data flows and `FutureBuilder` for one-time fetches.
+
+### 📡 StreamBuilder
+Listen to any stream (like WebSockets) and rebuild automatically:
+
+```dart
+FDStreamBuilder<int>(
+  stream: myTimerStream(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return const FDText('Connecting...');
+    }
+    return FDText('Current Value: ${snapshot.data}');
+  },
+)
+```
+
+### 🔨 Builders
+Need a new context or theme data deeper in the tree? Use `FDBuilder`:
+
+```dart
+FDBuilder(
+  builder: (context) {
+    final theme = Theme.of(context);
+    return FDContainer(color: theme.primaryColor);
+  },
+)
+```
+
+---
+
+## �🏗️ Building for Production
 
 Flart is designed to be lightweight. To bundle your app:
 

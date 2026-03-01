@@ -8,21 +8,23 @@ class FDIconButton extends Widget {
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
-  FDIconButton({
+  const FDIconButton({
     required this.icon,
     this.onPressed,
     this.cssStyle,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {
-    final id = 'icon_btn_${DateTime.now().millisecondsSinceEpoch}';
+    final id =
+        'icon_btn_stateless_${hashCode}_${DateTime.now().millisecondsSinceEpoch}';
     final theme = Theme.of(context);
     final cbId =
         onPressed != null ? FlartCallbackManager.register(onPressed!) : null;
 
-    final style = {
+    final styles = {
       'display': 'inline-flex',
       'align-items': 'center',
       'justify-content': 'center',
@@ -34,10 +36,12 @@ class FDIconButton extends Widget {
       'outline': 'none',
       'transition': 'background-color 0.2s, transform 0.1s',
       ...?cssStyle,
-    }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    };
+    final styleString =
+        styles.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     return '''
-      <button id="$id" class="fd-icon-button" style="$style ${rawCss ?? ''}" 
+      <button id="$id" class="fd-icon-button" style="$styleString ${rawCss ?? ''}" 
         ${cbId != null ? 'onclick="window.__flartHandleClick(\'$cbId\')"' : ''}>
         ${icon.render(context)}
       </button>

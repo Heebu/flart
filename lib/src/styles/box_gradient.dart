@@ -4,7 +4,7 @@ class Gradient {
   final List<FlartColor> colors;
   final String direction; // e.g., 'to right', 'to bottom', etc.
 
-  Gradient({
+  const Gradient({
     required this.colors,
     this.direction = 'to bottom',
   });

@@ -1,9 +1,11 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
+import '../../helper/callback_manager.dart';
+import '../utils/raw_html.dart';
 
 typedef OnTextChanged = void Function(String value);
 typedef OnTextSubmitted = void Function(String value);
 
-class FDEditableText extends Widget {
+class FDEditableText extends StatefulWidget {
   final TextEditingController controller;
   final TextStyle? style;
   final String? placeholder;
@@ -12,10 +14,11 @@ class FDEditableText extends Widget {
   final OnTextChanged? onChanged;
   final OnTextSubmitted? onSubmitted;
   final TextAlign textAlign;
+  final EdgeInsets? padding;
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
-  FDEditableText({
+  const FDEditableText({
     required this.controller,
     this.style,
     this.placeholder,
@@ -24,85 +27,99 @@ class FDEditableText extends Widget {
     this.onChanged,
     this.onSubmitted,
     this.textAlign = TextAlign.start,
+    this.padding,
     this.cssStyle,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
-  String _getTextAlignCss() {
-    switch (textAlign) {
-      case TextAlign.FDCenter:
-        return 'center';
-      case TextAlign.end:
-        return 'right';
-      case TextAlign.justify:
-        return 'justify';
-      default:
-        return 'left';
+  @override
+  State<FDEditableText> createState() => _FDEditableTextState();
+}
+
+class _FDEditableTextState extends State<FDEditableText> {
+  late String _inputId;
+
+  @override
+  void initState() {
+    super.initState();
+    _inputId = 'editable_${hashCode}_${DateTime.now().millisecondsSinceEpoch}';
+    widget.controller.addListener(_handleControllerChanged);
+  }
+
+  @override
+  void didUpdateWidget(FDEditableText oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.controller != oldWidget.controller) {
+      oldWidget.controller.removeListener(_handleControllerChanged);
+      widget.controller.addListener(_handleControllerChanged);
     }
   }
 
   @override
-  String render(BuildContext context) {
-    final id = 'editable_${DateTime.now().millisecondsSinceEpoch}';
-    final type = obscureText ? 'password' : 'text';
+  void dispose() {
+    widget.controller.removeListener(_handleControllerChanged);
+    super.dispose();
+  }
+
+  void _handleControllerChanged() {
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme;
+    final type = widget.obscureText ? 'password' : 'text';
 
     final baseStyle = {
-      'padding': '8px',
-      'font-size': style?.fontSize?.toString() ?? '16px',
-      'color': style?.color.toString() ?? '#000000',
-      'border': '1px solid #ccc',
+      'padding': widget.padding?.toCss() ?? '8px',
+      'font-size': widget.style?.fontSize != null ? '${widget.style!.fontSize}px' : '16px',
+      'color': widget.style?.color?.toString() ?? theme.textStyle.color.toString(),
+      'border': '1px solid ${theme.dividerColor}',
       'border-radius': '4px',
       'outline': 'none',
-      'text-align': _getTextAlignCss(),
-      ...?cssStyle,
+      'text-align': widget.textAlign.toString().split('.').last,
+      'width': '100%',
+      'box-sizing': 'border-box',
+      'background': 'transparent',
+      ...?widget.cssStyle,
     };
 
     final styleString =
         baseStyle.entries.map((e) => '${e.key}: ${e.value};').join(' ');
     final placeholderAttr =
-        placeholder != null ? 'placeholder="$placeholder"' : '';
-    final maxLengthAttr = maxLength != null ? 'maxlength="$maxLength"' : '';
-    final valueAttr = 'value="${controller.text}"';
+        widget.placeholder != null ? 'placeholder="${widget.placeholder}"' : '';
+    final maxLengthAttr =
+        widget.maxLength != null ? 'maxlength="${widget.maxLength}"' : '';
+    // IMPORTANT: use [value] for current value in HTML.
+    final valueAttr = 'value="${widget.controller.text}"';
 
-    final buffer = StringBuffer();
-    buffer.writeln(
-        '<input id="$id" type="$type" $placeholderAttr $maxLengthAttr $valueAttr style="$styleString ${rawCss ?? ''}"/>');
+    final onChangeCbId = FlartCallbackManager.registerEvent((val) {
+      final newVal = val.toString();
+      // Only set text if it's actually different to avoid recursive re-renders
+      if (widget.controller.text != newVal) {
+        widget.controller.text = newVal;
+        widget.onChanged?.call(newVal);
+      }
+    });
 
-    // JS handlers
-    buffer.writeln('''
-      <script>
-        const editable = document.getElementById('$id');
-        editable.addEventListener('input', (e) => {
-          window.__flartInputs = window.__flartInputs || {};
-          window.__flartInputs['$id'] = e.target.value;
-        });
+    final onSubmitCbId = FlartCallbackManager.registerEvent((val) {
+      widget.onSubmitted?.call(val.toString());
+    });
 
-        editable.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') {
-            window.__flartSubmitted = window.__flartSubmitted || {};
-            window.__flartSubmitted['$id'] = e.target.value;
-          }
-        });
-      </script>
-    ''');
+    final inputHtml = '''
+      <input 
+        id="$_inputId" 
+        type="$type" 
+        $placeholderAttr 
+        $maxLengthAttr 
+        $valueAttr
+        style="$styleString ${widget.rawCss ?? ''}"
+        oninput="window.__flartHandleEvent('$onChangeCbId', this.value)"
+        onkeydown="if(event.key === 'Enter') { window.__flartHandleEvent('$onSubmitCbId', this.value); this.blur(); }"
+      />
+    '''.trim();
 
-    return buffer.toString();
+    return FDRawHTML(inputHtml);
   }
 }
-
-
-//FDEditableText(
-//   controller: TextEditingController(text: 'Edit me'),
-//   placeholder: 'Enter FDText',
-//   textAlign: TextAlign.center,
-//   style: TextStyle(
-//     fontSize: 18,
-//     color: FlartColor('#222222'),
-//   ),
-//   maxLength: 50,
-//   onChanged: (value) => print('Changed: $value'),
-//   onSubmitted: (value) => print('Submitted: $value'),
-// )
-
-
-

@@ -15,7 +15,7 @@ class FDContainer extends Widget {
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
-  FDContainer({
+  const FDContainer({
     this.child,
     this.width,
     this.height,

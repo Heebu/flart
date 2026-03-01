@@ -30,10 +30,12 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
   void initState() {
     super.initState();
     // Simulate data loading to show the skeleton loader
-    Future.delayed(Duration(seconds: 2), () {
-      setState(() {
-        _isLoading = false;
-      });
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     });
   }
 
@@ -52,7 +54,7 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
           children: [
             // PREMIUM: Sliver App Bar
             FDSliverAppBar(
-              title: FDText('Premium Experience'),
+              title: const FDText('Premium Experience'),
               expandedHeight: 250,
               flexibleSpace: FDStack(
                 children: [
@@ -62,7 +64,7 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
                     width: double.infinity,
                     height: 250,
                   ),
-                  FDContainer(
+                  const FDContainer(
                     cssStyle: {
                       'background':
                           'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%)',
@@ -74,7 +76,7 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
                     child: FDText(
                       'Welcome to Flart v1.3 🚀',
                       style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
@@ -82,7 +84,7 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
               actions: [
                 FDIconButton(
                   icon:
-                      FDIcon(icon: FDIcons.settings, color: FlartColors.white),
+                      const FDIcon(icon: FDIcons.settings, color: FlartColors.white),
                   onPressed: () {},
                 ),
               ],
@@ -90,24 +92,24 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
 
             // CONTENT
             FDPadding(
-              padding: EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
               child: FDColumn(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _sectionTitle('Interactive Components'),
-                  FDSizedBox(height: 16),
+                  const FDSizedBox(height: 16),
 
                   _isLoading ? _buildSkeletonUI() : _buildDataRows(theme),
 
-                  FDSizedBox(height: 48),
+                  const FDSizedBox(height: 48),
                   _sectionTitle('Demo Gallery 🎁'),
-                  FDSizedBox(height: 16),
+                  const FDSizedBox(height: 16),
 
                   // Navigation to other cool demos
                   FDAnimate(
                     fadeIn: true,
                     slideY: 10,
-                    delay: Duration(milliseconds: 200),
+                    delay: const Duration(milliseconds: 200),
                     child: FDRow(
                       spacing: 12,
                       children: [
@@ -119,12 +121,12 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
                     ),
                   ),
 
-                  FDSizedBox(height: 12),
+                  const FDSizedBox(height: 12),
 
                   FDAnimate(
                     fadeIn: true,
                     slideY: 10,
-                    delay: Duration(milliseconds: 400),
+                    delay: const Duration(milliseconds: 400),
                     child: FDRow(
                       spacing: 12,
                       children: [
@@ -138,16 +140,32 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
                     ),
                   ),
 
-                  FDSizedBox(height: 48),
+                  const FDSizedBox(height: 12),
+
+                  FDAnimate(
+                    fadeIn: true,
+                    slideY: 10,
+                    delay: const Duration(milliseconds: 600),
+                    child: FDRow(
+                      spacing: 12,
+                      children: [
+                        _demoCard(FDIcons.refresh, 'Async Builders',
+                            '/async-demo', theme),
+                        const FDExpanded(child: FDSizedBox()), // Spacer
+                      ],
+                    ),
+                  ),
+
+                  const FDSizedBox(height: 48),
                   _sectionTitle('Recent Analytics 📈'),
-                  FDSizedBox(height: 16),
+                  const FDSizedBox(height: 16),
 
                   _isLoading
-                      ? FDSkeleton(
-                          height: 200, borderRadius: BorderRadius.circular(12))
+                      ? const FDSkeleton(
+                          height: 200, borderRadius: BorderRadius.all(12))
                       : _buildDataTable(theme),
 
-                  FDSizedBox(height: 80), // Bottom padding for scroll
+                  const FDSizedBox(height: 80), // Bottom padding for scroll
                 ],
               ),
             ),
@@ -159,14 +177,14 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
 
   Widget _sectionTitle(String title) {
     return FDText(title,
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
   }
 
   Widget _buildSkeletonUI() {
     return FDColumn(
       children: List.generate(
           3,
-          (index) => FDPadding(
+          (index) => const FDPadding(
                 padding: EdgeInsets.only(bottom: 16),
                 child: FDRow(
                   children: [
@@ -204,19 +222,17 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
     return FDExpanded(
       child: FDGestureDetector(
         onTap: () {
-          // Note: In real app we'd trigger PageNavigator.pushNamed(route)
-          // For now we log it as this is a showcase container
           print('Navigating to $route');
         },
         child: FDCard(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: FDColumn(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               FDIcon(icon: icon, color: theme.primaryColor, size: 32),
-              FDSizedBox(height: 8),
+              const FDSizedBox(height: 8),
               FDText(title,
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center),
             ],
           ),
@@ -229,26 +245,25 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
     return FDAnimate(
       fadeIn: true,
       slideX: -20,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       child: FDCard(
-        margin: EdgeInsets.only(bottom: 16),
-        padding: EdgeInsets.all(16),
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(16),
         child: FDRow(
           children: [
             FDIcon(icon: icon, color: theme.primaryColor, size: 32),
-            FDSizedBox(width: 16),
+            const FDSizedBox(width: 16),
             FDColumn(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FDText(title,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
                 FDText(subtitle,
-                    style: TextStyle(fontSize: 14, color: FlartColors.grey)),
+                    style: const TextStyle(fontSize: 14.0, color: FlartColors.grey)),
               ],
             ),
-            FDSpacer(),
-            FDIcon(icon: FDIcons.chevron_right, color: FlartColors.grey),
+            const FDSpacer(),
+            const FDIcon(icon: FDIcons.chevron_right, color: FlartColors.grey),
           ],
         ),
       ),
@@ -258,22 +273,22 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
   Widget _buildDataTable(ThemeData theme) {
     return FDDataTable(
       columns: [
-        FDDataColumn(label: FDText('Source')),
-        FDDataColumn(label: FDText('Visits'), numeric: true),
-        FDDataColumn(label: FDText('Conversion')),
+        const FDDataColumn(label: FDText('Source')),
+        const FDDataColumn(label: FDText('Visits'), numeric: true),
+        const FDDataColumn(label: FDText('Conversion')),
       ],
       rows: [
-        FDDataRow(cells: [
+        const FDDataRow(cells: [
           FDDataCell(child: FDText('Direct')),
           FDDataCell(child: FDText('1,240')),
           FDDataCell(child: FDText('12.4%')),
         ]),
-        FDDataRow(cells: [
+        const FDDataRow(cells: [
           FDDataCell(child: FDText('Social')),
           FDDataCell(child: FDText('890')),
           FDDataCell(child: FDText('8.1%')),
         ]),
-        FDDataRow(cells: [
+        const FDDataRow(cells: [
           FDDataCell(child: FDText('Email')),
           FDDataCell(child: FDText('560')),
           FDDataCell(child: FDText('15.2%')),

@@ -5,11 +5,12 @@ class FDExpanded extends Widget {
   final int flex;
   final String? rawCss;
 
-  FDExpanded({
+  const FDExpanded({
     required this.child,
     this.flex = 1,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {

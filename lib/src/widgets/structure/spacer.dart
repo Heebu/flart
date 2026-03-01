@@ -1,12 +1,10 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDSpacer extends FDExpanded {
-  FDSpacer({int flex = 1})
+  const FDSpacer({int flex = 1, Key? key})
       : super(
-    flex: flex,
-    child: FDSizedBox(), // Occupies the space
-  );
+          flex: flex,
+          child: const FDSizedBox(), // Occupies the space
+          key: key,
+        );
 }
-
-
-

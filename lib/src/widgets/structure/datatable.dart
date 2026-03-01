@@ -10,7 +10,7 @@ class FDDataTable<T> extends Widget {
   final bool showCheckboxColumn;
   final String? rawCss;
 
-  FDDataTable({
+  const FDDataTable({
     required this.columns,
     required this.rows,
     this.columnSpacing = 24.0,
@@ -19,7 +19,8 @@ class FDDataTable<T> extends Widget {
     this.horizontalMargin = 24.0,
     this.showCheckboxColumn = false,
     this.rawCss,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   String render(BuildContext context) {
@@ -105,7 +106,7 @@ class FDDataColumn {
   final bool numeric;
   final String? tooltip;
 
-  FDDataColumn({
+  const FDDataColumn({
     required this.label,
     this.numeric = false,
     this.tooltip,
@@ -117,7 +118,7 @@ class FDDataRow {
   final bool selected;
   final ValueChanged<bool?>? onSelectChanged;
 
-  FDDataRow({
+  const FDDataRow({
     required this.cells,
     this.selected = false,
     this.onSelectChanged,
@@ -128,7 +129,7 @@ class FDDataCell {
   final Widget child;
   final bool placeholder;
 
-  FDDataCell({
+  const FDDataCell({
     required this.child,
     this.placeholder = false,
   });

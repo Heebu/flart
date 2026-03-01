@@ -9,6 +9,9 @@ abstract class State<T extends StatefulWidget> {
   late T widget;
   late BuildContext context;
   String? _stateKey;
+  bool _mounted = true;
+
+  bool get mounted => _mounted;
 
   /// Called once when the state object is created.
   void initState() {}
@@ -20,7 +23,9 @@ abstract class State<T extends StatefulWidget> {
   void didChangeDependencies() {}
 
   /// Called when the state object is removed permanently.
-  void dispose() {}
+  void dispose() {
+    _mounted = false;
+  }
 
   /// Call inside event handlers to update state and trigger a rebuild.
   void setState(void Function() fn) {
@@ -36,7 +41,22 @@ abstract class State<T extends StatefulWidget> {
 
     final element = document.getElementById(_stateKey!);
     if (element != null) {
-      // 1. Capture scroll positions before update
+      // 1. Capture scroll positions and focus before update
+      final activeElement = document.activeElement;
+      String? focusedId;
+      int? cursorStart;
+      int? cursorEnd;
+      if (activeElement != null && element.contains(activeElement)) {
+        focusedId = activeElement.id;
+        if (activeElement is InputElement) {
+          cursorStart = activeElement.selectionStart;
+          cursorEnd = activeElement.selectionEnd;
+        } else if (activeElement is TextAreaElement) {
+          cursorStart = activeElement.selectionStart;
+          cursorEnd = activeElement.selectionEnd;
+        }
+      }
+
       final scrollState = <String, Point<int>>{};
       final scrollableElements = element.querySelectorAll('*');
       for (final el in scrollableElements) {
@@ -60,6 +80,21 @@ abstract class State<T extends StatefulWidget> {
           el.scrollTop = point.y;
         }
       });
+
+      // 3. Restore focus and cursor
+      if (focusedId != null && focusedId.isNotEmpty) {
+        final el = document.getElementById(focusedId);
+        if (el != null) {
+          el.focus();
+          if (el is InputElement && cursorStart != null && cursorEnd != null) {
+            el.setSelectionRange(cursorStart, cursorEnd);
+          } else if (el is TextAreaElement &&
+              cursorStart != null &&
+              cursorEnd != null) {
+            el.setSelectionRange(cursorStart, cursorEnd);
+          }
+        }
+      }
     } else {
       // Fallback if element not found in DOM
       reRenderApp();
