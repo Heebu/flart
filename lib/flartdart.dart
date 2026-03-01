@@ -3,6 +3,7 @@
 // Core
 export 'src/widgets/widget.dart';
 export 'src/widgets/utils/build_context.dart';
+export 'src/widgets/utils/provider.dart';
 export 'src/widgets/stateful_widget.dart';
 export 'src/widgets/stateless_widget.dart';
 export 'src/widgets/inherited_widget.dart';

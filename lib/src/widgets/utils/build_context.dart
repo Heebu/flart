@@ -1,4 +1,6 @@
 import '../widget.dart';
+import '../../styles/media_querry.dart';
+import '../../styles/theme.dart';
 
 class BuildContext {
   final Widget widget;
@@ -23,4 +25,19 @@ class BuildContext {
       inheritedWidgets: inheritedWidgets ?? this.inheritedWidgets,
     );
   }
+
+  // --- Extensions ---
+
+  /// Access the current theme
+  ThemeData get theme => Theme.of(this);
+
+  /// Access media query info (screen size, etc)
+  MediaQuery get mediaQuery => MediaQuery.of();
+
+  /// Shortcuts for responsive design
+  double get width => mediaQuery.width.toDouble();
+  double get height => mediaQuery.height.toDouble();
+  bool get isMobile => mediaQuery.isSmall;
+  bool get isTablet => mediaQuery.isMedium;
+  bool get isDesktop => mediaQuery.isLarge;
 }
