@@ -16,6 +16,7 @@ export 'src/foundation/key.dart';
 export 'src/foundation/ticker.dart';
 export 'src/foundation/input.dart';
 export 'src/foundation/change_notifier.dart';
+export 'src/foundation/websocket.dart';
 
 // Enums
 export 'src/enums/axis.dart';

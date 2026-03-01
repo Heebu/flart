@@ -11,9 +11,12 @@ class FDColumn extends Widget {
     required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.start,
+    this.spacing,
     this.cssStyle,
     this.rawCss,
   });
+
+  final double? spacing;
 
   @override
   String render(BuildContext context) {
@@ -22,6 +25,7 @@ class FDColumn extends Widget {
       'flex-direction': 'column',
       'justify-content': _mapMainAxis(mainAxisAlignment),
       'align-items': _mapCrossAxis(crossAxisAlignment),
+      if (spacing != null) 'gap': '${spacing}px',
       ...?cssStyle,
     };
 

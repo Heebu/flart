@@ -91,4 +91,8 @@ class FDIcons {
   static const String dashboard = 'dashboard';
   static const String insert_chart = 'insert_chart';
   static const String monetization_on = 'monetization_on';
+  static const String assignment = 'assignment';
+  static const String layers = 'layers';
+  static const String brush = 'brush';
+  static const String add_circle = 'add_circle';
 }

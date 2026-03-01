@@ -10,10 +10,13 @@ class FDRow extends Widget {
     required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.start,
+    this.spacing,
     this.cssStyle,
     this.rawCss,
     Key? key,
   }) : super(key: key);
+
+  final double? spacing;
 
   @override
   String render(BuildContext context) {
@@ -23,6 +26,7 @@ class FDRow extends Widget {
       'justify-content': _mapMainAxis(mainAxisAlignment),
       'align-items': _mapCrossAxis(crossAxisAlignment),
       'overflow-wrap': 'break-word',
+      if (spacing != null) 'gap': '${spacing}px',
       ...?cssStyle,
     };
 

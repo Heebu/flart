@@ -1,4 +1,1 @@
-﻿enum TextAlign { left, FDCenter, right, justify, start, end }
-
-
-
+﻿enum TextAlign { left, center, right, justify, start, end }

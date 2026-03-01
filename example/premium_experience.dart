@@ -100,7 +100,44 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
                   _isLoading ? _buildSkeletonUI() : _buildDataRows(theme),
 
                   FDSizedBox(height: 48),
-                  _sectionTitle('Recent Analytics'),
+                  _sectionTitle('Demo Gallery 🎁'),
+                  FDSizedBox(height: 16),
+
+                  // Navigation to other cool demos
+                  FDAnimate(
+                    fadeIn: true,
+                    slideY: 10,
+                    delay: Duration(milliseconds: 200),
+                    child: FDRow(
+                      spacing: 12,
+                      children: [
+                        _demoCard(FDIcons.assignment, 'Form Validation',
+                            '/form-demo', theme),
+                        _demoCard(FDIcons.layers, 'Stacked View',
+                            '/stacked-demo', theme),
+                      ],
+                    ),
+                  ),
+
+                  FDSizedBox(height: 12),
+
+                  FDAnimate(
+                    fadeIn: true,
+                    slideY: 10,
+                    delay: Duration(milliseconds: 400),
+                    child: FDRow(
+                      spacing: 12,
+                      children: [
+                        _demoCard(FDIcons.brush, 'Custom Painter',
+                            '/painter-demo', theme),
+                        _demoCard(FDIcons.add_circle, 'Counter Reactive',
+                            '/counter-demo', theme),
+                      ],
+                    ),
+                  ),
+
+                  FDSizedBox(height: 48),
+                  _sectionTitle('Recent Analytics 📈'),
                   FDSizedBox(height: 16),
 
                   _isLoading
@@ -158,6 +195,31 @@ class _ScrollShowcasePageState extends State<ScrollShowcasePage> {
         _itemRow(
             FDIcons.notifications, 'Alerts', 'System health status', theme),
       ],
+    );
+  }
+
+  Widget _demoCard(String icon, String title, String route, ThemeData theme) {
+    return FDExpanded(
+      child: FDGestureDetector(
+        onTap: () {
+          // Note: In real app we'd trigger PageNavigator.pushNamed(route)
+          // For now we log it as this is a showcase container
+          print('Navigating to $route');
+        },
+        child: FDCard(
+          padding: EdgeInsets.all(16),
+          child: FDColumn(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FDIcon(icon: icon, color: theme.primaryColor, size: 32),
+              FDSizedBox(height: 8),
+              FDText(title,
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

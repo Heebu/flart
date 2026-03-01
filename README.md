@@ -1,73 +1,34 @@
-﻿# Flart 🎨
+﻿# FlartDart 🚀
 
-**A high-performance, Flutter-inspired UI framework for pure Dart Web applications.**
+**A Comprehensive, Developer-First Flutter-Inspired Framework for Dart Web Applications.**
 
-[![pub package](https://img.shields.io/pub/v/flartdart.svg?color=blue)](https://pub.dev/packages/flartdart)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Platform: Web](https://img.shields.io/badge/platform-web-lightgrey.svg)]()
-
-Build stunning, responsive, and interactive web applications using the familiar declarative syntax of Flutter—all in 100% pure Dart. Flart bridges the gap between the power of web technologies (HTML/CSS/JS) and the developer experience of Flutter.
+FlartDart brings the power, reactivity, and declarative UI of Flutter to the web using pure Dart. No external dependencies, no complex transpilation—just clean, performant, and beautiful web apps.
 
 ---
 
-## 🚀 Why Flart?
+## 🌟 Key Features (v1.3.0)
 
-- **🎯 Flutter-Native Syntax**: If you know Flutter, you know Flart. Use `Row`, `Column`, `Container`, `Scaffold`, and `StatefulWidget` just like you do in Flutter.
-- **🏗️ 100+ Pre-built Widgets**: From basic layout components to complex pickers, media players, and animated transitions.
-- **🎨 Global Theming (v1.2)**: Instant Light/Dark mode switching using the `Theme` InheritedWidget. Define your brand once, apply it everywhere.
-- **⚡ Virtualized Performance (v1.2)**: Handle lists with 10,000+ items at 60fps using `FDVirtualizedListView`.
-- **⚙️ Zero External Dependencies**: A lightweight core built on top of standard web APIs.
-- **🛠️ Integrated CLI**: Generate project templates instantly with the `flartdart` command.
-- **⚡ Performance First**: Lightweight HTML/CSS rendering with optimized DOM updates.
-- **📱 Responsive by Design**: Built-in `MediaQuery` and flexible layout widgets for seamless mobile & desktop support.
-- **Interactive Widget Lab**: A comprehensive testing suite organized into 5 batches (Foundation, Lists & Nav, Interactive, Content, and Animations) for systematic widget verification and developer onboarding.
----
-
-## 🛠️ CLI Tool
-
-The fastest way to get started is by using the **Flartdart CLI**.
-
-### Installation
-
-```bash
-dart pub global activate flartdart
-```
-
-### Usage
-
-```bash
-# Create a new project
-flartdart create my_awesome_app
-
-# Run your app
-cd my_awesome_app
-dart pub get
-dart run build_runner serve
-```
+*   **100+ Core Widgets**: Everything from `FDContainer` and `FDColumn` to `FDSliverAppBar` and `FDDataTable`.
+*   **Reactive State Management**: Implementation of `ChangeNotifier`, `FDProvider`, and a **Stacked-style** `FDViewModelBuilder`.
+*   **Native-feel Animations**: High-level `FDAnimate` helper, `Hero` transitions (foundation), and built-in transitions for all interactive widgets.
+*   **Modern Routing**: Sophisticated `PageNavigator` with **Path Parameters** (e.g., `/user/:id`) and history management.
+*   **Forms & Validation**: Integrated `FDForm` and `FDTextFormField` with easy validation logic and `GlobalKey` control.
+*   **Premium UI Components**: `FDSkeleton` shimmer loaders, `FDSliverAppBar` with scroll effects, and `FDSnackBar`.
+*   **Flutter-Style Canvas**: A high-level `Canvas` and `Paint` API for custom 2D drawing.
 
 ---
 
-## 📦 Installation
+## 🚀 Getting Started
 
-Add `flartdart` to your `pubspec.yaml`:
+### 1. Installation
+In your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flartdart: ^1.0.0
+  flartdart: ^1.3.0
 ```
 
-Then, fetch the dependencies:
-
-```bash
-dart pub get
-```
-
----
-
-## 🎬 Quick Start
-
-### The Classic "Hello World"
+### 2. A Simple Reactive App
 
 ```dart
 import 'package:flartdart/flartdart.dart';
@@ -77,44 +38,13 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp();
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FDMaterialApp(
-      title: 'My First Flart App',
-      home: FDScaffold(
-        appBar: FDAppBar(
-          title: FDText('Hello Flart!'),
-          backgroundColor: FlartColors.blue,
-        ),
-        body: FDCenter(
-          child: FDColumn(
-            mainAxisAlignment: AxisAlignment.center,
-            children: [
-              FDContainer(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: FlartColors.blueGrey,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(color: '#00000033', blurRadius: 10)
-                  ],
-                ),
-                child: FDText(
-                  'Welcome to the future of Dart Web 🚀',
-                  style: TextStyle(color: FlartColors.white, fontSize: 20),
-                ),
-              ),
-              FDSizedBox(height: 24),
-              FDElevatedButton(
-                onPressed: () => print('Let\'s build something!'),
-                child: FDText('Get Started'),
-              ),
-            ],
-          ),
-        ),
-      ),
+      title: 'Flart App',
+      home: const HomePage(),
     );
   }
 }
@@ -122,70 +52,95 @@ class MyApp extends StatelessWidget {
 
 ---
 
-## 🧩 Comprehensive Widget Ecosystem
+## 🏛️ Modern Architecture
 
-Flart is divided into logical categories to help you build everything from simple blogs to complex dashboards.
+### Stacked-style ViewModels
+Tired of complex state registration? Use `FDViewModelBuilder` for zero-config reactive logic:
 
-### 🏗️ Structure & Layout
-*   `FDScaffold`, `FDAppBar`, `FDDrawer`, `FDBottomNavigationBar`
-*   `FDContainer`, `FDCard`, `FDColumn`, `FDRow`, `FDStack`, `FDWrap`
-*   `FDListView`, `FDGridView`, `FDSingleChildScrollView`
+```dart
+class CounterViewModel extends ViewModel {
+  int count = 0;
+  void increment() {
+    count++;
+    notifyListeners();
+  }
+}
 
-### ✍️ Text & Typography
-*   `FDText`, `FDRichText`, `FDTextSpan`, `FDLinkText`, `FDSelectableText`
-
-### 🖱️ Buttons & Interaction
-*   `FDElevatedButton`, `FDTextButton`, `FDIconButton`, `FDGestureDetector`
-
-### 📝 Forms & Inputs
-*   `FDTextField`, `FDTextFormField`, `TextArea`, `FDCheckbox`, `FDSwitch`, `FDSlider`
-*   `AutocompleteField`, `ColorPicker`, `FileUpload`
-
-### 📅 Pickers
-*   `FDDatePicker`, `FDTimePicker`, `FDDateRangePicker`, `FDMonthPicker`, `FDWeekPicker`, `DateTimePicker`
-
-### 🎬 Animations & Effects
-*   `AnimatedContainer`, `AnimatedOpacity`, `AnimatedScale`, `AnimatedRotation`, `FadeIn`
-*   `AnimationController`, `Tween`, `Curves`
-
-### 🎥 Media & Painting
-*   `VideoPlayer`, `AudioPlayer`, `YouTubePlayer`, `MapEmbed`
-*   `FDCustomPaint`, `FDSvgPicture`
+// In your View
+FDViewModelBuilder<CounterViewModel>(
+  viewModelBuilder: () => CounterViewModel(),
+  builder: (context, model, child) => FDText('Count: ${model.count}'),
+)
+```
 
 ---
 
-## 🏗️ Architecture: The Bridge
+## 🛣️ Advanced Routing
 
-Flart works by transpiling Dart widget structures into highly optimized HTML, CSS, and interactive JavaScript. 
+Flart supports path parameters out of the box:
 
-1.  **Declaration**: You define your UI in Dart using a nested widget tree.
-2.  **Rendering**: Each widget implements a `render()` method that returns a string of HTML/CSS.
-3.  **Interactivity**: Event callbacks (like `onPressed`) are managed via a `CallbackManager` that bridges JavaScript events back into Dart logic.
-4.  **State**: `StatefulWidget` provides a familiar lifecycle (`initState`, `setState`, `dispose`) for managing dynamic data.
+```dart
+// Registering routes
+PageNavigator.routes = {
+  '/': (params) => const HomePage(),
+  '/details/:id': (params) => DetailPage(id: params['id']!),
+};
 
----
-
-## 📖 Resource Links
-
-- 📚 **[Detailed Widget Guide](WIDGET_GUIDE.md)**: Exhaustive reference with code samples for every widget.
-- 🤝 **[Contributing](CONTRIBUTING.md)**: Learn how to help us improve Flart.
-- 🚀 **[Example Projects](example/)**: Real-world implementations and demos.
-- 📄 **[Changelog](CHANGELOG.md)**: Stay updated with the latest releases.
+// Navigating
+PageNavigator.pushNamed('/details/42');
+```
 
 ---
 
-## 🤝 Contributing
+## 🎨 Premium UI & Animations
 
-We love contributions! Whether it's fixing a bug, adding a new widget, or improving the documentation, your help is welcome. Please check out our [Contributing Guidelines](CONTRIBUTING.md).
+### 🎬 Entrance Animations
+Bring your UI to life with a single wrapper:
+
+```dart
+FDAnimate(
+  fadeIn: true,
+  slideY: 20,
+  duration: Duration(milliseconds: 600),
+  child: MyCard(),
+)
+```
+
+### 🧱 Shimmer Loaders
+Perfect for modern data-fetching UX:
+
+```dart
+isLoading 
+  ? FDSkeleton(height: 100, borderRadius: BorderRadius.circular(8)) 
+  : RealContent()
+```
+
+### 🖌️ Custom Painting
+Use the high-level `Canvas` API:
+
+```dart
+class MyPainter extends CustomPainter {
+  void paint(Canvas canvas, Size size) {
+    canvas.drawCircle(100, 100, 50, Paint()..color = FlartColors.blue);
+  }
+}
+```
 
 ---
 
-## 📜 License
+## 🏗️ Building for Production
 
-Flart is open-source software licensed under the **MIT License**. See the [LICENSE](LICENSE) file for more information.
+Flart is designed to be lightweight. To bundle your app:
+
+1.  **Compile to Javascript**:
+    ```bash
+    dart compile js -O2 web/main.dart -o build/main.js
+    ```
+2.  **Optimize**: Use the `-O2` or `-O4` flags for tree-shaking and minification.
 
 ---
 
-<p align="center">
-  <b>Built with ❤️ for the Dart Community</b>
-</p>
+## 📄 License & Contribution
+Flart is Open Source. We love contributors! Check our [GitHub Issues](https://github.com/Heebu/flart/issues) to see what we're working on.
+
+Created with ❤️ by the **Heebu Team**.
