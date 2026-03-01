@@ -14,6 +14,7 @@ export 'src/foundation/types.dart';
 export 'src/foundation/key.dart';
 export 'src/foundation/ticker.dart';
 export 'src/foundation/input.dart';
+export 'src/foundation/change_notifier.dart';
 
 // Enums
 export 'src/enums/axis.dart';
@@ -55,6 +56,7 @@ export 'src/animation/tween.dart';
 // Structure Widgets
 export 'src/widgets/structure/scaffold.dart';
 export 'src/widgets/structure/appbar.dart';
+export 'src/widgets/structure/sliver_app_bar.dart';
 export 'src/widgets/structure/container.dart';
 export 'src/widgets/structure/image.dart';
 export 'src/widgets/structure/icons.dart';
@@ -135,6 +137,7 @@ export 'src/widgets/animated_widgets/animated_slide.dart';
 export 'src/widgets/animated_widgets/animated_size.dart';
 export 'src/widgets/animated_widgets/animated_crossfade.dart';
 export 'src/widgets/animated_widgets/fade_in.dart';
+export 'src/widgets/animated_widgets/animate.dart';
 
 // Painting
 export 'src/widgets/painting/custom_paint.dart';

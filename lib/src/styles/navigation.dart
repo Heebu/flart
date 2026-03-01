@@ -46,16 +46,7 @@ class PageNavigator {
       }
       return;
     }
-
-    final builder = _routes[routeName];
-    if (builder != null) {
-      final page = builder(queryParams ?? {});
-      _stack.add(page);
-      _updateHistory(page, routeName, queryParams);
-      _refresh(withTransition: true);
-    } else {
-      _show404(routeName);
-    }
+    _navigateToPath(routeName, queryParams ?? {}, replace: false);
   }
 
   /// Replace current page
@@ -74,17 +65,7 @@ class PageNavigator {
       }
       return;
     }
-
-    final builder = _routes[routeName];
-    if (builder != null) {
-      final page = builder(queryParams ?? {});
-      if (_stack.isNotEmpty) _stack.removeLast();
-      _stack.add(page);
-      _updateHistory(page, routeName, queryParams);
-      _refresh(withTransition: false);
-    } else {
-      _show404(routeName);
-    }
+    _navigateToPath(routeName, queryParams ?? {}, replace: true);
   }
 
   /// Pop to previous page
@@ -125,18 +106,70 @@ class PageNavigator {
     final hash = window.location.hash.replaceFirst('#', '');
     final uri = Uri.parse(
         hash.startsWith('/') ? hash : (hash.isEmpty ? '/' : '/$hash'));
-    final routeName = uri.path;
-    final params = uri.queryParameters;
+    final routePath = uri.path;
+    final queryParams = uri.queryParameters;
 
-    if (_routes.containsKey(routeName)) {
-      _stack.clear();
-      _stack.add(_routes[routeName]!(params));
-    } else if (routeName == '/' && _routes.isNotEmpty) {
-      // Fallback for root if exactly '/' is not found but we have routes
-      final firstRoute = _routes.entries.first;
-      _stack.clear();
-      _stack.add(firstRoute.value({}));
+    _navigateToPath(routePath, queryParams, replace: true);
+  }
+
+  static void _navigateToPath(String path, Map<String, String> queryParams,
+      {bool replace = false}) {
+    // Try exact match first
+    if (_routes.containsKey(path)) {
+      final builder = _routes[path]!;
+      final page = builder(queryParams);
+      if (replace && _stack.isNotEmpty) _stack.removeLast();
+      _stack.add(page);
+      _updateHistory(page, path, queryParams);
+      _refresh(withTransition: true);
+      return;
     }
+
+    // Try parameter matching
+    for (final entry in _routes.entries) {
+      final routePattern = entry.key;
+      final match = _matchRoute(routePattern, path);
+      if (match != null) {
+        final combinedParams = {...queryParams, ...match};
+        final page = entry.value(combinedParams);
+        if (replace && _stack.isNotEmpty) _stack.removeLast();
+        _stack.add(page);
+        _updateHistory(page, path, queryParams);
+        _refresh(withTransition: true);
+        return;
+      }
+    }
+
+    if (path == '/' && _routes.isNotEmpty) {
+      final firstRoute = _routes.entries.first;
+      if (replace && _stack.isNotEmpty) _stack.removeLast();
+      _stack.add(firstRoute.value(queryParams));
+      _refresh(withTransition: false);
+    } else {
+      _show404(path);
+    }
+  }
+
+  static Map<String, String>? _matchRoute(String pattern, String path) {
+    if (!pattern.contains(':')) return null;
+
+    final patternParts = pattern.split('/');
+    final pathParts = path.split('/');
+
+    if (patternParts.length != pathParts.length) return null;
+
+    final params = <String, String>{};
+    for (var i = 0; i < patternParts.length; i++) {
+      final patternPart = patternParts[i];
+      final pathPart = pathParts[i];
+
+      if (patternPart.startsWith(':')) {
+        params[patternPart.substring(1)] = pathPart;
+      } else if (patternPart != pathPart) {
+        return null;
+      }
+    }
+    return params;
   }
 
   // Helper to manually seed FDStack (hack for partial adoption)

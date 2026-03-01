@@ -16,6 +16,9 @@ abstract class State<T extends StatefulWidget> {
   /// Called whenever the framework wants to re-build the state.
   void didUpdateWidget(covariant T oldWidget) {}
 
+  /// Called when a dependency of this State object changes.
+  void didChangeDependencies() {}
+
   /// Called when the state object is removed permanently.
   void dispose() {}
 
@@ -121,6 +124,7 @@ abstract class StatefulWidget extends Widget {
       state._stateKey = stateKey;
       _stateRegistry[stateKey] = state;
       state.initState();
+      state.didChangeDependencies();
     }
 
     final childHtml = state.build(context).render(context);
