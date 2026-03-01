@@ -24,6 +24,7 @@ class TextStyle {
   final FontWeight? fontWeight;
   final String? fontFamily;
   final double? letterSpacing;
+  final double? height;
 
   const TextStyle({
     this.color,
@@ -31,6 +32,7 @@ class TextStyle {
     this.fontWeight,
     this.fontFamily,
     this.letterSpacing,
+    this.height,
   });
 
   Map<String, String> toCss() {
@@ -40,6 +42,7 @@ class TextStyle {
     if (fontWeight != null) styles['font-weight'] = fontWeight!.value;
     if (fontFamily != null) styles['font-family'] = fontFamily!;
     if (letterSpacing != null) styles['letter-spacing'] = '${letterSpacing}px';
+    if (height != null) styles['line-height'] = height.toString();
     return styles;
   }
 }

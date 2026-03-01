@@ -42,28 +42,25 @@ class FDAnimate extends Widget {
     final initialTransform = '$initialScale $initialTranslate'.trim();
 
     return '''
+      <style>
+        @keyframes anim_$id {
+          0% {
+            opacity: $initialOpacity;
+            ${initialTransform.isNotEmpty ? 'transform: $initialTransform;' : ''}
+          }
+          100% {
+            opacity: 1;
+            transform: none;
+          }
+        }
+      </style>
       <div id="$id" style="
-        opacity: $initialOpacity;
-        transform: $initialTransform;
-        transition: opacity ${duration.inMilliseconds}ms ${delay.inMilliseconds}ms ease-out, 
-                    transform ${duration.inMilliseconds}ms ${delay.inMilliseconds}ms ease-out;
+        animation: anim_$id ${duration.inMilliseconds}ms ease-out ${delay.inMilliseconds}ms both;
+        will-change: opacity, transform;
         ${rawCss ?? ''}
       ">
         ${child.render(context)}
       </div>
-      <script>
-        (function() {
-          const el = document.getElementById('$id');
-          if (el) {
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                el.style.opacity = '1';
-                el.style.transform = 'none';
-              });
-            });
-          }
-        })();
-      </script>
     ''';
   }
 }

@@ -1,4 +1,4 @@
-﻿import 'dart:html';
+import 'dart:html';
 import '../../flartdart.dart';
 
 // Global state registry to persist state across renders
@@ -139,9 +139,10 @@ abstract class StatefulWidget extends Widget {
   String render(BuildContext context) {
     // Generate a unique key for this widget instance.
     // If a key is provided, we use it to maintain state across re-renders.
+    final safeRuntimeType = runtimeType.toString().replaceAll(RegExp(r'[<>]'), '_');
     final stateKey = key != null
-        ? '${runtimeType}_${key.toString()}'
-        : '${runtimeType}_${hashCode}';
+        ? '${safeRuntimeType}_${key.toString()}'
+        : '${safeRuntimeType}_${hashCode}';
 
     // Get or create state
     State state;

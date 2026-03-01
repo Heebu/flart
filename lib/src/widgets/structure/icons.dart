@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDIcon extends Widget {
   final String icon;
@@ -95,4 +95,13 @@ class FDIcons {
   static const String add_circle = 'add_circle';
   static const String remove = 'remove';
   static const String swap_vert = 'swap_vert';
+  static const String speed = 'speed';
+  static const String widgets = 'widgets';
+  static const String folder_zip = 'folder_zip';
+  static const String bolt = 'bolt';
+  static const String animation = 'animation';
+  static const String storage = 'storage';
+  static const String dns = 'dns';
+  static const String memory = 'memory';
+  static const String security = 'security';
 }

@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:html' as html;
 import '../../../flartdart.dart';
 
@@ -170,7 +170,7 @@ class FDGestureDetector extends Widget {
         });
       }
     });
-
-    return '<div id="$id" tabindex="0" style="outline: none; display: inherit; ${rawCss ?? ''}">${child.render(context)}</div>';
+    final cursor = onTap != null ? 'cursor: pointer;' : '';
+    return '<div id="$id" tabindex="0" style="outline: none; display: inline-block; $cursor ${rawCss ?? ''}">${child.render(context)}</div>';
   }
 }

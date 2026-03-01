@@ -1,4 +1,4 @@
-﻿import 'package:flartdart/flartdart.dart';
+import 'package:flartdart/flartdart.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,112 +36,164 @@ class CounterViewModel extends ViewModel {
   }
 }
 
-class CounterPage extends StatelessWidget {
+class CounterPage extends StatefulWidget {
   const CounterPage({Key? key}) : super(key: key);
 
   @override
+  State<CounterPage> createState() => _CounterPageState();
+}
+
+class _CounterPageState extends State<CounterPage> {
+  final CounterViewModel _model = CounterViewModel();
+
+  @override
+  void dispose() {
+    _model.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return FDViewModelBuilder<CounterViewModel>(
-      viewModelBuilder: () => CounterViewModel(),
-      builder: (context, model, child) => FDScaffold(
-        body: FDCenter(
-          child: FDColumn(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Entry animation for the header
-              const FDAnimate(
-                fadeIn: true,
-                slideY: -20,
-                duration: Duration(milliseconds: 800),
-                child: FDColumn(
-                  children: [
-                    FDText(
-                      'Flart Experience',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: FlartColors.grey,
-                        letterSpacing: 2,
-                      ),
+    return FDScaffold(
+      body: FDCenter(
+        child: FDColumn(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Entry animation for the header
+            const FDAnimate(
+              fadeIn: true,
+              slideY: -20,
+              duration: Duration(milliseconds: 800),
+              child: FDColumn(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  FDText(
+                    'Flart Experience',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: FlartColors.grey,
+                      letterSpacing: 2.0,
                     ),
-                    FDSizedBox(height: 8),
-                    FDText(
-                      'Reactive Counter',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: FlartColor('#6366f1'),
-                      ),
+                  ),
+                  FDSizedBox(height: 8),
+                  FDText(
+                    'Reactive Counter',
+                    style: TextStyle(
+                      fontSize: 32.0,
+                      fontWeight: FontWeight.bold,
+                      color: FlartColor('#6366f1'),
                     ),
+                  ),
+                ],
+              ),
+            ),
+
+            const FDSizedBox(height: 60),
+
+            // The animated counter value wrapper
+            FDAnimate(
+              fadeIn: true,
+              slideY: 10,
+              duration: const Duration(milliseconds: 600),
+              delay: const Duration(milliseconds: 100),
+              child: FDContainer(
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                decoration: BoxDecoration(
+                  color: FlartColors.white,
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: FlartColors.black.withOpacity(0.05),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    )
                   ],
                 ),
+                // THIS tightly scoped widget is the only thing that updates!
+                child: _CounterDisplay(model: _model),
               ),
+            ),
 
-              const FDSizedBox(height: 60),
+            const FDSizedBox(height: 60),
 
-              // The animated counter value
-              FDAnimate(
-                key: ValueKey(model.count), // Re-trigger animation on change
-                scale: 0.8,
-                fadeIn: true,
-                duration: const Duration(milliseconds: 400),
-                child: FDContainer(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                  decoration: BoxDecoration(
-                    color: FlartColors.white,
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: [
-                      BoxShadow(
-                        color: FlartColors.black.withOpacity(0.05),
-                        blurRadius: 20,
-                        offset: const Offset(0, 10),
-                      )
-                    ],
-                  ),
-                  child: FDText(
-                    '${model.count}',
-                    style: const TextStyle(
-                      fontSize: 80,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                ),
-              ),
-
-              const FDSizedBox(height: 60),
-
-              // Control buttons
-              FDRow(
+            // Control buttons
+            FDAnimate(
+              fadeIn: true,
+              slideY: 20,
+              duration: const Duration(milliseconds: 800),
+              delay: const Duration(milliseconds: 200),
+              child: FDRow(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 spacing: 20,
                 children: [
-                  _ActionButton(
+                   _ActionButton(
                     icon: FDIcons.remove,
-                    onPressed: model.decrement,
+                    onPressed: _model.decrement,
                     color: FlartColors.red,
+                     isLarge: true,
                   ),
                   _ActionButton(
                     icon: FDIcons.add,
-                    onPressed: model.increment,
+                    onPressed: _model.increment,
                     color: const FlartColor('#6366f1'),
                     isLarge: true,
                   ),
                 ],
               ),
+            ),
 
-              const FDSizedBox(height: 40),
+            const FDSizedBox(height: 40),
 
-              FDAnimate(
-                fadeIn: true,
-                delay: const Duration(milliseconds: 1000),
-                child: FDChip(
-                  label: const FDText('v1.3.0 Stable'),
-                  backgroundColor: FlartColors.green.withOpacity(0.1),
-                ),
+            FDAnimate(
+              fadeIn: true,
+              delay: const Duration(milliseconds: 800),
+              child: FDChip(
+                label: const FDText('v1.3.0 Stable'),
+                backgroundColor: FlartColors.green.withOpacity(0.1),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+}
+
+// Scoped stateful widget exclusively for rebuilding the text
+class _CounterDisplay extends StatefulWidget {
+  final CounterViewModel model;
+  const _CounterDisplay({required this.model, Key? key}) : super(key: key);
+
+  @override
+  State<_CounterDisplay> createState() => _CounterDisplayState();
+}
+
+class _CounterDisplayState extends State<_CounterDisplay> {
+  @override
+  void initState() {
+    super.initState();
+    widget.model.addListener(_rebuild);
+  }
+
+  @override
+  void dispose() {
+    widget.model.removeListener(_rebuild);
+    super.dispose();
+  }
+
+  void _rebuild() {
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FDText(
+      '${widget.model.count}',
+      style: const TextStyle(
+        fontSize: 80.0,
+        fontWeight: FontWeight.w900,
       ),
     );
   }
@@ -185,7 +237,7 @@ class _ActionButton extends StatelessWidget {
           child: FDIcon(
             icon: icon,
             color: FlartColors.white,
-            size: isLarge ? 40 : 30,
+            size: isLarge ? 40.0 : 30.0,
           ),
         ),
       ),
