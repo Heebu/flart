@@ -6,9 +6,9 @@ class FDProvider<T> extends InheritedWidget {
 
   const FDProvider({
     required this.value,
-    required Widget child,
-    Key? key,
-  }) : super(child: child, key: key);
+    required super.child,
+    super.key,
+  });
 
   static T of<T>(BuildContext context) {
     final provider =
@@ -32,8 +32,8 @@ class FDChangeNotifierProvider<T extends ChangeNotifier>
   const FDChangeNotifierProvider({
     required this.create,
     required this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<FDChangeNotifierProvider<T>> createState() =>
@@ -73,8 +73,8 @@ class FDConsumer<T extends ChangeNotifier> extends StatefulWidget {
   const FDConsumer({
     required this.builder,
     this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<FDConsumer<T>> createState() => _FDConsumerState<T>();

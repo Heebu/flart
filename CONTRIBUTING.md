@@ -36,16 +36,17 @@ To set up your development environment:
     dart pub get
     ```
 
-3.  **Run the CLI (Development Mode)**:
+3.  **Test the CLI (Development Mode)**:
     You can test the CLI tool directly from the source:
     ```bash
+    dart run bin/flartdart.dart doctor
     dart run bin/flartdart.dart create test_app --local-path .
     ```
 
 4.  **Run the Example App**:
     ```bash
     cd example
-    dart run build_runner serve
+    flartdart run
     ```
 
 ---

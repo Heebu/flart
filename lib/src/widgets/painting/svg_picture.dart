@@ -1,5 +1,4 @@
-﻿import '../../../flartdart.dart';
-import '../../enums/box_fit.dart';
+import '../../../flartdart.dart';
 
 class FDSvgPicture extends Widget {
   final String? assetName;

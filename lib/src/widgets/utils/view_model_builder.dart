@@ -20,8 +20,8 @@ class FDViewModelBuilder<T extends ViewModel> extends StatefulWidget {
     this.disposeViewModel = true,
     this.createNewModelOnInsert = false,
     this.onModelReady,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<FDViewModelBuilder<T>> createState() => _FDViewModelBuilderState<T>();

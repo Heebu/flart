@@ -11,8 +11,8 @@ class FDIcon extends Widget {
     this.size = 24.0,
     this.color = FlartColors.black,
     this.FDTooltip,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {

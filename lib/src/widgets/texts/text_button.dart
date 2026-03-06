@@ -1,4 +1,4 @@
-﻿import '../../helper/callback_manager.dart';
+import '../../helper/callback_manager.dart';
 import '../../../flartdart.dart';
 
 class FDTextButton extends Widget {
@@ -16,8 +16,8 @@ class FDTextButton extends Widget {
     this.style,
     this.cssStyle,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {

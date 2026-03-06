@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDScaffold extends Widget {
   final FDAppBar? appBar;
@@ -17,8 +17,8 @@ class FDScaffold extends Widget {
     this.floatingActionButton,
     this.cssStyle,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {

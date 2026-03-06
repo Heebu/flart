@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDExpanded extends Widget {
   final Widget child;
@@ -9,8 +9,8 @@ class FDExpanded extends Widget {
     required this.child,
     this.flex = 1,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {

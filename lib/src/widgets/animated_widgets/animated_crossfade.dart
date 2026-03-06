@@ -1,4 +1,3 @@
-import 'dart:html';
 import '../../../flartdart.dart';
 
 /// A widget that animates between two children with a crossfade effect

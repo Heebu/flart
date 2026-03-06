@@ -35,7 +35,9 @@ class MediaQuery {
     if (userAgent.contains('android')) return 'Android';
     if (userAgent.contains('iphone') ||
         userAgent.contains('ipad') ||
-        userAgent.contains('ipod')) return 'iOS';
+        userAgent.contains('ipod')) {
+      return 'iOS';
+    }
     if (userAgent.contains('mac os')) return 'macOS';
     if (userAgent.contains('windows')) return 'Windows';
     if (userAgent.contains('linux')) return 'Linux';
@@ -69,8 +71,9 @@ class MediaQuery {
     if (userAgent.contains('edg')) return 'Edge';
     if (userAgent.contains('chrome')) return 'Chrome';
     if (userAgent.contains('firefox')) return 'Firefox';
-    if (userAgent.contains('safari') && !userAgent.contains('chrome'))
+    if (userAgent.contains('safari') && !userAgent.contains('chrome')) {
       return 'Safari';
+    }
     return 'Unknown';
   }
 

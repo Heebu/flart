@@ -1,9 +1,8 @@
 import 'utils/build_context.dart';
 import 'widget.dart';
-import '../foundation/key.dart';
 
 abstract class StatelessWidget extends Widget {
-  const StatelessWidget({Key? key}) : super(key: key);
+  const StatelessWidget({super.key});
 
   Widget build(BuildContext context);
 

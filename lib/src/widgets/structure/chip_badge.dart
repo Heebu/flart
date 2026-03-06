@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 /// A FDChip widget for displaying compact information
 class FDChip extends Widget {
@@ -18,8 +18,8 @@ class FDChip extends Widget {
     this.backgroundColor,
     this.padding,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {
@@ -78,8 +78,8 @@ class FDBadge extends Widget {
     this.textColor,
     this.isVisible = true,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {

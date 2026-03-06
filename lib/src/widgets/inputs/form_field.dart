@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 /// A container for grouping form fields.
 class FDForm extends StatefulWidget {
@@ -6,8 +6,8 @@ class FDForm extends StatefulWidget {
 
   const FDForm({
     required this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static FDFormState? of(BuildContext context) {
     return context.findAncestorStateOfType<FDFormState>();
@@ -69,8 +69,8 @@ abstract class FDFormField<T> extends StatefulWidget {
     this.initialValue,
     this.validator,
     this.onSaved,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   FDFormFieldState<T, FDFormField<T>> createState();
@@ -160,9 +160,8 @@ class FDTextFormField extends FDFormField<String> {
     this.prefixIcon,
     this.suffixIcon,
     this.padding,
-    Key? key,
+    super.key,
   }) : super(
-          key: key,
           builder: (state) {
             final field = state.widget as FDTextFormField;
             return FDTextField(

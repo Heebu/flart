@@ -36,7 +36,7 @@ class BuildContext {
       widget: widget ?? this.widget,
       parent: this,
       inheritedWidgets: inheritedWidgets ?? this.inheritedWidgets,
-      states: states ?? this._states,
+      states: states ?? _states,
     );
   }
 

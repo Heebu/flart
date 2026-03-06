@@ -10,8 +10,8 @@ class FDPadding extends Widget {
     required this.padding,
     required this.child,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {

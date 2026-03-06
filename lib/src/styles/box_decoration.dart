@@ -1,8 +1,4 @@
-﻿import '../../flartdart.dart';
-import 'border.dart';
-import 'box_gradient.dart';
-import 'border_radius.dart';
-import 'box_shadow.dart';
+import '../../flartdart.dart';
 
 class BoxDecoration {
   final FlartColor? color;

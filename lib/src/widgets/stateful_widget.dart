@@ -131,7 +131,7 @@ abstract class State<T extends StatefulWidget> {
 }
 
 abstract class StatefulWidget extends Widget {
-  const StatefulWidget({Key? key}) : super(key: key);
+  const StatefulWidget({super.key});
 
   State<StatefulWidget> createState();
 
@@ -142,7 +142,7 @@ abstract class StatefulWidget extends Widget {
     final safeRuntimeType = runtimeType.toString().replaceAll(RegExp(r'[<>]'), '_');
     final stateKey = key != null
         ? '${safeRuntimeType}_${key.toString()}'
-        : '${safeRuntimeType}_${hashCode}';
+        : '${safeRuntimeType}_$hashCode';
 
     // Get or create state
     State state;
@@ -154,7 +154,7 @@ abstract class StatefulWidget extends Widget {
       state.context = context;
       state.didUpdateWidget(oldWidget);
     } else {
-      state = createState() as State;
+      state = createState();
       state.widget = this;
       state.context = context;
       state._stateKey = stateKey;

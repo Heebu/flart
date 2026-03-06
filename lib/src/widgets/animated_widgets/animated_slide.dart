@@ -25,7 +25,7 @@ class AnimatedSlide extends Widget {
 
     return '''
       <div id="$id" style="
-        transform: translate(${xPercent}%, ${yPercent}%);
+        transform: translate($xPercent%, $yPercent%);
         transition: transform ${durationMs}ms;
       ">
         ${child.render(context)}

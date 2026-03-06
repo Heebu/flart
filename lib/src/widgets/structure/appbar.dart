@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDAppBar extends Widget {
   final Widget? title;
@@ -15,8 +15,8 @@ class FDAppBar extends Widget {
     this.backgroundColor,
     this.elevation = 4.0,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {

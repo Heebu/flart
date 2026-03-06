@@ -1,4 +1,3 @@
-import 'dart:html';
 import '../../../flartdart.dart';
 
 /// A widget that fades in its child when it first appears

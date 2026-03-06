@@ -1,9 +1,3 @@
-﻿import '../widget.dart';
-import '../utils/build_context.dart';
-import '../../styles/text_style.dart';
-import '../../styles/theme.dart';
-import '../../enums/text_tag.dart';
-import '../../enums/text_align.dart';
 import '../../../flartdart.dart';
 
 class FDText extends Widget {
@@ -23,8 +17,8 @@ class FDText extends Widget {
     this.tag = TextTag.span,
     this.textAlign,
     this.selectable = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {

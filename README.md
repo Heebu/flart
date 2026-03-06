@@ -6,15 +6,71 @@ FlartDart brings the power, reactivity, and declarative UI of Flutter to the web
 
 ---
 
-## 🌟 Key Features (v1.3.0)
+## 🌟 Key Features (v1.4.0)
 
+*   **Integrated CLI**: A powerful `flartdart` tool for project creation, serving, and building.
+*   **Responsive Power**: Built-in `ScreenUtil` and numeric extensions (`.w`, `.h`, `.sp`) for perfect UI across devices.
 *   **100+ Core Widgets**: Everything from `FDContainer` and `FDColumn` to `FDSliverAppBar` and `FDDataTable`.
 *   **Reactive State Management**: Implementation of `ChangeNotifier`, `FDProvider`, and a **Stacked-style** `FDViewModelBuilder`.
 *   **Native-feel Animations**: High-level `FDAnimate` helper, `Hero` transitions (foundation), and built-in transitions for all interactive widgets.
 *   **Modern Routing**: Sophisticated `PageNavigator` with **Path Parameters** (e.g., `/user/:id`) and history management.
 *   **Forms & Validation**: Integrated `FDForm` and `FDTextFormField` with easy validation logic and `GlobalKey` control.
-*   **Premium UI Components**: `FDSkeleton` shimmer loaders, `FDSliverAppBar` with scroll effects, and `FDSnackBar`.
-*   **Flutter-Style Canvas**: A high-level `Canvas` and `Paint` API for custom 2D drawing.
+
+---
+
+## 🛠️ Flartdart CLI
+
+The framework comes with a dedicated CLI to manage your projects.
+
+### 1. Installation
+Activate the tool globally from the package source:
+```bash
+dart pub global activate --source path .
+```
+
+### 2. Available Commands
+| Command | Description |
+| :--- | :--- |
+| `flartdart create <name>` | Create a new project with responsive boilerplate |
+| `flartdart run` | Start a dev server with Hot Reload (on port 8080) |
+| `flartdart run -r` | Run in optimized Release/Production mode |
+| `flartdart build -r` | Build the project for deployment (output in `web/build/`) |
+| `flartdart clean` | Clear build artifacts and logs |
+| `flartdart doctor` | Verify your environment setup |
+
+---
+
+## 📱 Responsive Design (ScreenUtil)
+
+Flart treats responsiveness as a first-class citizen. Using the `1440x900` desktop design standard by default, you can scale any number.
+
+### 1. Initialize
+```dart
+void main() {
+  ScreenUtil.init(); // Defaults to 1440x900
+  runApp(const MyApp());
+}
+```
+
+### 2. Use Responsive Units
+```dart
+FDContainer(
+  width: 300.w,  // Scaled width
+  height: 200.h, // Scaled height
+  padding: EdgeInsets.all(20.w),
+  child: FDText(
+    'Responsive Title',
+    style: TextStyle(fontSize: 24.sp), // Scaled font
+  ),
+)
+```
+
+| Extension | Unit | Description |
+| :--- | :--- | :--- |
+| `.w` | Width | Scales based on screen width |
+| `.h` | Height | Scales based on screen height |
+| `.sp` | Font Size | Scales based on width (recommended for text) |
+| `.sw` / `.sh` | Screen % | Percentage of screen 0.0 - 100.0 |
 
 ---
 
@@ -25,29 +81,7 @@ In your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flartdart: ^1.3.0
-```
-
-### 2. A Simple Reactive App
-
-```dart
-import 'package:flartdart/flartdart.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FDMaterialApp(
-      title: 'Flart App',
-      home: const HomePage(),
-    );
-  }
-}
+  flartdart: ^1.4.0
 ```
 
 ---
@@ -128,7 +162,7 @@ class MyPainter extends CustomPainter {
 
 ---
 
-## � Async Flow & Builders
+## 📡 Async Flow & Builders
 
 Flart brings Flutter's signature async patterns to Dart web. Use `StreamBuilder` for real-time data flows and `FutureBuilder` for one-time fetches.
 
@@ -147,29 +181,30 @@ FDStreamBuilder<int>(
 )
 ```
 
-### 🔨 Builders
-Need a new context or theme data deeper in the tree? Use `FDBuilder`:
+---
 
-```dart
-FDBuilder(
-  builder: (context) {
-    final theme = Theme.of(context);
-    return FDContainer(color: theme.primaryColor);
-  },
-)
+## 🛠️ Building for Production
+
+To build your application for production:
+
+```bash
+flartdart build --release
 ```
+
+Optimization and tree-shaking are handled automatically by the CLI.
 
 ---
 
-## �🏗️ Building for Production
+## 💳 Support the Project
 
-Flart is designed to be lightweight. To bundle your app:
+If you love Flartdart and find it useful, consider supporting our development! Your contributions help us maintain the framework and build new features.
 
-1.  **Compile to Javascript**:
-    ```bash
-    dart compile js -O2 web/main.dart -o build/main.js
-    ```
-2.  **Optimize**: Use the `-O2` or `-O4` flags for tree-shaking and minification.
+[!["Support via PayPal"](https://img.shields.io/badge/Donate-PayPal-blue.svg?style=for-the-badge&logo=paypal)](https://www.paypal.com/donate/?hosted_button_id=QAK2GKLN4QDVW)
+
+You can also use the CLI at any time to get the support link:
+```bash
+flartdart donate
+```
 
 ---
 

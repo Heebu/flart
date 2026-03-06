@@ -6,7 +6,7 @@ void setupFlartPickersBridge() {
     final input = document.getElementById(id) as InputElement?;
     if (input != null && input.value != null) {
       final date = DateTime.parse(input.value!);
-      print("📅 Date picked globally: $date");
+      print('📅 Date picked globally: $date');
     }
   });
 
@@ -14,7 +14,7 @@ void setupFlartPickersBridge() {
     final input = document.getElementById(id) as InputElement?;
     if (input != null && input.value != null) {
       final time = input.value!;
-      print("⏰ Time picked globally: $time");
+      print('⏰ Time picked globally: $time');
     }
   });
 }

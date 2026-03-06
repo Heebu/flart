@@ -19,8 +19,8 @@ class FDDataTable<T> extends Widget {
     this.horizontalMargin = 24.0,
     this.showCheckboxColumn = false,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {

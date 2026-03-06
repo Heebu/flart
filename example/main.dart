@@ -7,7 +7,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class CounterViewModel extends ViewModel {
 }
 
 class CounterPage extends StatefulWidget {
-  const CounterPage({Key? key}) : super(key: key);
+  const CounterPage({super.key});
 
   @override
   State<CounterPage> createState() => _CounterPageState();
@@ -167,7 +167,7 @@ class _CounterPageState extends State<CounterPage> {
 // Scoped stateful widget exclusively for rebuilding the text
 class _CounterDisplay extends StatefulWidget {
   final CounterViewModel model;
-  const _CounterDisplay({required this.model, Key? key}) : super(key: key);
+  const _CounterDisplay({required this.model});
 
   @override
   State<_CounterDisplay> createState() => _CounterDisplayState();
@@ -213,8 +213,7 @@ class _ActionButton extends StatelessWidget {
     required this.onPressed,
     required this.color,
     this.isLarge = false,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

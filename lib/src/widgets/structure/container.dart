@@ -1,8 +1,4 @@
-﻿import '../../../flartdart.dart';
-import '../widget.dart';
-import '../../styles/box_decoration.dart';
-import '../../styles/edge_insets.dart';
-import '../../styles/alignment.dart';
+import '../../../flartdart.dart';
 
 class FDContainer extends Widget {
   final Widget? child;
@@ -25,8 +21,8 @@ class FDContainer extends Widget {
     this.alignment,
     this.cssStyle,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {

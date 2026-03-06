@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDRow extends Widget {
   final List<Widget> children;
@@ -13,8 +13,8 @@ class FDRow extends Widget {
     this.spacing,
     this.cssStyle,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final double? spacing;
 

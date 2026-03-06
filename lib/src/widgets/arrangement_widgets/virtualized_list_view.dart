@@ -15,8 +15,8 @@ class FDVirtualizedListView extends StatefulWidget {
     required this.itemBuilder,
     this.scrollDirection = Axis.vertical,
     this.padding,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<FDVirtualizedListView> createState() => _FDVirtualizedListViewState();
@@ -29,7 +29,7 @@ class _FDVirtualizedListViewState extends State<FDVirtualizedListView> {
   @override
   void initState() {
     super.initState();
-    _containerId = 'v-list-${hashCode}';
+    _containerId = 'v-list-$hashCode';
 
     // We need to listen to scroll events after the first render
     Future.delayed(Duration.zero, () {

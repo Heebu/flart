@@ -21,8 +21,8 @@ class FDSliverAppBar extends StatefulWidget {
     this.flexibleSpace,
     this.pinned = true,
     this.elevation = 4.0,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<FDSliverAppBar> createState() => _FDSliverAppBarState();
@@ -35,7 +35,7 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
   @override
   void initState() {
     super.initState();
-    _scrollListenerId = 'sliver_app_bar_${hashCode}';
+    _scrollListenerId = 'sliver_app_bar_$hashCode';
 
     // We need to listen to the nearest scrollable parent
     // In Flart's current architecture, this is often the body or a ScrollView

@@ -5,9 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.4.0] - 2026-03-01
+## [1.4.0] - 2026-03-06
 
-### 🚀 Major Framework Upgrades
+### 🚀 Major CLI & Tooling Upgrades
+- **Integrated CLI**: A powerful `flartdart` tool for project management.
+  - `flartdart run`: Serve application with Hot Reload.
+  - `flartdart build`: Optimized production bundling.
+  - `flartdart test`: Integrated test runner.
+  - `flartdart clean`: Efficiently wipe build artifacts and caches.
+  - `flartdart doctor`: Detailed environment diagnostics.
+  - `flartdart fix`: Automatic application of code fixes.
+- **Responsive Framework**: Introduced `ScreenUtil` and numeric extensions (`.w`, `.h`, `.sp`, `.sw`, `.sh`).
+  - Native support for responsive scaling across desktop (1440x900 default) and mobile.
+  - High-performance scaling for fonts and layouts.
+
+### 🌟 Framework Core Upgrades
 - **Reactive State Management**: Introduced a robust `StatefulWidget` and `State` architecture that perfectly scopes DOM repaints to individual component wrappers. Say goodbye to full-page re-renders!
 - **Pure CSS Animations**: Overhauled `FDAnimate` to dynamically inject highly performant `@keyframes` animations instead of relying on inline JS `requestAnimationFrame`. Wait-for-mount delays and multi-step animations now work flawlessly.
 - **Form Controls & Inputs**: Added the comprehensive `FDEditableText` and refactored `FDTextField`. These now natively bind to `TextEditingController` which extends the newly introduced pure-Dart `ChangeNotifier`. Inputs maintain their focus and cursor position smoothly across renders.
@@ -22,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `FDViewModelBuilder` no longer forces page-level rebuilds.
 - `FDGestureDetector` properly wraps bounds and avoids destroying CSS border/border-radius geometry.
 - The default flart starter template has been optimized into an ultra-clean, standalone `main.dart` demonstrating the core reactivity features.
+- Fixed CLI boilerplate generator to use POSIX-compliant paths and include `test` dependencies by default.
 
 ---
 

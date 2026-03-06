@@ -10,8 +10,8 @@ This guide ensures that your release to [pub.dev](https://pub.dev) is smooth, pr
 
 ### 2. Code Quality
 - [ ] Run formatter: `dart format .`
-- [ ] Run analyzer: `dart analyze` (ensure 0 errors/warnings).
-- [ ] Run tests: `dart test` (ensure 100% pass rate).
+- [ ] Run analyzer: `flartdart analyze` (ensure 0 errors/warnings).
+- [ ] Run tests: `flartdart test` (ensure 100% pass rate).
 
 ### 3. CLI Verification
 - [ ] Ensure the `executables` section in `pubspec.yaml` is correct:
@@ -19,7 +19,7 @@ This guide ensures that your release to [pub.dev](https://pub.dev) is smooth, pr
   executables:
     flartdart: flartdart
   ```
-- [ ] Test CLI locally: `dart run bin/flartdart.dart create test_proj`
+- [ ] Test CLI locally: `flartdart doctor` and `flartdart create test_proj`
 
 ### 4. Documentation
 - [ ] Update `README.md` with new features or API changes.
@@ -28,7 +28,7 @@ This guide ensures that your release to [pub.dev](https://pub.dev) is smooth, pr
 
 ### 5. Example Project
 - [ ] Verify the `example/` project builds and runs without errors.
-- [ ] Test production build: `dart run build_runner build --output build` in the example directory.
+- [ ] Test production build: `flartdart build --release` in the example directory.
 
 ---
 

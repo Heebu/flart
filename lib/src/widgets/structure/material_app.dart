@@ -1,4 +1,4 @@
-﻿import 'dart:html';
+import 'dart:html';
 import '../../../flartdart.dart';
 
 class FDMaterialApp extends Widget {
@@ -163,8 +163,9 @@ class FDMaterialApp extends Widget {
   }
 
   void _injectMaterialIcons() {
-    if (document.head?.querySelector('link[href*="Material+Icons"]') != null)
+    if (document.head?.querySelector('link[href*="Material+Icons"]') != null) {
       return;
+    }
     final iconLink = LinkElement()
       ..rel = 'stylesheet'
       ..href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
@@ -174,7 +175,9 @@ class FDMaterialApp extends Widget {
   void _injectGoogleFont(String fontFamily) {
     if (document.head?.querySelector(
             'link[href*="fonts.googleapis.com/css2?family=${fontFamily.replaceAll(" ", "+")}"]') !=
-        null) return;
+        null) {
+      return;
+    }
     final fontLink = LinkElement()
       ..rel = 'stylesheet'
       ..href =

@@ -54,8 +54,8 @@ class FDTextField extends StatelessWidget {
     this.suffixIcon,
     this.cssStyle,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class FDTextField extends StatelessWidget {
         ? (theme.textStyle.color as FlartColor).lerp(FlartColors.grey, 0.5).toString()
         : '#888888';
 
-    final textFieldId = 'tf_${hashCode}';
+    final textFieldId = 'tf_$hashCode';
 
     return FDContainer(
       cssStyle: {

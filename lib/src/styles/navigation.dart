@@ -1,4 +1,4 @@
-﻿import '../widgets/widget.dart';
+import '../widgets/widget.dart';
 import '../widgets/utils/build_context.dart';
 import '../../run_app.dart';
 import 'dart:html';
@@ -193,7 +193,7 @@ class PageNavigator {
 
   static String _buildRouteUrl(String routeName, Map<String, String>? params) {
     final query = params != null && params.isNotEmpty
-        ? '?' + params.entries.map((e) => '${e.key}=${e.value}').join('&')
+        ? '?${params.entries.map((e) => '${e.key}=${e.value}').join('&')}'
         : '';
     return '#$routeName$query';
   }

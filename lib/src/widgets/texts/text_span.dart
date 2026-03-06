@@ -1,6 +1,5 @@
-﻿import 'package:flartdart/flartdart.dart';
+import 'package:flartdart/flartdart.dart';
 
-import '../../styles/text_style.dart';
 
 class TextSpan {
   final String text;

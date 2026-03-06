@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDCenter extends Widget {
   final Widget child;
@@ -7,8 +7,8 @@ class FDCenter extends Widget {
   const FDCenter({
     required this.child,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {

@@ -1,4 +1,3 @@
-﻿import 'package:flartdart/src/widgets/structure/icons.dart';
 import '../../../flartdart.dart';
 import '../../helper/callback_manager.dart';
 
@@ -13,8 +12,8 @@ class FDIconButton extends Widget {
     this.onPressed,
     this.cssStyle,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {

@@ -25,8 +25,8 @@ class FDAnimate extends Widget {
     this.scale,
     this.fadeIn = true,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {

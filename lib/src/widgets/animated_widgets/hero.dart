@@ -8,8 +8,8 @@ class Hero extends StatefulWidget {
   const Hero({
     required this.tag,
     required this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<Hero> createState() => _HeroState();
@@ -18,11 +18,6 @@ class Hero extends StatefulWidget {
 class _HeroState extends State<Hero> {
   static final Map<Object, Rectangle> _heroRects = {};
 
-  @override
-  void initState() {
-    super.initState();
-    // In a real framework, we would use a more robust way to track layout
-  }
 
   @override
   Widget build(BuildContext context) {

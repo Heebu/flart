@@ -17,6 +17,7 @@ This guide provides a comprehensive reference for the 100+ widgets available in 
 9.  [Media & Web Widgets](#9-media--web-widgets)
 10. [Picker Widgets](#10-picker-widgets)
 11. [Painting & Drawing](#11-painting--drawing)
+12. [Responsive Sizing](#12-responsive-sizing)
 
 ---
 
@@ -361,6 +362,45 @@ FDCustomPaint(
   size: Size(200, 200),
 )
 ```
+
+---
+
+## 12. Responsive Sizing
+
+Flart allows for effortless design scaling using the `.w`, `.h`, and `.sp` numeric extensions.
+
+### ScreenUtil
+Initializes the scaling factors based on your design dimensions (defaults to 1440x900).
+
+```dart
+void main() {
+  // Initialize with your design's width and height
+  ScreenUtil.init(width: 1440, height: 900);
+  runApp(const MyApp());
+}
+```
+
+### Usage Examples
+Maintain consistent proportions across different screen sizes:
+
+```dart
+FDContainer(
+  width: 200.w,   // Adapts to width
+  height: 100.h,  // Adapts to height
+  margin: EdgeInsets.all(16.w),
+  child: FDText(
+    'Scaling Text',
+    style: TextStyle(fontSize: 18.sp), // Adapts font size
+  ),
+)
+```
+
+| Unit | Property | Target |
+| :--- | :--- | :--- |
+| `.w` | Width | Horizontal scaling |
+| `.h` | Height | Vertical scaling |
+| `.sp` | Text Size | Width-based font scaling |
+| `.sw` / `.sh` | Screensize | Percentage of viewport (0-100) |
 
 ---
 

@@ -1,7 +1,5 @@
-import '../widgets/widget.dart';
 import '../widgets/utils/build_context.dart';
 import '../widgets/inherited_widget.dart';
-import '../foundation/key.dart';
 import 'colors.dart';
 import 'text_style.dart';
 
@@ -89,9 +87,9 @@ class Theme extends InheritedWidget {
 
   const Theme({
     required this.data,
-    required Widget child,
-    Key? key,
-  }) : super(child: child, key: key);
+    required super.child,
+    super.key,
+  });
 
   static ThemeData of(BuildContext context) {
     final inheritedTheme = context.dependOnInheritedWidgetOfExactType<Theme>();

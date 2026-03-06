@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDColumn extends Widget {
   final List<Widget> children;
@@ -14,8 +14,8 @@ class FDColumn extends Widget {
     this.spacing,
     this.cssStyle,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final double? spacing;
 

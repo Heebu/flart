@@ -1,6 +1,5 @@
 import '../../../flartdart.dart';
 import '../../helper/callback_manager.dart';
-import '../utils/raw_html.dart';
 
 typedef OnTextChanged = void Function(String value);
 typedef OnTextSubmitted = void Function(String value);
@@ -30,8 +29,8 @@ class FDEditableText extends StatefulWidget {
     this.padding,
     this.cssStyle,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<FDEditableText> createState() => _FDEditableTextState();

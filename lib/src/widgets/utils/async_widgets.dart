@@ -54,8 +54,8 @@ class FDStreamBuilder<T> extends StatefulWidget {
     this.stream,
     this.initialData,
     required this.builder,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<FDStreamBuilder<T>> createState() => _FDStreamBuilderState<T>();
@@ -144,8 +144,8 @@ class FDFutureBuilder<T> extends StatefulWidget {
     this.future,
     this.initialData,
     required this.builder,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<FDFutureBuilder<T>> createState() => _FDFutureBuilderState<T>();
@@ -205,8 +205,8 @@ class FDBuilder extends StatelessWidget {
 
   const FDBuilder({
     required this.builder,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

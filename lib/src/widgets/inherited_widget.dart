@@ -3,7 +3,7 @@ import '../../flartdart.dart';
 abstract class InheritedWidget extends Widget {
   final Widget child;
 
-  const InheritedWidget({required this.child, Key? key}) : super(key: key);
+  const InheritedWidget({required this.child, super.key});
 
   @override
   String render(BuildContext context) {

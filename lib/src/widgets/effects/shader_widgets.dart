@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 /// Base shader widget with customizable shader code
 class ShaderWidget extends Widget {
@@ -43,22 +43,22 @@ class ShaderWidget extends Widget {
           }
           
           // Vertex shader
-          const vertexShaderSource = \`
+          const vertexShaderSource = `
             attribute vec2 position;
             void main() {
               gl_Position = vec4(position, 0.0, 1.0);
             }
-          \`;
+          `;
           
           // Fragment shader
-          const fragmentShaderSource = \`
+          const fragmentShaderSource = `
             precision mediump float;
             uniform vec2 resolution;
             uniform float time;
             ${uniforms?.entries.map((e) => 'uniform ${_getUniformType(e.value)} ${e.key};').join('\n') ?? ''}
             
             $fragmentShader
-          \`;
+          `;
           
           // Compile shaders
           function compileShader(source, type) {

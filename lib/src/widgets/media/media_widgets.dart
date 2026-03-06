@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 /// A video player widget
 class VideoPlayer extends Widget {
@@ -36,8 +36,8 @@ class VideoPlayer extends Widget {
       <video
         id="$id"
         src="$src"
-        ${width != null ? 'width="${width}"' : ''}
-        ${height != null ? 'height="${height}"' : ''}
+        ${width != null ? 'width="$width"' : ''}
+        ${height != null ? 'height="$height"' : ''}
         ${autoplay ? 'autoplay' : ''}
         ${controls ? 'controls' : ''}
         ${loop ? 'loop' : ''}

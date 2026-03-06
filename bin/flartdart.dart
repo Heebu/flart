@@ -23,6 +23,7 @@ void main(List<String> arguments) async {
     ..addCommand('analyze', ArgParser())
     ..addCommand('doctor', ArgParser())
     ..addCommand('fix', ArgParser())
+    ..addCommand('donate', ArgParser())
     ..addFlag('help', abbr: 'h', negatable: false, help: 'Show this help');
 
   ArgResults results;
@@ -67,6 +68,8 @@ void main(List<String> arguments) async {
     await _runDoctor();
   } else if (command?.name == 'fix') {
     await _runFix();
+  } else if (command?.name == 'donate') {
+    await _runDonate();
   } else {
     _printUsage(parser);
   }
@@ -87,18 +90,33 @@ void _printUsage(ArgParser parser) {
   print('  analyze                 Run dart analyzer on the project');
   print('  doctor                  Check the environment setup');
   print('  fix                     Apply automated fixes for common issues');
+  print('  donate                  Support the project developers');
   print('\nOptions:');
   print(parser.usage);
+}
+
+Future<void> _runDonate() async {
+  print('\n💳 Support Flartdart');
+  print('-----------------');
+  print('If you find Flartdart useful, please consider supporting us!');
+  print('Your support helps us maintain the project and build new features.');
+  print(
+      '\nDonate via PayPal: https://www.paypal.com/donate/?hosted_button_id=QAK2GKLN4QDVW');
+  print('\nThank you for being part of the community! ❤️\n');
 }
 
 Future<void> _runApp(bool release, String port) async {
   print(
       '🚀 Starting Flartdart application in ${release ? 'RELEASE' : 'DEBUG'} mode on port $port...');
 
-  final mode = release ? 'release' : 'debug';
+  final args = ['run', 'build_runner', 'serve', 'web:$port'];
+  if (release) {
+    args.add('--release');
+  }
+
   final process = await Process.start(
     'dart',
-    ['run', 'build_runner', 'serve', 'web:$port', '--$mode'],
+    args,
     mode: ProcessStartMode.inheritStdio,
   );
 
@@ -109,9 +127,14 @@ Future<void> _buildApp(bool release) async {
   print(
       '🏗 Building Flartdart application for ${release ? 'RELEASE' : 'DEBUG'}...');
 
+  final args = ['run', 'build_runner', 'build', '--output', 'web:build'];
+  if (release) {
+    args.add('--release');
+  }
+
   final process = await Process.start(
     'dart',
-    ['run', 'build_runner', 'build', '--release', '--output', 'web:build'],
+    args,
     mode: ProcessStartMode.inheritStdio,
   );
 

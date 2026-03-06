@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 /// A FDCard widget with elevation and rounded corners
 class FDCard extends Widget {
@@ -20,8 +20,8 @@ class FDCard extends Widget {
     this.borderRadius,
     this.cssStyle,
     this.rawCss,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   String render(BuildContext context) {
