@@ -1,0 +1,8 @@
+.idea/
+.dart_tool/
+build/
+my_apps/
+idris_project/
+tmp/
+*.diff
+*.log

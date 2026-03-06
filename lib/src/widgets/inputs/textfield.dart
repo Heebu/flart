@@ -60,24 +60,15 @@ class FDTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
-    
-    // Create an internal controller if none provided
-    final effectiveController = controller ?? TextEditingController(text: initialValue ?? '');
 
-    final bgColor = backgroundColor?.toString() ?? theme.cardColor.toString();
-    final border = borderColor?.toString() ?? theme.dividerColor.toString();
-    final focusBorder = focusedBorderColor?.toString() ?? theme.primaryColor.toString();
-    final errorColor = theme.errorColor.toString();
+    // Create an internal controller if none provided
+    final effectiveController =
+        controller ?? TextEditingController(text: initialValue ?? '');
 
     final radius = borderRadius ?? 4.0;
-    final pad = padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 8);
+    final pad =
+        padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 8);
     final hasError = errorText != null;
-
-    final placeholderColor = theme.textStyle.color is FlartColor
-        ? (theme.textStyle.color as FlartColor).lerp(FlartColors.grey, 0.5).toString()
-        : '#888888';
-
-    final textFieldId = 'tf_$hashCode';
 
     return FDContainer(
       cssStyle: {
@@ -98,13 +89,14 @@ class FDTextField extends StatelessWidget {
                 color: theme.textStyle.color,
               ),
             ),
-          
           FDContainer(
             decoration: BoxDecoration(
               color: backgroundColor ?? theme.cardColor,
               borderRadius: BorderRadius.circular(radius),
               border: Border.all(
-                color: hasError ? theme.errorColor : (borderColor ?? theme.dividerColor),
+                color: hasError
+                    ? theme.errorColor
+                    : (borderColor ?? theme.dividerColor),
                 width: 1,
               ),
             ),
@@ -128,7 +120,6 @@ class FDTextField extends StatelessWidget {
                     ${rawCss ?? ''}
                   ''',
                 ),
-                
                 if (prefixIcon != null)
                   FDPositioned(
                     left: 8,
@@ -136,7 +127,6 @@ class FDTextField extends StatelessWidget {
                     bottom: 0,
                     child: FDCenter(child: prefixIcon!),
                   ),
-                  
                 if (suffixIcon != null)
                   FDPositioned(
                     right: 8,
@@ -147,7 +137,6 @@ class FDTextField extends StatelessWidget {
               ],
             ),
           ),
-          
           if (errorText != null)
             FDText(
               errorText!,

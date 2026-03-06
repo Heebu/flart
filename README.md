@@ -6,7 +6,7 @@ FlartDart brings the power, reactivity, and declarative UI of Flutter to the web
 
 ---
 
-## 🌟 Key Features (v1.4.0)
+## 🌟 Key Features (v1.5.0)
 
 *   **Integrated CLI**: A powerful `flartdart` tool for project creation, serving, and building.
 *   **Responsive Power**: Built-in `ScreenUtil` and numeric extensions (`.w`, `.h`, `.sp`) for perfect UI across devices.
@@ -81,7 +81,7 @@ In your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flartdart: ^1.4.0
+  flartdart: ^1.5.0
 ```
 
 ---
