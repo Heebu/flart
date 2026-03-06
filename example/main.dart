@@ -1,6 +1,8 @@
 import 'package:flartdart/flartdart.dart';
 
 void main() {
+  // Initialize Responsive Utility with desktop design size (1440x900)
+  ScreenUtil.init();
   runApp(const MyApp());
 }
 
@@ -61,7 +63,7 @@ class _CounterPageState extends State<CounterPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Entry animation for the header
-            const FDAnimate(
+            FDAnimate(
               fadeIn: true,
               slideY: -20,
               duration: Duration(milliseconds: 800),
@@ -71,7 +73,7 @@ class _CounterPageState extends State<CounterPage> {
                   FDText(
                     'Flart Experience',
                     style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 16.0.sp,
                       color: FlartColors.grey,
                       letterSpacing: 2.0,
                     ),
@@ -80,7 +82,7 @@ class _CounterPageState extends State<CounterPage> {
                   FDText(
                     'Reactive Counter',
                     style: TextStyle(
-                      fontSize: 32.0,
+                      fontSize: 32.0.sp,
                       fontWeight: FontWeight.bold,
                       color: FlartColor('#6366f1'),
                     ),
@@ -89,7 +91,7 @@ class _CounterPageState extends State<CounterPage> {
               ),
             ),
 
-            const FDSizedBox(height: 60),
+            FDSizedBox(height: 60.h),
 
             // The animated counter value wrapper
             FDAnimate(
@@ -98,7 +100,8 @@ class _CounterPageState extends State<CounterPage> {
               duration: const Duration(milliseconds: 600),
               delay: const Duration(milliseconds: 100),
               child: FDContainer(
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                 decoration: BoxDecoration(
                   color: FlartColors.white,
                   borderRadius: BorderRadius.circular(24),
@@ -115,7 +118,7 @@ class _CounterPageState extends State<CounterPage> {
               ),
             ),
 
-            const FDSizedBox(height: 60),
+            FDSizedBox(height: 60.h),
 
             // Control buttons
             FDAnimate(
@@ -128,11 +131,11 @@ class _CounterPageState extends State<CounterPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 spacing: 20,
                 children: [
-                   _ActionButton(
+                  _ActionButton(
                     icon: FDIcons.remove,
                     onPressed: _model.decrement,
                     color: FlartColors.red,
-                     isLarge: true,
+                    isLarge: true,
                   ),
                   _ActionButton(
                     icon: FDIcons.add,
@@ -144,7 +147,7 @@ class _CounterPageState extends State<CounterPage> {
               ),
             ),
 
-            const FDSizedBox(height: 40),
+            FDSizedBox(height: 40.h),
 
             FDAnimate(
               fadeIn: true,

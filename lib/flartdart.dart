@@ -46,6 +46,7 @@ export 'src/styles/colors.dart';
 export 'src/styles/edge_insets.dart';
 export 'src/styles/flart_gradient.dart';
 export 'src/styles/media_querry.dart';
+export 'src/styles/responsive_utils.dart';
 export 'src/styles/navigation.dart';
 export 'src/styles/text_style.dart';
 export 'src/styles/shape.dart';
