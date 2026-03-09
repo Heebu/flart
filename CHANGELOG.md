@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] - 2026-03-09
+
+### 🛠️ Improvements & Fixes
+- **CLI Development Server**: Fixed the `flartdart run` command to successfully bind `webdev serve` inside Windows environments by running in shell mode. Starter projects are now generated with the `webdev` dependency automatically.
+- **Type Safety**: Upgraded the entire UI framework to Dart 3 strict typing (`strict-casts`, `strict-inference`, `strict-raw-types`), refactoring core classes like `FDFormFieldState` and `FDStreamBuilder` for enhanced type stability.
+- **Quality Gates**: Adopted rigorous formatting (`dart format`) and static analysis rules to enforce an enterprise-level standard moving forward.
+
 ## [1.5.0] - 2026-03-06
 
 ### 🚀 Major CLI & Tooling Upgrades
