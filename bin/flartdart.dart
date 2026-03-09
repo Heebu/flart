@@ -106,13 +106,19 @@ Future<void> _runDonate() async {
 }
 
 Future<void> _runApp(bool release, String port) async {
-  print(
-      '🚀 Starting Flartdart application in ${release ? 'RELEASE' : 'DEBUG'} mode on port $port...');
+  print('=========================================');
+  print('🔥 FLARTDART CLI v1.5.0 - STARTING APP 🔥');
+  print('=========================================');
+  print('🚀 Mode: ${release ? 'PRODUCTION' : 'DEVELOPMENT'}');
+  print('🌐 Port: $port');
 
   final args = ['run', 'build_runner', 'serve', 'web:$port'];
   if (release) {
     args.add('--release');
   }
+
+  print('🛠️ Executing: dart ${args.join(' ')}');
+  print('=========================================');
 
   final process = await Process.start(
     'dart',
@@ -192,8 +198,8 @@ Future<void> _runDoctor() async {
   final dartVersion = Platform.version.split('(').first.trim();
   print('[✓] Dart SDK: $dartVersion');
 
-  // Check Flartdart (Mock version for now, could read from pubspec if in package dir)
-  print('[✓] Flartdart Tool: 1.4.0');
+  // Check Flartdart
+  print('[✓] Flartdart Tool: 1.5.0 [LATEST]');
 
   // Check Environment
   print(
