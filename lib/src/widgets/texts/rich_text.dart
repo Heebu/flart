@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDRichText extends Widget {
   final TextSpan textSpan;
@@ -20,7 +20,6 @@ class FDRichText extends Widget {
   }
 }
 
-
 //FDRichText(
 //   textSpan: TextSpan(
 //     text: "Hello ",
@@ -36,6 +35,3 @@ class FDRichText extends Widget {
 //     ],
 //   ),
 // )
-
-
-

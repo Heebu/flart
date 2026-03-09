@@ -48,7 +48,7 @@ class BeginToken extends SimpleToken {
    * [offset].
    */
   BeginToken(TokenType type, int offset, [CommentToken? precedingComment])
-    : super(type, offset, precedingComment) {
+      : super(type, offset, precedingComment) {
     assert(
       type == TokenType.LT ||
           type == TokenType.OPEN_CURLY_BRACKET ||
@@ -734,14 +734,14 @@ class Keyword extends TokenType {
     bool isTopLevelKeyword = false,
     int precedence = NO_PRECEDENCE,
   }) : super(
-         index,
-         lexeme,
-         name,
-         precedence,
-         KEYWORD_TOKEN,
-         isModifier: isModifier,
-         isTopLevelKeyword: isTopLevelKeyword,
-       );
+          index,
+          lexeme,
+          name,
+          precedence,
+          KEYWORD_TOKEN,
+          isModifier: isModifier,
+          isTopLevelKeyword: isTopLevelKeyword,
+        );
 
   @override
   bool get isBuiltIn => keywordStyle == KeywordStyle.builtIn;
@@ -820,7 +820,7 @@ class LanguageVersionToken extends CommentToken {
   final int minor;
 
   LanguageVersionToken.from(String text, int offset, this.major, this.minor)
-    : super(TokenType.SINGLE_LINE_COMMENT, text, offset);
+      : super(TokenType.SINGLE_LINE_COMMENT, text, offset);
 }
 
 /**
@@ -885,7 +885,7 @@ class SimpleToken implements Token {
    * Initialize a newly created token to have the given [type] and [offset].
    */
   SimpleToken(TokenType type, int offset, [this._precedingComment])
-    : _typeAndOffset = (((offset + 1) << 8) | type.index) {
+      : _typeAndOffset = (((offset + 1) << 8) | type.index) {
     // See https://github.com/dart-lang/sdk/issues/50048 for details.
     assert(offset >= -1);
 
@@ -1030,7 +1030,7 @@ class StringToken extends SimpleToken {
    * with the given [value] at the given [offset].
    */
   StringToken(super.type, String value, super.offset, [super.precedingComment])
-    : _value = StringUtilities.intern(value);
+      : _value = StringUtilities.intern(value);
 
   @override
   bool get isIdentifier => kind == IDENTIFIER_TOKEN;
@@ -1127,7 +1127,7 @@ class ReplacementToken extends SyntheticToken {
   final Token replacedToken;
 
   ReplacementToken(TokenType type, this.replacedToken)
-    : super(type, replacedToken.offset) {
+      : super(type, replacedToken.offset) {
     precedingComments = replacedToken.precedingComments;
   }
 

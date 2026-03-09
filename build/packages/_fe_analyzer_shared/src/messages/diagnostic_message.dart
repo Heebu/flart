@@ -45,8 +45,8 @@ Uri? getMessageUri(CfeDiagnosticMessage message) {
   return message is FormattedMessage
       ? message.uri
       : message is DiagnosticMessageFromJson
-      ? message.uri
-      : null;
+          ? message.uri
+          : null;
 }
 
 /// This method is subject to change.

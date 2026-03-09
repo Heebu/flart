@@ -1,4 +1,4 @@
-﻿import 'dart:html';
+import 'dart:html';
 import 'src/widgets/widget.dart';
 import 'src/widgets/utils/build_context.dart';
 
@@ -39,7 +39,7 @@ void _ensureOverlayContainer() {
 
 void _renderApp() {
   if (_rootWidget == null || _appContainer == null) {
-    print('Cannot render: root widget or FDContainer is null');
+    print('Cannot render: root widget or app container is null');
     return;
   }
 

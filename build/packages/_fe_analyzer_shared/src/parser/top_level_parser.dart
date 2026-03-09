@@ -21,5 +21,6 @@ class TopLevelParser extends ClassMemberParser {
     Token token,
     DeclarationKind kind,
     String? enclosingDeclarationName,
-  ) => skipClassOrMixinOrExtensionBody(token);
+  ) =>
+      skipClassOrMixinOrExtensionBody(token);
 }

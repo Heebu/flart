@@ -1,4 +1,4 @@
-﻿library flartdart;
+library flartdart;
 
 // Core
 export 'src/widgets/widget.dart';
@@ -25,7 +25,7 @@ export 'src/foundation/offset.dart';
 export 'src/enums/axis.dart';
 export 'src/enums/axis_alignment.dart';
 export 'src/enums/grid_view_type.dart';
-export 'src/enums/indexed_widget_bulder.dart';
+export 'src/enums/indexed_widget_builder.dart';
 export 'src/enums/text_align.dart';
 export 'src/enums/text_tag.dart';
 export 'src/enums/text_input_type.dart';
@@ -45,7 +45,7 @@ export 'src/styles/box_shadow.dart';
 export 'src/styles/colors.dart';
 export 'src/styles/edge_insets.dart';
 export 'src/styles/flart_gradient.dart';
-export 'src/styles/media_querry.dart';
+export 'src/styles/media_query.dart';
 export 'src/styles/responsive_utils.dart';
 export 'src/styles/navigation.dart';
 export 'src/styles/text_style.dart';
@@ -74,8 +74,8 @@ export 'src/widgets/structure/gridview.dart' hide GridViewType;
 export 'src/widgets/structure/sized_box.dart';
 export 'src/widgets/structure/spacer.dart';
 export 'src/widgets/structure/vertical_divider.dart';
-export 'src/widgets/structure/buttom_nav_bar.dart';
-export 'src/widgets/structure/buttomnarbaritem.dart';
+export 'src/widgets/structure/bottom_nav_bar.dart';
+export 'src/widgets/structure/bottom_nav_bar_item.dart';
 export 'src/widgets/structure/expanded.dart';
 export 'src/widgets/structure/material_app.dart';
 export 'src/widgets/structure/card.dart';

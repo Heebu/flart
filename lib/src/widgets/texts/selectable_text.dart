@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDSelectableText extends Widget {
   final String content;
@@ -26,8 +26,6 @@ class FDSelectableText extends Widget {
   }
 }
 
-
-
 //FDSelectableText(
 //   'You can copy this.text.',
 //   style: TextStyle(
@@ -36,6 +34,3 @@ class FDSelectableText extends Widget {
 //   ),
 //   textAlign: TextAlign.center,
 // )
-
-
-

@@ -72,8 +72,11 @@ class _FDEditableTextState extends State<FDEditableText> {
 
     final baseStyle = {
       'padding': widget.padding?.toCss() ?? '8px',
-      'font-size': widget.style?.fontSize != null ? '${widget.style!.fontSize}px' : '16px',
-      'color': widget.style?.color?.toString() ?? theme.textStyle.color.toString(),
+      'font-size': widget.style?.fontSize != null
+          ? '${widget.style!.fontSize}px'
+          : '16px',
+      'color':
+          widget.style?.color?.toString() ?? theme.textStyle.color.toString(),
       'border': '1px solid ${theme.dividerColor}',
       'border-radius': '4px',
       'outline': 'none',
@@ -117,7 +120,8 @@ class _FDEditableTextState extends State<FDEditableText> {
         oninput="window.__flartHandleEvent('$onChangeCbId', this.value)"
         onkeydown="if(event.key === 'Enter') { window.__flartHandleEvent('$onSubmitCbId', this.value); this.blur(); }"
       />
-    '''.trim();
+    '''
+        .trim();
 
     return FDRawHTML(inputHtml);
   }

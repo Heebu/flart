@@ -175,7 +175,8 @@ TypeInfo computeType(
           return new ComplexTypeInfo(
             token,
             typeParamOrArg,
-          ).computeBuiltinOrVarAsType(required)..recovered = true;
+          ).computeBuiltinOrVarAsType(required)
+            ..recovered = true;
         }
       } else if (required || isGeneralizedFunctionType(next.next!)) {
         String? value = next.stringValue;
@@ -187,7 +188,8 @@ TypeInfo computeType(
           return new ComplexTypeInfo(
             token,
             typeParamOrArg,
-          ).computeBuiltinOrVarAsType(required)..recovered = true;
+          ).computeBuiltinOrVarAsType(required)
+            ..recovered = true;
         }
       }
     } else if (required) {
@@ -209,7 +211,8 @@ TypeInfo computeType(
         return new ComplexTypeInfo(
           token,
           computeTypeParamOrArg(next, inDeclaration),
-        ).computeBuiltinOrVarAsType(required)..recovered = true;
+        ).computeBuiltinOrVarAsType(required)
+          ..recovered = true;
       }
     }
     return noType;

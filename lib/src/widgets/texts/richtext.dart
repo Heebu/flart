@@ -1,4 +1,4 @@
-﻿// import '../../styles/text_style.dart';
+// import '../../styles/text_style.dart';
 // import '../widget.dart';
 // import 'text_span.dart';
 //
@@ -61,7 +61,3 @@
 //     buffer.write('</span>');
 //   }
 // }
-
-
-
-

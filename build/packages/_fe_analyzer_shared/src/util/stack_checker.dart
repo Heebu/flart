@@ -24,8 +24,7 @@ mixin StackChecker {
     Object? value,
   ) {
     if (!kind.check(value)) {
-      String message =
-          'Unexpected value `${value}` (${value.runtimeType}). '
+      String message = 'Unexpected value `${value}` (${value.runtimeType}). '
           'Expected ${kind}.';
       if (fileOffset != null) {
         // If offset is available report and internal problem to show the
@@ -117,13 +116,11 @@ mixin StackChecker {
     if (base != null) {
       int relativeStackHeight = stackHeight - base;
       if (relativeStackHeight < kinds.length) {
-        heightError =
-            "Too few elements on stack. "
+        heightError = "Too few elements on stack. "
             "Expected ${kinds.length}, found $relativeStackHeight.";
         success = false;
       } else if (relativeStackHeight > kinds.length) {
-        heightError =
-            "Too many elements on stack. "
+        heightError = "Too many elements on stack. "
             "Expected ${kinds.length}, found $relativeStackHeight.";
         success = false;
       }
@@ -132,8 +129,7 @@ mixin StackChecker {
       stackShift = relativeStackHeight - kinds.length;
     } else {
       if (stackHeight < kinds.length) {
-        heightError =
-            "Too few elements on stack. "
+        heightError = "Too few elements on stack. "
             "Expected ${kinds.length}, found $stackHeight.";
         success = false;
       }

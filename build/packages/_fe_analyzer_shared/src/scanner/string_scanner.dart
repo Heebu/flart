@@ -51,19 +51,19 @@ class StringScanner extends AbstractScanner {
     ScannerConfiguration? configuration,
     bool includeComments = false,
     LanguageVersionChanged? languageVersionChanged,
-  }) : _stringLengthMinusOne = _string.length - 1,
-       super(
-         configuration,
-         includeComments,
-         languageVersionChanged,
-         numberOfBytesHint: _string.length,
-       );
+  })  : _stringLengthMinusOne = _string.length - 1,
+        super(
+          configuration,
+          includeComments,
+          languageVersionChanged,
+          numberOfBytesHint: _string.length,
+        );
 
   StringScanner.recoveryOptionScanner(StringScanner super.copyFrom)
-    : _string = copyFrom._string,
-      _stringLengthMinusOne = copyFrom._stringLengthMinusOne,
-      scanOffset = copyFrom.scanOffset,
-      super.recoveryOptionScanner();
+      : _string = copyFrom._string,
+        _stringLengthMinusOne = copyFrom._stringLengthMinusOne,
+        scanOffset = copyFrom.scanOffset,
+        super.recoveryOptionScanner();
 
   @override
   StringScanner createRecoveryOptionScanner() {

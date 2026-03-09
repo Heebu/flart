@@ -631,7 +631,7 @@ class Parser {
       directiveState?.checkDeclaration();
       // Handle the edge case where a modifier is being used as an identifier
       return parseTopLevelMemberImpl(modifierStart);
-    } else if ( /* record type */ next.isA(TokenType.OPEN_PAREN)) {
+    } else if (/* record type */ next.isA(TokenType.OPEN_PAREN)) {
       directiveState?.checkDeclaration();
       return parseTopLevelMemberImpl(modifierStart);
     }
@@ -2628,8 +2628,7 @@ class Parser {
       // Recovery: Skip unexpected tokens and more with clauses.
       // Note that if we find a "with" we've seen one already (otherwise the
       // parseEnumWithClauseOpt call above would have found this 'with').
-      Token? skipToken =
-          recoveryEnumWith(
+      Token? skipToken = recoveryEnumWith(
             token,
             codes.codeMultipleClauses.withArgumentsOld("enum", "with"),
           ) ??
@@ -4630,15 +4629,13 @@ class Parser {
 
   Token insertBlock(Token token) {
     Token next = token.next!;
-    BeginToken beginGroup =
-        rewriter.insertToken(
-              token,
-              new SyntheticBeginToken(
-                TokenType.OPEN_CURLY_BRACKET,
-                next.offset,
-              ),
-            )
-            as BeginToken;
+    BeginToken beginGroup = rewriter.insertToken(
+      token,
+      new SyntheticBeginToken(
+        TokenType.OPEN_CURLY_BRACKET,
+        next.offset,
+      ),
+    ) as BeginToken;
     Token endGroup = rewriter.insertToken(
       beginGroup,
       new SyntheticToken(TokenType.CLOSE_CURLY_BRACKET, next.offset),
@@ -7301,8 +7298,7 @@ class Parser {
     Token next = token.next!;
     final Token beginToken = next;
     while (true) {
-      bool potentialNullAware =
-          (next.isA(TokenType.QUESTION) &&
+      bool potentialNullAware = (next.isA(TokenType.QUESTION) &&
           next.next!.isA(TokenType.OPEN_SQUARE_BRACKET));
       if (potentialNullAware && !checkedNullAware) {
         // While it's a potential null aware index it hasn't been checked.
@@ -9593,15 +9589,13 @@ class Parser {
         codes.codeExpectedButGot.withArgumentsOld('('),
       );
 
-      BeginToken openParen =
-          rewriter.insertToken(
-                forToken,
-                new SyntheticBeginToken(
-                  TokenType.OPEN_PAREN,
-                  leftParenthesis.offset,
-                ),
-              )
-              as BeginToken;
+      BeginToken openParen = rewriter.insertToken(
+        forToken,
+        new SyntheticBeginToken(
+          TokenType.OPEN_PAREN,
+          leftParenthesis.offset,
+        ),
+      ) as BeginToken;
 
       Token token;
       if (awaitToken != null) {

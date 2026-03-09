@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 import 'dart:html';
 
 class AnimatedContainer extends Widget {
@@ -76,8 +76,6 @@ class AnimatedContainer extends Widget {
   }
 }
 
-
-
 //final controller = AnimationController(
 //   duration: Duration(seconds: 2),
 //   onUpdate: (_) {},
@@ -95,5 +93,3 @@ class AnimatedContainer extends Widget {
 //
 // // then call this when needed
 // controller.forward();
-
-

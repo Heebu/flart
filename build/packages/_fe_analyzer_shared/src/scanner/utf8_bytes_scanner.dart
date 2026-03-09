@@ -92,14 +92,14 @@ class Utf8BytesScanner extends AbstractScanner {
     bool includeComments = false,
     LanguageVersionChanged? languageVersionChanged,
     bool allowLazyStrings = true,
-  }) : _bytesLengthMinusOne = _bytes.length - 1,
-       super(
-         configuration,
-         includeComments,
-         languageVersionChanged,
-         numberOfBytesHint: _bytes.length,
-         allowLazyStrings: allowLazyStrings,
-       ) {
+  })  : _bytesLengthMinusOne = _bytes.length - 1,
+        super(
+          configuration,
+          includeComments,
+          languageVersionChanged,
+          numberOfBytesHint: _bytes.length,
+          allowLazyStrings: allowLazyStrings,
+        ) {
     // Skip a leading BOM.
     if (containsBomAt(/* offset = */ 0)) {
       byteOffset += 3;
@@ -108,9 +108,9 @@ class Utf8BytesScanner extends AbstractScanner {
   }
 
   Utf8BytesScanner.createRecoveryOptionScanner(Utf8BytesScanner copyFrom)
-    : _bytes = copyFrom._bytes,
-      _bytesLengthMinusOne = copyFrom._bytesLengthMinusOne,
-      super.recoveryOptionScanner(copyFrom) {
+      : _bytes = copyFrom._bytes,
+        _bytesLengthMinusOne = copyFrom._bytesLengthMinusOne,
+        super.recoveryOptionScanner(copyFrom) {
     this.byteOffset = copyFrom.byteOffset;
     this.scanSlack = copyFrom.scanSlack;
     this.scanSlackOffset = copyFrom.scanSlackOffset;

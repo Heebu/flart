@@ -139,7 +139,8 @@ abstract class StatefulWidget extends Widget {
   String render(BuildContext context) {
     // Generate a unique key for this widget instance.
     // If a key is provided, we use it to maintain state across re-renders.
-    final safeRuntimeType = runtimeType.toString().replaceAll(RegExp(r'[<>]'), '_');
+    final safeRuntimeType =
+        runtimeType.toString().replaceAll(RegExp(r'[<>]'), '_');
     final stateKey = key != null
         ? '${safeRuntimeType}_${key.toString()}'
         : '${safeRuntimeType}_$hashCode';

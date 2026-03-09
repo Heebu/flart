@@ -1,5 +1,5 @@
 abstract class Key {
-  const factory Key(String value) = ValueKey;
+  const factory Key(String value) = ValueKey<String>;
   const Key._();
 }
 

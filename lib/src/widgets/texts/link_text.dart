@@ -1,4 +1,4 @@
-﻿import '../../helper/callback_manager.dart';
+import '../../helper/callback_manager.dart';
 import '../../../flartdart.dart';
 
 class FDLinkText extends Widget {
@@ -61,8 +61,6 @@ class FDLinkText extends Widget {
   }
 }
 
-
-
 //FDLinkText(
 //   label: 'Click to visit Flart',
 //   href: 'https://flart.dev', // Opens in new tab
@@ -73,5 +71,3 @@ class FDLinkText extends Widget {
 //     color: FlartColor('#0057ff'),
 //   ),
 // )
-
-

@@ -49,8 +49,7 @@ const String WHITE_COLOR = "\x1b[37m";
 /// All the above codes. This is used to compare the above codes to the
 /// terminal's. Printing this string should have the same effect as just
 /// printing [DEFAULT_COLOR].
-const String ALL_CODES =
-    BLACK_COLOR +
+const String ALL_CODES = BLACK_COLOR +
     RED_COLOR +
     GREEN_COLOR +
     YELLOW_COLOR +

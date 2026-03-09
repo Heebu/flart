@@ -344,9 +344,8 @@ class DiagnosticMessageFromJson implements CfeDiagnosticMessage {
       decoded["plainTextFormatted"],
     );
     CfeSeverity severity = CfeSeverity.values[decoded["severity"] as int];
-    Uri? uri = decoded["uri"] == null
-        ? null
-        : Uri.parse(decoded["uri"] as String);
+    Uri? uri =
+        decoded["uri"] == null ? null : Uri.parse(decoded["uri"] as String);
     List<Uri>? involvedFiles = decoded["involvedFiles"] == null
         ? null
         : _asListOfString(

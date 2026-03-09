@@ -153,13 +153,13 @@ abstract class AbstractScanner implements Scanner {
     required int numberOfBytesHint,
     bool allowLazyStrings = true,
   }) : this._(
-         config,
-         includeComments,
-         languageVersionChanged,
-         new Token.eof(/* offset = */ -1),
-         numberOfBytesHint: numberOfBytesHint,
-         allowLazyStrings: allowLazyStrings,
-       );
+          config,
+          includeComments,
+          languageVersionChanged,
+          new Token.eof(/* offset = */ -1),
+          numberOfBytesHint: numberOfBytesHint,
+          allowLazyStrings: allowLazyStrings,
+        );
 
   AbstractScanner._(
     ScannerConfiguration? config,
@@ -168,30 +168,30 @@ abstract class AbstractScanner implements Scanner {
     Token newEofToken, {
     required int numberOfBytesHint,
     this.allowLazyStrings = true,
-  }) : lineStarts = new LineStarts(numberOfBytesHint),
-       inRecoveryOption = false,
-       tokens = newEofToken,
-       tail = newEofToken,
-       errorTail = newEofToken {
+  })  : lineStarts = new LineStarts(numberOfBytesHint),
+        inRecoveryOption = false,
+        tokens = newEofToken,
+        tail = newEofToken,
+        errorTail = newEofToken {
     this.configuration = config;
   }
 
   AbstractScanner createRecoveryOptionScanner();
 
   AbstractScanner.recoveryOptionScanner(AbstractScanner copyFrom)
-    : this._recoveryOptionScanner(copyFrom, new Token.eof(/* offset = */ -1));
+      : this._recoveryOptionScanner(copyFrom, new Token.eof(/* offset = */ -1));
 
   AbstractScanner._recoveryOptionScanner(
     AbstractScanner copyFrom,
     Token newEofToken,
-  ) : lineStarts = [],
-      includeComments = false,
-      languageVersionChanged = null,
-      inRecoveryOption = true,
-      allowLazyStrings = true,
-      tokens = newEofToken,
-      tail = newEofToken,
-      errorTail = newEofToken {
+  )   : lineStarts = [],
+        includeComments = false,
+        languageVersionChanged = null,
+        inRecoveryOption = true,
+        allowLazyStrings = true,
+        tokens = newEofToken,
+        tail = newEofToken,
+        errorTail = newEofToken {
     this._enableTripleShift = copyFrom._enableTripleShift;
     this.tokenStart = copyFrom.tokenStart;
     this.groupingStack = copyFrom.groupingStack;
@@ -840,11 +840,9 @@ abstract class AbstractScanner implements Scanner {
       }
 
       // The option-runs might have set invalid endGroup pointers. Reset them.
-      for (
-        Link<BeginToken> link = originalStack;
-        link.isNotEmpty;
-        link = link.tail!
-      ) {
+      for (Link<BeginToken> link = originalStack;
+          link.isNotEmpty;
+          link = link.tail!) {
         link.head.endToken = null;
       }
 
@@ -1516,9 +1514,8 @@ abstract class AbstractScanner implements Scanner {
             advance();
             return tokenizeFractionPart(nextnext, start, hasSeparators);
           } else {
-            TokenType tokenType = hasSeparators
-                ? TokenType.INT_WITH_SEPARATORS
-                : TokenType.INT;
+            TokenType tokenType =
+                hasSeparators ? TokenType.INT_WITH_SEPARATORS : TokenType.INT;
             appendSubstringToken(tokenType, start, /* asciiOnly = */ true);
             return next;
           }
@@ -1533,9 +1530,8 @@ abstract class AbstractScanner implements Scanner {
             ),
           );
         }
-        TokenType tokenType = hasSeparators
-            ? TokenType.INT_WITH_SEPARATORS
-            : TokenType.INT;
+        TokenType tokenType =
+            hasSeparators ? TokenType.INT_WITH_SEPARATORS : TokenType.INT;
         appendSubstringToken(tokenType, start, /* asciiOnly = */ true);
         return next;
       }
@@ -1745,9 +1741,8 @@ abstract class AbstractScanner implements Scanner {
       }
       next = advance();
     }
-    TokenType tokenType = hasSeparators
-        ? TokenType.DOUBLE_WITH_SEPARATORS
-        : TokenType.DOUBLE;
+    TokenType tokenType =
+        hasSeparators ? TokenType.DOUBLE_WITH_SEPARATORS : TokenType.DOUBLE;
     appendSubstringToken(tokenType, start, /* asciiOnly = */ true);
     return next;
   }
@@ -2481,7 +2476,7 @@ class LineStarts extends Object with ListMixin<int> {
   int arrayLength = 0;
 
   LineStarts(int numberOfBytesHint)
-    : array = _createInitialArray(numberOfBytesHint) {
+      : array = _createInitialArray(numberOfBytesHint) {
     // The first line starts at character offset 0.
     add(/* value = */ 0);
   }

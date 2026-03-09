@@ -18,9 +18,8 @@ String formatNumber(
   int padWidth = 0,
   bool padWithZeros = false,
 }) {
-  String s = fractionDigits == null
-      ? '$num'
-      : num.toStringAsFixed(fractionDigits);
+  String s =
+      fractionDigits == null ? '$num' : num.toStringAsFixed(fractionDigits);
   return s.padLeft(padWidth, padWithZeros ? '0' : ' ');
 }
 

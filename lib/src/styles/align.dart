@@ -1,4 +1,4 @@
-﻿class Aligns {
+class Aligns {
   final String x;
   final String y;
 
@@ -17,13 +17,8 @@
   static const bottomRight = Aligns('flex-end', 'flex-end');
 
   Map<String, String> toCss() => {
-    'display': 'flex',
-    'justify-content': x,
-    'align-items': y,
-  };
+        'display': 'flex',
+        'justify-content': x,
+        'align-items': y,
+      };
 }
-
-
-
-
-

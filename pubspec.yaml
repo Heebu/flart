@@ -11,6 +11,7 @@ environment:
 
 dependencies:
   args: ^2.4.0
+  web: ^1.1.0
   # No external dependencies - pure Dart web framework
 
 executables:
@@ -37,3 +38,4 @@ platforms:
 
 assets:
   - assets/
+

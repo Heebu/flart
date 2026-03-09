@@ -4,8 +4,8 @@
 
 import 'ast.dart';
 
-typedef GetFieldInitializer =
-    Expression? Function(FieldReference fieldReference);
+typedef GetFieldInitializer = Expression? Function(
+    FieldReference fieldReference);
 
 /// Evaluates an [expression] based on the semantics that can be deduced from
 /// the syntax.
@@ -37,8 +37,8 @@ class Evaluator {
   Evaluator({
     required GetFieldInitializer? getFieldInitializer,
     required Map<FieldReference, Expression>? dereferences,
-  }) : _getFieldInitializer = getFieldInitializer,
-       _dereferences = dereferences;
+  })  : _getFieldInitializer = getFieldInitializer,
+        _dereferences = dereferences;
 
   Expression evaluate(Expression expression) {
     return _visitExpression(expression);
@@ -113,12 +113,12 @@ class Evaluator {
         return switch (_isNull(receiver)) {
           NullValue.isNull => new NullLiteral(),
           NullValue.isNonNull => _visitExpression(
-            new PropertyGet(receiver, expression.name),
-          ),
+              new PropertyGet(receiver, expression.name),
+            ),
           NullValue.unknown => new NullAwarePropertyGet(
-            receiver,
-            expression.name,
-          ),
+              receiver,
+              expression.name,
+            ),
         };
       case TypeLiteral():
         return expression;
@@ -129,13 +129,13 @@ class Evaluator {
         return switch (condition) {
           BooleanLiteral(value: true) => _visitExpression(expression.then),
           BooleanLiteral(value: false) => _visitExpression(
-            expression.otherwise,
-          ),
+              expression.otherwise,
+            ),
           _ => new ConditionalExpression(
-            condition,
-            _visitExpression(expression.then),
-            _visitExpression(expression.otherwise),
-          ),
+              condition,
+              _visitExpression(expression.then),
+              _visitExpression(expression.otherwise),
+            ),
         };
       case ListLiteral():
         return new ListLiteral(
@@ -155,9 +155,9 @@ class Evaluator {
           NullValue.isNull => _visitExpression(expression.right),
           NullValue.isNonNull => left,
           NullValue.unknown => new IfNull(
-            left,
-            _visitExpression(expression.right),
-          ),
+              left,
+              _visitExpression(expression.right),
+            ),
         };
       case LogicalExpression():
         return _visitLogicalExpression(expression);
@@ -261,18 +261,18 @@ class Evaluator {
     Expression left = _visitExpression(expression.left);
     return switch (left) {
       BooleanLiteral(value: true) => switch (expression.operator) {
-        LogicalOperator.and => _visitExpression(expression.right),
-        LogicalOperator.or => left,
-      },
+          LogicalOperator.and => _visitExpression(expression.right),
+          LogicalOperator.or => left,
+        },
       BooleanLiteral(value: false) => switch (expression.operator) {
-        LogicalOperator.and => left,
-        LogicalOperator.or => _visitExpression(expression.right),
-      },
+          LogicalOperator.and => left,
+          LogicalOperator.or => _visitExpression(expression.right),
+        },
       _ => new LogicalExpression(
-        left,
-        expression.operator,
-        _visitExpression(expression.right),
-      ),
+          left,
+          expression.operator,
+          _visitExpression(expression.right),
+        ),
     };
   }
 

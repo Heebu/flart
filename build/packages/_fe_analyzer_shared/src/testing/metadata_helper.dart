@@ -14,11 +14,12 @@ import '../metadata/evaluate.dart';
 /// clutter, these tests use a `Helper` class which is omitted in the test
 /// output.
 Expression unwrap(Expression expression) {
-  if (expression case ConstructorInvocation(
-    type: NamedTypeAnnotation(reference: ClassReference(name: 'Helper')),
-    constructor: ConstructorReference(name: 'new'),
-    arguments: [PositionalArgument(expression: Expression argument)],
-  )) {
+  if (expression
+      case ConstructorInvocation(
+        type: NamedTypeAnnotation(reference: ClassReference(name: 'Helper')),
+        constructor: ConstructorReference(name: 'new'),
+        arguments: [PositionalArgument(expression: Expression argument)],
+      )) {
     return argument;
   }
   return expression;

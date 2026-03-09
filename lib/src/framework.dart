@@ -1,4 +1,3 @@
-
 import 'dart:html';
 
 abstract class Widget {
@@ -14,4 +13,3 @@ abstract class StatelessWidget extends Widget {
 
   Widget build();
 }
-

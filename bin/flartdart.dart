@@ -112,7 +112,7 @@ Future<void> _runApp(bool release, String port) async {
   print('🚀 Mode: ${release ? 'PRODUCTION' : 'DEVELOPMENT'}');
   print('🌐 Port: $port');
 
-  final args = ['run', 'build_runner', 'serve', 'web:$port'];
+  final args = ['run', 'webdev', 'serve', 'web:$port'];
   if (release) {
     args.add('--release');
   }
@@ -124,6 +124,7 @@ Future<void> _runApp(bool release, String port) async {
     'dart',
     args,
     mode: ProcessStartMode.inheritStdio,
+    runInShell: true,
   );
 
   await process.exitCode;
@@ -258,6 +259,7 @@ dev_dependencies:
   build_web_compilers: ^4.4.6
   lints: ^3.0.0
   test: ^1.24.0
+  webdev: ^3.3.0
 ''');
 
     // Create web/index.html

@@ -91,7 +91,7 @@ class _FDStreamBuilderState<T> extends State<FDStreamBuilder<T>> {
             _snapshot = AsyncSnapshot.withData(ConnectionState.active, data);
           });
         },
-        onError: (error) {
+        onError: (Object error) {
           setState(() {
             _snapshot = AsyncSnapshot.withError(ConnectionState.active, error);
           });

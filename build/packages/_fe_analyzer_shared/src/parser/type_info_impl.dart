@@ -560,8 +560,8 @@ class ComplexTypeInfo implements TypeInfo {
   bool recovered;
 
   ComplexTypeInfo(Token beforeStart, this.typeArguments)
-    : this.start = beforeStart.next!,
-      recovered = typeArguments.recovered;
+      : this.start = beforeStart.next!,
+        recovered = typeArguments.recovered;
 
   ComplexTypeInfo._nonNullable(
     this.start,
@@ -1345,8 +1345,8 @@ class ComplexTypeParamOrArgInfo extends TypeParamOrArgInfo {
     Token token,
     this.inDeclaration,
     this.allowsVariance,
-  ) : assert(token.next!.isA(TokenType.LT)),
-      start = token.next!;
+  )   : assert(token.next!.isA(TokenType.LT)),
+        start = token.next!;
 
   /// Parse the tokens and return the receiver or [noTypeParamOrArg] if there
   /// are no type parameters or arguments. This does not modify the token

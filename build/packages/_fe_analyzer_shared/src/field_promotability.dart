@@ -146,7 +146,7 @@ abstract class FieldPromotability<Class extends Object, Field, Getter> {
   /// determined to be unsafe to promote, and whose values are an instance of
   /// `FieldNameNonPromotabilityInfo` describing why.
   final Map<String, FieldNameNonPromotabilityInfo<Class, Field, Getter>>
-  _nonPromotabilityInfo = {};
+      _nonPromotabilityInfo = {};
 
   /// Map from a [Class] object to the [_ImplementedNode] that records the names
   /// of concrete fields and getters declared in or inherited by the [Class].
@@ -265,7 +265,7 @@ abstract class FieldPromotability<Class extends Object, Field, Getter> {
   /// The client should call this method once after all [Class]es, fields, and
   /// getters have been recorded using [addClass], [addField], and [addGetter].
   Map<String, FieldNameNonPromotabilityInfo<Class, Field, Getter>>
-  computeNonPromotabilityInfo() {
+      computeNonPromotabilityInfo() {
     // The names of private non-final fields and private getters have already
     // been added to [_unpromotableFieldNames] by [addField] and [addGetter]. So
     // all that remains to do is figure out which field names are unpromotable
@@ -323,7 +323,8 @@ abstract class FieldPromotability<Class extends Object, Field, Getter> {
   /// from [_nonPromotabilityInfo], creating it if necessary.
   FieldNameNonPromotabilityInfo<Class, Field, Getter> _fieldNonPromoInfo(
     String name,
-  ) => _nonPromotabilityInfo.putIfAbsent(name, FieldNameNonPromotabilityInfo._);
+  ) =>
+      _nonPromotabilityInfo.putIfAbsent(name, FieldNameNonPromotabilityInfo._);
 
   /// Gets or creates the [_ImplementedNode] for [class_].
   _ImplementedNode<Class> _getImplementedNode(Class class_) =>

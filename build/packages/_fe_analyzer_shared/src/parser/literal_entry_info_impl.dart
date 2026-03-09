@@ -332,7 +332,7 @@ class Nested extends LiteralEntryInfo {
   final LiteralEntryInfo lastStep;
 
   Nested(this.nestedStep, this.lastStep)
-    : super(hasEntry: false, ifConditionDelta: 0);
+      : super(hasEntry: false, ifConditionDelta: 0);
 
   @override
   bool get hasEntry => nestedStep!.hasEntry;

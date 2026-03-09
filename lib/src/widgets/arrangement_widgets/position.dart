@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDPositioned extends Widget {
   final Widget child;
@@ -31,6 +31,3 @@ class FDPositioned extends Widget {
     return '<div style="$styleString">${child.render(context)}</div>';
   }
 }
-
-
-

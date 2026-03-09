@@ -122,11 +122,8 @@ class TypeBasedStaticType<Type extends Object> extends NonNullableStaticType {
 }
 
 /// [StaticType] for an object restricted by its [restriction].
-abstract class RestrictedStaticType<
-  Type extends Object,
-  Identity extends Restriction
->
-    extends TypeBasedStaticType<Type> {
+abstract class RestrictedStaticType<Type extends Object,
+    Identity extends Restriction> extends TypeBasedStaticType<Type> {
   @override
   final Identity restriction;
 

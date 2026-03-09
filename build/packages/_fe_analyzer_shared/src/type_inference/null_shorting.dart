@@ -16,12 +16,8 @@ import '../flow_analysis/flow_analysis_operations.dart';
 /// The type parameter [Guard] should be instantiated with the data structure
 /// used by the client to desugar null-aware accesses. (The analyzer can
 /// instantiate this with `Null`, since it doesn't do desugaring.)
-mixin NullShortingMixin<
-  Guard,
-  Expression extends Object,
-  Variable extends Object,
-  Type extends Object
->
+mixin NullShortingMixin<Guard, Expression extends Object,
+        Variable extends Object, Type extends Object>
     on TypeAnalysisNullShortingInterface<Expression, Variable, Type> {
   /// Stack of [Guard] objects associated with null-shorting operations that
   /// haven't been terminated yet.
@@ -92,10 +88,7 @@ mixin NullShortingMixin<
 }
 
 abstract interface class TypeAnalysisNullShortingInterface<
-  Expression extends Object,
-  Variable extends Object,
-  Type extends Object
-> {
+    Expression extends Object, Variable extends Object, Type extends Object> {
   /// Returns the client's [FlowAnalysis] object.
   FlowAnalysisNullShortingInterface<Expression, Variable, Type> get flow;
 

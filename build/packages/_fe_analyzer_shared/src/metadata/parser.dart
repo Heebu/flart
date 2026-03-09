@@ -63,9 +63,8 @@ class AnnotationsListener extends StackListener {
       ]),
     );
     List<Argument>? arguments = pop(_NullValues.Arguments) as List<Argument>?;
-    IdentifierProto? identifier = periodBeforeName != null
-        ? pop() as IdentifierProto
-        : null;
+    IdentifierProto? identifier =
+        periodBeforeName != null ? pop() as IdentifierProto : null;
     List<TypeAnnotation>? typeArguments =
         pop(_NullValues.TypeAnnotations) as List<TypeAnnotation>?;
     Proto proto = pop() as Proto;
@@ -137,9 +136,8 @@ class AnnotationsListener extends StackListener {
         /* (qualified) name before type arguments */ _ValueKinds._Proto,
       ]),
     );
-    IdentifierProto? constructorName = periodBeforeName != null
-        ? pop() as IdentifierProto
-        : null;
+    IdentifierProto? constructorName =
+        periodBeforeName != null ? pop() as IdentifierProto : null;
     List<TypeAnnotation>? typeArguments =
         pop(_NullValues.TypeAnnotations) as List<TypeAnnotation>?;
     Proto className = pop() as Proto;
@@ -782,9 +780,8 @@ class AnnotationsListener extends StackListener {
     List<TypeAnnotation>? typeArguments =
         pop(_NullValues.TypeAnnotations) as List<TypeAnnotation>?;
     Proto type = pop() as Proto;
-    TypeAnnotation typeAnnotation = type
-        .instantiate(typeArguments)
-        .toTypeAnnotation();
+    TypeAnnotation typeAnnotation =
+        type.instantiate(typeArguments).toTypeAnnotation();
     if (questionMark != null) {
       typeAnnotation = new NullableTypeAnnotation(typeAnnotation);
     }
@@ -1386,8 +1383,8 @@ class _ValueKinds {
       const SingleValueKind<List<FunctionTypeParameter>>();
   static const ValueKind _FunctionTypeParametersOrNull =
       const SingleValueKind<List<FunctionTypeParameter>>(
-        _NullValues.FunctionTypeParameters,
-      );
+    _NullValues.FunctionTypeParameters,
+  );
 }
 
 /// Parses the metadata annotation beginning at [atToken].

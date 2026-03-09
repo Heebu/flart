@@ -163,13 +163,8 @@ class MapPatternResult<Error> extends PatternResult {
 }
 
 /// Information about the code context surrounding a pattern match.
-class MatchContext<
-  Node extends Object,
-  Expression extends Node,
-  Pattern extends Node,
-  Type extends Object,
-  Variable extends Object
-> {
+class MatchContext<Node extends Object, Expression extends Node,
+    Pattern extends Node, Type extends Object, Variable extends Object> {
   /// If non-`null`, the match is being done in an irrefutable context, and this
   /// is the surrounding AST node that establishes the irrefutable context.
   final Node? irrefutableContext;
@@ -213,33 +208,34 @@ class MatchContext<
   /// [TypeAnalyzerErrors.refutablePatternInIrrefutableContext].
   MatchContext<Node, Expression, Pattern, Type, Variable> makeRefutable() =>
       irrefutableContext == null
-      ? this
-      : new MatchContext(
-          isFinal: isFinal,
-          switchScrutinee: switchScrutinee,
-          assignedVariables: assignedVariables,
-          componentVariables: componentVariables,
-          patternVariablePromotionKeys: patternVariablePromotionKeys,
-        );
+          ? this
+          : new MatchContext(
+              isFinal: isFinal,
+              switchScrutinee: switchScrutinee,
+              assignedVariables: assignedVariables,
+              componentVariables: componentVariables,
+              patternVariablePromotionKeys: patternVariablePromotionKeys,
+            );
 
   /// Returns a modified version of `this`, with a new value of
   /// [patternVariablePromotionKeys].
   MatchContext<Node, Expression, Pattern, Type, Variable> withPromotionKeys(
     Map<String, int> patternVariablePromotionKeys,
-  ) => new MatchContext(
-    irrefutableContext: irrefutableContext,
-    isFinal: isFinal,
-    switchScrutinee: null,
-    assignedVariables: assignedVariables,
-    componentVariables: componentVariables,
-    patternVariablePromotionKeys: patternVariablePromotionKeys,
-    unnecessaryWildcardKind: unnecessaryWildcardKind,
-  );
+  ) =>
+      new MatchContext(
+        irrefutableContext: irrefutableContext,
+        isFinal: isFinal,
+        switchScrutinee: null,
+        assignedVariables: assignedVariables,
+        componentVariables: componentVariables,
+        patternVariablePromotionKeys: patternVariablePromotionKeys,
+        unnecessaryWildcardKind: unnecessaryWildcardKind,
+      );
 
   /// Returns a modified version of `this`, with [switchScrutinee] set to `null`
   /// (because this context is not for a top-level pattern anymore).
   MatchContext<Node, Expression, Pattern, Type, Variable>
-  withUnnecessaryWildcardKind(
+      withUnnecessaryWildcardKind(
     UnnecessaryWildcardKind? unnecessaryWildcardKind,
   ) {
     return new MatchContext(

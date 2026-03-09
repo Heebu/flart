@@ -47,8 +47,7 @@ class MapEntryElement extends Element {
   });
 
   @override
-  String toString() =>
-      'MapEntryElement($key,$value,'
+  String toString() => 'MapEntryElement($key,$value,'
       'isNullAwareKey=$isNullAwareValue,isNullAwareValue=$isNullAwareValue)';
 
   @override

@@ -1,6 +1,5 @@
 import 'package:flartdart/flartdart.dart';
 
-
 class TextSpan {
   final String text;
   final TextStyle? style;
@@ -31,7 +30,6 @@ class TextSpan {
   }
 }
 
-
 //TextSpan(
 //     text: "Hello ",
 //     style: TextStyle(color: FlartColor('#000')),
@@ -45,6 +43,3 @@ class TextSpan {
 //       ),
 //     ],
 //   ),
-
-
-

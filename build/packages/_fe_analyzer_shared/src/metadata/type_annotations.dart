@@ -76,7 +76,8 @@ class VoidTypeAnnotation extends TypeAnnotation {
   @override
   TypeAnnotation? resolve({
     Map<FunctionTypeParameter, FunctionTypeParameter> env = const {},
-  }) => null;
+  }) =>
+      null;
 }
 
 class DynamicTypeAnnotation extends TypeAnnotation {
@@ -90,7 +91,8 @@ class DynamicTypeAnnotation extends TypeAnnotation {
   @override
   TypeAnnotation? resolve({
     Map<FunctionTypeParameter, FunctionTypeParameter> env = const {},
-  }) => null;
+  }) =>
+      null;
 }
 
 class InvalidTypeAnnotation extends TypeAnnotation {
@@ -102,7 +104,8 @@ class InvalidTypeAnnotation extends TypeAnnotation {
   @override
   TypeAnnotation? resolve({
     Map<FunctionTypeParameter, FunctionTypeParameter> env = const {},
-  }) => null;
+  }) =>
+      null;
 }
 
 class UnresolvedTypeAnnotation extends TypeAnnotation {
@@ -169,7 +172,7 @@ class FunctionTypeAnnotation extends TypeAnnotation {
             typeParameter.bound?.resolve(env: env) ?? typeParameter.bound;
         resolvedTypeParameter.metadata =
             typeParameter.metadata?.resolve((e) => e.resolve()) ??
-            typeParameter.metadata;
+                typeParameter.metadata;
       }
     }
     TypeAnnotation? resolvedReturnType = returnType?.resolve();

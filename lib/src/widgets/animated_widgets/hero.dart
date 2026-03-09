@@ -18,7 +18,6 @@ class Hero extends StatefulWidget {
 class _HeroState extends State<Hero> {
   static final Map<Object, Rectangle> _heroRects = {};
 
-
   @override
   Widget build(BuildContext context) {
     final heroId = 'hero_${widget.tag.hashCode}';

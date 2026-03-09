@@ -231,9 +231,9 @@ abstract class TokenStreamRewriter {
 
   /// Insert a new synthetic [keyword] after [token] and return the new token.
   Token insertSyntheticKeyword(Token token, Keyword keyword) => insertToken(
-    token,
-    new SyntheticKeywordToken(keyword, token.next!.charOffset),
-  );
+        token,
+        new SyntheticKeywordToken(keyword, token.next!.charOffset),
+      );
 
   /// Insert a new simple synthetic token of [newTokenType] after [token]
   /// and return the new token.
@@ -316,9 +316,9 @@ class NextTokenStreamChange implements TokenStreamChange {
     UndoableTokenStreamRewriter rewriter,
     this.setOn,
     this.nextToken,
-  ) : setOnNext = setOn.next,
-      nextTokenPrevious = nextToken.previous,
-      nextTokenBeforeSynthetic = nextToken.beforeSynthetic {
+  )   : setOnNext = setOn.next,
+        nextTokenPrevious = nextToken.previous,
+        nextTokenBeforeSynthetic = nextToken.beforeSynthetic {
     rewriter._changes.add(this);
     setOn.next = nextToken;
     nextToken.previous = setOn;

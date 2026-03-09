@@ -1,4 +1,3 @@
-
 abstract class Animatable<T> {
   const Animatable();
   T transform(double t);

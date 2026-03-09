@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDDrawer extends Widget {
   final Widget child;
@@ -32,10 +32,7 @@ class FDDrawer extends Widget {
   }
 }
 
-
 //FDGestureDetector(
 //   onTap: () => "toggleDrawer();",
 //   child: FDIcon(FDIcons.menu),
 // )
-
-

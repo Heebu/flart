@@ -1,4 +1,4 @@
-﻿class FlartDecorationImage {
+class FlartDecorationImage {
   final String url;
   final String fit; // e.g. 'cover', 'contain'
 
@@ -7,7 +7,3 @@
   String toCss() =>
       'background-FDImage: url("$url"); background-size: $fit; background-repeat: no-repeat; background-position: center;';
 }
-
-
-
-

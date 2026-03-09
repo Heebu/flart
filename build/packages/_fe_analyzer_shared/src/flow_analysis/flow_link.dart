@@ -105,9 +105,9 @@ class FlowLinkDiffEntry<Link extends FlowLink<Link>> {
     required Link? firstLeft,
     required Link? firstRight,
     required Link? previousForKey,
-  }) : _firstLeft = firstLeft,
-       _firstRight = firstRight,
-       _previousForKey = previousForKey;
+  })  : _firstLeft = firstLeft,
+        _firstRight = firstRight,
+        _previousForKey = previousForKey;
 
   /// The [FlowLink] associated with [key] in the common ancestor of the two
   /// [FlowLink] maps passed to [FlowLinkReader.diff], or `null` if the common

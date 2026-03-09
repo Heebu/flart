@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 /// A date range picker
 class FDDateRangePicker extends Widget {
@@ -319,8 +319,3 @@ class RangeValues {
 
   RangeValues(this.start, this.end);
 }
-
-
-
-
-

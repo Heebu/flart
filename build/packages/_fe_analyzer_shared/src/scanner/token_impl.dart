@@ -47,8 +47,8 @@ class StringTokenImpl extends SimpleToken implements StringToken {
     int charOffset, {
     bool canonicalize = false,
     CommentToken? precedingComments,
-  }) : valueOrLazySubstring = canonicalize ? canonicalizeString(value) : value,
-       super(type, charOffset, precedingComments);
+  })  : valueOrLazySubstring = canonicalize ? canonicalizeString(value) : value,
+        super(type, charOffset, precedingComments);
 
   /**
    * Creates a lazy string token. If [canonicalize] is true, the string
@@ -140,7 +140,7 @@ class CommentTokenImpl extends StringTokenImpl implements CommentToken {
    * Creates a non-lazy comment token.
    */
   CommentTokenImpl.fromString(super.type, super.lexeme, super.charOffset)
-    : super.fromString();
+      : super.fromString();
 
   /**
    * Creates a lazy string token. If [asciiOnly] is false, the byte array
@@ -165,7 +165,7 @@ class LanguageVersionTokenImpl extends CommentTokenImpl
   int minor;
 
   LanguageVersionTokenImpl.from(String text, int offset, this.major, this.minor)
-    : super.fromString(TokenType.SINGLE_LINE_COMMENT, text, offset);
+      : super.fromString(TokenType.SINGLE_LINE_COMMENT, text, offset);
 
   LanguageVersionTokenImpl.fromSubstring(
     String string,
@@ -176,13 +176,13 @@ class LanguageVersionTokenImpl extends CommentTokenImpl
     this.minor, {
     bool canonicalize = false,
   }) : super.fromSubstring(
-         TokenType.SINGLE_LINE_COMMENT,
-         string,
-         start,
-         end,
-         tokenStart,
-         canonicalize: canonicalize,
-       );
+          TokenType.SINGLE_LINE_COMMENT,
+          string,
+          start,
+          end,
+          tokenStart,
+          canonicalize: canonicalize,
+        );
 
   LanguageVersionTokenImpl.fromUtf8Bytes(
     Uint8List bytes,
@@ -192,13 +192,13 @@ class LanguageVersionTokenImpl extends CommentTokenImpl
     this.major,
     this.minor,
   ) : super.fromUtf8Bytes(
-        TokenType.SINGLE_LINE_COMMENT,
-        bytes,
-        start,
-        end,
-        true,
-        tokenStart,
-      );
+          TokenType.SINGLE_LINE_COMMENT,
+          bytes,
+          start,
+          end,
+          true,
+          tokenStart,
+        );
 }
 
 class DartDocToken extends CommentTokenImpl
@@ -319,7 +319,7 @@ class _FullLazySubstring extends _LazySubstring {
   @override
   final bool boolValue;
   _FullLazySubstring(this.data, this.start, this.length, this.boolValue)
-    : super.internal();
+      : super.internal();
 }
 
 bool isUserDefinableOperator(String value) {

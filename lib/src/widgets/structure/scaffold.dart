@@ -1,4 +1,5 @@
 import '../../../flartdart.dart';
+import '../../helper/style_utils.dart';
 
 class FDScaffold extends Widget {
   final FDAppBar? appBar;
@@ -22,7 +23,7 @@ class FDScaffold extends Widget {
 
   @override
   String render(BuildContext context) {
-    final style = {
+    final style = toInlineStyle({
       'width': '100vw',
       'height': '100vh',
       'overflow': 'hidden',
@@ -30,20 +31,23 @@ class FDScaffold extends Widget {
       'flex-direction': 'column',
       'position': 'relative',
       ...?cssStyle,
-    }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    }, rawCss: rawCss);
 
     final content = StringBuffer();
-    if (appBar != null) content.writeln(appBar!.render(context));
+    if (appBar != null) {
+      content.writeln(appBar!.render(context));
+    }
 
     content.writeln(
-        '<div style="flex: 1; overflow: auto;">${body?.render(context) ?? ''}</div>');
+      '<div style="flex: 1; overflow: auto;">${body?.render(context) ?? ''}</div>',
+    );
 
     if (bottomNavigationBar != null) {
       content.writeln(bottomNavigationBar!.render(context));
     }
 
     final scaffoldHtml = '''
-    <div style="$style ${rawCss ?? ''}">
+    <div style="$style">
       ${content.toString()}
     </div>
     ''';

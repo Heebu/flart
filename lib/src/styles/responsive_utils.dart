@@ -1,4 +1,4 @@
-import 'media_querry.dart';
+import 'media_query.dart';
 
 /// A utility class for responsive design, similar to flutter_screenutil.
 class ScreenUtil {

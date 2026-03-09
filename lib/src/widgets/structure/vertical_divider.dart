@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDVerticalDivider extends Widget {
   final double thickness;
@@ -32,13 +32,8 @@ class FDVerticalDivider extends Widget {
     };
 
     final styleString =
-    styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
     return '<div style="$styleString"></div>';
   }
-
-
 }
-
-
-

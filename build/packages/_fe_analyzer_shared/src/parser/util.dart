@@ -144,11 +144,11 @@ Token splitGtEq(Token token) {
     token.charOffset,
     token.precedingComments,
   )..setNext(
-    new SimpleToken(TokenType.EQ, token.charOffset + 1)
-      // Set next rather than calling Token.setNext
-      // so that the previous token is not set.
-      ..next = token.next,
-  );
+      new SimpleToken(TokenType.EQ, token.charOffset + 1)
+        // Set next rather than calling Token.setNext
+        // so that the previous token is not set.
+        ..next = token.next,
+    );
 }
 
 /// Split `>>` into two separate tokens.
@@ -160,11 +160,11 @@ SimpleToken splitGtGt(Token token) {
     token.charOffset,
     token.precedingComments,
   )..setNext(
-    new SimpleToken(TokenType.GT, token.charOffset + 1)
-      // Set next rather than calling Token.setNext
-      // so that the previous token is not set.
-      ..next = token.next,
-  );
+      new SimpleToken(TokenType.GT, token.charOffset + 1)
+        // Set next rather than calling Token.setNext
+        // so that the previous token is not set.
+        ..next = token.next,
+    );
 }
 
 /// Split `>>=` into three separate tokens.
@@ -176,13 +176,14 @@ Token splitGtGtEq(Token token) {
     token.charOffset,
     token.precedingComments,
   )..setNext(
-    new SimpleToken(TokenType.GT, token.charOffset + 1)..setNext(
-      new SimpleToken(TokenType.EQ, token.charOffset + 2)
-        // Set next rather than calling Token.setNext
-        // so that the previous token is not set.
-        ..next = token.next,
-    ),
-  );
+      new SimpleToken(TokenType.GT, token.charOffset + 1)
+        ..setNext(
+          new SimpleToken(TokenType.EQ, token.charOffset + 2)
+            // Set next rather than calling Token.setNext
+            // so that the previous token is not set.
+            ..next = token.next,
+        ),
+    );
 }
 
 /// Split `>>=` into two separate tokens... `>` followed by `>=`.
@@ -194,11 +195,11 @@ Token splitGtFromGtGtEq(Token token) {
     token.charOffset,
     token.precedingComments,
   )..setNext(
-    new SimpleToken(TokenType.GT_EQ, token.charOffset + 1)
-      // Set next rather than calling Token.setNext
-      // so that the previous token is not set.
-      ..next = token.next,
-  );
+      new SimpleToken(TokenType.GT_EQ, token.charOffset + 1)
+        // Set next rather than calling Token.setNext
+        // so that the previous token is not set.
+        ..next = token.next,
+    );
 }
 
 /// Split `>>>` into two separate tokens... `>` followed by `>>`.
@@ -210,11 +211,11 @@ Token splitGtFromGtGtGt(Token token) {
     token.charOffset,
     token.precedingComments,
   )..setNext(
-    new SimpleToken(TokenType.GT_GT, token.charOffset + 1)
-      // Set next rather than calling Token.setNext
-      // so that the previous token is not set.
-      ..next = token.next,
-  );
+      new SimpleToken(TokenType.GT_GT, token.charOffset + 1)
+        // Set next rather than calling Token.setNext
+        // so that the previous token is not set.
+        ..next = token.next,
+    );
 }
 
 /// Split `>>>=` into two separate tokens... `>` followed by `>>=`.
@@ -226,11 +227,11 @@ Token splitGtFromGtGtGtEq(Token token) {
     token.charOffset,
     token.precedingComments,
   )..setNext(
-    new SimpleToken(TokenType.GT_GT_EQ, token.charOffset + 1)
-      // Set next rather than calling Token.setNext
-      // so that the previous token is not set.
-      ..next = token.next,
-  );
+      new SimpleToken(TokenType.GT_GT_EQ, token.charOffset + 1)
+        // Set next rather than calling Token.setNext
+        // so that the previous token is not set.
+        ..next = token.next,
+    );
 }
 
 /// Strips separator characters (underscore) from [source].
@@ -253,7 +254,7 @@ String stripSeparators(String source) {
   int writeIndex = 0;
   for (int i = 0; i < source.length; i++) {
     int char = source.codeUnitAt(i);
-    if (char != 0x5f /* _ */ ) list[writeIndex++] = char;
+    if (char != 0x5f /* _ */) list[writeIndex++] = char;
   }
   return new String.fromCharCodes(list, 0, writeIndex);
 }

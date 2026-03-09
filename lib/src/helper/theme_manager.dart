@@ -25,12 +25,10 @@ class FlartThemeManager {
     setTheme(mediaQuery.matches ? 'dark' : 'light');
 
     mediaQuery.addEventListener('change', (event) {
-        setTheme(mediaQuery.matches ? 'dark' : 'light');
+      setTheme(mediaQuery.matches ? 'dark' : 'light');
     });
   }
 }
 
-
 ///to toggle theme
 //FlartThemeManager.toggleTheme();
-

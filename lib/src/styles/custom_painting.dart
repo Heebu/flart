@@ -1,4 +1,4 @@
-﻿import '../../flartdart.dart';
+import '../../flartdart.dart';
 import 'dart:html';
 
 abstract class CustomPainter {
@@ -53,6 +53,3 @@ class MyPainter extends CustomPainter {
 // height: 300,
 // painter: MyPainter(),
 // )
-
-
-

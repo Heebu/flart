@@ -1,4 +1,4 @@
-﻿import 'dart:html';
+import 'dart:html';
 import '../../../flartdart.dart';
 
 typedef TimeCallback = void Function(String time); // or Duration
@@ -40,6 +40,3 @@ class FDTimePicker extends Widget {
     });
   }
 }
-
-
-

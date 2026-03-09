@@ -471,8 +471,7 @@ abstract class SharedInferenceLogWriterImpl
       new State(
         kind: StateKind.extensionOverride,
         writer: this,
-        message:
-            'INFER EXTENSION OVERRIDE ${describe(node)} IN CONTEXT '
+        message: 'INFER EXTENSION OVERRIDE ${describe(node)} IN CONTEXT '
             '$contextType',
         nodeSet: [node],
       ),
@@ -722,8 +721,7 @@ abstract class SharedInferenceLogWriterImpl
     );
     addEvent(
       new Event(
-        message:
-            'REWRITE ${describe(oldExpression)} TO '
+        message: 'REWRITE ${describe(oldExpression)} TO '
             '${describe(newExpression)}',
       ),
     );
@@ -765,9 +763,9 @@ abstract class SharedInferenceLogWriterImpl
       expectedKind: StateKind.constraintGeneration,
     );
     String constraintText = constraint.toString().replaceAll(
-      '<type>',
-      parameter.toString(),
-    );
+          '<type>',
+          parameter.toString(),
+        );
     addEvent(new Event(message: 'ADDED CONSTRAINT $constraintText'));
   }
 
@@ -789,9 +787,8 @@ abstract class SharedInferenceLogWriterImpl
       expectedNode: expression,
       expectedKind: StateKind.expression,
     );
-    String query = target != null
-        ? '${describe(target)}.$methodName'
-        : methodName;
+    String query =
+        target != null ? '${describe(target)}.$methodName' : methodName;
     addEvent(new Event(message: 'LOOKUP $query FINDS $type'));
   }
 
@@ -874,7 +871,10 @@ class State extends Event {
 
   /// Creates a new state object representing the outermost nesting level of the
   /// inference log.
-  State._top() : kind = StateKind.top, nodeSet = [null], super(message: 'TOP');
+  State._top()
+      : kind = StateKind.top,
+        nodeSet = [null],
+        super(message: 'TOP');
 
   @override
   String toString() => '$runtimeType(${describe(nodeSet.first)})';

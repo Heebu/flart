@@ -357,8 +357,7 @@ class ActualData<T> {
   }
 
   @override
-  String toString() =>
-      'ActualData(id=$id,value=$value,uri=$uri,'
+  String toString() => 'ActualData(id=$id,value=$value,uri=$uri,'
       'offset=$offset,object=$objectText)';
 }
 

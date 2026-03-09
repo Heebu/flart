@@ -189,8 +189,8 @@ abstract class VariableBinder<Node extends Object, Variable extends Object> {
           inconsistency: sharedVariable.allCases
               ? JoinedPatternVariableInconsistency.none
               : sharedScope.hasLabel
-              ? JoinedPatternVariableInconsistency.sharedCaseHasLabel
-              : JoinedPatternVariableInconsistency.sharedCaseAbsent,
+                  ? JoinedPatternVariableInconsistency.sharedCaseHasLabel
+                  : JoinedPatternVariableInconsistency.sharedCaseAbsent,
         );
       }
     }
@@ -206,11 +206,8 @@ abstract class VariableBinder<Node extends Object, Variable extends Object> {
 
 /// Interface used by the [VariableBinder] logic to report error conditions
 /// up to the client during the "pre-visit" phase of type analysis.
-abstract class VariableBinderErrors<
-  Node extends Object,
-  Variable extends Object
->
-    extends TypeAnalyzerErrorsBase {
+abstract class VariableBinderErrors<Node extends Object,
+    Variable extends Object> extends TypeAnalyzerErrorsBase {
   /// Called when a pattern attempts to declare the variable [duplicate] that
   /// has the same [name] as the [original] variable.
   void duplicateVariablePattern({

@@ -98,11 +98,9 @@ const MessageCode codeAnnotationOnTypeArgument = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(int character),
-  Message Function({required int character})
->
-codeAsciiControlCharacter = const Template(
+const Template<Message Function(int character),
+        Message Function({required int character})> codeAsciiControlCharacter =
+    const Template(
   "AsciiControlCharacter",
   problemMessageTemplate:
       r"""The control character #character can only be used in strings and comments.""",
@@ -167,11 +165,9 @@ const MessageCode codeBaseEnum = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string, String string2),
-  Message Function({required String string, required String string2})
->
-codeBinaryOperatorWrittenOut = const Template(
+const Template<Message Function(String string, String string2),
+        Message Function({required String string, required String string2})>
+    codeBinaryOperatorWrittenOut = const Template(
   "BinaryOperatorWrittenOut",
   problemMessageTemplate:
       r"""Binary operator '#string' is written as '#string2' instead of the written out word.""",
@@ -201,7 +197,8 @@ Message _withArgumentsBinaryOperatorWrittenOut({
 Message _withArgumentsOldBinaryOperatorWrittenOut(
   String string,
   String string2,
-) => _withArgumentsBinaryOperatorWrittenOut(string: string, string2: string2);
+) =>
+    _withArgumentsBinaryOperatorWrittenOut(string: string, string2: string2);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
 const MessageCode codeBreakOutsideOfLoop = const MessageCode(
@@ -213,11 +210,9 @@ const MessageCode codeBreakOutsideOfLoop = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeBuiltInIdentifierAsType = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})> codeBuiltInIdentifierAsType =
+    const Template(
   "BuiltInIdentifierAsType",
   problemMessageTemplate:
       r"""The built-in identifier '#lexeme' can't be used as a type.""",
@@ -242,11 +237,9 @@ Message _withArgumentsOldBuiltInIdentifierAsType(Token lexeme) =>
     _withArgumentsBuiltInIdentifierAsType(lexeme: lexeme);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeBuiltInIdentifierInDeclaration = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})>
+    codeBuiltInIdentifierInDeclaration = const Template(
   "BuiltInIdentifierInDeclaration",
   problemMessageTemplate: r"""Can't use '#lexeme' as a name here.""",
   withArgumentsOld: _withArgumentsOldBuiltInIdentifierInDeclaration,
@@ -305,11 +298,9 @@ const MessageCode codeColonInPlaceOfIn = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string, String string2),
-  Message Function({required String string, required String string2})
->
-codeConflictingModifiers = const Template(
+const Template<Message Function(String string, String string2),
+        Message Function({required String string, required String string2})>
+    codeConflictingModifiers = const Template(
   "ConflictingModifiers",
   problemMessageTemplate:
       r"""Members can't be declared to be both '#string' and '#string2'.""",
@@ -377,11 +368,9 @@ const MessageCode codeConstFactory = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String name),
-  Message Function({required String name})
->
-codeConstFieldWithoutInitializer = const Template(
+const Template<Message Function(String name),
+        Message Function({required String name})>
+    codeConstFieldWithoutInitializer = const Template(
   "ConstFieldWithoutInitializer",
   problemMessageTemplate:
       r"""The const variable '#name' must be initialized.""",
@@ -524,11 +513,9 @@ const MessageCode codeDuplicateDeferred = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String name),
-  Message Function({required String name})
->
-codeDuplicateLabelInSwitchStatement = const Template(
+const Template<Message Function(String name),
+        Message Function({required String name})>
+    codeDuplicateLabelInSwitchStatement = const Template(
   "DuplicateLabelInSwitchStatement",
   problemMessageTemplate:
       r"""The label '#name' was already used in this switch statement.""",
@@ -565,11 +552,9 @@ const MessageCode codeDuplicatePrefix = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeDuplicatedModifier = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})> codeDuplicatedModifier =
+    const Template(
   "DuplicatedModifier",
   problemMessageTemplate: r"""The modifier '#lexeme' was already specified.""",
   correctionMessageTemplate:
@@ -645,11 +630,9 @@ const MessageCode codeEqualityCannotBeEqualityOperand = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string),
-  Message Function({required String string})
->
-codeExpectedAfterButGot = const Template(
+const Template<Message Function(String string),
+        Message Function({required String string})> codeExpectedAfterButGot =
+    const Template(
   "ExpectedAfterButGot",
   problemMessageTemplate: r"""Expected '#string' after this.""",
   withArgumentsOld: _withArgumentsOldExpectedAfterButGot,
@@ -687,11 +670,9 @@ const MessageCode codeExpectedBody = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string),
-  Message Function({required String string})
->
-codeExpectedButGot = const Template(
+const Template<Message Function(String string),
+        Message Function({required String string})> codeExpectedButGot =
+    const Template(
   "ExpectedButGot",
   problemMessageTemplate: r"""Expected '#string' before this.""",
   withArgumentsOld: _withArgumentsOldExpectedButGot,
@@ -731,11 +712,9 @@ const MessageCode codeExpectedClassBody = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeExpectedClassMember = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})> codeExpectedClassMember =
+    const Template(
   "ExpectedClassMember",
   problemMessageTemplate: r"""Expected a class member, but got '#lexeme'.""",
   withArgumentsOld: _withArgumentsOldExpectedClassMember,
@@ -758,11 +737,9 @@ Message _withArgumentsOldExpectedClassMember(Token lexeme) =>
     _withArgumentsExpectedClassMember(lexeme: lexeme);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeExpectedDeclaration = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})> codeExpectedDeclaration =
+    const Template(
   "ExpectedDeclaration",
   problemMessageTemplate: r"""Expected a declaration, but got '#lexeme'.""",
   withArgumentsOld: _withArgumentsOldExpectedDeclaration,
@@ -792,11 +769,9 @@ const MessageCode codeExpectedElseOrComma = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeExpectedEnumBody = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})> codeExpectedEnumBody =
+    const Template(
   "ExpectedEnumBody",
   problemMessageTemplate: r"""Expected a enum body, but got '#lexeme'.""",
   correctionMessageTemplate:
@@ -850,11 +825,9 @@ const MessageCode codeExpectedFinallyClauseBody = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeExpectedFunctionBody = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})> codeExpectedFunctionBody =
+    const Template(
   "ExpectedFunctionBody",
   problemMessageTemplate: r"""Expected a function body, but got '#lexeme'.""",
   withArgumentsOld: _withArgumentsOldExpectedFunctionBody,
@@ -884,11 +857,9 @@ const MessageCode codeExpectedHexDigit = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeExpectedIdentifier = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})> codeExpectedIdentifier =
+    const Template(
   "ExpectedIdentifier",
   problemMessageTemplate: r"""Expected an identifier, but got '#lexeme'.""",
   correctionMessageTemplate:
@@ -914,11 +885,9 @@ Message _withArgumentsOldExpectedIdentifier(Token lexeme) =>
     _withArgumentsExpectedIdentifier(lexeme: lexeme);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeExpectedIdentifierButGotKeyword = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})>
+    codeExpectedIdentifierButGotKeyword = const Template(
   "ExpectedIdentifierButGotKeyword",
   problemMessageTemplate:
       r"""'#lexeme' can't be used as an identifier because it's a keyword.""",
@@ -947,11 +916,9 @@ Message _withArgumentsOldExpectedIdentifierButGotKeyword(Token lexeme) =>
     _withArgumentsExpectedIdentifierButGotKeyword(lexeme: lexeme);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string),
-  Message Function({required String string})
->
-codeExpectedInstead = const Template(
+const Template<Message Function(String string),
+        Message Function({required String string})> codeExpectedInstead =
+    const Template(
   "ExpectedInstead",
   problemMessageTemplate: r"""Expected '#string' instead of this.""",
   withArgumentsOld: _withArgumentsOldExpectedInstead,
@@ -990,11 +957,9 @@ const MessageCode codeExpectedStatement = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeExpectedString = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})> codeExpectedString =
+    const Template(
   "ExpectedString",
   problemMessageTemplate: r"""Expected a String, but got '#lexeme'.""",
   withArgumentsOld: _withArgumentsOldExpectedString,
@@ -1035,11 +1000,9 @@ const MessageCode codeExpectedSwitchStatementBody = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string),
-  Message Function({required String string})
->
-codeExpectedToken = const Template(
+const Template<Message Function(String string),
+        Message Function({required String string})> codeExpectedToken =
+    const Template(
   "ExpectedToken",
   problemMessageTemplate: r"""Expected to find '#string'.""",
   withArgumentsOld: _withArgumentsOldExpectedToken,
@@ -1070,11 +1033,9 @@ const MessageCode codeExpectedTryStatementBody = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeExpectedType = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})> codeExpectedType =
+    const Template(
   "ExpectedType",
   problemMessageTemplate: r"""Expected a type, but got '#lexeme'.""",
   withArgumentsOld: _withArgumentsOldExpectedType,
@@ -1097,11 +1058,9 @@ Message _withArgumentsOldExpectedType(Token lexeme) =>
     _withArgumentsExpectedType(lexeme: lexeme);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string, String string2),
-  Message Function({required String string, required String string2})
->
-codeExperimentNotEnabled = const Template(
+const Template<Message Function(String string, String string2),
+        Message Function({required String string, required String string2})>
+    codeExperimentNotEnabled = const Template(
   "ExperimentNotEnabled",
   problemMessageTemplate:
       r"""This requires the '#string' language feature to be enabled.""",
@@ -1134,11 +1093,9 @@ Message _withArgumentsOldExperimentNotEnabled(String string, String string2) =>
     _withArgumentsExperimentNotEnabled(string: string, string2: string2);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string),
-  Message Function({required String string})
->
-codeExperimentNotEnabledOffByDefault = const Template(
+const Template<Message Function(String string),
+        Message Function({required String string})>
+    codeExperimentNotEnabledOffByDefault = const Template(
   "ExperimentNotEnabledOffByDefault",
   problemMessageTemplate:
       r"""This requires the experimental '#string' language feature to be enabled.""",
@@ -1258,8 +1215,8 @@ const MessageCode codeExternalClass = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const MessageCode
-codeExternalConstructorWithFieldInitializers = const MessageCode(
+const MessageCode codeExternalConstructorWithFieldInitializers =
+    const MessageCode(
   "ExternalConstructorWithFieldInitializers",
   index: 87,
   problemMessage: r"""An external constructor can't initialize fields.""",
@@ -1323,11 +1280,9 @@ const MessageCode codeExternalTypedef = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeExtraneousModifier = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})> codeExtraneousModifier =
+    const Template(
   "ExtraneousModifier",
   problemMessageTemplate: r"""Can't have modifier '#lexeme' here.""",
   correctionMessageTemplate: r"""Try removing '#lexeme'.""",
@@ -1352,11 +1307,9 @@ Message _withArgumentsOldExtraneousModifier(Token lexeme) =>
     _withArgumentsExtraneousModifier(lexeme: lexeme);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeExtraneousModifierInExtension = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})>
+    codeExtraneousModifierInExtension = const Template(
   "ExtraneousModifierInExtension",
   problemMessageTemplate: r"""Can't have modifier '#lexeme' in an extension.""",
   correctionMessageTemplate: r"""Try removing '#lexeme'.""",
@@ -1381,11 +1334,9 @@ Message _withArgumentsOldExtraneousModifierInExtension(Token lexeme) =>
     _withArgumentsExtraneousModifierInExtension(lexeme: lexeme);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeExtraneousModifierInExtensionType = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})>
+    codeExtraneousModifierInExtensionType = const Template(
   "ExtraneousModifierInExtensionType",
   problemMessageTemplate:
       r"""Can't have modifier '#lexeme' in an extension type.""",
@@ -1414,11 +1365,9 @@ Message _withArgumentsOldExtraneousModifierInExtensionType(Token lexeme) =>
     _withArgumentsExtraneousModifierInExtensionType(lexeme: lexeme);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeExtraneousModifierInPrimaryConstructor = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})>
+    codeExtraneousModifierInPrimaryConstructor = const Template(
   "ExtraneousModifierInPrimaryConstructor",
   problemMessageTemplate:
       r"""Can't have modifier '#lexeme' in a primary constructor.""",
@@ -1464,11 +1413,9 @@ const MessageCode codeFactoryTopLevelDeclaration = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String name),
-  Message Function({required String name})
->
-codeFastaCLIArgumentRequired = const Template(
+const Template<Message Function(String name),
+        Message Function({required String name})> codeFastaCLIArgumentRequired =
+    const Template(
   "FastaCLIArgumentRequired",
   problemMessageTemplate: r"""Expected value after '#name'.""",
   withArgumentsOld: _withArgumentsOldFastaCLIArgumentRequired,
@@ -1545,11 +1492,9 @@ const MessageCode codeFinalEnum = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String name),
-  Message Function({required String name})
->
-codeFinalFieldWithoutInitializer = const Template(
+const Template<Message Function(String name),
+        Message Function({required String name})>
+    codeFinalFieldWithoutInitializer = const Template(
   "FinalFieldWithoutInitializer",
   problemMessageTemplate:
       r"""The final variable '#name' must be initialized.""",
@@ -1639,11 +1584,9 @@ const MessageCode codeIllegalAssignmentToNonAssignable = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeIllegalPatternAssignmentVariableName = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})>
+    codeIllegalPatternAssignmentVariableName = const Template(
   "IllegalPatternAssignmentVariableName",
   problemMessageTemplate:
       r"""A variable assigned by a pattern assignment can't be named '#lexeme'.""",
@@ -1672,11 +1615,9 @@ Message _withArgumentsOldIllegalPatternAssignmentVariableName(Token lexeme) =>
     _withArgumentsIllegalPatternAssignmentVariableName(lexeme: lexeme);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeIllegalPatternIdentifierName = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})>
+    codeIllegalPatternIdentifierName = const Template(
   "IllegalPatternIdentifierName",
   problemMessageTemplate:
       r"""A pattern can't refer to an identifier named '#lexeme'.""",
@@ -1703,11 +1644,9 @@ Message _withArgumentsOldIllegalPatternIdentifierName(Token lexeme) =>
     _withArgumentsIllegalPatternIdentifierName(lexeme: lexeme);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeIllegalPatternVariableName = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})>
+    codeIllegalPatternVariableName = const Template(
   "IllegalPatternVariableName",
   problemMessageTemplate:
       r"""The variable declared by a variable pattern can't be named '#lexeme'.""",
@@ -1805,11 +1744,9 @@ const MessageCode codeInterfaceMixinClass = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String name, String string),
-  Message Function({required String name, required String string})
->
-codeInternalProblemStackNotEmpty = const Template(
+const Template<Message Function(String name, String string),
+        Message Function({required String name, required String string})>
+    codeInternalProblemStackNotEmpty = const Template(
   "InternalProblemStackNotEmpty",
   problemMessageTemplate: r"""#name.stack isn't empty:
   #string""",
@@ -1837,14 +1774,13 @@ Message _withArgumentsInternalProblemStackNotEmpty({
 Message _withArgumentsOldInternalProblemStackNotEmpty(
   String name,
   String string,
-) => _withArgumentsInternalProblemStackNotEmpty(name: name, string: string);
+) =>
+    _withArgumentsInternalProblemStackNotEmpty(name: name, string: string);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string, String string2),
-  Message Function({required String string, required String string2})
->
-codeInternalProblemUnhandled = const Template(
+const Template<Message Function(String string, String string2),
+        Message Function({required String string, required String string2})>
+    codeInternalProblemUnhandled = const Template(
   "InternalProblemUnhandled",
   problemMessageTemplate: r"""Unhandled #string in #string2.""",
   withArgumentsOld: _withArgumentsOldInternalProblemUnhandled,
@@ -1870,14 +1806,13 @@ Message _withArgumentsInternalProblemUnhandled({
 Message _withArgumentsOldInternalProblemUnhandled(
   String string,
   String string2,
-) => _withArgumentsInternalProblemUnhandled(string: string, string2: string2);
+) =>
+    _withArgumentsInternalProblemUnhandled(string: string, string2: string2);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String name),
-  Message Function({required String name})
->
-codeInternalProblemUnsupported = const Template(
+const Template<Message Function(String name),
+        Message Function({required String name})>
+    codeInternalProblemUnsupported = const Template(
   "InternalProblemUnsupported",
   problemMessageTemplate: r"""Unsupported operation: '#name'.""",
   withArgumentsOld: _withArgumentsOldInternalProblemUnsupported,
@@ -1925,11 +1860,9 @@ const MessageCode codeInvalidCodePoint = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String name),
-  Message Function({required String name})
->
-codeInvalidConstantPatternBinary = const Template(
+const Template<Message Function(String name),
+        Message Function({required String name})>
+    codeInvalidConstantPatternBinary = const Template(
   "InvalidConstantPatternBinary",
   problemMessageTemplate:
       r"""The binary operator #name is not supported as a constant pattern.""",
@@ -1975,8 +1908,8 @@ const MessageCode codeInvalidConstantPatternDuplicateConst = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const MessageCode
-codeInvalidConstantPatternEmptyRecordLiteral = const MessageCode(
+const MessageCode codeInvalidConstantPatternEmptyRecordLiteral =
+    const MessageCode(
   "InvalidConstantPatternEmptyRecordLiteral",
   index: 138,
   problemMessage:
@@ -2002,11 +1935,9 @@ const MessageCode codeInvalidConstantPatternNegation = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String name),
-  Message Function({required String name})
->
-codeInvalidConstantPatternUnary = const Template(
+const Template<Message Function(String name),
+        Message Function({required String name})>
+    codeInvalidConstantPatternUnary = const Template(
   "InvalidConstantPatternUnary",
   problemMessageTemplate:
       r"""The unary operator #name is not supported as a constant pattern.""",
@@ -2079,11 +2010,9 @@ const MessageCode codeInvalidInsideUnaryPattern = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeInvalidOperator = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})> codeInvalidOperator =
+    const Template(
   "InvalidOperator",
   problemMessageTemplate:
       r"""The string '#lexeme' isn't a user-definable operator.""",
@@ -2184,11 +2113,9 @@ const MessageCode codeLibraryDirectiveNotFirst = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string, Token lexeme),
-  Message Function({required String string, required Token lexeme})
->
-codeLiteralWithClass = const Template(
+const Template<Message Function(String string, Token lexeme),
+        Message Function({required String string, required Token lexeme})>
+    codeLiteralWithClass = const Template(
   "LiteralWithClass",
   problemMessageTemplate:
       r"""A #string literal can't be prefixed by '#lexeme'.""",
@@ -2219,11 +2146,9 @@ Message _withArgumentsOldLiteralWithClass(String string, Token lexeme) =>
     _withArgumentsLiteralWithClass(string: string, lexeme: lexeme);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string, Token lexeme),
-  Message Function({required String string, required Token lexeme})
->
-codeLiteralWithClassAndNew = const Template(
+const Template<Message Function(String string, Token lexeme),
+        Message Function({required String string, required Token lexeme})>
+    codeLiteralWithClassAndNew = const Template(
   "LiteralWithClassAndNew",
   problemMessageTemplate:
       r"""A #string literal can't be prefixed by 'new #lexeme'.""",
@@ -2422,11 +2347,9 @@ const MessageCode codeMixinWithClause = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string, String string2),
-  Message Function({required String string, required String string2})
->
-codeModifierOutOfOrder = const Template(
+const Template<Message Function(String string, String string2),
+        Message Function({required String string, required String string2})>
+    codeModifierOutOfOrder = const Template(
   "ModifierOutOfOrder",
   problemMessageTemplate:
       r"""The modifier '#string' should be before the modifier '#string2'.""",
@@ -2457,11 +2380,9 @@ Message _withArgumentsOldModifierOutOfOrder(String string, String string2) =>
     _withArgumentsModifierOutOfOrder(string: string, string2: string2);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string, String string2),
-  Message Function({required String string, required String string2})
->
-codeMultipleClauses = const Template(
+const Template<Message Function(String string, String string2),
+        Message Function({required String string, required String string2})>
+    codeMultipleClauses = const Template(
   "MultipleClauses",
   problemMessageTemplate:
       r"""Each '#string' definition can have at most one '#string2' clause.""",
@@ -2567,11 +2488,9 @@ const MessageCode codeNativeClauseShouldBeAnnotation = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String character, int unicode),
-  Message Function({required String character, required int unicode})
->
-codeNonAsciiIdentifier = const Template(
+const Template<Message Function(String character, int unicode),
+        Message Function({required String character, required int unicode})>
+    codeNonAsciiIdentifier = const Template(
   "NonAsciiIdentifier",
   problemMessageTemplate:
       r"""The non-ASCII character '#character' (#unicode) can't be used in identifiers, only in strings and comments.""",
@@ -2604,11 +2523,9 @@ Message _withArgumentsOldNonAsciiIdentifier(String character, int unicode) =>
     _withArgumentsNonAsciiIdentifier(character: character, unicode: unicode);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(int unicode),
-  Message Function({required int unicode})
->
-codeNonAsciiWhitespace = const Template(
+const Template<Message Function(int unicode),
+        Message Function({required int unicode})> codeNonAsciiWhitespace =
+    const Template(
   "NonAsciiWhitespace",
   problemMessageTemplate:
       r"""The non-ASCII space character #unicode can only be used in strings and comments.""",
@@ -2672,11 +2589,9 @@ const MessageCode codeOperatorWithTypeParameters = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string, String string2),
-  Message Function({required String string, required String string2})
->
-codeOutOfOrderClauses = const Template(
+const Template<Message Function(String string, String string2),
+        Message Function({required String string, required String string2})>
+    codeOutOfOrderClauses = const Template(
   "OutOfOrderClauses",
   problemMessageTemplate:
       r"""The '#string' clause must come before the '#string2' clause.""",
@@ -2717,11 +2632,9 @@ const MessageCode codePartOfTwice = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String name),
-  Message Function({required String name})
->
-codePatternAssignmentDeclaresVariable = const Template(
+const Template<Message Function(String name),
+        Message Function({required String name})>
+    codePatternAssignmentDeclaresVariable = const Template(
   "PatternAssignmentDeclaresVariable",
   problemMessageTemplate:
       r"""Variable '#name' can't be declared in a pattern assignment.""",
@@ -2752,8 +2665,8 @@ Message _withArgumentsOldPatternAssignmentDeclaresVariable(String name) =>
     _withArgumentsPatternAssignmentDeclaresVariable(name: name);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const MessageCode
-codePatternVariableDeclarationOutsideFunctionOrMethod = const MessageCode(
+const MessageCode codePatternVariableDeclarationOutsideFunctionOrMethod =
+    const MessageCode(
   "PatternVariableDeclarationOutsideFunctionOrMethod",
   index: 152,
   problemMessage:
@@ -2800,8 +2713,8 @@ const MessageCode codePrivateNamedParameter = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const MessageCode
-codeRecordLiteralOnePositionalFieldNoTrailingComma = const MessageCode(
+const MessageCode codeRecordLiteralOnePositionalFieldNoTrailingComma =
+    const MessageCode(
   "RecordLiteralOnePositionalFieldNoTrailingComma",
   index: 127,
   problemMessage:
@@ -2812,16 +2725,16 @@ codeRecordLiteralOnePositionalFieldNoTrailingComma = const MessageCode(
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
 const MessageCode codeRecordLiteralZeroFieldsWithTrailingComma =
     const MessageCode(
-      "RecordLiteralZeroFieldsWithTrailingComma",
-      index: 128,
-      problemMessage:
-          r"""A record literal without fields can't have a trailing comma.""",
-      correctionMessage: r"""Try removing the trailing comma.""",
-    );
+  "RecordLiteralZeroFieldsWithTrailingComma",
+  index: 128,
+  problemMessage:
+      r"""A record literal without fields can't have a trailing comma.""",
+  correctionMessage: r"""Try removing the trailing comma.""",
+);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const MessageCode
-codeRecordTypeOnePositionalFieldNoTrailingComma = const MessageCode(
+const MessageCode codeRecordTypeOnePositionalFieldNoTrailingComma =
+    const MessageCode(
   "RecordTypeOnePositionalFieldNoTrailingComma",
   index: 131,
   problemMessage:
@@ -2982,11 +2895,9 @@ const MessageCode codeTypeAfterVar = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String name),
-  Message Function({required String name})
->
-codeTypeArgumentsOnTypeVariable = const Template(
+const Template<Message Function(String name),
+        Message Function({required String name})>
+    codeTypeArgumentsOnTypeVariable = const Template(
   "TypeArgumentsOnTypeVariable",
   problemMessageTemplate:
       r"""Can't use type arguments with type variable '#name'.""",
@@ -3047,11 +2958,9 @@ const MessageCode codeUnexpectedSeparatorInNumber = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeUnexpectedToken = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})> codeUnexpectedToken =
+    const Template(
   "UnexpectedToken",
   problemMessageTemplate: r"""Unexpected token '#lexeme'.""",
   withArgumentsOld: _withArgumentsOldUnexpectedToken,
@@ -3081,11 +2990,9 @@ const MessageCode codeUnexpectedTokens = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string, Token lexeme),
-  Message Function({required String string, required Token lexeme})
->
-codeUnmatchedToken = const Template(
+const Template<Message Function(String string, Token lexeme),
+        Message Function({required String string, required Token lexeme})>
+    codeUnmatchedToken = const Template(
   "UnmatchedToken",
   problemMessageTemplate: r"""Can't find '#string' to match '#lexeme'.""",
   withArgumentsOld: _withArgumentsOldUnmatchedToken,
@@ -3112,11 +3019,9 @@ Message _withArgumentsOldUnmatchedToken(String string, Token lexeme) =>
     _withArgumentsUnmatchedToken(string: string, lexeme: lexeme);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string),
-  Message Function({required String string})
->
-codeUnspecified = const Template(
+const Template<Message Function(String string),
+        Message Function({required String string})> codeUnspecified =
+    const Template(
   "Unspecified",
   problemMessageTemplate: r"""#string""",
   withArgumentsOld: _withArgumentsOldUnspecified,
@@ -3138,11 +3043,9 @@ Message _withArgumentsOldUnspecified(String string) =>
     _withArgumentsUnspecified(string: string);
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(Token lexeme),
-  Message Function({required Token lexeme})
->
-codeUnsupportedOperator = const Template(
+const Template<Message Function(Token lexeme),
+        Message Function({required Token lexeme})> codeUnsupportedOperator =
+    const Template(
   "UnsupportedOperator",
   problemMessageTemplate: r"""The '#lexeme' operator is not supported.""",
   withArgumentsOld: _withArgumentsOldUnsupportedOperator,
@@ -3180,11 +3083,9 @@ const MessageCode codeUnterminatedComment = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const Template<
-  Message Function(String string, String string2),
-  Message Function({required String string, required String string2})
->
-codeUnterminatedString = const Template(
+const Template<Message Function(String string, String string2),
+        Message Function({required String string, required String string2})>
+    codeUnterminatedString = const Template(
   "UnterminatedString",
   problemMessageTemplate:
       r"""String starting with #string must end with #string2.""",
@@ -3229,8 +3130,8 @@ const MessageCode codeVarReturnType = const MessageCode(
 );
 
 // DO NOT EDIT. THIS FILE IS GENERATED. SEE TOP OF FILE.
-const MessageCode
-codeVariablePatternKeywordInDeclarationContext = const MessageCode(
+const MessageCode codeVariablePatternKeywordInDeclarationContext =
+    const MessageCode(
   "VariablePatternKeywordInDeclarationContext",
   index: 149,
   problemMessage:

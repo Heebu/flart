@@ -270,10 +270,9 @@ TestData computeTestData(
   } else if (testFile is Directory) {
     testName = testFileUri.pathSegments[testFileUri.pathSegments.length - 2];
     additionalFiles = new Map<String, File>();
-    for (FileSystemEntity entry
-        in testFile
-            .listSync(recursive: true)
-            .where((entity) => !entity.path.endsWith('~'))) {
+    for (FileSystemEntity entry in testFile
+        .listSync(recursive: true)
+        .where((entity) => !entity.path.endsWith('~'))) {
       if (entry is! File) continue;
       if (entry.uri.pathSegments.last == "main.dart") {
         mainTestFile = entry;
@@ -388,13 +387,13 @@ class TestResult<T> {
   final CompiledData<T>? compiledData;
 
   TestResult(this.interpreter, this.compiledData, this.hasMismatches)
-    : isErroneous = false;
+      : isErroneous = false;
 
   TestResult.erroneous()
-    : isErroneous = true,
-      hasMismatches = false,
-      interpreter = null,
-      compiledData = null;
+      : isErroneous = true,
+        hasMismatches = false,
+        interpreter = null,
+        compiledData = null;
 
   bool get hasFailures => hasMismatches || isErroneous;
 }
@@ -573,9 +572,9 @@ Future<TestResult<T>> checkCode<T>(
             succinct
                 ? 'EXTRA $modeName DATA for ${id.descriptor}'
                 : 'EXTRA $modeName DATA for ${id.descriptor}:\n '
-                      'object   : ${actualData.objectText}\n '
-                      'actual   : ${colorizeActual(actualValueText)}\n '
-                      'Data was expected for these ids: ${expectedMap.keys}',
+                    'object   : ${actualData.objectText}\n '
+                    'actual   : ${colorizeActual(actualValueText)}\n '
+                    'Data was expected for these ids: ${expectedMap.keys}',
             succinct: succinct,
           );
           if (filterActualData == null || filterActualData(null, actualData)) {
@@ -596,10 +595,10 @@ Future<TestResult<T>> checkCode<T>(
             succinct
                 ? 'UNEXPECTED $modeName DATA for ${id.descriptor}'
                 : 'UNEXPECTED $modeName DATA for ${id.descriptor}:\n '
-                      'detail  : ${colorizeMessage(unexpectedMessage)}\n '
-                      'object  : ${actualData.objectText}\n '
-                      'expected: ${colorizeExpected('$expected')}\n '
-                      'actual  : ${colorizeActual(actualValueText)}',
+                    'detail  : ${colorizeMessage(unexpectedMessage)}\n '
+                    'object  : ${actualData.objectText}\n '
+                    'expected: ${colorizeExpected('$expected')}\n '
+                    'actual  : ${colorizeActual(actualValueText)}',
             succinct: succinct,
           );
           if (filterActualData == null ||
@@ -634,8 +633,7 @@ Future<TestResult<T>> checkCode<T>(
     expectedMap?.forEach((Id id, IdValue expected) {
       if (!actualMap!.containsKey(id)) {
         missingIds.add(id);
-        String message =
-            'MISSING $modeName DATA for ${id.descriptor}: '
+        String message = 'MISSING $modeName DATA for ${id.descriptor}: '
             'Expected ${colorizeExpected('$expected')}';
         if (uri != null) {
           compiledData.reportError(
@@ -823,11 +821,14 @@ class MarkerOptions {
       print('================================================================');
       print('Running tester: ${tester.path} ${args.join(' ')}');
       print('================================================================');
-      Process process = await Process.start(Platform.resolvedExecutable, [
-        if (assertsEnabled) '--enable_asserts',
-        tester.uri.toString(),
-        ...args,
-      ], mode: ProcessStartMode.inheritStdio);
+      Process process = await Process.start(
+          Platform.resolvedExecutable,
+          [
+            if (assertsEnabled) '--enable_asserts',
+            tester.uri.toString(),
+            ...args,
+          ],
+          mode: ProcessStartMode.inheritStdio);
       if (await process.exitCode != 0) {
         errorsCount++;
       }
@@ -1045,8 +1046,8 @@ Future<void> runTests<T>(
               //  invalid uris.
               return;
             }
-            Map<Id, ActualData<T>> actualDataPerId = actualDataPerUri[uri] ??=
-                {};
+            Map<Id, ActualData<T>> actualDataPerId =
+                actualDataPerUri[uri] ??= {};
             actualDataPerId.addAll(actualData);
           }
 

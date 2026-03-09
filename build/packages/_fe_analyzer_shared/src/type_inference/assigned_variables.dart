@@ -184,8 +184,8 @@ class AssignedVariables<Node extends Object, Variable extends Object> {
       );
       assert(_stack.length == 1, "Unexpected stack: $_stack");
       Set<Variable?> vars(Set<int> keys) => {
-        for (int key in keys) promotionKeyStore.variableForKey(key),
-      };
+            for (int key in keys) promotionKeyStore.variableForKey(key),
+          };
       AssignedVariablesNodeInfo last = _stack.last;
       Set<int> undeclaredReads = last.read.difference(last.declared);
       assert(

@@ -1,4 +1,4 @@
-﻿import 'dart:html' as html;
+import 'dart:html' as html;
 import '../../../flartdart.dart';
 import '../../helper/file_picker_manager.dart';
 
@@ -39,7 +39,6 @@ class FDImagePicker extends Widget {
   }
 }
 
-
 //FDImagePicker(
 //   multiple: false,
 //   buttonLabel: "Upload Profile Pic",
@@ -56,6 +55,3 @@ class FDImagePicker extends Widget {
 //     // You can generate a Blob URL or base64 if needed
 //   },
 // )
-
-
-

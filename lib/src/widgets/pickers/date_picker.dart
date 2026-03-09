@@ -1,4 +1,4 @@
-﻿import 'dart:html';
+import 'dart:html';
 import '../../../flartdart.dart';
 
 typedef DateCallback = void Function(DateTime date);
@@ -40,6 +40,3 @@ class FDDatePicker extends Widget {
     });
   }
 }
-
-
-

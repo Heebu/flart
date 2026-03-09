@@ -50,8 +50,8 @@ Map<Uri, List<Annotation>> computeAnnotationsPerUri<T>(
       dataMap.forEach((Id id, ActualData<T> data) {
         Map<Id, Map<String, ActualData<T>>> actualDataPerId =
             actualDataPerUri[uri] ??= {};
-        Map<String, ActualData<T>> actualDataPerMarker = actualDataPerId[id] ??=
-            {};
+        Map<String, ActualData<T>> actualDataPerMarker =
+            actualDataPerId[id] ??= {};
         actualDataPerMarker[marker] = data;
       });
     });

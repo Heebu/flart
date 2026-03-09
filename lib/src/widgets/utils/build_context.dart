@@ -1,5 +1,5 @@
 import '../widget.dart';
-import '../../styles/media_querry.dart';
+import '../../styles/media_query.dart';
 import '../../styles/theme.dart';
 
 class BuildContext {

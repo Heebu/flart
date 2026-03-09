@@ -18,13 +18,13 @@ class FDForm extends StatefulWidget {
 }
 
 class FDFormState extends State<FDForm> {
-  final Set<FDFormFieldState> _fields = {};
+  final Set<FDFormFieldState<dynamic, FDFormField<dynamic>>> _fields = {};
 
-  void registerField(FDFormFieldState field) {
+  void registerField(FDFormFieldState<dynamic, FDFormField<dynamic>> field) {
     _fields.add(field);
   }
 
-  void unregisterField(FDFormFieldState field) {
+  void unregisterField(FDFormFieldState<dynamic, FDFormField<dynamic>> field) {
     _fields.remove(field);
   }
 

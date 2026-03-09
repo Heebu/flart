@@ -11,7 +11,7 @@ class CommandLineProblem {
   CommandLineProblem(this.message);
 
   CommandLineProblem.deprecated(String message)
-    : this(codeUnspecified.withArgumentsOld(message));
+      : this(codeUnspecified.withArgumentsOld(message));
 
   @override
   String toString() => message.problemMessage;
