@@ -1,6 +1,7 @@
 import 'dart:html';
 import 'src/widgets/widget.dart';
 import 'src/widgets/utils/build_context.dart';
+import 'src/widgets/utils/reconciler.dart';
 
 Widget? _rootWidget;
 Element? _appContainer;
@@ -46,8 +47,7 @@ void _renderApp() {
   try {
     final context = BuildContext(widget: _rootWidget!);
     final html = _rootWidget!.render(context);
-
-    _appContainer!.setInnerHtml(html, treeSanitizer: NodeTreeSanitizer.trusted);
+    SmartReconciler.reconcile(_appContainer!, html);
 
     _attachEventListeners();
   } catch (e, stack) {
@@ -81,8 +81,7 @@ void renderOverlays(List<dynamic> entries) {
       .map((entry) => (entry.builder(context) as Widget).render(context))
       .join();
 
-  _overlayContainer!
-      .setInnerHtml(html, treeSanitizer: NodeTreeSanitizer.trusted);
+  SmartReconciler.reconcile(_overlayContainer!, html);
 
   // Enable pointer events only if there are entries
   _overlayContainer!.style.pointerEvents = entries.isNotEmpty ? 'auto' : 'none';

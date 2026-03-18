@@ -10,6 +10,7 @@ export 'src/widgets/stateless_widget.dart';
 export 'src/widgets/inherited_widget.dart';
 export 'src/widgets/utils/async_widgets.dart';
 export 'src/widgets/utils/raw_html.dart';
+export 'src/widgets/utils/reconciler.dart';
 export 'run_app.dart';
 
 // Foundation

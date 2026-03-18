@@ -1,5 +1,6 @@
 import 'dart:html';
 import '../../flartdart.dart';
+import 'utils/reconciler.dart';
 
 // Global state registry to persist state across renders
 final Map<String, State> _stateRegistry = {};
@@ -41,88 +42,11 @@ abstract class State<T extends StatefulWidget> {
 
     final element = document.getElementById(_stateKey!);
     if (element != null) {
-      // 1. Capture scroll positions and focus before update
-      final activeElement = document.activeElement;
-      String? focusedId;
-      int? cursorStart;
-      int? cursorEnd;
-      if (activeElement != null && element.contains(activeElement)) {
-        focusedId = activeElement.id;
-        if (activeElement is InputElement) {
-          cursorStart = activeElement.selectionStart;
-          cursorEnd = activeElement.selectionEnd;
-        } else if (activeElement is TextAreaElement) {
-          cursorStart = activeElement.selectionStart;
-          cursorEnd = activeElement.selectionEnd;
-        }
-      }
-
-      final scrollState = <String, Point<int>>{};
-      final scrollableElements = element.querySelectorAll('*');
-      for (final el in scrollableElements) {
-        if (el.scrollTop > 0 || el.scrollLeft > 0) {
-          scrollState[_getElementPath(el, element)] =
-              Point(el.scrollLeft, el.scrollTop);
-        }
-      }
-
-      // Re-render only this widget
+      // Selective Re-render using the reconciler
       final newHtml = build(context).render(context);
-      // We perform an innerHTML replacement on the wrapping FDContainer
-      // This preserves the wrapper itself with the ID
-      element.setInnerHtml(newHtml, treeSanitizer: NodeTreeSanitizer.trusted);
-
-      // 2. Restore scroll positions
-      scrollState.forEach((path, point) {
-        final el = _getElementByPath(element, path);
-        if (el != null) {
-          el.scrollLeft = point.x;
-          el.scrollTop = point.y;
-        }
-      });
-
-      // 3. Restore focus and cursor
-      if (focusedId != null && focusedId.isNotEmpty) {
-        final el = document.getElementById(focusedId);
-        if (el != null) {
-          el.focus();
-          if (el is InputElement && cursorStart != null && cursorEnd != null) {
-            el.setSelectionRange(cursorStart, cursorEnd);
-          } else if (el is TextAreaElement &&
-              cursorStart != null &&
-              cursorEnd != null) {
-            el.setSelectionRange(cursorStart, cursorEnd);
-          }
-        }
-      }
+      SmartReconciler.reconcile(element, newHtml);
     } else {
-      // Fallback if element not found in DOM
       reRenderApp();
-    }
-  }
-
-  String _getElementPath(Element target, Element root) {
-    if (target == root) return '';
-    final parent = target.parent;
-    if (parent == null) return '';
-
-    final index = parent.children.indexOf(target);
-    final parentPath = _getElementPath(parent, root);
-    return parentPath.isEmpty ? '$index' : '$parentPath/$index';
-  }
-
-  Element? _getElementByPath(Element root, String path) {
-    if (path.isEmpty) return root;
-    try {
-      final indices = path.split('/').map(int.parse).toList();
-      Element current = root;
-      for (final index in indices) {
-        if (index < 0 || index >= current.children.length) return null;
-        current = current.children[index];
-      }
-      return current;
-    } catch (e) {
-      return null;
     }
   }
 
