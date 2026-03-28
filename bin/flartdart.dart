@@ -107,7 +107,7 @@ Future<void> _runDonate() async {
 
 Future<void> _runApp(bool release, String port) async {
   print('=========================================');
-  print('🔥 FLARTDART CLI v1.5.0 - STARTING APP 🔥');
+  print('🔥 FLARTDART CLI v1.5.1 - STARTING APP 🔥');
   print('=========================================');
   print('🚀 Mode: ${release ? 'PRODUCTION' : 'DEVELOPMENT'}');
   print('🌐 Port: $port');
@@ -200,7 +200,7 @@ Future<void> _runDoctor() async {
   print('[✓] Dart SDK: $dartVersion');
 
   // Check Flartdart
-  print('[✓] Flartdart Tool: 1.5.0 [LATEST]');
+  print('[✓] Flartdart Tool: 1.5.1 [LATEST]');
 
   // Check Environment
   print(
@@ -241,7 +241,7 @@ Future<void> _createProject(String name, String? localPath) async {
         ? '''
   flartdart:
     path: ${localPath.replaceAll('\\', '/')}'''
-        : '  flartdart: ^1.0.0';
+        : '  flartdart: ^1.5.1';
 
     await pubspec.writeAsString('''
 name: $name

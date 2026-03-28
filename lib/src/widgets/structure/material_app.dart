@@ -114,7 +114,7 @@ class FDMaterialApp extends Widget {
     return '''
       <div id="flart-root-wrapper" style="position: relative; width: 100vw; height: 100vh; overflow: hidden;">
         $mainHtml
-        <div title="Flart Debug Mode (v1.5.0)" style="
+        <div title="Flart Debug Mode (v1.5.1)" style="
           position: fixed;
           top: 0;
           right: 0;
