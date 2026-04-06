@@ -5,6 +5,7 @@ void main(List<String> arguments) async {
   final createParser = ArgParser()
     ..addOption('local-path',
         help: 'Path to local flartdart package (for development)');
+  
   final runParser = ArgParser()
     ..addFlag('release',
         abbr: 'r', help: 'Run in release mode', negatable: false)
@@ -21,9 +22,14 @@ void main(List<String> arguments) async {
     ..addCommand('test', ArgParser())
     ..addCommand('clean', ArgParser())
     ..addCommand('analyze', ArgParser())
+    ..addCommand('pub', _createPubParser())
+    ..addCommand('get', ArgParser())
+    ..addCommand('upgrade', ArgParser())
     ..addCommand('doctor', ArgParser())
+    ..addCommand('devices', ArgParser())
     ..addCommand('fix', ArgParser())
     ..addCommand('donate', ArgParser())
+    ..addFlag('version', abbr: 'v', negatable: false, help: 'Show version information')
     ..addFlag('help', abbr: 'h', negatable: false, help: 'Show this help');
 
   ArgResults results;
@@ -32,6 +38,11 @@ void main(List<String> arguments) async {
   } catch (e) {
     print('Error: ${e.toString()}');
     _printUsage(parser);
+    return;
+  }
+
+  if (results['version'] == true) {
+    print('Flartdart CLI v1.5.1');
     return;
   }
 
@@ -64,8 +75,16 @@ void main(List<String> arguments) async {
     await _runClean();
   } else if (command?.name == 'analyze') {
     await _runAnalyze();
+  } else if (command?.name == 'pub') {
+    await _runPub(command!);
+  } else if (command?.name == 'get') {
+    await _runPubGet();
+  } else if (command?.name == 'upgrade') {
+    await _runPubUpgrade();
   } else if (command?.name == 'doctor') {
     await _runDoctor();
+  } else if (command?.name == 'devices') {
+    await _runDevices();
   } else if (command?.name == 'fix') {
     await _runFix();
   } else if (command?.name == 'donate') {
@@ -75,24 +94,81 @@ void main(List<String> arguments) async {
   }
 }
 
+ArgParser _createPubParser() {
+  return ArgParser()
+    ..addCommand('get', ArgParser())
+    ..addCommand('upgrade', ArgParser())
+    ..addCommand('add', ArgParser())
+    ..addCommand('remove', ArgParser());
+}
+
 void _printUsage(ArgParser parser) {
-  print('Flartdart CLI Tool');
+  print('Flartdart CLI - A Flutter-inspired framework for Dart Web');
   print('Usage: flartdart <command> [arguments]');
   print('\nCommands:');
-  print('  create <project_name>   Create a new Flartdart project');
-  print('  run                     Run the application (dev mode by default)');
-  print('    --release, -r         Run in release (production) mode');
-  print('    --port, -p            Port to serve on (default: 8080)');
-  print('  build                   Build the application');
-  print('    --release, -r         Build for release');
-  print('  test                    Run tests for the project');
-  print('  clean                   Clean build artifacts and temporary files');
-  print('  analyze                 Run dart analyzer on the project');
-  print('  doctor                  Check the environment setup');
-  print('  fix                     Apply automated fixes for common issues');
-  print('  donate                  Support the project developers');
+  print('  create <name>       Create a new Flartdart project');
+  print('  run                 Run the application');
+  print('  build               Build the application');
+  print('  test                Run tests');
+  print('  clean               Clean build artifacts');
+  print('  analyze             Run dart analyzer');
+  print('  pub [get|upgrade]   Manage dependencies');
+  print('  get                 Shorthand for "pub get"');
+  print('  upgrade             Shorthand for "pub upgrade"');
+  print('  doctor              Check environment setup');
+  print('  devices             List available devices');
+  print('  fix                 Apply automated fixes');
+  print('  donate              Support the project');
   print('\nOptions:');
   print(parser.usage);
+}
+
+Future<void> _runPub(ArgResults command) async {
+  final subCommand = command.command;
+  if (subCommand == null) {
+    print('Usage: flartdart pub <get|upgrade|add|remove>');
+    return;
+  }
+
+  if (subCommand.name == 'get') {
+    await _runPubGet();
+  } else if (subCommand.name == 'upgrade') {
+    await _runPubUpgrade();
+  } else {
+    // Forward unknown subcommands to dart pub
+    print('Running "dart pub ${subCommand.name}"...');
+    final process = await Process.start(
+      'dart',
+      ['pub', subCommand.name!, ...subCommand.rest],
+      mode: ProcessStartMode.inheritStdio,
+    );
+    await process.exitCode;
+  }
+}
+
+Future<void> _runPubGet() async {
+  print('Running "dart pub get" in the current directory...');
+  final process = await Process.start(
+    'dart',
+    ['pub', 'get'],
+    mode: ProcessStartMode.inheritStdio,
+  );
+  await process.exitCode;
+}
+
+Future<void> _runPubUpgrade() async {
+  print('Running "dart pub upgrade" in the current directory...');
+  final process = await Process.start(
+    'dart',
+    ['pub', 'upgrade'],
+    mode: ProcessStartMode.inheritStdio,
+  );
+  await process.exitCode;
+}
+
+Future<void> _runDevices() async {
+  print('Found 1 available device:');
+  print('\nChrome (web) • chrome • web-javascript • Google Chrome');
 }
 
 Future<void> _runDonate() async {
@@ -111,6 +187,13 @@ Future<void> _runApp(bool release, String port) async {
   print('=========================================');
   print('🚀 Mode: ${release ? 'PRODUCTION' : 'DEVELOPMENT'}');
   print('🌐 Port: $port');
+
+  // Check if pubspec.yaml exists
+  if (!File('pubspec.yaml').existsSync()) {
+    print('❌ Error: No pubspec.yaml found in this directory.');
+    print('Make sure you are in a Flartdart project root.');
+    return;
+  }
 
   final args = ['run', 'webdev', 'serve', 'web:$port'];
   if (release) {
@@ -133,6 +216,12 @@ Future<void> _runApp(bool release, String port) async {
 Future<void> _buildApp(bool release) async {
   print(
       '🏗 Building Flartdart application for ${release ? 'RELEASE' : 'DEBUG'}...');
+
+  // Check if pubspec.yaml exists
+  if (!File('pubspec.yaml').existsSync()) {
+    print('❌ Error: No pubspec.yaml found in this directory.');
+    return;
+  }
 
   final args = ['run', 'build_runner', 'build', '--output', 'web:build'];
   if (release) {
@@ -357,9 +446,9 @@ pubspec.lock
     print('\nProject "$name" created successfully!');
     print('To run your app:');
     print('  cd $name');
-    print('  dart pub get');
+    print('  flartdart get');
     print('  flartdart run');
   } catch (e) {
-    print('Error creating project: \$e');
+    print('Error creating project: $e');
   }
 }

@@ -33,10 +33,14 @@ dart pub global activate --source path .
 | :--- | :--- |
 | `flartdart create <name>` | Create a new project with responsive boilerplate |
 | `flartdart run` | Start a dev server with Hot Reload (on port 8080) |
-| `flartdart run -r` | Run in optimized Release/Production mode |
-| `flartdart build -r` | Build the project for deployment (output in `web/build/`) |
+| `flartdart build` | Build the project for deployment (output in `web/build/`) |
+| `flartdart get` | Install dependencies for the project |
+| `flartdart upgrade` | Upgrade dependencies to latest versions |
 | `flartdart clean` | Clear build artifacts and logs |
+| `flartdart analyze` | Run static analysis on your code |
 | `flartdart doctor` | Verify your environment setup |
+| `flartdart devices` | List available devices (Web) |
+| `flartdart donate` | Support the project development |
 
 ---
 
