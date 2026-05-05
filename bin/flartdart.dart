@@ -122,9 +122,8 @@ USAGE: flartdart <command> [arguments]
 
 QUICK START:
   \$ dart pub global activate flartdart    # Install globally from pub.dev
-  \$ flartdart create my_app              # Create a new project
+  \$ flartdart create my_app              # Create a new project (auto-runs pub get)
   \$ cd my_app
-  \$ flartdart get                        # Get dependencies
   \$ flartdart run                        # Start dev server on :8080
 
 COMMANDS:
@@ -247,7 +246,7 @@ Future<void> _runApp(bool release, String port) async {
     print('');
   }
 
-  final args = ['run', 'webdev', 'serve', 'web:$port'];
+  final args = ['run', 'build_runner', 'serve', 'web:$port'];
   if (release) {
     args.add('--release');
   }
@@ -454,7 +453,6 @@ dev_dependencies:
   build_web_compilers: ^4.4.6
   lints: ^3.0.0
   test: ^1.24.0
-  webdev: ^3.8.1
 ''');
 
     // Create web/index.html
