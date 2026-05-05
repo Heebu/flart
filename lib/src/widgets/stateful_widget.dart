@@ -1,9 +1,19 @@
-import 'dart:html';
+import 'package:web/web.dart' as web;
 import '../../flartdart.dart';
-import 'utils/reconciler.dart';
 
 // Global state registry to persist state across renders
 final Map<String, State> _stateRegistry = {};
+
+/// Monotonic counter for generating stable positional state keys.
+/// Unlike hashCode, this counter provides deterministic ordering
+/// across re-renders when no explicit Key is provided.
+int _renderCounter = 0;
+
+/// Reset the render counter at the start of each full render pass.
+/// Called by [reRenderApp] to ensure consistent positional keys.
+void resetRenderCounter() {
+  _renderCounter = 0;
+}
 
 /// Base class for State objects.
 abstract class State<T extends StatefulWidget> {
@@ -40,12 +50,14 @@ abstract class State<T extends StatefulWidget> {
       return;
     }
 
-    final element = document.getElementById(_stateKey!);
+    final element = web.document.getElementById(_stateKey!);
     if (element != null) {
-      // Selective Re-render using the reconciler
+      // Use SmartReconciler instead of raw innerHTML replacement.
+      // This preserves focus, scroll positions, and input state automatically.
       final newHtml = build(context).render(context);
       SmartReconciler.reconcile(element, newHtml);
     } else {
+      // Fallback if element not found in DOM
       reRenderApp();
     }
   }
@@ -63,11 +75,12 @@ abstract class StatefulWidget extends Widget {
   String render(BuildContext context) {
     // Generate a unique key for this widget instance.
     // If a key is provided, we use it to maintain state across re-renders.
+    // Otherwise, use a monotonic positional counter for stable ordering.
     final safeRuntimeType =
         runtimeType.toString().replaceAll(RegExp(r'[<>]'), '_');
     final stateKey = key != null
         ? '${safeRuntimeType}_${key.toString()}'
-        : '${safeRuntimeType}_$hashCode';
+        : '${safeRuntimeType}_pos${_renderCounter++}';
 
     // Get or create state
     State state;
@@ -100,7 +113,7 @@ abstract class StatefulWidget extends Widget {
 
     final childHtml = state.build(childContext).render(childContext);
 
-    // Wrap in a uniquely identified FDContainer to allow scoped updates.
+    // Wrap in a uniquely identified container to allow scoped updates.
     // display: contents allows the wrapper to be invisible to layout/CSS.
     return '<div id="$stateKey" style="display: contents;">$childHtml</div>';
   }

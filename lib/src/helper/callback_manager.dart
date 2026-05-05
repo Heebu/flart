@@ -1,5 +1,11 @@
-import 'dart:html';
-import 'dart:js';
+import 'dart:js_interop';
+import 'package:web/web.dart' as web;
+
+@JS('__dartHandleClick')
+external set _dartClickHandler(JSFunction value);
+
+@JS('__dartHandleEvent')
+external set _dartEventHandler(JSFunction value);
 
 class FlartCallbackManager {
   static final _handlers = <String, void Function()>{};
@@ -27,9 +33,9 @@ class FlartCallbackManager {
   static void _injectGlobalHandler() {
     _jsInjected = true;
 
-    // Inject JS functions
-    final script = ScriptElement()
-      ..innerHtml = '''
+    // Inject JS bridge functions
+    final script = web.HTMLScriptElement()
+      ..textContent = '''
         window.__flartHandleClick = function(id) {
           if (window.__dartHandleClick) {
             window.__dartHandleClick(id);
@@ -41,17 +47,17 @@ class FlartCallbackManager {
           }
         };
       ''';
-    document.body?.append(script);
+    web.document.body?.append(script);
 
-    // Wire up Dart handlers
-    context['__dartHandleClick'] = allowInterop((String id) {
-      final handler = _handlers[id];
+    // Wire up Dart handlers via dart:js_interop
+    _dartClickHandler = ((JSString id) {
+      final handler = _handlers[id.toDart];
       if (handler != null) handler();
-    });
+    }).toJS;
 
-    context['__dartHandleEvent'] = allowInterop((String id, dynamic value) {
-      final handler = _eventHandlers[id];
-      if (handler != null) handler(value);
-    });
+    _dartEventHandler = ((JSString id, JSAny? value) {
+      final handler = _eventHandlers[id.toDart];
+      if (handler != null) handler(value?.dartify());
+    }).toJS;
   }
 }

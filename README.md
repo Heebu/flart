@@ -6,7 +6,7 @@ FlartDart brings the power, reactivity, and declarative UI of Flutter to the web
 
 ---
 
-## 🌟 Key Features (v1.5.1)
+## 🌟 Key Features (v1.6.0)
 
 *   **Integrated CLI**: A powerful `flartdart` tool for project creation, serving, and building.
 *   **Responsive Power**: Built-in `ScreenUtil` and numeric extensions (`.w`, `.h`, `.sp`) for perfect UI across devices.
@@ -23,7 +23,13 @@ FlartDart brings the power, reactivity, and declarative UI of Flutter to the web
 The framework comes with a dedicated CLI to manage your projects.
 
 ### 1. Installation
-Activate the tool globally from the package source:
+
+Install from pub.dev (recommended):
+```bash
+dart pub global activate flartdart
+```
+
+Or from a local clone (for development):
 ```bash
 dart pub global activate --source path .
 ```
@@ -31,9 +37,11 @@ dart pub global activate --source path .
 ### 2. Available Commands
 | Command | Description |
 | :--- | :--- |
-| `flartdart create <name>` | Create a new project with responsive boilerplate |
+| `flartdart create <name>` | Create a new project (templates: `--template default\|counter\|routing`) |
 | `flartdart run` | Start a dev server with Hot Reload (on port 8080) |
+| `flartdart run -r` | Run in optimized Release/Production mode |
 | `flartdart build` | Build the project for deployment (output in `web/build/`) |
+| `flartdart build -r` | Build in release/production mode |
 | `flartdart get` | Install dependencies for the project |
 | `flartdart upgrade` | Upgrade dependencies to latest versions |
 | `flartdart clean` | Clear build artifacts and logs |
@@ -80,12 +88,27 @@ FDContainer(
 
 ## 🚀 Getting Started
 
-### 1. Installation
+### Quick Start (CLI — Recommended)
+```bash
+# 1. Install the CLI
+dart pub global activate flartdart
+
+# 2. Create a project (auto-runs pub get)
+flartdart create my_app
+
+# 3. Run it
+cd my_app
+flartdart run
+
+# Open http://localhost:8080 in your browser!
+```
+
+### Manual Installation
 In your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flartdart: ^1.5.1
+  flartdart: ^1.6.0
 ```
 
 ---

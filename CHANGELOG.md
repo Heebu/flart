@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2026-05-05
+
+### 🏗️ Architecture & Internals
+
+- **Unified Event System**: Rewrote `FDGestureDetector` to use `FlartCallbackManager` exclusively, eliminating the competing `Future.delayed` + `getElementById` event architecture. The entire framework now uses a single, consistent event bridge pattern.
+- **Smart DOM Reconciler Activated**: `SmartReconciler` is now wired into `StatefulWidget._performScopedUpdate()`. Instead of raw `innerHTML` replacement, scoped updates now patch the DOM tree recursively — preserving focus, scroll positions, and input state automatically.
+- **Stable State Keys**: `StatefulWidget` now uses a monotonic positional counter instead of `hashCode` for state keys when no explicit `Key` is provided. This prevents silent state loss across re-renders.
+- **Consolidated on `package:web`**: Migrated `run_app.dart`, `stateful_widget.dart`, `gesture_detector.dart`, `callback_manager.dart`, `animation_controller.dart`, and `reconciler.dart` from the deprecated `dart:html` / `dart:js` APIs to `package:web` + `dart:js_interop`.
+- **Fixed Style Tag Accumulation**: `FDAnimate` now injects all `@keyframes` into a single shared `<style>` element instead of creating a new `<style>` tag per animated widget. Also uses a monotonic counter for IDs to prevent microsecond collisions.
+
+### 🚀 CLI Improvements
+
+- **Project Templates**: `flartdart create` now supports `--template` flag with three options: `default`, `counter`, and `routing`.
+- **Auto Dependency Resolution**: `flartdart create` automatically runs `dart pub get` after scaffolding. `flartdart run` auto-runs `pub get` on first run if `.dart_tool` doesn't exist.
+- **Project Name Validation**: CLI now validates that project names are valid Dart package names before creating.
+- **Richer Doctor Output**: `flartdart doctor` now checks webdev availability, dependency resolution state, and Dart SDK version compatibility.
+- **Beautiful Help Output**: Redesigned `--help` with a quick-start guide, formatted command reference, and useful links.
+
+### 🛠️ Improvements & Fixes
+
+- `FDGestureDetector` now has a proper `const` constructor.
+- All widget ID generation uses monotonic counters instead of `DateTime.now().microsecondsSinceEpoch` to prevent collisions.
+- `SmartReconciler` now uses `nodeName` checks instead of `is` type checks for `package:web` extension type compatibility.
+
+---
+
 ## [1.5.1] - 2026-03-09
 
 ### 🛠️ Improvements & Fixes

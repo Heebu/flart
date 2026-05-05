@@ -1,9 +1,31 @@
+import 'package:web/web.dart' as web;
+
 import '../../../flartdart.dart';
+
+/// Global counter for unique animation IDs (avoids microsecond collisions).
+int _animateCounter = 0;
+
+/// Shared stylesheet element for all FDAnimate keyframes.
+web.CSSStyleSheet? _sharedAnimationSheet;
+
+/// Tracks which keyframe names have already been injected.
+final Set<String> _injectedKeyframes = {};
+
+/// Ensures the shared animation stylesheet exists in the document head.
+void _ensureSharedSheet() {
+  if (_sharedAnimationSheet != null) return;
+
+  final style = web.HTMLStyleElement()
+    ..id = 'flart-animation-sheet';
+  web.document.head?.append(style);
+  _sharedAnimationSheet = style.sheet;
+}
 
 /// A powerful entry animation wrapper.
 ///
 /// Wraps a widget and applies entrance animations (fade, scale, slide)
-/// when it first appears in the DOM.
+/// when it first appears in the DOM. All keyframes are injected into a
+/// single shared `<style>` element to prevent style tag accumulation.
 class FDAnimate extends Widget {
   final Widget child;
   final Duration duration;
@@ -30,7 +52,7 @@ class FDAnimate extends Widget {
 
   @override
   String render(BuildContext context) {
-    final id = 'animate_${DateTime.now().microsecondsSinceEpoch}';
+    final id = 'animate_${_animateCounter++}';
 
     final initialOpacity = fadeIn ? '0' : '1';
     final currentScale = scale ?? startScale;
@@ -41,8 +63,10 @@ class FDAnimate extends Widget {
 
     final initialTransform = '$initialScale $initialTranslate'.trim();
 
-    return '''
-      <style>
+    // Inject the keyframe rule into the shared stylesheet (once per unique animation).
+    if (!_injectedKeyframes.contains(id)) {
+      _ensureSharedSheet();
+      final rule = '''
         @keyframes anim_$id {
           0% {
             opacity: $initialOpacity;
@@ -53,7 +77,16 @@ class FDAnimate extends Widget {
             transform: none;
           }
         }
-      </style>
+      ''';
+      try {
+        _sharedAnimationSheet?.insertRule(rule, _sharedAnimationSheet!.cssRules.length);
+      } catch (_) {
+        // Fallback: if insertRule fails, the animation simply won't play.
+      }
+      _injectedKeyframes.add(id);
+    }
+
+    return '''
       <div id="$id" style="
         animation: anim_$id ${duration.inMilliseconds}ms ease-out ${delay.inMilliseconds}ms both;
         will-change: opacity, transform;

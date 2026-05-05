@@ -1,18 +1,19 @@
-import 'dart:html';
+import 'dart:js_interop';
+import 'package:web/web.dart' as web;
 import 'src/widgets/widget.dart';
+import 'src/widgets/stateful_widget.dart' show resetRenderCounter;
 import 'src/widgets/utils/build_context.dart';
-import 'src/widgets/utils/reconciler.dart';
 
 Widget? _rootWidget;
-Element? _appContainer;
-Element? _overlayContainer;
+web.Element? _appContainer;
+web.HTMLElement? _overlayContainer;
 
 void runApp(Widget rootWidget) {
   _rootWidget = rootWidget;
 
-  _appContainer = document.querySelector('#output') ??
-      document.querySelector('#app') ??
-      document.body;
+  _appContainer = web.document.querySelector('#output') ??
+      web.document.querySelector('#app') ??
+      web.document.body as web.Element?;
 
   _ensureOverlayContainer();
   // We no longer clear the entire head, as it removes the original style.css from index.html.
@@ -23,18 +24,20 @@ void runApp(Widget rootWidget) {
 }
 
 void _ensureOverlayContainer() {
-  _overlayContainer = document.querySelector('#flart-overlay');
+  _overlayContainer =
+      web.document.querySelector('#flart-overlay') as web.HTMLElement?;
   if (_overlayContainer == null) {
-    _overlayContainer = document.createElement('div')
-      ..id = 'flart-overlay'
-      ..style.position = 'fixed'
-      ..style.top = '0'
-      ..style.left = '0'
-      ..style.width = '100vw'
-      ..style.height = '100vh'
-      ..style.pointerEvents = 'none'
-      ..style.zIndex = '9999';
-    document.body?.append(_overlayContainer!);
+    final overlay = web.HTMLDivElement()
+      ..id = 'flart-overlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100vw';
+    overlay.style.height = '100vh';
+    overlay.style.pointerEvents = 'none';
+    overlay.style.zIndex = '9999';
+    _overlayContainer = overlay;
+    web.document.body?.append(overlay);
   }
 }
 
@@ -44,21 +47,25 @@ void _renderApp() {
     return;
   }
 
+  // Reset the positional counter so StatefulWidget keys stay stable.
+  resetRenderCounter();
+
   try {
     final context = BuildContext(widget: _rootWidget!);
     final html = _rootWidget!.render(context);
-    SmartReconciler.reconcile(_appContainer!, html);
+
+    _appContainer!.setHTMLUnsafe(html.toJS);
 
     _attachEventListeners();
   } catch (e, stack) {
     print('Error rendering app: $e\n$stack');
-    _appContainer!.setInnerHtml('''
+    _appContainer!.setHTMLUnsafe('''
       <div style="padding: 20px; color: red; font-family: sans-serif; background: #fff;">
         <h2>Flart Framework Error</h2>
         <p><strong>Message:</strong> $e</p>
         <pre style="overflow: auto; font-size: 12px; margin-top: 10px; background: #f5f5f5; padding: 10px;">$stack</pre>
       </div>
-    ''', treeSanitizer: NodeTreeSanitizer.trusted);
+    '''.toJS);
   }
 }
 
@@ -81,8 +88,9 @@ void renderOverlays(List<dynamic> entries) {
       .map((entry) => (entry.builder(context) as Widget).render(context))
       .join();
 
-  SmartReconciler.reconcile(_overlayContainer!, html);
+  _overlayContainer!.setHTMLUnsafe(html.toJS);
 
   // Enable pointer events only if there are entries
-  _overlayContainer!.style.pointerEvents = entries.isNotEmpty ? 'auto' : 'none';
+  _overlayContainer!.style.pointerEvents =
+      entries.isNotEmpty ? 'auto' : 'none';
 }

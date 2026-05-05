@@ -1,4 +1,5 @@
-import 'dart:html';
+import 'dart:js_interop';
+import 'package:web/web.dart' as web;
 import '../../flartdart.dart';
 
 typedef AnimationListener = void Function();
@@ -92,7 +93,7 @@ class AnimationController {
   void _animateTo(double target, Duration duration,
       {Curve curve = Curves.linear}) {
     if (_animationFrameId != null) {
-      window.cancelAnimationFrame(_animationFrameId!);
+      web.window.cancelAnimationFrame(_animationFrameId!);
       _animationFrameId = null;
     }
 
@@ -114,7 +115,8 @@ class AnimationController {
     void tick(num timestamp) {
       if (_startTime == null) {
         _startTime = timestamp;
-        _animationFrameId = window.requestAnimationFrame(tick);
+        _animationFrameId =
+            web.window.requestAnimationFrame(((JSNumber ts) => tick(ts.toDartDouble)).toJS);
         return;
       }
 
@@ -127,7 +129,8 @@ class AnimationController {
       value = _startValue + (_targetValue - _startValue) * transformedT;
 
       if (elapsed < durationMs) {
-        _animationFrameId = window.requestAnimationFrame(tick);
+        _animationFrameId =
+            web.window.requestAnimationFrame(((JSNumber ts) => tick(ts.toDartDouble)).toJS);
       } else {
         value = _targetValue;
         _notifyStatusListeners(value == upperBound
@@ -137,12 +140,13 @@ class AnimationController {
       }
     }
 
-    _animationFrameId = window.requestAnimationFrame(tick);
+    _animationFrameId =
+        web.window.requestAnimationFrame(((JSNumber ts) => tick(ts.toDartDouble)).toJS);
   }
 
   void stop() {
     if (_animationFrameId != null) {
-      window.cancelAnimationFrame(_animationFrameId!);
+      web.window.cancelAnimationFrame(_animationFrameId!);
       _animationFrameId = null;
     }
   }
