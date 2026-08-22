@@ -649,7 +649,10 @@ class HomePage extends StatelessWidget {
             ),
             FDSizedBox(height: 24.0.h),
             FDElevatedButton(
-              onPressed: () => PageNavigator.pushNamed('/about'),
+              onPressed: () => PageNavigator.pushNamed(
+                '/about',
+                transition: RouteTransition.slideLeft,
+              ),
               child: const FDText('Go to About'),
             ),
           ],
@@ -679,7 +682,9 @@ class AboutPage extends StatelessWidget {
             ),
             FDSizedBox(height: 24.0.h),
             FDElevatedButton(
-              onPressed: () => PageNavigator.pop(),
+              onPressed: () => PageNavigator.pop(
+                transition: RouteTransition.slideRight,
+              ),
               child: const FDText('Go Back'),
             ),
           ],

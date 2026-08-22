@@ -49,6 +49,7 @@ export 'src/styles/flart_gradient.dart';
 export 'src/styles/media_query.dart';
 export 'src/styles/responsive_utils.dart';
 export 'src/styles/navigation.dart';
+export 'src/helper/route_utils.dart';
 export 'src/styles/text_style.dart';
 export 'src/styles/shape.dart';
 export 'src/styles/theme.dart';

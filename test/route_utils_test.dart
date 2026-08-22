@@ -23,9 +23,29 @@ void main() {
       expect(params, isNotNull);
       expect(params!['query'], 'hello world');
     });
+
+    test('matches wildcard catch-all at end', () {
+      final params = matchRoutePattern('/docs/*', '/docs/api/v2/auth');
+      expect(params, isNotNull);
+      expect(params!['*'], 'api/v2/auth');
+    });
+
+    test('matches wildcard when no trailing segments exist', () {
+      final params = matchRoutePattern('/docs/*', '/docs');
+      expect(params, isNotNull);
+      expect(params!['*'], '');
+    });
   });
 
   group('buildHashRouteUrl', () {
+    test('interpolates path parameters from params map', () {
+      final url = buildHashRouteUrl('/users/:id', <String, String>{
+        'id': '42',
+        'tab': 'posts',
+      });
+      expect(url, '#/users/42?tab=posts');
+    });
+
     test('normalizes routes and encodes query params', () {
       final url = buildHashRouteUrl('details/42', <String, String>{
         'filter': 'active users',
@@ -40,6 +60,22 @@ void main() {
     test('supports empty params', () {
       expect(buildHashRouteUrl('/home', null), '#/home');
       expect(buildHashRouteUrl('/home', <String, String>{}), '#/home');
+    });
+
+    test('interpolates wildcard parameter', () {
+      final url = buildHashRouteUrl('/docs/*', <String, String>{
+        '*': 'api/v2/auth',
+      });
+      expect(url, '#/docs/api/v2/auth');
+    });
+  });
+
+  group('normalizePath', () {
+    test('strips trailing slashes and normalizes root', () {
+      expect(normalizePath(''), '/');
+      expect(normalizePath('/'), '/');
+      expect(normalizePath('/about/'), '/about');
+      expect(normalizePath('///about//team///'), '/about/team');
     });
   });
 }

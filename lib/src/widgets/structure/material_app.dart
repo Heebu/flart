@@ -79,8 +79,12 @@ class FDMaterialApp extends Widget {
     }
 
     if (rawCss != null) {
-      final styleElement = web.HTMLStyleElement()
-        ..textContent = '''
+      var styleElement = web.document.head?.querySelector('#flart-raw-css') as web.HTMLStyleElement?;
+      if (styleElement == null) {
+        styleElement = web.HTMLStyleElement()..id = 'flart-raw-css';
+        web.document.head?.append(styleElement);
+      }
+      styleElement.textContent = '''
         /* Global Reset */
         *, *::before, *::after {
           box-sizing: border-box;
@@ -98,7 +102,6 @@ class FDMaterialApp extends Widget {
 
         $rawCss
       ''';
-      web.document.head?.append(styleElement);
     }
 
     final mainHtml = homeWidget.render(context);
@@ -114,7 +117,7 @@ class FDMaterialApp extends Widget {
     return '''
       <div id="flart-root-wrapper" style="position: relative; width: 100vw; height: 100vh; overflow: hidden;">
         $mainHtml
-        <div title="Flart Debug Mode (v1.5.1)" style="
+        <div title="Flart Debug Mode (v1.6.0)" style="
           position: fixed;
           top: 0;
           right: 0;
@@ -147,13 +150,17 @@ class FDMaterialApp extends Widget {
   }
 
   void _injectFavicon() {
-    final existingIcon = web.document.head?.querySelector("link[rel*='icon']");
+    final targetHref = favicon ?? 'assets/flart_logo.png';
+    final existingIcon = web.document.head?.querySelector("link[rel*='icon']") as web.HTMLLinkElement?;
+    if (existingIcon != null && existingIcon.href.endsWith(targetHref)) {
+      return;
+    }
     existingIcon?.remove();
 
     final link = web.HTMLLinkElement()
       ..type = 'image/x-icon'
       ..rel = 'shortcut icon'
-      ..href = favicon ?? 'assets/flart_logo.png';
+      ..href = targetHref;
     web.document.head?.append(link);
   }
 
