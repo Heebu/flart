@@ -1,5 +1,6 @@
 import '../../flartdart.dart';
-import 'dart:html';
+import 'package:web/web.dart';
+import 'dart:js_interop';
 
 abstract class CustomPainter {
   void paint(CanvasRenderingContext2D context, num width, num height);
@@ -26,7 +27,7 @@ class FDCustomPaint extends Widget {
 
     // After render, use Dart to draw
     Future.microtask(() {
-      final canvas = document.getElementById(id) as CanvasElement?;
+      final canvas = document.getElementById(id) as HTMLCanvasElement?;
       if (canvas != null) {
         final ctx = canvas.context2D;
         painter.paint(ctx, width, height);
@@ -41,7 +42,7 @@ class MyPainter extends CustomPainter {
   @override
   void paint(CanvasRenderingContext2D ctx, num width, num height) {
     ctx
-      ..fillStyle = 'red'
+      ..fillStyle = 'red'.toJS
       ..fillRect(10, 10, 100, 100);
   }
 }

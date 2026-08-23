@@ -55,7 +55,7 @@ class FDGridView extends Widget {
         maxCrossAxisExtent = null;
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     int resolvedCount = crossAxisCount ?? 2;
     List<Widget> builtChildren = [];
 
@@ -73,24 +73,40 @@ class FDGridView extends Widget {
         break;
     }
 
-    final styleMap = <String, String>{
+    final styles = <String, String>{
       'display': 'grid',
-      if (type == GridViewType.extent)
-        'grid-template-columns':
-            'repeat(auto-fit, minmax(${maxCrossAxisExtent!.toInt()}px, 1fr))'
-      else
-        'grid-template-columns': 'repeat($resolvedCount, 1fr)',
+      'grid-template-columns': type == GridViewType.extent
+          ? 'repeat(auto-fit, minmax(${maxCrossAxisExtent!.toInt()}px, 1fr))'
+          : 'repeat($resolvedCount, 1fr)',
       'gap': '${mainAxisSpacing}px ${crossAxisSpacing}px',
-      if (cssStyle != null) ...cssStyle!,
     };
 
-    final styleString =
-        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    if (cssStyle != null) {
+      styles.addAll(cssStyle!);
+    }
 
-    final childrenHtml = builtChildren
-        .map((child) => '<div>${child.render(context)}</div>')
-        .join();
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
 
-    return '<div style="$styleString ${rawCss ?? ''}">$childrenHtml</div>';
+    final childrenNodes = builtChildren
+        .map((child) => FlartElementNode(
+              'div',
+              children: [child.buildNode(context)],
+            ))
+        .toList();
+
+    return FlartElementNode(
+      'div',
+      styles: styles,
+      children: childrenNodes,
+    );
   }
 }

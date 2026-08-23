@@ -1,20 +1,25 @@
-import 'dart:html';
-import 'dart:js' as js;
+import 'package:web/web.dart';
+import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
 
 void setupFlartPickersBridge() {
-  js.context['__flartDateSelected'] = js.allowInterop((String id) {
-    final input = document.getElementById(id) as InputElement?;
-    if (input != null && input.value != null) {
-      final date = DateTime.parse(input.value!);
-      print('📅 Date picked globally: $date');
-    }
-  });
+  globalContext.setProperty(
+      '__flartDateSelected'.toJS,
+      ((String id) {
+        final input = document.getElementById(id) as HTMLInputElement?;
+        if (input != null && input.value != '') {
+          final date = DateTime.parse(input.value);
+          print('📅 Date picked globally: $date');
+        }
+      }).toJS);
 
-  js.context['__flartTimeSelected'] = js.allowInterop((String id) {
-    final input = document.getElementById(id) as InputElement?;
-    if (input != null && input.value != null) {
-      final time = input.value!;
-      print('⏰ Time picked globally: $time');
-    }
-  });
+  globalContext.setProperty(
+      '__flartTimeSelected'.toJS,
+      ((String id) {
+        final input = document.getElementById(id) as HTMLInputElement?;
+        if (input != null && input.value != '') {
+          final time = input.value;
+          print('⏰ Time picked globally: $time');
+        }
+      }).toJS);
 }

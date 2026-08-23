@@ -1,4 +1,5 @@
-import 'dart:html';
+import 'package:web/web.dart';
+import 'dart:js_interop';
 import '../../../flartdart.dart';
 
 /// A scroll-responsive app bar that expands and collapses.
@@ -41,26 +42,28 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
     // In Flart's current architecture, this is often the body or a ScrollView
     Future.delayed(Duration.zero, () {
       final scrollable = _findScrollableParent();
-      scrollable?.onScroll.listen((event) {
-        final scrollTop = (event.target as Element).scrollTop.toDouble();
-        if ((scrollTop - _scrollOffset).abs() > 2) {
-          setState(() {
-            _scrollOffset = scrollTop;
-          });
-        }
-      });
+      scrollable?.addEventListener(
+          'scroll',
+          ((Event event) {
+            final scrollTop = (event.target as Element).scrollTop.toDouble();
+            if ((scrollTop - _scrollOffset).abs() > 2) {
+              setState(() {
+                _scrollOffset = scrollTop;
+              });
+            }
+          }).toJS);
     });
   }
 
   Element? _findScrollableParent() {
     // Look for parent with overflow auto/scroll
-    Element? parent = document.getElementById(_scrollListenerId)?.parent;
+    Element? parent = document.getElementById(_scrollListenerId)?.parentElement;
     while (parent != null) {
-      final style = parent.getComputedStyle();
+      final style = window.getComputedStyle(parent);
       if (style.overflowY == 'auto' || style.overflowY == 'scroll') {
         return parent;
       }
-      parent = parent.parent;
+      parent = parent.parentElement;
     }
     return document.body;
   }

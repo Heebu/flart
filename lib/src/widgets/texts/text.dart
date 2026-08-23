@@ -21,7 +21,7 @@ class FDText extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     final themeStyle = Theme.of(context).textStyle;
 
     final combinedStyle = {
@@ -35,10 +35,28 @@ class FDText extends Widget {
       combinedStyle['text-align'] = textAlign.toString().split('.').last;
     }
 
-    final styleString =
-        combinedStyle.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    // Include rawCss via a hack or parse it?
+    // We don't have a full CSS parser in FlartNode styles yet, 
+    // so we can merge it if needed, but usually rawCss isn't used if we have VDOM.
+    // For now, if rawCss is provided, we can just apply it via string, but FlartNode takes a map.
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      // Basic inline style parser for rawCss
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          combinedStyle[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
     final tagName = tag.toString().split('.').last;
 
-    return '<$tagName style="$styleString ${rawCss ?? ''}">$content</$tagName>';
+    return FlartElementNode(
+      tagName,
+      styles: combinedStyle,
+      children: [FlartTextNode(content)],
+    );
   }
 }

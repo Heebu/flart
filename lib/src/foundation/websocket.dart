@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:html';
+import 'package:web/web.dart';
+import 'dart:js_interop';
 import '../../../flartdart.dart';
 
 /// A simpler way to handle WebSockets in Flart.
@@ -26,25 +27,34 @@ class FDWebSocket extends ChangeNotifier {
     try {
       _socket = WebSocket(finalUrl);
 
-      _socket!.onOpen.listen((_) {
-        _isConnected = true;
-        notifyListeners();
-        print('Connected to WebSocket: $finalUrl');
-      });
+      _socket!.addEventListener(
+          'open',
+          ((Event _) {
+            _isConnected = true;
+            notifyListeners();
+            print('Connected to WebSocket: $finalUrl');
+          }).toJS);
 
-      _socket!.onClose.listen((_) {
-        _isConnected = false;
-        notifyListeners();
-        print('Disconnected from WebSocket');
-      });
+      _socket!.addEventListener(
+          'close',
+          ((Event _) {
+            _isConnected = false;
+            notifyListeners();
+            print('Disconnected from WebSocket');
+          }).toJS);
 
-      _socket!.onMessage.listen((MessageEvent e) {
-        _messageController.add(e.data);
-      });
+      _socket!.addEventListener(
+          'message',
+          ((Event e) {
+            final me = e as MessageEvent;
+            _messageController.add(me.data);
+          }).toJS);
 
-      _socket!.onError.listen((e) {
-        print('WebSocket Error: $e');
-      });
+      _socket!.addEventListener(
+          'error',
+          ((Event e) {
+            print('WebSocket Error: $e');
+          }).toJS);
     } catch (e) {
       print('Could not connect: $e');
     }
@@ -53,9 +63,12 @@ class FDWebSocket extends ChangeNotifier {
   void send(dynamic data) {
     if (_isConnected && _socket != null) {
       if (data is Map || data is List) {
-        _socket!.sendString(jsonEncode(data));
+        _socket!.send(jsonEncode(data).toJS);
+      } else if (data is String) {
+        _socket!.send(data.toJS);
       } else {
-        _socket!.send(data);
+        // Fallback for typed arrays etc.
+        _socket!.send(data as JSAny);
       }
     }
   }

@@ -1,5 +1,5 @@
 import '../../../flartdart.dart';
-import 'dart:html';
+import 'package:web/web.dart';
 
 class AnimatedContainer extends Widget {
   final AnimationController controller;
@@ -25,54 +25,29 @@ class AnimatedContainer extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
-    final id = 'animated_container_${DateTime.now().millisecondsSinceEpoch}';
+  FlartNode buildNode(BuildContext context) {
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, _) {
+        final progress = controller.value;
+        final interpolatedColor = beginColor.lerp(endColor, progress);
+        final currentWidth = beginWidth + (endWidth - beginWidth) * progress;
+        final currentHeight = beginHeight + (endHeight - beginHeight) * progress;
 
-    // Create the initial FDContainer with base styles
-    final initialStyle = {
-      'width': '${beginWidth}px',
-      'height': '${beginHeight}px',
-      'background-color': beginColor.toString(),
-      'transition': 'none', // No CSS transitions, we'll animate manually
-      ...?cssStyle,
-    }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+        final mergedStyles = {
+          'transition': 'none', // Managed by AnimationController
+          'background-color': interpolatedColor.toString(),
+          ...?cssStyle,
+        };
 
-    // Initialize the FDContainer HTML
-    final containerHtml = '''
-      <div id="$id" style="$initialStyle">
-        ${child?.render(context) ?? ''}
-      </div>
-    ''';
-
-    // Schedule the animation updates
-    controller.addListener(() {
-      // Update the animation FDContainer styles on each controller value change
-      _animateContainer(id, controller);
-    });
-
-    // Perform the first animation immediately
-    _animateContainer(id, controller);
-
-    return containerHtml;
-  }
-
-  // Function to animate the FDContainer based on the controller's progress
-  void _animateContainer(String id, AnimationController controller) {
-    final progress = controller.value; // Get the current progress
-
-    // Interpolate the color and size based on the progress
-    final interpolatedColor = beginColor.lerp(endColor, progress);
-    final currentWidth = beginWidth + (endWidth - beginWidth) * progress;
-    final currentHeight = beginHeight + (endHeight - beginHeight) * progress;
-
-    // Get the FDContainer element and update its style
-    final FDContainer = document.getElementById(id);
-    if (FDContainer != null) {
-      FDContainer.style
-        ..backgroundColor = interpolatedColor.toString()
-        ..width = '${currentWidth}px'
-        ..height = '${currentHeight}px';
-    }
+        return FDContainer(
+          width: currentWidth,
+          height: currentHeight,
+          cssStyle: mergedStyles,
+          child: child,
+        );
+      },
+    ).buildNode(context);
   }
 }
 

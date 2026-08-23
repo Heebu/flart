@@ -3,6 +3,7 @@ import 'package:web/web.dart' as web;
 import 'src/widgets/widget.dart';
 import 'src/widgets/stateful_widget.dart' show resetRenderCounter;
 import 'src/widgets/utils/build_context.dart';
+import 'src/core/vdom/vdom_reconciler.dart';
 
 Widget? _rootWidget;
 web.Element? _appContainer;
@@ -27,8 +28,7 @@ void _ensureOverlayContainer() {
   _overlayContainer =
       web.document.querySelector('#flart-overlay') as web.HTMLElement?;
   if (_overlayContainer == null) {
-    final overlay = web.HTMLDivElement()
-      ..id = 'flart-overlay';
+    final overlay = web.HTMLDivElement()..id = 'flart-overlay';
     overlay.style.position = 'fixed';
     overlay.style.top = '0';
     overlay.style.left = '0';
@@ -52,9 +52,9 @@ void _renderApp() {
 
   try {
     final context = BuildContext(widget: _rootWidget!);
-    final html = _rootWidget!.render(context);
+    final vnode = _rootWidget!.buildNode(context);
 
-    _appContainer!.setHTMLUnsafe(html.toJS);
+    VDOMReconciler.reconcile(_appContainer!, vnode);
 
     _attachEventListeners();
   } catch (e, stack) {
@@ -65,7 +65,8 @@ void _renderApp() {
         <p><strong>Message:</strong> $e</p>
         <pre style="overflow: auto; font-size: 12px; margin-top: 10px; background: #f5f5f5; padding: 10px;">$stack</pre>
       </div>
-    '''.toJS);
+    '''
+        .toJS);
   }
 }
 
@@ -91,6 +92,5 @@ void renderOverlays(List<dynamic> entries) {
   _overlayContainer!.setHTMLUnsafe(html.toJS);
 
   // Enable pointer events only if there are entries
-  _overlayContainer!.style.pointerEvents =
-      entries.isNotEmpty ? 'auto' : 'none';
+  _overlayContainer!.style.pointerEvents = entries.isNotEmpty ? 'auto' : 'none';
 }

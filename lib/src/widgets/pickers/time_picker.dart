@@ -1,4 +1,5 @@
-import 'dart:html';
+import 'package:web/web.dart';
+import 'dart:js_interop';
 import '../../../flartdart.dart';
 
 typedef TimeCallback = void Function(String time); // or Duration
@@ -31,12 +32,14 @@ class FDTimePicker extends Widget {
   }
 
   static void attachHandler(String id, TimeCallback callback) {
-    final input = document.getElementById(id) as InputElement?;
-    input?.onChange.listen((_) {
-      final value = input.value;
-      if (value != null && value.isNotEmpty) {
-        callback(value); // You can parse to Duration or DateTime if needed
-      }
-    });
+    final input = document.getElementById(id) as HTMLInputElement?;
+    input?.addEventListener(
+        'change',
+        ((Event _) {
+          final value = input.value;
+          if (value.isNotEmpty) {
+            callback(value); // You can parse to Duration or DateTime if needed
+          }
+        }).toJS);
   }
 }

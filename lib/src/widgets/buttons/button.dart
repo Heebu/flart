@@ -1,5 +1,5 @@
-﻿import 'dart:async';
-import 'dart:html';
+import 'dart:async';
+import 'package:web/web.dart';
 import '../../../flartdart.dart';
 
 class FDButton extends Widget {
@@ -57,87 +57,86 @@ class FDButton extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
-    final id = 'btn-${DateTime.now().microsecondsSinceEpoch}';
-    final styles = _styleToString(cssStyle);
+  FlartNode buildNode(BuildContext context) {
+    final id = 'btn_${key?.toString() ?? DateTime.now().microsecondsSinceEpoch}';
 
-    Future.delayed(Duration.zero, () {
-      final el = document.querySelector('#$id');
-      if (el != null) {
-        // Click events
-        final tapHandler = onPressed ?? onClick;
-        if (tapHandler != null) {
-          el.onClick.listen((_) => tapHandler());
-        }
+    final styles = <String, String>{
+      ...?cssStyle,
+    };
 
-        // Double click
-        if (onDoubleClick != null) {
-          el.onDoubleClick.listen((_) => onDoubleClick!());
-        }
-
-        // Long press
-        if (onLongPress != null) {
-          Timer? longPressTimer;
-          el.onMouseDown.listen((_) {
-            longPressTimer = Timer(Duration(milliseconds: 600), () {
-              onLongPress!();
-            });
-          });
-          el.onMouseUp.listen((_) => longPressTimer?.cancel());
-          el.onMouseLeave.listen((_) => longPressTimer?.cancel());
-        }
-
-        // Hover events
-        if (onHover != null || onHoverEnter != null) {
-          el.onMouseEnter.listen((_) {
-            onHover?.call();
-            onHoverEnter?.call();
-          });
-        }
-
-        if (onHoverExit != null) {
-          el.onMouseLeave.listen((_) => onHoverExit!());
-        }
-
-        // Drag events
-        if (onDragStart != null) {
-          el.onDragStart.listen((_) => onDragStart!());
-        }
-
-        if (onDrag != null) {
-          el.onDrag.listen((_) => onDrag!());
-        }
-
-        if (onDragEnd != null) {
-          el.onDragEnd.listen((_) => onDragEnd!());
-        }
-
-        // Focus events
-        if (onFocus != null) {
-          el.onFocus.listen((_) => onFocus!());
-        }
-
-        if (onBlur != null) {
-          el.onBlur.listen((_) => onBlur!());
-        }
-
-        // Context menu (right click)
-        if (onContextMenu != null) {
-          el.onContextMenu.listen((e) {
-            e.preventDefault();
-            onContextMenu!();
-          });
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
         }
       }
-    });
+    }
 
-    final content = child?.render(context) ?? (text ?? label ?? 'Button');
+    final events = <String, Function(dynamic)>{};
 
-    return '<button id="$id" style="$styles ${rawCss ?? ''}" ${draggable ? 'draggable="true"' : ''}">$content</button>';
-  }
+    final tapHandler = onPressed ?? onClick;
+    if (tapHandler != null) events['click'] = (e) => tapHandler();
+    if (onDoubleClick != null) events['dblclick'] = (e) => onDoubleClick!();
 
-  String _styleToString(Map<String, String>? styles) {
-    if (styles == null) return '';
-    return styles.entries.map((e) => '${e.key}:${e.value}').join(';');
+    if (onLongPress != null) {
+      bool _isLongPressCanceled = false;
+      events['mousedown'] = (e) {
+        _isLongPressCanceled = false;
+        Future.delayed(const Duration(milliseconds: 600), () {
+          if (!_isLongPressCanceled) {
+            onLongPress!();
+          }
+        });
+      };
+      events['mouseup'] = (e) => _isLongPressCanceled = true;
+      events['mouseleave'] = (e) => _isLongPressCanceled = true;
+    }
+
+    if (onHover != null || onHoverEnter != null) {
+      events['mouseenter'] = (e) {
+        onHover?.call();
+        onHoverEnter?.call();
+      };
+    }
+
+    if (onHoverExit != null) events['mouseleave'] = (e) => onHoverExit!();
+
+    if (onDragStart != null) events['dragstart'] = (e) => onDragStart!();
+    if (onDrag != null) events['drag'] = (e) => onDrag!();
+    if (onDragEnd != null) events['dragend'] = (e) => onDragEnd!();
+
+    if (onFocus != null) events['focus'] = (e) => onFocus!();
+    if (onBlur != null) events['blur'] = (e) => onBlur!();
+
+    if (onContextMenu != null) {
+      events['contextmenu'] = (e) {
+        try {
+          (e as dynamic).preventDefault();
+        } catch (_) {}
+        onContextMenu!();
+      };
+    }
+
+    final attributes = <String, String>{};
+    if (draggable) attributes['draggable'] = 'true';
+
+    final FlartNode contentNode;
+    if (child != null) {
+      contentNode = child!.buildNode(context);
+    } else {
+      contentNode = FlartTextNode(text ?? label ?? 'Button');
+    }
+
+    return FlartElementNode(
+      'button',
+      id: id,
+      attributes: attributes,
+      styles: styles,
+      events: events,
+      children: [contentNode],
+    );
   }
 }

@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'package:web/web.dart';
 import '../../../flartdart.dart';
 
 class Hero extends StatefulWidget {
@@ -16,7 +16,7 @@ class Hero extends StatefulWidget {
 }
 
 class _HeroState extends State<Hero> {
-  static final Map<Object, Rectangle> _heroRects = {};
+  static final Map<Object, DOMRect> _heroRects = {};
 
   @override
   Widget build(BuildContext context) {

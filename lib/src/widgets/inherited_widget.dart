@@ -6,8 +6,7 @@ abstract class InheritedWidget extends Widget {
   const InheritedWidget({required this.child, super.key});
 
   @override
-  String render(BuildContext context) {
-    // Register ourselves in the context for this type
+  FlartNode buildNode(BuildContext context) {
     final newContext = context.copyWith(
       widget: this,
       inheritedWidgets: {
@@ -15,9 +14,19 @@ abstract class InheritedWidget extends Widget {
         runtimeType: this,
       },
     );
+    return child.buildNode(newContext);
+  }
 
-    // In a real framework, we'd also track which widgets depend on us
-    // to trigger targeted rebuilds when updating.
+  @override
+  String render(BuildContext context) {
+    // Legacy fallback
+    final newContext = context.copyWith(
+      widget: this,
+      inheritedWidgets: {
+        ...context.inheritedWidgets,
+        runtimeType: this,
+      },
+    );
     return child.render(newContext);
   }
 

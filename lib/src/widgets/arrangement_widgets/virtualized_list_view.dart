@@ -1,4 +1,5 @@
-import 'dart:html';
+import 'package:web/web.dart';
+import 'dart:js_interop';
 import 'dart:math' as math;
 import '../../../flartdart.dart';
 
@@ -34,19 +35,21 @@ class _FDVirtualizedListViewState extends State<FDVirtualizedListView> {
     // We need to listen to scroll events after the first render
     Future.delayed(Duration.zero, () {
       final container = document.getElementById(_containerId);
-      container?.onScroll.listen((e) {
-        final el = e.target as Element;
-        final newScrollTop = widget.scrollDirection == Axis.vertical
-            ? el.scrollTop.toDouble()
-            : el.scrollLeft.toDouble();
+      container?.addEventListener(
+          'scroll',
+          ((Event e) {
+            final el = e.target as Element;
+            final newScrollTop = widget.scrollDirection == Axis.vertical
+                ? el.scrollTop.toDouble()
+                : el.scrollLeft.toDouble();
 
-        // Only update if moved significantly to avoid over-rendering
-        if ((newScrollTop - _scrollTop).abs() > widget.itemHeight / 3) {
-          setState(() {
-            _scrollTop = newScrollTop;
-          });
-        }
-      });
+            // Only update if moved significantly to avoid over-rendering
+            if ((newScrollTop - _scrollTop).abs() > widget.itemHeight / 3) {
+              setState(() {
+                _scrollTop = newScrollTop;
+              });
+            }
+          }).toJS);
     });
   }
 
@@ -54,8 +57,8 @@ class _FDVirtualizedListViewState extends State<FDVirtualizedListView> {
   Widget build(BuildContext context) {
     // Attempt to use window height if we're full screen, otherwise default
     final viewportSize = widget.scrollDirection == Axis.vertical
-        ? (window.innerHeight?.toDouble() ?? 800.0)
-        : (window.innerWidth?.toDouble() ?? 1200.0);
+        ? window.innerHeight.toDouble()
+        : window.innerWidth.toDouble();
 
     final totalSize = widget.itemCount * widget.itemHeight;
     final isVertical = widget.scrollDirection == Axis.vertical;

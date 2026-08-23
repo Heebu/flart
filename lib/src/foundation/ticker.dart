@@ -1,4 +1,5 @@
-import 'dart:html';
+import 'package:web/web.dart';
+import 'dart:js_interop';
 
 typedef TickerCallback = void Function(Duration elapsed);
 
@@ -28,7 +29,9 @@ class Ticker {
   }
 
   void _scheduleTick() {
-    _animationFrameId = window.requestAnimationFrame(_tick);
+    _animationFrameId = window.requestAnimationFrame(((JSNumber highResTime) {
+      _tick(highResTime.toDartDouble);
+    }).toJS);
   }
 
   void _tick(num highResTime) {
@@ -50,4 +53,9 @@ class Ticker {
   void dispose() {
     stop();
   }
+}
+
+/// An interface for classes that can vend Ticker objects.
+abstract class TickerProvider {
+  Ticker createTicker(TickerCallback onTick);
 }

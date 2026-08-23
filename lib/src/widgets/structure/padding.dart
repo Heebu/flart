@@ -14,11 +14,27 @@ class FDPadding extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
-    return '''
-      <div style="padding: ${padding.toCss()}; box-sizing: border-box; ${rawCss ?? ''}">
-        ${child.render(context)}
-      </div>
-    ''';
+  FlartNode buildNode(BuildContext context) {
+    final styleMap = <String, String>{
+      'padding': padding.toCss(),
+      'box-sizing': 'border-box',
+    };
+
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styleMap[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
+    return FlartElementNode(
+      'div',
+      styles: styleMap,
+      children: [child.buildNode(context)],
+    );
   }
 }

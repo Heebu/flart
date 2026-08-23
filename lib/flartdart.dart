@@ -11,6 +11,8 @@ export 'src/widgets/inherited_widget.dart';
 export 'src/widgets/utils/async_widgets.dart';
 export 'src/widgets/utils/raw_html.dart';
 export 'src/widgets/utils/reconciler.dart';
+export 'src/core/vdom/flart_node.dart';
+export 'src/core/vdom/vdom_reconciler.dart';
 export 'run_app.dart';
 
 // Foundation
@@ -57,6 +59,7 @@ export 'src/styles/custom_painting.dart' hide CustomPainter, FDCustomPaint;
 export 'src/styles/decoration_image.dart';
 
 // Animation
+export 'src/animation/ticker_provider_mixin.dart';
 export 'src/animation/animation_controller.dart';
 export 'src/animation/curves.dart';
 export 'src/animation/tween.dart';
@@ -129,6 +132,10 @@ export 'src/widgets/texts/text_span.dart';
 export 'src/widgets/texts/selectable_text.dart';
 export 'src/widgets/texts/link_text.dart';
 export 'src/widgets/texts/editable_text.dart';
+
+// Web specific
+export 'src/widgets/web/element.dart';
+export 'src/widgets/web/web_widgets.dart';
 // Pickers
 export 'src/widgets/pickers/date_picker.dart';
 export 'src/widgets/pickers/time_picker.dart';
@@ -136,6 +143,8 @@ export 'src/widgets/pickers/image_picker.dart';
 export 'src/widgets/pickers/advanced_pickers.dart';
 
 // Animated Widgets
+export 'src/widgets/animated_widgets/animated_builder.dart';
+export 'src/widgets/animated_widgets/animated_widget.dart';
 export 'src/widgets/animated_widgets/animated_container.dart';
 export 'src/widgets/animated_widgets/animated_opacity.dart';
 export 'src/widgets/animated_widgets/animated_positioned.dart';

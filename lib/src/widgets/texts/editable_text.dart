@@ -109,20 +109,55 @@ class _FDEditableTextState extends State<FDEditableText> {
       widget.onSubmitted?.call(val.toString());
     });
 
-    final inputHtml = '''
-      <input 
-        id="$_inputId" 
-        type="$type" 
-        $placeholderAttr 
-        $maxLengthAttr 
-        $valueAttr
-        style="$styleString ${widget.rawCss ?? ''}"
-        oninput="window.__flartHandleEvent('$onChangeCbId', this.value)"
-        onkeydown="if(event.key === 'Enter') { window.__flartHandleEvent('$onSubmitCbId', this.value); this.blur(); }"
-      />
-    '''
-        .trim();
+    final events = <String, Function(dynamic)>{
+      'input': (e) {
+        // In VDOM, the event object is the JS Event.
+        // We can get the value from e.target.value
+        // But since we are migrating incrementally, we can just use the DOM node
+        // Actually, VDOMReconciler passes the native JS event to our callback!
+        // We can access event.target.value if we use dart:js_interop, 
+        // but for now, we can use the FlartCallbackManager logic or just typecast.
+        // Wait, VDOMReconciler `addEventListener` passes the event!
+        // Let's rely on event.target.value.
+        // For now, to keep it simple, we can just use `dart:html` or `package:web`.
+        // Let's assume the user passes a simple function and we can extract value.
+      },
+      'keydown': (e) {
+        // Handle enter key for submit
+      }
+    };
 
-    return FDRawHTML(inputHtml);
+    // Wait, since we are returning a Widget, we can just return FDElement!
+    return FDElement(
+      tag: 'input',
+      attributes: {
+        'id': _inputId,
+        'type': type,
+        if (widget.placeholder != null) 'placeholder': widget.placeholder!,
+        if (widget.maxLength != null) 'maxlength': widget.maxLength!.toString(),
+        'value': widget.controller.text,
+      },
+      styles: baseStyle,
+      events: {
+        'input': (e) {
+          final target = e.target;
+          final value = target.value as String?;
+          if (value != null && widget.controller.text != value) {
+            widget.controller.text = value;
+            widget.onChanged?.call(value);
+          }
+        },
+        'keydown': (e) {
+          if (e.key == 'Enter') {
+            final target = e.target;
+            final value = target.value as String?;
+            if (value != null) {
+              widget.onSubmitted?.call(value);
+            }
+            target.blur();
+          }
+        }
+      },
+    );
   }
 }

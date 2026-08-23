@@ -22,8 +22,8 @@ class FDScaffold extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
-    final style = toInlineStyle({
+  FlartNode buildNode(BuildContext context) {
+    final style = <String, String>{
       'width': '100vw',
       'height': '100vh',
       'overflow': 'hidden',
@@ -31,29 +31,48 @@ class FDScaffold extends Widget {
       'flex-direction': 'column',
       'position': 'relative',
       ...?cssStyle,
-    }, rawCss: rawCss);
+    };
 
-    final content = StringBuffer();
-    if (appBar != null) {
-      content.writeln(appBar!.render(context));
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          style[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
     }
 
-    content.writeln(
-      '<div style="flex: 1; overflow: auto;">${body?.render(context) ?? ''}</div>',
-    );
+    final children = <FlartNode>[];
+
+    if (appBar != null) {
+      children.add(appBar!.buildNode(context));
+    }
+
+    children.add(FlartElementNode(
+      'div',
+      styles: {'flex': '1', 'overflow': 'auto'},
+      children: body != null ? [body!.buildNode(context)] : [],
+    ));
 
     if (bottomNavigationBar != null) {
-      content.writeln(bottomNavigationBar!.render(context));
+      children.add(bottomNavigationBar!.buildNode(context));
     }
 
-    final scaffoldHtml = '''
-    <div style="$style">
-      ${content.toString()}
-    </div>
-    ''';
+    final scaffoldNode = FlartElementNode(
+      'div',
+      styles: style,
+      children: children,
+    );
 
-    final drawerHtml = drawer != null
-        ? '''
+    final nodes = <FlartNode>[];
+
+    if (drawer != null) {
+      // For now, drawer uses raw html and a script.
+      // A full VDOM implementation of drawer would use StatefulWidget.
+      // But we wrap the legacy drawer here for simplicity while migrating.
+      final drawerHtml = '''
       <div id="flart-drawer" style="
         position: fixed;
         top: 0;
@@ -78,22 +97,31 @@ class FDScaffold extends Widget {
           }
         }
       </script>
-    '''
-        : '';
+      ''';
+      nodes.add(FlartRawHtmlNode(drawerHtml));
+    }
 
-    final fabHtml = floatingActionButton != null
-        ? '''
-      <div style="
-        position: fixed;
-        bottom: 16px;
-        right: 16px;
-        z-index: 1000;
-      ">
-        ${floatingActionButton!.render(context)}
-      </div>
-    '''
-        : '';
+    nodes.add(scaffoldNode);
 
-    return drawerHtml + scaffoldHtml + fabHtml;
+    if (floatingActionButton != null) {
+      nodes.add(FlartElementNode(
+        'div',
+        styles: {
+          'position': 'fixed',
+          'bottom': '16px',
+          'right': '16px',
+          'z-index': '1000',
+        },
+        children: [floatingActionButton!.buildNode(context)],
+      ));
+    }
+
+    if (nodes.length == 1) return nodes.first;
+
+    return FlartElementNode(
+      'div',
+      styles: {'display': 'contents'},
+      children: nodes,
+    );
   }
 }

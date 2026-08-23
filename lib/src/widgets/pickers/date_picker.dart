@@ -1,4 +1,5 @@
-import 'dart:html';
+import 'package:web/web.dart';
+import 'dart:js_interop';
 import '../../../flartdart.dart';
 
 typedef DateCallback = void Function(DateTime date);
@@ -31,12 +32,14 @@ class FDDatePicker extends Widget {
   }
 
   static void attachHandler(String id, DateCallback callback) {
-    final input = document.getElementById(id) as InputElement?;
-    input?.onChange.listen((_) {
-      final value = input.value;
-      if (value != null && value.isNotEmpty) {
-        callback(DateTime.parse(value));
-      }
-    });
+    final input = document.getElementById(id) as HTMLInputElement?;
+    input?.addEventListener(
+        'change',
+        ((Event _) {
+          final value = input.value;
+          if (value.isNotEmpty) {
+            callback(DateTime.parse(value));
+          }
+        }).toJS);
   }
 }

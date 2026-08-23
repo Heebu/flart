@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'package:web/web.dart';
 
 abstract class Widget {
   Element createElement();

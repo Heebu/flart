@@ -17,17 +17,27 @@ class FDSizedBox extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
-    final style = {
-      if (width != null) 'width': '${width}px',
-      if (height != null) 'height': '${height}px',
-      ...?cssStyle,
-    }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+  FlartNode buildNode(BuildContext context) {
+    final styles = <String, String>{};
+    if (width != null) styles['width'] = '${width}px';
+    if (height != null) styles['height'] = '${height}px';
+    if (cssStyle != null) styles.addAll(cssStyle!);
 
-    return '''
-      <div style="$style ${rawCss ?? ''}">
-        ${child?.render(context) ?? ''}
-      </div>
-    ''';
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
+    return FlartElementNode(
+      'div',
+      styles: styles,
+      children: child != null ? [child!.buildNode(context)] : null,
+    );
   }
 }

@@ -1,4 +1,4 @@
-import 'dart:html' as html;
+import 'package:web/web.dart' as html;
 import '../../../flartdart.dart';
 import '../../helper/file_picker_manager.dart';
 

@@ -15,8 +15,7 @@ final Set<String> _injectedKeyframes = {};
 void _ensureSharedSheet() {
   if (_sharedAnimationSheet != null) return;
 
-  final style = web.HTMLStyleElement()
-    ..id = 'flart-animation-sheet';
+  final style = web.HTMLStyleElement()..id = 'flart-animation-sheet';
   web.document.head?.append(style);
   _sharedAnimationSheet = style.sheet;
 }
@@ -79,7 +78,8 @@ class FDAnimate extends Widget {
         }
       ''';
       try {
-        _sharedAnimationSheet?.insertRule(rule, _sharedAnimationSheet!.cssRules.length);
+        _sharedAnimationSheet?.insertRule(
+            rule, _sharedAnimationSheet!.cssRules.length);
       } catch (_) {
         // Fallback: if insertRule fails, the animation simply won't play.
       }

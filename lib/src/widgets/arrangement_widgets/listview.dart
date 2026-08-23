@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 typedef ItemWidgetBuilder = Widget Function(BuildContext context, int index);
 typedef SeparatorWidgetBuilder = Widget Function(
@@ -82,41 +82,61 @@ class FDListView extends Widget {
   }
 
   @override
-  String render(BuildContext context) {
-    final styleMap = <String, String>{
+  FlartNode buildNode(BuildContext context) {
+    final styles = <String, String>{
       'display': 'flex',
-      'flex-direction': scrollDirection == Axis.vertical ? 'FDColumn' : 'FDRow',
+      'flex-direction': scrollDirection == Axis.vertical ? 'column' : 'row',
       'overflow': scrollDirection == Axis.vertical ? 'auto' : 'auto hidden',
-      if (padding != null) 'padding': padding!.toCss(),
     };
 
-    final styleString =
-        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    if (padding != null) {
+      styles['padding'] = padding!.toCss();
+    }
 
-    String content = '';
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
+    final childrenNodes = <FlartNode>[];
 
     switch (type) {
       case ListViewType.static:
-        content = children!.map((c) => c.render(context)).join();
+        if (children != null) {
+          childrenNodes.addAll(children!.map((c) => c.buildNode(context)));
+        }
         break;
 
       case ListViewType.builder:
-        content = List.generate(
-            itemCount!, (i) => itemBuilder!(context, i).render(context)).join();
+        if (itemBuilder != null && itemCount != null) {
+          for (int i = 0; i < itemCount!; i++) {
+            childrenNodes.add(itemBuilder!(context, i).buildNode(context));
+          }
+        }
         break;
 
       case ListViewType.separated:
-        final buffer = StringBuffer();
-        for (int i = 0; i < itemCount!; i++) {
-          buffer.write(itemBuilder!(context, i));
-          if (i < itemCount! - 1) {
-            buffer.write(separatorBuilder!(context, i));
+        if (itemBuilder != null && separatorBuilder != null && itemCount != null) {
+          for (int i = 0; i < itemCount!; i++) {
+            childrenNodes.add(itemBuilder!(context, i).buildNode(context));
+            if (i < itemCount! - 1) {
+              childrenNodes.add(separatorBuilder!(context, i).buildNode(context));
+            }
           }
         }
-        content = buffer.toString();
         break;
     }
 
-    return '<div style="$styleString ${rawCss ?? ''}">$content</div>';
+    return FlartElementNode(
+      'div',
+      styles: styles,
+      children: childrenNodes,
+    );
   }
 }

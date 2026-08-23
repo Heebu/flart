@@ -1,0 +1,16 @@
+targets:
+  $default:
+    sources:
+      - $package$
+      - lib/**
+      - example/**
+      - web/**
+      - test/**
+    builders:
+      build_web_compilers:entrypoint:
+        options:
+          compiler: dart2js
+        generate_for:
+          - example/**.dart
+          - web/**.dart
+          - test/**_test.dart

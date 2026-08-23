@@ -64,7 +64,8 @@ void main(List<String> arguments) async {
   if (command?.name == 'create') {
     if (command!.rest.isEmpty) {
       print('Error: Project name is required.');
-      print('Usage: flartdart create <project_name> [--local-path <path>] [--template <name>]');
+      print(
+          'Usage: flartdart create <project_name> [--local-path <path>] [--template <name>]');
       return;
     }
     final projectName = command.rest.first;
@@ -339,7 +340,8 @@ Future<void> _runDoctor() async {
   final dartVersion = Platform.version.split('(').first.trim();
   final dartMajor = int.tryParse(dartVersion.split('.').first) ?? 0;
   final dartOk = dartMajor >= 3;
-  print('${dartOk ? '[✓]' : '[✗]'} Dart SDK: $dartVersion ${dartOk ? '' : '(requires >= 3.0.0)'}');
+  print(
+      '${dartOk ? '[✓]' : '[✗]'} Dart SDK: $dartVersion ${dartOk ? '' : '(requires >= 3.0.0)'}');
 
   // Check Flartdart
   print('[✓] Flartdart Tool: $cliVersion [LATEST]');
@@ -368,7 +370,8 @@ Future<void> _runDoctor() async {
 
   // Check if we're in a project
   final isProject = File('pubspec.yaml').existsSync();
-  print('${isProject ? '[✓]' : '[i]'} Project: ${isProject ? 'Found pubspec.yaml' : 'Not in a Flartdart project directory'}');
+  print(
+      '${isProject ? '[✓]' : '[i]'} Project: ${isProject ? 'Found pubspec.yaml' : 'Not in a Flartdart project directory'}');
 
   if (isProject) {
     final hasDeps = Directory('.dart_tool').existsSync();
@@ -376,7 +379,8 @@ Future<void> _runDoctor() async {
         '${hasDeps ? '[✓]' : '[!]'} Dependencies: ${hasDeps ? 'Resolved' : 'Run "flartdart get" to resolve'}');
   }
 
-  print('\n${dartOk ? 'Everything looks good! 🚀' : '⚠️ Please upgrade your Dart SDK to >= 3.0.0'}');
+  print(
+      '\n${dartOk ? 'Everything looks good! 🚀' : '⚠️ Please upgrade your Dart SDK to >= 3.0.0'}');
 }
 
 Future<void> _runFix() async {
@@ -407,10 +411,8 @@ Future<void> _createProject(
     return;
   }
 
-  final prettyName = name
-      .split('_')
-      .map((w) => w[0].toUpperCase() + w.substring(1))
-      .join(' ');
+  final prettyName =
+      name.split('_').map((w) => w[0].toUpperCase() + w.substring(1)).join(' ');
 
   print('');
   print('╔══════════════════════════════════════════════════════╗');
@@ -480,7 +482,8 @@ dev_dependencies:
     // Create analysis_options.yaml
     print('  📄 Creating analysis_options.yaml...');
     final analysisOptions = File('${projectDir.path}/analysis_options.yaml');
-    await analysisOptions.writeAsString('''include: package:lints/recommended.yaml
+    await analysisOptions
+        .writeAsString('''include: package:lints/recommended.yaml
 
 linter:
   rules:

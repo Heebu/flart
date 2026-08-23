@@ -42,9 +42,7 @@ class SmartReconciler {
         return;
       }
 
-      if (oldEl.id.isNotEmpty &&
-          newEl.id.isNotEmpty &&
-          oldEl.id != newEl.id) {
+      if (oldEl.id.isNotEmpty && newEl.id.isNotEmpty && oldEl.id != newEl.id) {
         oldNode.parentNode?.replaceChild(newNode.cloneNode(true), oldNode);
         return;
       }
@@ -95,7 +93,9 @@ class SmartReconciler {
       final oldInput = oldNode as web.HTMLInputElement;
       final newInput = newNode as web.HTMLInputElement;
       if (oldInput.value != newInput.value) oldInput.value = newInput.value;
-      if (oldInput.checked != newInput.checked) oldInput.checked = newInput.checked;
+      if (oldInput.checked != newInput.checked) {
+        oldInput.checked = newInput.checked;
+      }
     } else if (tag == 'TEXTAREA') {
       final oldTA = oldNode as web.HTMLTextAreaElement;
       final newTA = newNode as web.HTMLTextAreaElement;

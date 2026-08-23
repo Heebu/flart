@@ -19,8 +19,8 @@ class FDRow extends Widget {
   final double? spacing;
 
   @override
-  String render(BuildContext context) {
-    final styleMap = {
+  FlartNode buildNode(BuildContext context) {
+    final styleMap = <String, String>{
       'display': 'flex',
       'flex-direction': 'row',
       'justify-content': _mapMainAxis(mainAxisAlignment),
@@ -30,11 +30,23 @@ class FDRow extends Widget {
       ...?cssStyle,
     };
 
-    final styleString =
-        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    final childrenHtml = children.map((child) => child.render(context)).join();
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styleMap[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
 
-    return '<div ${key != null ? 'id="$key"' : ''} style="$styleString ${rawCss ?? ''}">$childrenHtml</div>';
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      styles: styleMap,
+      children: children.map((child) => child.buildNode(context)).toList(),
+    );
   }
 
   String _mapMainAxis(MainAxisAlignment value) {

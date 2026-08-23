@@ -16,14 +16,12 @@ class FDIconButton extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     final id =
-        'icon_btn_stateless_${hashCode}_${DateTime.now().millisecondsSinceEpoch}';
+        'icon_btn_${key?.toString() ?? hashCode}_${DateTime.now().millisecondsSinceEpoch}';
     final theme = Theme.of(context);
-    final cbId =
-        onPressed != null ? FlartCallbackManager.register(onPressed!) : null;
 
-    final styles = {
+    final styles = <String, String>{
       'display': 'inline-flex',
       'align-items': 'center',
       'justify-content': 'center',
@@ -36,14 +34,33 @@ class FDIconButton extends Widget {
       'transition': 'background-color 0.2s, transform 0.1s',
       ...?cssStyle,
     };
-    final styleString =
-        styles.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
-    return '''
-      <button id="$id" class="fd-icon-button" style="$styleString ${rawCss ?? ''}" 
-        ${cbId != null ? 'onclick="window.__flartHandleClick(\'$cbId\')"' : ''}>
-        ${icon.render(context)}
-      </button>
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
+    final events = <String, Function(dynamic)>{};
+    if (onPressed != null) {
+      events['click'] = (e) => onPressed!();
+    }
+
+    final buttonNode = FDElement(
+      tag: 'button',
+      id: id,
+      attributes: {'class': 'fd-icon-button'},
+      styles: styles,
+      events: events,
+      children: [icon],
+    ).buildNode(context);
+
+    final styleBlock = '''
       <style>
         .fd-icon-button:hover {
           background-color: ${theme.primaryColor.toString()}1A !important;
@@ -54,5 +71,14 @@ class FDIconButton extends Widget {
         }
       </style>
     ''';
+
+    return FlartElementNode(
+      'div',
+      styles: {'display': 'contents'},
+      children: [
+        FlartRawHtmlNode(styleBlock),
+        buttonNode,
+      ],
+    );
   }
 }

@@ -25,7 +25,7 @@ class FDContainer extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     final styleMap = <String, String>{
       if (width != null)
         'width': width == double.infinity ? '100%' : '${width}px',
@@ -38,9 +38,21 @@ class FDContainer extends Widget {
       ...?cssStyle,
     };
 
-    final styleString =
-        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styleMap[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
 
-    return '<div style="$styleString ${rawCss ?? ''}">${child?.render(context) ?? ''}</div>';
+    return FlartElementNode(
+      'div',
+      styles: styleMap,
+      children: child != null ? [child!.buildNode(context)] : null,
+    );
   }
 }

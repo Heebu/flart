@@ -1,5 +1,7 @@
 import 'package:web/web.dart' as web;
 import '../../flartdart.dart';
+import '../core/vdom/vdom_reconciler.dart';
+import '../core/vdom/flart_node.dart';
 
 // Global state registry to persist state across renders
 final Map<String, State> _stateRegistry = {};
@@ -52,10 +54,12 @@ abstract class State<T extends StatefulWidget> {
 
     final element = web.document.getElementById(_stateKey!);
     if (element != null) {
-      // Use SmartReconciler instead of raw innerHTML replacement.
-      // This preserves focus, scroll positions, and input state automatically.
-      final newHtml = build(context).render(context);
-      SmartReconciler.reconcile(element, newHtml);
+      // Use VDOMReconciler instead of string-based innerHTML replacement.
+      final newVNode = build(context).buildNode(context);
+      // Wait, VDOMReconciler replaces children, but here we want to replace the inside of the wrapper.
+      // So we can wrap it in a FlartRawHtmlNode if it was a string, but buildNode handles that.
+      // The wrapper has id=$stateKey. We need to reconcile its children.
+      VDOMReconciler.reconcile(element, newVNode);
     } else {
       // Fallback if element not found in DOM
       reRenderApp();
@@ -72,21 +76,16 @@ abstract class StatefulWidget extends Widget {
   State<StatefulWidget> createState();
 
   @override
-  String render(BuildContext context) {
-    // Generate a unique key for this widget instance.
-    // If a key is provided, we use it to maintain state across re-renders.
-    // Otherwise, use a monotonic positional counter for stable ordering.
+  FlartNode buildNode(BuildContext context) {
     final safeRuntimeType =
         runtimeType.toString().replaceAll(RegExp(r'[<>]'), '_');
     final stateKey = key != null
         ? '${safeRuntimeType}_${key.toString()}'
         : '${safeRuntimeType}_pos${_renderCounter++}';
 
-    // Get or create state
     State state;
     if (_stateRegistry.containsKey(stateKey)) {
       state = _stateRegistry[stateKey]!;
-      // Update widget reference
       final oldWidget = state.widget;
       state.widget = this;
       state.context = context;
@@ -101,21 +100,29 @@ abstract class StatefulWidget extends Widget {
       state.didChangeDependencies();
     }
 
-    // Link GlobalKey if present
     if (key is GlobalKey) {
       (key as GlobalKey).setInternalState(state);
     }
 
-    // Pass this state down to children via a new context
     final childContext = context.copyWith(
       states: {...context.states, state.runtimeType: state},
     );
 
-    final childHtml = state.build(childContext).render(childContext);
+    final childNode = state.build(childContext).buildNode(childContext);
 
-    // Wrap in a uniquely identified container to allow scoped updates.
-    // display: contents allows the wrapper to be invisible to layout/CSS.
-    return '<div id="$stateKey" style="display: contents;">$childHtml</div>';
+    return FlartElementNode(
+      'div',
+      id: stateKey,
+      styles: {'display': 'contents'},
+      children: [childNode],
+    );
+  }
+
+  @override
+  String render(BuildContext context) {
+    // For legacy callers that still call render directly,
+    // though the engine now prefers buildNode.
+    return '<div style="display: contents;">Legacy render fallback. Use buildNode.</div>';
   }
 
   /// Clean up state when widget is removed

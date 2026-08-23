@@ -1,131 +1,151 @@
 import 'package:flartdart/flartdart.dart';
+import 'pages/basic_showcase.dart';
+import 'pages/layout_showcase.dart';
+import 'pages/input_showcase.dart';
+import 'pages/animation_showcase.dart';
+import 'pages/structure_showcase.dart';
+import 'pages/navigation_showcase.dart';
+import 'pages/media_showcase.dart';
+import 'pages/interactive_showcase.dart';
+import 'pages/scrollable_showcase.dart';
+import 'pages/dialog_showcase.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(CatalogApp());
 }
 
-class MyApp extends StatefulWidget {
+class CatalogApp extends StatefulWidget {
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<CatalogApp> createState() => _CatalogAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _CatalogAppState extends State<CatalogApp> {
+  int _selectedIndex = 0;
+
+  final List<String> _menuItems = [
+    'Basic Widgets',
+    'Layout Widgets',
+    'Input Widgets',
+    'Animation Widgets',
+    'Structure Widgets',
+    'Navigation Widgets',
+    'Media Widgets',
+    'Interactive Widgets',
+    'Scrollable Widgets',
+    'Dialog Widgets',
+  ];
+
+  final List<Widget> _pages = [
+    BasicShowcase(),
+    LayoutShowcase(),
+    InputShowcase(),
+    AnimationShowcase(),
+    StructureShowcase(),
+    NavigationShowcase(),
+    MediaShowcase(),
+    InteractiveShowcase(),
+    ScrollableShowcase(),
+    DialogShowcase(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return FDMaterialApp(
-      title: 'Flart Intro',
+      title: 'FlartDart Catalog',
       home: FDScaffold(
         appBar: FDAppBar(
-          title: FDText('Welcome to Flart 🚀', style: TextStyle(color: FlartColor('#ffffff'))),
+          title: FDText(
+            'FlartDart Widget Catalog 🚀',
+            style: TextStyle(
+                color: FlartColor('#ffffff'), fontWeight: FontWeight.bold),
+          ),
           backgroundColor: FlartColors.blue,
         ),
-        body: FDContainer(
-          decoration: BoxDecoration(
-            gradient: Gradient(
-              direction: 'to bottom right',
-              colors: [FlartColor('#e0c3fc'), FlartColor('#8ec5fc')],
+        body: FDRow(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Sidebar
+            FDContainer(
+              width: 250,
+              decoration: BoxDecoration(
+                color: FlartColor('#ffffff'),
+                border: Border(
+                    right: BorderSide(color: FlartColor('#e2e8f0'), width: 1)),
+              ),
+              child: FDColumn(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: List.generate(_menuItems.length, (index) {
+                  final isSelected = _selectedIndex == index;
+                  return _SidebarItem(
+                    title: _menuItems[index],
+                    isSelected: isSelected,
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = index;
+                      });
+                    },
+                  );
+                }),
+              ),
             ),
-          ),
-          child: FDCenter(
-            child: FDColumn(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FDText(
-                  'Flart',
-                  style: TextStyle(
-                    fontSize: 64,
-                    fontWeight: FontWeight.bold,
-                    color: FlartColor('#333333'),
-                  ),
-                ),
-                FDSizedBox(height: 16),
-                FDText(
-                  'A Flutter-inspired UI framework for the Web',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: FlartColor('#555555'),
-                  ),
-                ),
-                FDSizedBox(height: 48),
-                FDContainer(
-                  padding: EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    color: FlartColor('#ffffff'),
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: FlartColor('#000000').withOpacity(0.1),
-                        blurRadius: 20,
-                        offset: Offset(0, 10),
-                      ),
-                    ],
-                  ),
-                  child: FDColumn(
-                    children: [
-                      FDText(
-                        'Features:',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      FDSizedBox(height: 16),
-                      _FeatureItem(icon: FDIcons.widgets, text: 'Flutter-like Widget Composition'),
-                      FDSizedBox(height: 8),
-                      _FeatureItem(icon: FDIcons.bolt, text: 'Dart-only Development'),
-                      FDSizedBox(height: 8),
-                      _FeatureItem(icon: FDIcons.storage, text: 'Real HTML/CSS/DOM Output'),
-                    ],
-                  ),
-                ),
-                FDSizedBox(height: 48),
-                FDElevatedButton(
-                  onPressed: () {
-                    // Action could go here
-                  },
-                  child: FDRow(
-                    children: [
-                      FDText('Get Started', style: TextStyle(color: FlartColor('#ffffff'))),
-                      FDSizedBox(width: 8),
-                      FDIcon(icon: FDIcons.arrow_forward, color: FlartColor('#ffffff')),
-                    ],
-                  ),
-                  cssStyle: {
-                    'background-color': '#6366f1',
-                    'color': '#ffffff',
-                    'padding': '16px 32px',
-                    'border-radius': '30px',
-                    'font-size': '18px',
-                    'font-weight': 'bold',
-                    'border': 'none',
-                    'cursor': 'pointer',
-                    'box-shadow': '0 4px 14px 0 rgba(99, 102, 241, 0.39)',
-                  },
-                ),
-              ],
+
+            // Main Content Area
+            FDExpanded(
+              child: FDContainer(
+                padding: EdgeInsets.all(40),
+                cssStyle: {
+                  'overflow-y': 'auto',
+                  'background-color': '#f1f5f9',
+                },
+                child: _pages[_selectedIndex],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
   }
 }
 
-class _FeatureItem extends StatelessWidget {
-  final String icon;
-  final String text;
+class _SidebarItem extends StatelessWidget {
+  final String title;
+  final bool isSelected;
+  final VoidCallback onTap;
 
-  _FeatureItem({required this.icon, required this.text});
+  _SidebarItem({
+    required this.title,
+    required this.isSelected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return FDRow(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        FDIcon(icon: icon, color: FlartColors.blue),
-        FDSizedBox(width: 12),
-        FDText(text, style: TextStyle(fontSize: 16)),
-      ],
+    return FDGestureDetector(
+      onTap: onTap,
+      child: FDContainer(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        decoration: BoxDecoration(
+          color: FlartColor(isSelected ? '#eff6ff' : '#ffffff'),
+          border: Border(
+            left: BorderSide(
+              color: FlartColor(isSelected ? '#3b82f6' : 'transparent'),
+              width: 4,
+            ),
+          ),
+        ),
+        child: FDText(
+          title,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            color: FlartColor(isSelected ? '#1d4ed8' : '#475569'),
+          ),
+        ),
+        cssStyle: {
+          'cursor': 'pointer',
+          'transition': 'all 0.2s ease',
+        },
+      ),
     );
   }
 }

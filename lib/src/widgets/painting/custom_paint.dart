@@ -1,4 +1,5 @@
-﻿import 'dart:html';
+import 'package:web/web.dart';
+import 'dart:js_interop';
 import 'dart:async';
 import 'dart:math' as math;
 import '../../../flartdart.dart';
@@ -42,9 +43,9 @@ class Paint {
 
   void apply(CanvasRenderingContext2D ctx) {
     if (style == 'fill') {
-      ctx.fillStyle = color.toString();
+      ctx.fillStyle = color.toString().toJS;
     } else {
-      ctx.strokeStyle = color.toString();
+      ctx.strokeStyle = color.toString().toJS;
       ctx.lineWidth = strokeWidth;
       ctx.lineCap = strokeCap;
       ctx.lineJoin = strokeJoin;
@@ -132,7 +133,7 @@ class FDCustomPaint extends Widget {
         'custom_paint_${DateTime.now().microsecondsSinceEpoch}_${(math.Random().nextDouble() * 10000).toInt()}';
 
     Future.delayed(Duration.zero, () {
-      final canvas = document.getElementById(id) as CanvasElement?;
+      final canvas = document.getElementById(id) as HTMLCanvasElement?;
       if (canvas != null) {
         final ctx = canvas.context2D;
         painter.paint(_WebCanvas(ctx), size);

@@ -1,4 +1,5 @@
-﻿import 'dart:html';
+import 'package:web/web.dart';
+import 'dart:js_interop';
 import 'dart:async';
 import '../../../flartdart.dart';
 
@@ -61,7 +62,7 @@ Future<T?> showDialog<T>({
 }) {
   final completer = Completer<T?>();
 
-  final overlay = DivElement();
+  final overlay = document.createElement('div') as HTMLElement;
   overlay.style.position = 'fixed';
   overlay.style.top = '0';
   overlay.style.left = '0';
@@ -81,11 +82,13 @@ Future<T?> showDialog<T>({
   }
 
   if (barrierDismissible) {
-    overlay.onClick.listen((event) {
-      if (event.target == overlay) {
-        close();
-      }
-    });
+    overlay.addEventListener(
+        'click',
+        ((Event event) {
+          if (event.target == overlay) {
+            close();
+          }
+        }).toJS);
   }
 
   // Render the FDDialog content
@@ -94,7 +97,7 @@ Future<T?> showDialog<T>({
   // but for string generation it might be fine.
 
   final contentHtml = builder.render(context);
-  overlay.setInnerHtml(contentHtml, treeSanitizer: NodeTreeSanitizer.trusted);
+  overlay.innerHTML = contentHtml.toJS as JSAny;
 
   // We need to attach event listeners to the rendered content if any.
   // Since Flart currently renders HTML strings, we lose the ability to attach events *inside* the render()

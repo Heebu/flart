@@ -1,4 +1,4 @@
-﻿import 'dart:html';
+import 'package:web/web.dart';
 
 import '../framework.dart';
 
@@ -23,7 +23,7 @@ class RawHtmlWidget extends Widget {
   Element createElement() {
     final element = document.createElement(tag);
     if (text != null) {
-      element.text = text;
+      element.textContent = text;
     }
     return element;
   }

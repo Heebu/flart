@@ -30,8 +30,7 @@ class FDMaterialApp extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
-    final stopwatch = Stopwatch()..start();
+  FlartNode buildNode(BuildContext context) {
     PageNavigator.init();
 
     final effectiveTheme =
@@ -79,7 +78,8 @@ class FDMaterialApp extends Widget {
     }
 
     if (rawCss != null) {
-      var styleElement = web.document.head?.querySelector('#flart-raw-css') as web.HTMLStyleElement?;
+      var styleElement = web.document.head?.querySelector('#flart-raw-css')
+          as web.HTMLStyleElement?;
       if (styleElement == null) {
         styleElement = web.HTMLStyleElement()..id = 'flart-raw-css';
         web.document.head?.append(styleElement);
@@ -104,54 +104,63 @@ class FDMaterialApp extends Widget {
       ''';
     }
 
-    final mainHtml = homeWidget.render(context);
-    final elapsed = stopwatch.elapsedMilliseconds;
-    if (elapsed > 100) {
-      print('Slow render warning: ${elapsed}ms');
-    }
+    final mainNode = homeWidget.buildNode(context);
 
     if (!debugShowCheckedModeBanner) {
-      return mainHtml;
+      return mainNode;
     }
 
-    return '''
-      <div id="flart-root-wrapper" style="position: relative; width: 100vw; height: 100vh; overflow: hidden;">
-        $mainHtml
-        <div title="Flart Debug Mode (v1.6.0)" style="
-          position: fixed;
-          top: 0;
-          right: 0;
-          z-index: 10000;
-          pointer-events: none;
-          width: 80px;
-          height: 80px;
-          overflow: hidden;
-        ">
-          <div style="
-            background: #B71C1C;
-            color: white;
-            text-align: center;
-            font-size: 10px;
-            font-weight: bold;
-            font-family: sans-serif;
-            padding: 4px 0;
-            width: 120px;
-            position: absolute;
-            top: 20px;
-            right: -30px;
-            transform: rotate(45deg);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-          ">Debug</div>
-        </div>
+    final debugBannerHtml = '''
+      <div title="Flart Debug Mode (v1.6.0)" style="
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 10000;
+        pointer-events: none;
+        width: 80px;
+        height: 80px;
+        overflow: hidden;
+      ">
+        <div style="
+          background: #B71C1C;
+          color: white;
+          text-align: center;
+          font-size: 10px;
+          font-weight: bold;
+          font-family: sans-serif;
+          padding: 4px 0;
+          width: 120px;
+          position: absolute;
+          top: 20px;
+          right: -30px;
+          transform: rotate(45deg);
+          box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        ">Debug</div>
       </div>
     ''';
+
+    return FlartElementNode(
+      'div',
+      id: 'flart-root-wrapper',
+      styles: {
+        'position': 'relative',
+        'width': '100vw',
+        'height': '100vh',
+        'overflow': 'hidden',
+      },
+      children: [
+        mainNode,
+        FlartRawHtmlNode(debugBannerHtml),
+      ],
+    );
   }
 
   void _injectFavicon() {
     final targetHref = favicon ?? 'assets/flart_logo.png';
-    final existingIcon = web.document.head?.querySelector("link[rel*='icon']") as web.HTMLLinkElement?;
+    final existingIcon = web.document.head?.querySelector("link[rel*='icon']")
+        as web.HTMLLinkElement?;
     if (existingIcon != null && existingIcon.href.endsWith(targetHref)) {
       return;
     }

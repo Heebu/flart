@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-import 'package:web/web.dart' as web;
 import '../../flartdart.dart';
 
 typedef AnimationListener = void Function();
@@ -28,18 +26,30 @@ class AnimationController {
   double _value;
   double get value => _value;
   set value(double newValue) {
-    _value = newValue.clamp(lowerBound, upperBound);
-    _notifyListeners();
+    final clamped = newValue.clamp(lowerBound, upperBound);
+    if (_value != clamped) {
+      _value = clamped;
+      _notifyListeners();
+    }
   }
+
+  late final Ticker _ticker;
+  double _startValue = 0.0;
+  double _targetValue = 1.0;
+  Duration _currentDuration = Duration.zero;
+  Curve _currentCurve = Curves.linear;
 
   AnimationController({
     required this.duration,
+    required TickerProvider vsync,
     this.reverseDuration,
     this.lowerBound = 0.0,
     this.upperBound = 1.0,
     this.animationBehavior = AnimationBehavior.normal,
     double value = 0.0,
-  }) : _value = value.clamp(lowerBound, upperBound);
+  }) : _value = value.clamp(lowerBound, upperBound) {
+    _ticker = vsync.createTicker(_tick);
+  }
 
   void addListener(AnimationListener listener) {
     _listeners.add(listener);
@@ -70,11 +80,6 @@ class AnimationController {
     }
   }
 
-  int? _animationFrameId;
-  num? _startTime;
-  double _startValue = 0.0;
-  double _targetValue = 1.0;
-
   void forward({double? from}) {
     if (from != null) value = from;
     _animateTo(upperBound, duration);
@@ -92,14 +97,11 @@ class AnimationController {
 
   void _animateTo(double target, Duration duration,
       {Curve curve = Curves.linear}) {
-    if (_animationFrameId != null) {
-      web.window.cancelAnimationFrame(_animationFrameId!);
-      _animationFrameId = null;
-    }
-
+    _ticker.stop();
     _startValue = value;
     _targetValue = target;
-    _startTime = null;
+    _currentDuration = duration;
+    _currentCurve = curve;
 
     if (_startValue == _targetValue) {
       _notifyStatusListeners(_targetValue == upperBound
@@ -112,43 +114,38 @@ class AnimationController {
         ? AnimationStatus.forward
         : AnimationStatus.reverse);
 
-    void tick(num timestamp) {
-      if (_startTime == null) {
-        _startTime = timestamp;
-        _animationFrameId =
-            web.window.requestAnimationFrame(((JSNumber ts) => tick(ts.toDartDouble)).toJS);
-        return;
-      }
-
-      final elapsed = (timestamp - _startTime!).toInt();
-      final durationMs = duration.inMilliseconds;
-      final t = (elapsed / durationMs).clamp(0.0, 1.0);
-
-      final transformedT = curve.transform(t);
-
-      value = _startValue + (_targetValue - _startValue) * transformedT;
-
-      if (elapsed < durationMs) {
-        _animationFrameId =
-            web.window.requestAnimationFrame(((JSNumber ts) => tick(ts.toDartDouble)).toJS);
-      } else {
-        value = _targetValue;
-        _notifyStatusListeners(value == upperBound
-            ? AnimationStatus.completed
-            : AnimationStatus.dismissed);
-        _animationFrameId = null;
-      }
-    }
-
-    _animationFrameId =
-        web.window.requestAnimationFrame(((JSNumber ts) => tick(ts.toDartDouble)).toJS);
+    _ticker.start();
   }
 
-  void stop() {
-    if (_animationFrameId != null) {
-      web.window.cancelAnimationFrame(_animationFrameId!);
-      _animationFrameId = null;
+  void _tick(Duration elapsed) {
+    final durationMs = _currentDuration.inMilliseconds;
+    
+    // Protect against zero duration
+    if (durationMs == 0) {
+      value = _targetValue;
+      _ticker.stop();
+      _notifyStatusListeners(value == upperBound
+          ? AnimationStatus.completed
+          : AnimationStatus.dismissed);
+      return;
     }
+
+    final t = (elapsed.inMilliseconds / durationMs).clamp(0.0, 1.0);
+    final transformedT = _currentCurve.transform(t);
+
+    value = _startValue + (_targetValue - _startValue) * transformedT;
+
+    if (t >= 1.0) {
+      _ticker.stop();
+      value = _targetValue;
+      _notifyStatusListeners(value == upperBound
+          ? AnimationStatus.completed
+          : AnimationStatus.dismissed);
+    }
+  }
+
+  void stop({bool canceled = true}) {
+    _ticker.stop();
   }
 
   void reset() {
@@ -158,7 +155,7 @@ class AnimationController {
   }
 
   void dispose() {
-    stop();
+    _ticker.dispose();
     _listeners.clear();
     _statusListeners.clear();
   }

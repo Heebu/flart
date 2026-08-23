@@ -28,7 +28,7 @@ class PageNavigator {
   static String? _unauthorizedRoute;
   static bool _isInitialized = false;
   static Widget Function(String path)? _onUnknownRoute;
-  
+
   static RouteTransition _currentTransition = RouteTransition.none;
   static bool _isPopping = false;
 
@@ -90,14 +90,16 @@ class PageNavigator {
     _routes.remove(pattern);
   }
 
-  static void push(Widget page, {RouteTransition transition = RouteTransition.none}) {
+  static void push(Widget page,
+      {RouteTransition transition = RouteTransition.none}) {
     _stack.add(page);
     _currentTransition = transition;
     _updateHistory(page: page);
     _refresh(withTransition: transition != RouteTransition.none);
   }
 
-  static void pushNamed(String routeName, {
+  static void pushNamed(
+    String routeName, {
     Map<String, String>? queryParams,
     RouteTransition transition = RouteTransition.none,
   }) {
@@ -109,10 +111,12 @@ class PageNavigator {
     }
 
     _currentTransition = transition;
-    _navigateToPath(routeName, queryParams ?? <String, String>{}, replace: false);
+    _navigateToPath(routeName, queryParams ?? <String, String>{},
+        replace: false);
   }
 
-  static void replace(Widget page, {RouteTransition transition = RouteTransition.none}) {
+  static void replace(Widget page,
+      {RouteTransition transition = RouteTransition.none}) {
     if (_stack.isNotEmpty) {
       _stack.removeLast();
     }
@@ -136,7 +140,8 @@ class PageNavigator {
     }
 
     _currentTransition = transition;
-    _navigateToPath(routeName, queryParams ?? <String, String>{}, replace: true);
+    _navigateToPath(routeName, queryParams ?? <String, String>{},
+        replace: true);
   }
 
   static void pop({RouteTransition transition = RouteTransition.none}) {

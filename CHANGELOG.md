@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-08-23
+
+### 🚀 Major Architectural Shift: Virtual DOM Engine
+
+- **Flart Virtual DOM (VDOM)**: Completely overhauled the underlying rendering architecture. The framework now builds an intermediate Virtual DOM (`FlartNode`) instead of concatenating raw HTML strings, enabling significantly higher performance, true state persistence, and fine-grained DOM patching.
+- **Progressive Migration Bridge**: Introduced a robust bridging system (`FlartRawHtmlNode` and `Widget.render` fallback) that allows seamlessly mixing newly-migrated VDOM widgets with older string-based widgets. All core layout and structure widgets have been migrated to the new `buildNode(context)` architecture.
+- **SEO & Performance Driven Animations**: Rebuilt the animation engine (`AnimatedWidget`, `AnimatedBuilder`, `AnimationController`, `Ticker`) to synchronize directly with the new VDOM architecture. Animations now efficiently patch inline styles without unnecessarily thrashing the DOM or losing input focus.
+- **DOM Reconciler**: Replaced the naive `innerHTML` patching in `StatefulWidget` with a granular `VDOMReconciler` that efficiently diffs and patches node attributes, styles, events, and text content independently, keeping UI state completely intact across updates.
+
+---
+
 ## [1.6.0] - 2026-05-05
 
 ### 🏗️ Architecture & Internals

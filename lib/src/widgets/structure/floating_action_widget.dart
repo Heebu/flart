@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 import '../../helper/callback_manager.dart';
 
 typedef FlartVoidCallback = String Function();
@@ -19,12 +19,11 @@ class FDFloatingActionButton extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     final id = _generateUniqueId();
 
-    final style = {
+    final styles = <String, String>{
       'position': 'fixed',
-      // ... same styles ...
       'bottom': '20px',
       'right': '20px',
       'width': '56px',
@@ -38,21 +37,31 @@ class FDFloatingActionButton extends Widget {
       'cursor': onPressed != null ? 'pointer' : 'default',
       'z-index': '1000',
       ...?cssStyle,
-    }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    };
 
-    String onClickAttr = '';
-    if (onPressed != null) {
-      final cbId = FlartCallbackManager.register(onPressed!);
-      onClickAttr = 'onclick="window.__flartHandleClick(\'$cbId\')"';
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
     }
 
-    final buffer = StringBuffer();
-    buffer
-        .writeln('<div id="$id" style="$style ${rawCss ?? ''}" $onClickAttr>');
-    buffer.writeln(child.render(context));
-    buffer.writeln('</div>');
+    final events = <String, Function(dynamic)>{};
+    if (onPressed != null) {
+      events['click'] = (e) => onPressed!();
+    }
 
-    return buffer.toString();
+    return FlartElementNode(
+      'div',
+      id: id,
+      styles: styles,
+      events: events,
+      children: [child.buildNode(context)],
+    );
   }
 
   String _generateUniqueId() {

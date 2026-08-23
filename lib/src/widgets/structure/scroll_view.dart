@@ -17,22 +17,40 @@ class FDSingleChildScrollView extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     final isVertical = scrollDirection == Axis.vertical;
-    final style = {
+    final styles = <String, String>{
       'overflow-x': isVertical ? 'hidden' : 'auto',
       'overflow-y': isVertical ? 'auto' : 'hidden',
       'display': 'block',
-      if (padding != null) 'padding': padding!.toCss(),
       'width': '100%',
       'height': '100%',
-      ...?cssStyle,
-    }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    };
 
-    return '''
-      <div class="flart-scroll-view" style="$style ${rawCss ?? ''}">
-        ${child.render(context)}
-      </div>
-    ''';
+    if (padding != null) {
+      styles['padding'] = padding!.toCss();
+    }
+
+    if (cssStyle != null) {
+      styles.addAll(cssStyle!);
+    }
+
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
+    return FlartElementNode(
+      'div',
+      attributes: {'class': 'flart-scroll-view'},
+      styles: styles,
+      children: [child.buildNode(context)],
+    );
   }
 }

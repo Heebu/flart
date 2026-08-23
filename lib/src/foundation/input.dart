@@ -1,4 +1,6 @@
-import 'dart:html';
+import 'dart:math';
+import 'package:web/web.dart';
+import 'dart:js_interop';
 
 class Input {
   static final Set<String> _keysDown = {};
@@ -9,9 +11,22 @@ class Input {
     if (_isInitialized) return;
     _isInitialized = true;
 
-    window.onKeyDown.listen((e) => _keysDown.add(e.key ?? ''));
-    window.onKeyUp.listen((e) => _keysDown.remove(e.key ?? ''));
-    window.onMouseMove.listen((e) => _mousePosition = e.client);
+    window.addEventListener(
+        'keydown',
+        ((Event e) {
+          _keysDown.add((e as KeyboardEvent).key);
+        }).toJS);
+    window.addEventListener(
+        'keyup',
+        ((Event e) {
+          _keysDown.remove((e as KeyboardEvent).key);
+        }).toJS);
+    window.addEventListener(
+        'mousemove',
+        ((Event e) {
+          final me = e as MouseEvent;
+          _mousePosition = Point(me.clientX, me.clientY);
+        }).toJS);
   }
 
   static bool isKeyDown(String key) => _keysDown.contains(key);
