@@ -1,5 +1,4 @@
 import '../../flartdart.dart';
-import '../foundation/ticker.dart';
 
 /// A mixin that provides a single [Ticker].
 /// This mixin only supports vending a single ticker. If you need multiple, 

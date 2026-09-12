@@ -90,17 +90,14 @@ class _InputShowcaseState extends State<InputShowcase> {
                       '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
                 },
               ),
-              FDElevatedButton(
+              FDOutlinedButton(
                 onPressed: () {},
-                child: FDText('Outlined Button',
-                    style: TextStyle(color: FlartColor('#3b82f6'))),
                 cssStyle: {
-                  'background-color': 'transparent',
                   'padding': '12px 24px',
                   'border-radius': '8px',
-                  'border': '2px solid #3b82f6',
-                  'cursor': 'pointer',
                 },
+                child: FDText('Outlined Button',
+                    style: TextStyle(color: FlartColor('#3b82f6'))),
               ),
               FDTextButton(
                 onPressed: () {},
@@ -112,6 +109,19 @@ class _InputShowcaseState extends State<InputShowcase> {
                   'border': 'none',
                   'cursor': 'pointer',
                 },
+              ),
+              FDInkWell(
+                onTap: () {},
+                borderRadius: BorderRadius.circular(8),
+                child: FDContainer(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: FlartColor('#eff6ff'),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: FDText('InkWell Touch Area',
+                      style: TextStyle(color: FlartColor('#1d4ed8'))),
+                ),
               ),
             ],
           ),

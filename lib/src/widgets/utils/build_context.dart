@@ -22,7 +22,12 @@ class BuildContext {
   }
 
   T? findAncestorStateOfType<T>() {
-    return _states[T] as T?;
+    final exact = _states[T];
+    if (exact is T) return exact;
+    for (final s in _states.values) {
+      if (s is T) return s;
+    }
+    return null;
   }
 
   Map<Type, dynamic> get states => _states;

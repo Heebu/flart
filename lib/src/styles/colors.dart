@@ -1,6 +1,7 @@
 class FlartColor {
   final String hex;
   const FlartColor(this.hex);
+  const FlartColor.fromHex(this.hex);
 
   Map<String, int> _hexToRgb() {
     if (!hex.startsWith('#') || hex.length < 7) {

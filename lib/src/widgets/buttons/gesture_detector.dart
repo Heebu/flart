@@ -75,7 +75,7 @@ class FDGestureDetector extends Widget {
 
   @override
   FlartNode buildNode(BuildContext context) {
-    final events = <String, Function(dynamic)>{};
+    final events = <String, void Function(dynamic)>{};
 
     if (onTap != null) events['click'] = (e) => onTap!();
     if (onDoubleTap != null) events['dblclick'] = (e) => onDoubleTap!();
@@ -169,17 +169,17 @@ class FDGestureDetector extends Widget {
     if (onLongPress != null) {
       // Capture timeout ID or future
       // Wait, setTimeout returns an ID in JS, in Dart we can use Future
-      bool _isLongPressCanceled = false;
+      bool isLongPressCanceled = false;
       events['mousedown'] = (e) {
-        _isLongPressCanceled = false;
+        isLongPressCanceled = false;
         Future.delayed(const Duration(milliseconds: 700), () {
-          if (!_isLongPressCanceled) {
+          if (!isLongPressCanceled) {
             onLongPress!();
           }
         });
       };
-      events['mouseup'] = (e) => _isLongPressCanceled = true;
-      events['mouseleave'] = (e) => _isLongPressCanceled = true;
+      events['mouseup'] = (e) => isLongPressCanceled = true;
+      events['mouseleave'] = (e) => isLongPressCanceled = true;
     }
 
     final styleMap = <String, String>{

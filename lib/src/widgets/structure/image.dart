@@ -24,6 +24,7 @@ class FDImage extends Widget {
     this.alt,
     this.loading = ImageLoading.lazy,
     this.rawCss,
+    super.key,
   }) : src = (src == null || src.isEmpty)
             ? '/assets/flart_logo_with_text.png'
             : src;
@@ -37,27 +38,41 @@ class FDImage extends Widget {
     this.alt,
     this.loading = ImageLoading.lazy,
     this.rawCss,
+    super.key,
   }) : src = (assetPath == null || assetPath.isEmpty)
             ? '/assets/flart_logo_with_text.png'
-            : '/$assetPath'; // Adjust this based on your asset structure
+            : '/$assetPath';
 
   @override
-  String render(BuildContext context) {
-    final styleMap = {
+  FlartNode buildNode(BuildContext context) {
+    final styleMap = <String, String>{
       if (width != null) 'width': '${width}px',
       if (height != null) 'height': '${height}px',
       if (fit != null) 'object-fit': _boxFitToCss(fit!),
       ...?cssStyle,
     };
 
-    final style =
-        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    final loadingAttr =
-        loading == ImageLoading.lazy ? 'loading="lazy"' : 'loading="eager"';
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styleMap[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
 
-    return '''
-      <img src="$src" alt="${alt ?? ''}" style="$style ${rawCss ?? ''}" $loadingAttr />
-    ''';
+    return FlartElementNode(
+      'img',
+      id: key?.toString(),
+      attributes: {
+        'src': src,
+        'alt': alt ?? '',
+        'loading': loading == ImageLoading.lazy ? 'lazy' : 'eager',
+      },
+      styles: styleMap,
+    );
   }
 
   String _boxFitToCss(BoxFit fit) {

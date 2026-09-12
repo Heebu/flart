@@ -4,8 +4,11 @@ class EdgeInsets {
   final double bottom;
   final double left;
 
+  static const EdgeInsets zero = EdgeInsets.only();
+
   const EdgeInsets.only(
       {this.top = 0, this.right = 0, this.bottom = 0, this.left = 0});
+  const EdgeInsets.fromLTRB(this.left, this.top, this.right, this.bottom);
   const EdgeInsets.all(double value)
       : top = value,
         right = value,

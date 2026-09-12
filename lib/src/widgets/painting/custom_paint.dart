@@ -1,4 +1,4 @@
-import 'package:web/web.dart';
+import 'package:web/web.dart' as web;
 import 'dart:js_interop';
 import 'dart:async';
 import 'dart:math' as math;
@@ -13,7 +13,7 @@ class Size {
 }
 
 class Path {
-  final List<void Function(CanvasRenderingContext2D)> _ops = [];
+  final List<void Function(web.CanvasRenderingContext2D)> _ops = [];
 
   void moveTo(double x, double y) {
     _ops.add((ctx) => ctx.moveTo(x, y));
@@ -27,7 +27,11 @@ class Path {
     _ops.add((ctx) => ctx.closePath());
   }
 
-  void apply(CanvasRenderingContext2D ctx) {
+  void arc(double x, double y, double radius, double startAngle, double endAngle, [bool counterclockwise = false]) {
+    _ops.add((ctx) => ctx.arc(x, y, radius, startAngle, endAngle, counterclockwise));
+  }
+
+  void apply(web.CanvasRenderingContext2D ctx) {
     for (final op in _ops) {
       op(ctx);
     }
@@ -41,7 +45,7 @@ class Paint {
   String strokeCap = 'butt'; // 'butt', 'round', 'square'
   String strokeJoin = 'miter'; // 'miter', 'round', 'bevel'
 
-  void apply(CanvasRenderingContext2D ctx) {
+  void apply(web.CanvasRenderingContext2D ctx) {
     if (style == 'fill') {
       ctx.fillStyle = color.toString().toJS;
     } else {
@@ -58,10 +62,15 @@ abstract class Canvas {
   void drawCircle(double x, double y, double radius, Paint paint);
   void drawLine(double x1, double y1, double x2, double y2, Paint paint);
   void drawPath(Path path, Paint paint);
+  void drawOval(double x, double y, double radiusX, double radiusY, Paint paint);
+  void drawArc(double x, double y, double radius, double startAngle, double sweepAngle, bool useCenter, Paint paint);
+  void drawRRect(double x, double y, double w, double h, double radius, Paint paint);
+  void drawText(String text, double x, double y, {String? font, FlartColor? color, String? textAlign});
+  void clearRect(double x, double y, double w, double h);
 }
 
 class _WebCanvas implements Canvas {
-  final CanvasRenderingContext2D _ctx;
+  final web.CanvasRenderingContext2D _ctx;
   _WebCanvas(this._ctx);
 
   @override
@@ -106,6 +115,61 @@ class _WebCanvas implements Canvas {
       _ctx.stroke();
     }
   }
+
+  @override
+  void drawOval(double x, double y, double radiusX, double radiusY, Paint paint) {
+    paint.apply(_ctx);
+    _ctx.beginPath();
+    _ctx.ellipse(x, y, radiusX, radiusY, 0, 0, 2 * math.pi);
+    if (paint.style == 'fill') {
+      _ctx.fill();
+    } else {
+      _ctx.stroke();
+    }
+  }
+
+  @override
+  void drawArc(double x, double y, double radius, double startAngle, double sweepAngle, bool useCenter, Paint paint) {
+    paint.apply(_ctx);
+    _ctx.beginPath();
+    if (useCenter) {
+      _ctx.moveTo(x, y);
+    }
+    _ctx.arc(x, y, radius, startAngle, startAngle + sweepAngle);
+    if (useCenter) {
+      _ctx.closePath();
+    }
+    if (paint.style == 'fill') {
+      _ctx.fill();
+    } else {
+      _ctx.stroke();
+    }
+  }
+
+  @override
+  void drawRRect(double x, double y, double w, double h, double radius, Paint paint) {
+    paint.apply(_ctx);
+    _ctx.beginPath();
+    _ctx.roundRect(x, y, w, h, radius.toJS);
+    if (paint.style == 'fill') {
+      _ctx.fill();
+    } else {
+      _ctx.stroke();
+    }
+  }
+
+  @override
+  void drawText(String text, double x, double y, {String? font, FlartColor? color, String? textAlign}) {
+    if (font != null) _ctx.font = font;
+    if (color != null) _ctx.fillStyle = color.toString().toJS;
+    if (textAlign != null) _ctx.textAlign = textAlign;
+    _ctx.fillText(text, x, y);
+  }
+
+  @override
+  void clearRect(double x, double y, double w, double h) {
+    _ctx.clearRect(x, y, w, h);
+  }
 }
 
 abstract class CustomPainter {
@@ -120,33 +184,79 @@ class FDCustomPaint extends Widget {
   final Widget? child;
   final String? rawCss;
 
-  FDCustomPaint({
+  const FDCustomPaint({
     required this.painter,
     this.size = const Size(300, 150),
     this.child,
     this.rawCss,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final id =
-        'custom_paint_${DateTime.now().microsecondsSinceEpoch}_${(math.Random().nextDouble() * 10000).toInt()}';
+  FlartNode buildNode(BuildContext context) {
+    final canvasId = 'custom_paint_${DateTime.now().microsecondsSinceEpoch}_${(math.Random().nextDouble() * 10000).toInt()}';
 
-    Future.delayed(Duration.zero, () {
-      final canvas = document.getElementById(id) as HTMLCanvasElement?;
+    // Trigger painting after mount
+    scheduleMicrotask(() {
+      final canvas = web.document.getElementById(canvasId) as web.HTMLCanvasElement?;
       if (canvas != null) {
         final ctx = canvas.context2D;
         painter.paint(_WebCanvas(ctx), size);
       }
     });
 
-    return '''
-      <div style="position: relative; width: ${size.width}px; height: ${size.height}px; ${rawCss ?? ''}">
-        <canvas id="$id" width="${size.width}" height="${size.height}" style="position: absolute; top: 0; left: 0;"></canvas>
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-          ${child?.render(context) ?? ''}
-        </div>
-      </div>
-    ''';
+    final styles = <String, String>{
+      'position': 'relative',
+      'width': '${size.width}px',
+      'height': '${size.height}px',
+    };
+
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
+    final children = <FlartNode>[
+      FlartElementNode(
+        'canvas',
+        id: canvasId,
+        attributes: {
+          'width': '${size.width}',
+          'height': '${size.height}',
+        },
+        styles: {
+          'position': 'absolute',
+          'top': '0',
+          'left': '0',
+          'width': '${size.width}px',
+          'height': '${size.height}px',
+        },
+      ),
+      if (child != null)
+        FlartElementNode(
+          'div',
+          styles: {
+            'position': 'absolute',
+            'top': '0',
+            'left': '0',
+            'width': '100%',
+            'height': '100%',
+          },
+          children: [child!.buildNode(context)],
+        ),
+    ];
+
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      styles: styles,
+      children: children,
+    );
   }
 }

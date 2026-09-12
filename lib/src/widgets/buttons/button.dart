@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:web/web.dart';
 import '../../../flartdart.dart';
 
 class FDButton extends Widget {
@@ -75,24 +74,24 @@ class FDButton extends Widget {
       }
     }
 
-    final events = <String, Function(dynamic)>{};
+    final events = <String, void Function(dynamic)>{};
 
     final tapHandler = onPressed ?? onClick;
     if (tapHandler != null) events['click'] = (e) => tapHandler();
     if (onDoubleClick != null) events['dblclick'] = (e) => onDoubleClick!();
 
     if (onLongPress != null) {
-      bool _isLongPressCanceled = false;
+      bool isLongPressCanceled = false;
       events['mousedown'] = (e) {
-        _isLongPressCanceled = false;
+        isLongPressCanceled = false;
         Future.delayed(const Duration(milliseconds: 600), () {
-          if (!_isLongPressCanceled) {
+          if (!isLongPressCanceled) {
             onLongPress!();
           }
         });
       };
-      events['mouseup'] = (e) => _isLongPressCanceled = true;
-      events['mouseleave'] = (e) => _isLongPressCanceled = true;
+      events['mouseup'] = (e) => isLongPressCanceled = true;
+      events['mouseleave'] = (e) => isLongPressCanceled = true;
     }
 
     if (onHover != null || onHoverEnter != null) {

@@ -18,6 +18,7 @@ class FDSkeleton extends Widget {
     this.margin,
     this.cssStyle,
     this.rawCss,
+    super.key,
   });
 
   /// Creates a circular skeleton.
@@ -26,7 +27,9 @@ class FDSkeleton extends Widget {
     EdgeInsets? margin,
     Map<String, String>? cssStyle,
     String? rawCss,
+    Key? key,
   }) : this(
+          key: key,
           width: radius != null ? radius * 2 : null,
           height: radius != null ? radius * 2 : null,
           borderRadius: const BorderRadius.all(9999),
@@ -36,9 +39,8 @@ class FDSkeleton extends Widget {
         );
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     final theme = Theme.of(context);
-    final id = 'skeleton_${DateTime.now().microsecondsSinceEpoch}';
 
     // Background color based on theme
     final baseColor =
@@ -60,15 +62,20 @@ class FDSkeleton extends Widget {
       ...?cssStyle,
     };
 
-    final styleString =
-        styles.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
 
-    return '''
-      <div id="$id" class="flart-skeleton" style="$styleString ${rawCss ?? ''}">
-        <div class="flart-shimmer"></div>
-      </div>
+    final shimmerKeyframes = '''
       <style>
-        #$id .flart-shimmer {
+        .flart-skeleton .flart-shimmer {
           position: absolute;
           top: 0;
           left: -100%;
@@ -88,5 +95,19 @@ class FDSkeleton extends Widget {
         }
       </style>
     ''';
+
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      attributes: {'class': 'flart-skeleton'},
+      styles: styles,
+      children: [
+        FlartRawHtmlNode(shimmerKeyframes),
+        FlartElementNode(
+          'div',
+          attributes: {'class': 'flart-shimmer'},
+        ),
+      ],
+    );
   }
 }

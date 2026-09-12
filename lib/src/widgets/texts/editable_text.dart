@@ -1,5 +1,5 @@
+import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
-import '../../helper/callback_manager.dart';
 
 typedef OnTextChanged = void Function(String value);
 typedef OnTextSubmitted = void Function(String value);
@@ -87,47 +87,8 @@ class _FDEditableTextState extends State<FDEditableText> {
       ...?widget.cssStyle,
     };
 
-    final styleString =
-        baseStyle.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    final placeholderAttr =
-        widget.placeholder != null ? 'placeholder="${widget.placeholder}"' : '';
-    final maxLengthAttr =
-        widget.maxLength != null ? 'maxlength="${widget.maxLength}"' : '';
-    // IMPORTANT: use [value] for current value in HTML.
-    final valueAttr = 'value="${widget.controller.text}"';
+    // Return VDOM element directly
 
-    final onChangeCbId = FlartCallbackManager.registerEvent((val) {
-      final newVal = val.toString();
-      // Only set text if it's actually different to avoid recursive re-renders
-      if (widget.controller.text != newVal) {
-        widget.controller.text = newVal;
-        widget.onChanged?.call(newVal);
-      }
-    });
-
-    final onSubmitCbId = FlartCallbackManager.registerEvent((val) {
-      widget.onSubmitted?.call(val.toString());
-    });
-
-    final events = <String, Function(dynamic)>{
-      'input': (e) {
-        // In VDOM, the event object is the JS Event.
-        // We can get the value from e.target.value
-        // But since we are migrating incrementally, we can just use the DOM node
-        // Actually, VDOMReconciler passes the native JS event to our callback!
-        // We can access event.target.value if we use dart:js_interop, 
-        // but for now, we can use the FlartCallbackManager logic or just typecast.
-        // Wait, VDOMReconciler `addEventListener` passes the event!
-        // Let's rely on event.target.value.
-        // For now, to keep it simple, we can just use `dart:html` or `package:web`.
-        // Let's assume the user passes a simple function and we can extract value.
-      },
-      'keydown': (e) {
-        // Handle enter key for submit
-      }
-    };
-
-    // Wait, since we are returning a Widget, we can just return FDElement!
     return FDElement(
       tag: 'input',
       attributes: {
@@ -139,21 +100,21 @@ class _FDEditableTextState extends State<FDEditableText> {
       },
       styles: baseStyle,
       events: {
-        'input': (e) {
-          final target = e.target;
-          final value = target.value as String?;
-          if (value != null && widget.controller.text != value) {
-            widget.controller.text = value;
-            widget.onChanged?.call(value);
+        'input': (web.Event e) {
+          final target = e.target as web.HTMLInputElement?;
+          if (target != null) {
+            final value = target.value;
+            if (widget.controller.text != value) {
+              widget.controller.text = value;
+              widget.onChanged?.call(value);
+            }
           }
         },
-        'keydown': (e) {
-          if (e.key == 'Enter') {
-            final target = e.target;
-            final value = target.value as String?;
-            if (value != null) {
-              widget.onSubmitted?.call(value);
-            }
+        'keydown': (web.Event e) {
+          final target = e.target as web.HTMLInputElement?;
+          if (e is web.KeyboardEvent && e.key == 'Enter' && target != null) {
+            final value = target.value;
+            widget.onSubmitted?.call(value);
             target.blur();
           }
         }

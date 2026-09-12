@@ -1,37 +1,66 @@
 import '../../../flartdart.dart';
 
+typedef RichText = FDRichText;
+
 class FDRichText extends Widget {
   final TextSpan textSpan;
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
   FDRichText({
-    required this.textSpan,
+    TextSpan? textSpan,
+    TextSpan? text,
     this.cssStyle,
     this.rawCss,
-  });
+    super.key,
+  }) : textSpan = textSpan ?? text ?? const TextSpan();
 
   @override
-  String render(BuildContext context) {
-    final styleString =
-        (cssStyle ?? {}).entries.map((e) => '${e.key}: ${e.value};').join(' ');
+  FlartNode buildNode(BuildContext context) {
+    final styles = <String, String>{
+      'display': 'inline',
+      ...?cssStyle,
+    };
 
-    return '<div style="$styleString ${rawCss ?? ''}">${textSpan.render()}</div>';
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      styles: styles,
+      children: [_buildSpanNode(textSpan)],
+    );
+  }
+
+  FlartNode _buildSpanNode(TextSpan span) {
+    final spanStyles = <String, String>{};
+    if (span.style != null) {
+      spanStyles.addAll(span.style!.toCss());
+    }
+
+    final children = <FlartNode>[];
+    if (span.text != null && span.text!.isNotEmpty) {
+      children.add(FlartTextNode(span.text!));
+    }
+    if (span.children != null) {
+      for (final child in span.children!) {
+        children.add(_buildSpanNode(child));
+      }
+    }
+
+    return FlartElementNode(
+      'span',
+      styles: spanStyles,
+      children: children,
+    );
   }
 }
-
-//FDRichText(
-//   textSpan: TextSpan(
-//     text: "Hello ",
-//     style: TextStyle(color: FlartColor('#000')),
-//     children: [
-//       TextSpan(
-//         text: "world",
-//         style: TextStyle(color: FlartColor('#ff0000'), fontWeight: FontWeight.bold),
-//       ),
-//       TextSpan(
-//         text: "!",
-//       ),
-//     ],
-//   ),
-// )

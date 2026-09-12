@@ -1,6 +1,4 @@
 import '../../../flartdart.dart';
-import 'package:web/web.dart';
-
 class AnimatedContainer extends Widget {
   final AnimationController controller;
   final FlartColor beginColor;

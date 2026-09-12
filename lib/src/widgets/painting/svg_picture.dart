@@ -9,71 +9,91 @@ class FDSvgPicture extends Widget {
   final BoxFit fit;
   final String? rawCss;
 
-  FDSvgPicture.asset(
+  const FDSvgPicture.asset(
     this.assetName, {
     this.width,
     this.height,
     this.color,
     this.fit = BoxFit.contain,
     this.rawCss,
+    super.key,
   }) : string = null;
 
-  FDSvgPicture.string(
+  const FDSvgPicture.string(
     this.string, {
     this.width,
     this.height,
     this.color,
     this.fit = BoxFit.contain,
     this.rawCss,
+    super.key,
   }) : assetName = null;
 
   @override
-  String render(BuildContext context) {
-    final w = width != null ? '${width}px' : 'auto';
-    final h = height != null ? '${height}px' : 'auto';
+  FlartNode buildNode(BuildContext context) {
+    final styles = <String, String>{
+      'display': 'inline-block',
+      if (width != null) 'width': '${width}px',
+      if (height != null) 'height': '${height}px',
+    };
 
-    // Inline SVG
-    if (string != null) {
-      final style = {
-        if (width != null) 'width': w,
-        if (height != null) 'height': h,
-        if (color != null) 'fill': color.toString(),
-        if (color != null) 'color': color.toString(),
-        ..._parseRawCss(rawCss),
-      }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-
-      return '<div style="display: inline-block; $style">$string</div>';
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
     }
-    // Asset SVG
-    else if (assetName != null) {
-      // Color filter using mask
+
+    if (string != null) {
+      if (color != null) {
+        styles['fill'] = color.toString();
+        styles['color'] = color.toString();
+      }
+      return FlartElementNode(
+        'div',
+        id: key?.toString(),
+        styles: styles,
+        children: [FlartRawHtmlNode(string!)],
+      );
+    } else if (assetName != null) {
       if (color != null) {
         final c = color.toString();
-        return '''
-          <div style="
-            width: ${width ?? 24}px; 
-            height: ${height ?? 24}px; 
-            background-color: $c;
-            mask: url(/$assetName) no-repeat center;
-            -webkit-mask: url(/$assetName) no-repeat center;
-            mask-size: ${_boxFitToCss(fit)};
-            -webkit-mask-size: ${_boxFitToCss(fit)};
-            display: inline-block;
-            ${rawCss ?? ''}
-          "></div>
-        ''';
+        final maskStyles = <String, String>{
+          'width': '${width ?? 24}px',
+          'height': '${height ?? 24}px',
+          'background-color': c,
+          'mask': 'url(/$assetName) no-repeat center',
+          '-webkit-mask': 'url(/$assetName) no-repeat center',
+          'mask-size': _boxFitToCss(fit),
+          '-webkit-mask-size': _boxFitToCss(fit),
+          'display': 'inline-block',
+          ...styles,
+        };
+
+        return FlartElementNode(
+          'div',
+          id: key?.toString(),
+          styles: maskStyles,
+        );
       }
 
-      final style = {
-        if (width != null) 'width': w,
-        if (height != null) 'height': h,
-        'object-fit': _boxFitToCss(fit),
-        ..._parseRawCss(rawCss),
-      }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-
-      return '<img src="/$assetName" style="$style" alt="svg" />';
+      styles['object-fit'] = _boxFitToCss(fit);
+      return FlartElementNode(
+        'img',
+        id: key?.toString(),
+        attributes: {
+          'src': '/$assetName',
+          'alt': 'svg',
+        },
+        styles: styles,
+      );
     }
-    return '';
+
+    return FlartElementNode('div', id: key?.toString());
   }
 
   String _boxFitToCss(BoxFit fit) {
@@ -87,19 +107,7 @@ class FDSvgPicture extends Widget {
       case BoxFit.none:
         return 'auto';
       case BoxFit.scaleDown:
-        return 'contain'; // approximation
+        return 'contain';
     }
-  }
-
-  Map<String, String> _parseRawCss(String? css) {
-    if (css == null) return {};
-    final map = <String, String>{};
-    css.split(';').forEach((element) {
-      final parts = element.split(':');
-      if (parts.length == 2) {
-        map[parts[0].trim()] = parts[1].trim();
-      }
-    });
-    return map;
   }
 }

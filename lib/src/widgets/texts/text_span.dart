@@ -1,12 +1,12 @@
 import 'package:flartdart/flartdart.dart';
 
 class TextSpan {
-  final String text;
+  final String? text;
   final TextStyle? style;
   final List<TextSpan>? children;
 
-  TextSpan({
-    required this.text,
+  const TextSpan({
+    this.text,
     this.style,
     this.children,
   });
@@ -18,7 +18,7 @@ class TextSpan {
         .join(' ');
 
     final buffer = StringBuffer();
-    buffer.write('<span style="$styleString">$FDText</span>');
+    buffer.write('<span style="$styleString">${text ?? ""}</span>');
 
     if (children != null && children!.isNotEmpty) {
       for (final child in children!) {

@@ -77,6 +77,32 @@ class StructureShowcase extends StatelessWidget {
           ),
         ),
         ShowcaseCard(
+          title: 'FDListTile',
+          description: 'A single fixed-height row that typically contains some text as well as a leading or trailing icon.',
+          child: FDCard(
+            padding: EdgeInsets.zero,
+            child: FDColumn(
+              children: [
+                FDListTile(
+                  leading: FDIcon(icon: Icons.inbox, color: FlartColors.blue),
+                  title: FDText('Inbox', style: TextStyle(fontWeight: FontWeight.bold)),
+                  subtitle: FDText('Check your recent messages'),
+                  trailing: FDBadge(child: FDText('3'), backgroundColor: FlartColors.blue),
+                  onTap: () {},
+                ),
+                FDDivider(margin: EdgeInsets.zero),
+                FDListTile(
+                  leading: FDIcon(icon: Icons.star, color: FlartColors.orange),
+                  title: FDText('Starred', style: TextStyle(fontWeight: FontWeight.bold)),
+                  subtitle: FDText('Important pinned items'),
+                  trailing: FDIcon(icon: Icons.chevron_right, color: FlartColors.grey),
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ),
+        ),
+        ShowcaseCard(
           title: 'FDProgressIndicator',
           description: 'A circular loading indicator.',
           child: FDCircularProgressIndicator(

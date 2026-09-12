@@ -15,15 +15,24 @@ class FDIcon extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
-    final colorHex = color.toString();
-    final tooltipAttr = FDTooltip != null ? 'title="$FDTooltip"' : '';
-
-    return '''
-      <i class="material-icons" style="font-size: ${size}px; color: $colorHex; user-select: none;" $tooltipAttr>
-        $icon
-      </i>
-    ''';
+  FlartNode buildNode(BuildContext context) {
+    return FlartElementNode(
+      'i',
+      id: key?.toString(),
+      attributes: {
+        'class': 'material-icons',
+        if (FDTooltip != null) 'title': FDTooltip!,
+      },
+      styles: {
+        'font-size': '${size}px',
+        'color': color.toString(),
+        'user-select': 'none',
+        'display': 'inline-flex',
+        'align-items': 'center',
+        'justify-content': 'center',
+      },
+      children: [FlartTextNode(icon)],
+    );
   }
 }
 
@@ -104,4 +113,7 @@ class FDIcons {
   static const String dns = 'dns';
   static const String memory = 'memory';
   static const String security = 'security';
+  static const String inbox = 'inbox';
 }
+
+typedef Icons = FDIcons;

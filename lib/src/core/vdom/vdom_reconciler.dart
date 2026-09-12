@@ -38,11 +38,7 @@ class VDOMReconciler {
       }
     } else if (newVNode is FlartRawHtmlNode) {
       // Raw HTML nodes are a migration step. We create a span/div and set innerHTML.
-      if (oldDomNode.nodeType == web.Node.ELEMENT_NODE) {
-        final el = oldDomNode as web.Element;
-        // If it was already a raw html container, just update if changed (though string diffing is hard here without caching)
-        // We'll just replace it fully to be safe if it's Raw HTML
-      }
+      // We'll just replace it fully to be safe if it's Raw HTML
       final template = web.document.createElement('div');
       template.setHTMLUnsafe(newVNode.html.toJS);
       if (template.childNodes.length == 1) {
@@ -172,11 +168,10 @@ class VDOMReconciler {
         toRemove.add(type);
       }
     });
-    for (var type in toRemove) currentListeners.remove(type);
+    for (var type in toRemove) {
+      currentListeners.remove(type);
+    }
 
-    // Add or update listeners
-    // To properly "update" a listener, we actually just remove the old one and add the new one,
-    // because closures might capture new state.
     newEvents.forEach((type, handler) {
       if (currentListeners.containsKey(type)) {
         el.removeEventListener(type, currentListeners[type]);

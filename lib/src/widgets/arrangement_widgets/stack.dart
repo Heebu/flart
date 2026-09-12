@@ -1,30 +1,44 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDStack extends Widget {
   final List<Widget> children;
+  final Alignment alignment;
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
-  FDStack({
+  const FDStack({
     required this.children,
+    this.alignment = Alignment.topLeft,
     this.cssStyle,
     this.rawCss,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final style = {
+  FlartNode buildNode(BuildContext context) {
+    final styles = <String, String>{
       'position': 'relative',
+      'width': '100%',
+      'height': '100%',
       ...?cssStyle,
-    }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    };
 
-    final buffer = StringBuffer();
-    buffer.writeln('<div style="$style ${rawCss ?? ''}">');
-    for (final child in children) {
-      buffer.writeln(child.render(context));
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
     }
-    buffer.writeln('</div>');
 
-    return buffer.toString();
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      styles: styles,
+      children: children.map((child) => child.buildNode(context)).toList(),
+    );
   }
 }

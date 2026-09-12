@@ -1,6 +1,6 @@
 import '../../../flartdart.dart';
 
-/// A FDCard widget with elevation and rounded corners
+/// A Card widget with elevation and rounded corners
 class FDCard extends Widget {
   final Widget? child;
   final FlartColor? color;
@@ -24,7 +24,7 @@ class FDCard extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     final theme = Theme.of(context);
     final bgColor = color?.toString() ?? theme.cardColor.toString();
     final shadowBlur = elevation * 2;
@@ -43,9 +43,23 @@ class FDCard extends Widget {
       ...?cssStyle,
     };
 
-    final styleString =
-        styles.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
 
-    return '<div style="$styleString ${rawCss ?? ''}">${child?.render(context) ?? ''}</div>';
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      attributes: {'class': 'flart-card'},
+      styles: styles,
+      children: child != null ? [child!.buildNode(context)] : null,
+    );
   }
 }

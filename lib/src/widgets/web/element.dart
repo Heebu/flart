@@ -1,3 +1,4 @@
+import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
 /// A generic widget that renders directly to a VDOM FlartElementNode.
@@ -7,7 +8,7 @@ class FDElement extends Widget {
   final String? id;
   final Map<String, String>? attributes;
   final Map<String, String>? styles;
-  final Map<String, Function(dynamic)>? events;
+  final Map<String, void Function(web.Event)>? events;
   final List<Widget>? children;
 
   const FDElement({

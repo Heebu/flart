@@ -29,10 +29,15 @@ class ChangeNotifier implements Listenable {
   }
 }
 
-class ValueNotifier<T> extends ChangeNotifier {
+abstract class ValueListenable<T> extends Listenable {
+  T get value;
+}
+
+class ValueNotifier<T> extends ChangeNotifier implements ValueListenable<T> {
   T _value;
   ValueNotifier(this._value);
 
+  @override
   T get value => _value;
   set value(T newValue) {
     if (_value == newValue) return;

@@ -3,11 +3,12 @@ import '../../../flartdart.dart';
 class FDDataTable<T> extends Widget {
   final List<FDDataColumn> columns;
   final List<FDDataRow> rows;
-  final double? columnSpacing;
-  final double? dataRowHeight;
-  final double? headingRowHeight;
-  final double? horizontalMargin;
+  final double columnSpacing;
+  final double dataRowHeight;
+  final double headingRowHeight;
+  final double horizontalMargin;
   final bool showCheckboxColumn;
+  final Map<String, String>? cssStyle;
   final String? rawCss;
 
   const FDDataTable({
@@ -18,86 +19,130 @@ class FDDataTable<T> extends Widget {
     this.headingRowHeight = 56.0,
     this.horizontalMargin = 24.0,
     this.showCheckboxColumn = false,
+    this.cssStyle,
     this.rawCss,
     super.key,
   });
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     final theme = Theme.of(context);
-    final id = 'datatable_${DateTime.now().microsecondsSinceEpoch}';
 
-    final buffer = StringBuffer();
-    buffer.writeln('''
-      <div class="flart-datatable-container" style="
-        width: 100%;
-        overflow-x: auto;
-        background-color: ${theme.cardColor};
-        border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-        ${rawCss ?? ''}
-      ">
-        <table id="$id" style="
-          width: 100%;
-          border-collapse: collapse;
-          font-family: inherit;
-          font-size: 14px;
-        ">
-          <thead>
-            <tr style="
-              height: ${headingRowHeight}px;
-              border-bottom: 2px solid ${theme.dividerColor};
-              text-align: left;
-            ">
-    ''');
+    final containerStyles = <String, String>{
+      'width': '100%',
+      'overflow-x': 'auto',
+      'background-color': theme.cardColor.toString(),
+      'border-radius': '4px',
+      'box-shadow': '0 1px 3px rgba(0,0,0,0.12)',
+      ...?cssStyle,
+    };
 
-    for (var col in columns) {
-      buffer.writeln('''
-        <th style="
-          padding: 0 ${columnSpacing! / 2}px;
-          color: ${theme.textStyle.color};
-          font-weight: 600;
-          ${col.numeric ? 'text-align: right;' : ''}
-          ${col == columns.first ? 'padding-left: ${horizontalMargin}px;' : ''}
-          ${col == columns.last ? 'padding-right: ${horizontalMargin}px;' : ''}
-        ">
-          ${col.label.render(context)}
-        </th>
-      ''');
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          containerStyles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
     }
 
-    buffer.writeln('</tr></thead><tbody>');
+    // Header cells
+    final headerCells = <FlartNode>[];
+    for (var i = 0; i < columns.length; i++) {
+      final col = columns[i];
+      final isFirst = i == 0;
+      final isLast = i == columns.length - 1;
 
+      headerCells.add(FlartElementNode(
+        'th',
+        attributes: {
+          if (col.tooltip != null) 'title': col.tooltip!,
+        },
+        styles: {
+          'padding': '0 ${columnSpacing / 2}px',
+          if (isFirst) 'padding-left': '${horizontalMargin}px',
+          if (isLast) 'padding-right': '${horizontalMargin}px',
+          'color': theme.textStyle.color.toString(),
+          'font-weight': '600',
+          if (col.numeric) 'text-align': 'right' else 'text-align': 'left',
+        },
+        children: [col.label.buildNode(context)],
+      ));
+    }
+
+    final theadNode = FlartElementNode(
+      'thead',
+      children: [
+        FlartElementNode(
+          'tr',
+          styles: {
+            'height': '${headingRowHeight}px',
+            'border-bottom': '2px solid ${theme.dividerColor}',
+          },
+          children: headerCells,
+        ),
+      ],
+    );
+
+    // Body rows
+    final bodyRows = <FlartNode>[];
     for (var row in rows) {
-      buffer.writeln('''
-        <tr style="
-          height: ${dataRowHeight}px;
-          border-bottom: 1px solid ${theme.dividerColor};
-          transition: background-color 0.2s;
-        " onmouseover="this.style.backgroundColor='rgba(0,0,0,0.02)'" onmouseout="this.style.backgroundColor='transparent'">
-      ''');
-
-      for (var i = 0; i < row.cells.length; i++) {
+      final cells = <FlartNode>[];
+      for (var i = 0; i < row.cells.length && i < columns.length; i++) {
         final cell = row.cells[i];
         final col = columns[i];
-        buffer.writeln('''
-          <td style="
-            padding: 0 ${columnSpacing! / 2}px;
-            color: ${theme.textStyle.color};
-            ${col.numeric ? 'text-align: right;' : ''}
-            ${i == 0 ? 'padding-left: ${horizontalMargin}px;' : ''}
-            ${i == row.cells.length - 1 ? 'padding-right: ${horizontalMargin}px;' : ''}
-          ">
-            ${cell.child.render(context)}
-          </td>
-        ''');
+        final isFirst = i == 0;
+        final isLast = i == row.cells.length - 1;
+
+        cells.add(FlartElementNode(
+          'td',
+          styles: {
+            'padding': '0 ${columnSpacing / 2}px',
+            if (isFirst) 'padding-left': '${horizontalMargin}px',
+            if (isLast) 'padding-right': '${horizontalMargin}px',
+            'color': theme.textStyle.color.toString(),
+            if (col.numeric) 'text-align': 'right' else 'text-align': 'left',
+          },
+          children: [cell.child.buildNode(context)],
+        ));
       }
-      buffer.writeln('</tr>');
+
+      bodyRows.add(FlartElementNode(
+        'tr',
+        styles: {
+          'height': '${dataRowHeight}px',
+          'border-bottom': '1px solid ${theme.dividerColor}',
+          'background-color': row.selected ? 'rgba(0,0,0,0.05)' : 'transparent',
+        },
+        children: cells,
+      ));
     }
 
-    buffer.writeln('</tbody></table></div>');
+    final tbodyNode = FlartElementNode(
+      'tbody',
+      children: bodyRows,
+    );
 
-    return buffer.toString();
+    final tableNode = FlartElementNode(
+      'table',
+      styles: {
+        'width': '100%',
+        'border-collapse': 'collapse',
+        'font-family': 'inherit',
+        'font-size': '14px',
+      },
+      children: [theadNode, tbodyNode],
+    );
+
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      attributes: {'class': 'flart-datatable-container'},
+      styles: containerStyles,
+      children: [tableNode],
+    );
   }
 }
 
@@ -129,8 +174,13 @@ class FDDataCell {
   final Widget child;
   final bool placeholder;
 
-  const FDDataCell({
-    required this.child,
+  const FDDataCell(
+    this.child, {
     this.placeholder = false,
   });
 }
+
+typedef DataTable<T> = FDDataTable<T>;
+typedef DataColumn = FDDataColumn;
+typedef DataRow = FDDataRow;
+typedef DataCell = FDDataCell;

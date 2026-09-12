@@ -1,5 +1,6 @@
-import '../../helper/callback_manager.dart';
 import '../../../flartdart.dart';
+
+typedef TextButton = FDTextButton;
 
 class FDTextButton extends Widget {
   final Widget? child;
@@ -20,34 +21,60 @@ class FDTextButton extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
-    final id = 'text_btn_${DateTime.now().millisecondsSinceEpoch}';
-    final pressId =
-        onPressed != null ? FlartCallbackManager.register(onPressed!) : '';
+  FlartNode buildNode(BuildContext context) {
+    final theme = Theme.of(context);
+    final isEnabled = onPressed != null;
 
-    final styleMap = {
+    final styles = <String, String>{
       'background': 'none',
       'border': 'none',
-      'color': style?.color?.toString() ?? 'inherit',
-      'font-size': style?.fontSize?.toString() ?? 'inherit',
-      'cursor': 'pointer',
-      'padding': '4px 8px',
+      'color': style?.color?.toString() ?? theme.primaryColor.toString(),
+      'font-size': style?.fontSize != null ? '${style!.fontSize}px' : '14px',
+      'font-weight': '500',
+      'cursor': isEnabled ? 'pointer' : 'default',
+      'padding': '8px 12px',
+      'border-radius': '4px',
       'transition': 'all 0.2s ease-in-out',
-      'text-decoration': 'underline',
+      'outline': 'none',
+      'user-select': 'none',
+      if (!isEnabled) 'opacity': '0.5',
       ...?cssStyle,
     };
-    final styleString =
-        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
-    return '''
-      <button id="$id" style="$styleString ${rawCss ?? ''}">
-        ${child?.render(context) ?? label ?? ''}
-      </button>
-      <script>
-        document.getElementById('$id').addEventListener('click', () => {
-          ${onPressed != null ? "__flartHandleClick('$pressId')" : ''}
-        });
-      </script>
-    ''';
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
+    final children = <FlartNode>[];
+    if (child != null) {
+      children.add(child!.buildNode(context));
+    } else if (label != null) {
+      children.add(FlartTextNode(label!));
+    }
+
+    final events = <String, void Function(dynamic)>{};
+    if (isEnabled) {
+      events['click'] = (_) => onPressed!();
+    }
+
+    return FlartElementNode(
+      'button',
+      id: key?.toString(),
+      attributes: {
+        'type': 'button',
+        if (!isEnabled) 'disabled': 'true',
+        'class': 'flart-text-button',
+      },
+      styles: styles,
+      events: events,
+      children: children,
+    );
   }
 }

@@ -90,16 +90,21 @@ export 'src/widgets/structure/chip_badge.dart';
 export 'src/widgets/structure/skeleton.dart';
 export 'src/widgets/structure/tooltip_snackbar.dart';
 export 'src/widgets/structure/tabs.dart';
+export 'src/widgets/structure/list_tile.dart';
+export 'src/widgets/structure/alert_dialog.dart';
+export 'src/widgets/structure/display_widgets.dart';
 // New Structure Widgets
 export 'src/widgets/structure/scroll_view.dart';
 export 'src/widgets/structure/padding.dart';
 export 'src/widgets/structure/constrained_box.dart';
 export 'src/widgets/structure/overlay.dart';
+export 'src/widgets/utils/value_listenable_builder.dart';
 
 // Arrangement Widgets
 export 'src/widgets/arrangement_widgets/wrap.dart';
 
 // Web Widgets
+export 'src/widgets/web/element.dart';
 export 'src/widgets/web/web_widgets.dart';
 
 // Existing Arrangement Widgets
@@ -115,6 +120,8 @@ export 'src/widgets/arrangement_widgets/virtualized_list_view.dart';
 // Input & Buttons
 export 'src/widgets/buttons/button.dart';
 export 'src/widgets/buttons/elevated_button.dart';
+export 'src/widgets/buttons/outlined_button.dart';
+export 'src/widgets/buttons/ink_well.dart';
 export 'src/widgets/buttons/gesture_detector.dart';
 export 'src/widgets/buttons/icon_button.dart';
 export 'src/widgets/inputs/textfield.dart';
@@ -133,9 +140,6 @@ export 'src/widgets/texts/selectable_text.dart';
 export 'src/widgets/texts/link_text.dart';
 export 'src/widgets/texts/editable_text.dart';
 
-// Web specific
-export 'src/widgets/web/element.dart';
-export 'src/widgets/web/web_widgets.dart';
 // Pickers
 export 'src/widgets/pickers/date_picker.dart';
 export 'src/widgets/pickers/time_picker.dart';

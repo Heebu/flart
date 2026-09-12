@@ -1,6 +1,4 @@
 import '../../../flartdart.dart';
-import '../../helper/style_utils.dart';
-
 class FDScaffold extends Widget {
   final FDAppBar? appBar;
   final Widget? body;

@@ -4,21 +4,42 @@ import '../../../flartdart.dart';
 class FDConstrainedBox extends Widget {
   final BoxConstraints constraints;
   final Widget child;
+  final Map<String, String>? cssStyle;
   final String? rawCss;
 
-  FDConstrainedBox({
+  const FDConstrainedBox({
     required this.constraints,
     required this.child,
+    this.cssStyle,
     this.rawCss,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    return '''
-      <div style="${constraints.toCss()}; box-sizing: border-box; ${rawCss ?? ''}">
-        ${child.render(context)}
-      </div>
-    ''';
+  FlartNode buildNode(BuildContext context) {
+    final styles = <String, String>{
+      ...constraints.toCssMap(),
+      'box-sizing': 'border-box',
+      ...?cssStyle,
+    };
+
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      styles: styles,
+      children: [child.buildNode(context)],
+    );
   }
 }
 
@@ -35,13 +56,34 @@ class BoxConstraints {
     this.maxHeight = double.infinity,
   });
 
-  String toCss() {
-    final style = <String, String>{};
-    if (minWidth > 0) style['min-width'] = '${minWidth}px';
-    if (maxWidth != double.infinity) style['max-width'] = '${maxWidth}px';
-    if (minHeight > 0) style['min-height'] = '${minHeight}px';
-    if (maxHeight != double.infinity) style['max-height'] = '${maxHeight}px';
+  const BoxConstraints.tightFor({
+    double? width,
+    double? height,
+  })  : minWidth = width ?? 0.0,
+        maxWidth = width ?? double.infinity,
+        minHeight = height ?? 0.0,
+        maxHeight = height ?? double.infinity;
 
-    return style.entries.map((e) => '${e.key}: ${e.value}').join('; ');
+  const BoxConstraints.expand({
+    double? width,
+    double? height,
+  })  : minWidth = width ?? double.infinity,
+        maxWidth = width ?? double.infinity,
+        minHeight = height ?? double.infinity,
+        maxHeight = height ?? double.infinity;
+
+  Map<String, String> toCssMap() {
+    final style = <String, String>{};
+    if (minWidth > 0 && minWidth != double.infinity) style['min-width'] = '${minWidth}px';
+    if (minWidth == double.infinity) style['min-width'] = '100%';
+    if (maxWidth != double.infinity) style['max-width'] = '${maxWidth}px';
+    if (minHeight > 0 && minHeight != double.infinity) style['min-height'] = '${minHeight}px';
+    if (minHeight == double.infinity) style['min-height'] = '100%';
+    if (maxHeight != double.infinity) style['max-height'] = '${maxHeight}px';
+    return style;
+  }
+
+  String toCss() {
+    return toCssMap().entries.map((e) => '${e.key}: ${e.value}').join('; ');
   }
 }

@@ -1,4 +1,4 @@
-import 'package:web/web.dart';
+import 'package:web/web.dart' as web;
 import 'dart:js_interop';
 import 'dart:async';
 import '../../../flartdart.dart';
@@ -15,7 +15,7 @@ class FDDialog extends Widget {
   final Alignment? alignment;
   final String? rawCss;
 
-  FDDialog({
+  const FDDialog({
     this.child,
     this.backgroundColor,
     this.elevation,
@@ -26,33 +26,45 @@ class FDDialog extends Widget {
     this.shape,
     this.alignment,
     this.rawCss,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     final bgColor = backgroundColor?.toString() ?? '#ffffff';
-    final pad = insetPadding ?? EdgeInsets.all(40.0);
-    final padStyle =
-        'padding: ${pad.top}px ${pad.right}px ${pad.bottom}px ${pad.left}px;';
+    final pad = insetPadding ?? const EdgeInsets.all(40.0);
 
-    // Very basic rendering of the FDDialog FDContainer
-    return '''
-      <div style="
-        background-color: $bgColor; 
-        $padStyle
-        border-radius: 4px; 
-        box-shadow: 0 11px 15px -7px rgba(0,0,0,0.2), 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12);
-        max-width: 80%;
-        max-height: 80%;
-        overflow: auto;
-        display: flex;
-        flex-direction: column;
-        pointer-events: auto;
-        ${rawCss ?? ''}
-      ">
-        ${child?.render(context) ?? ''}
-      </div>
-    ''';
+    final styles = <String, String>{
+      'background-color': bgColor,
+      'padding': pad.toCss(),
+      'border-radius': '4px',
+      'box-shadow': '0 11px 15px -7px rgba(0,0,0,0.2), 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12)',
+      'max-width': '80%',
+      'max-height': '80%',
+      'overflow': 'auto',
+      'display': 'flex',
+      'flex-direction': 'column',
+      'pointer-events': 'auto',
+      'box-sizing': 'border-box',
+    };
+
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      styles: styles,
+      children: child != null ? [child!.buildNode(context)] : null,
+    );
   }
 }
 
@@ -62,7 +74,7 @@ Future<T?> showDialog<T>({
 }) {
   final completer = Completer<T?>();
 
-  final overlay = document.createElement('div') as HTMLElement;
+  final overlay = web.document.createElement('div') as web.HTMLElement;
   overlay.style.position = 'fixed';
   overlay.style.top = '0';
   overlay.style.left = '0';
@@ -83,31 +95,19 @@ Future<T?> showDialog<T>({
 
   if (barrierDismissible) {
     overlay.addEventListener(
-        'click',
-        ((Event event) {
-          if (event.target == overlay) {
-            close();
-          }
-        }).toJS);
+      'click',
+      ((web.Event event) {
+        if (event.target == overlay) {
+          close();
+        }
+      }).toJS,
+    );
   }
 
-  // Render the FDDialog content
   final context = BuildContext(widget: builder);
-  // Note: BuildContext usage here is a bit loose as it's not part of the main tree,
-  // but for string generation it might be fine.
+  VDOMReconciler.reconcile(overlay, builder.buildNode(context));
 
-  final contentHtml = builder.render(context);
-  overlay.innerHTML = contentHtml.toJS as JSAny;
-
-  // We need to attach event listeners to the rendered content if any.
-  // Since Flart currently renders HTML strings, we lose the ability to attach events *inside* the render()
-  // method for dynamically added content unless we re-hydrate or use delegated events.
-  // For this "Readme aligned" version, we assume basic static rendering or that the framework
-  // handles hygiene elsewhere.
-  // However, `FDGestureDetector` works by attaching events to IDs or using global delegation.
-  // Since this is a new root, we might need to notify the system.
-
-  document.body?.append(overlay);
+  web.document.body?.append(overlay);
 
   return completer.future;
 }

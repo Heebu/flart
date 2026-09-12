@@ -1,5 +1,7 @@
 import '../../../flartdart.dart';
 
+typedef SizedBox = FDSizedBox;
+
 class FDSizedBox extends Widget {
   final double? width;
   final double? height;

@@ -1,5 +1,4 @@
 import 'package:web/web.dart' as web;
-import 'dart:js_interop';
 
 /// Base class for a Virtual DOM node in Flart.
 abstract class FlartNode {
@@ -19,7 +18,7 @@ class FlartElementNode implements FlartNode {
   final List<FlartNode>? children;
   
   /// Event listeners mapped by event type (e.g., 'click', 'input')
-  final Map<String, Function(web.Event)>? events;
+  final Map<String, void Function(web.Event)>? events;
 
   FlartElementNode(
     this.tag, {

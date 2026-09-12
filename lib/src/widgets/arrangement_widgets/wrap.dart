@@ -4,14 +4,13 @@ import '../../../flartdart.dart';
 class FDWrap extends Widget {
   final List<Widget> children;
   final Axis direction;
-  final MainAxisAlignment
-      alignment; // Using main/cross axis alignment enums roughly mapped
-  final double spacing; // gap between items
-  final double runSpacing; // gap between lines
+  final MainAxisAlignment alignment;
+  final double spacing;
+  final double runSpacing;
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
-  FDWrap({
+  const FDWrap({
     required this.children,
     this.direction = Axis.horizontal,
     this.alignment = MainAxisAlignment.start,
@@ -19,26 +18,40 @@ class FDWrap extends Widget {
     this.runSpacing = 0.0,
     this.cssStyle,
     this.rawCss,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     final justify = _mapAlignment(alignment);
 
-    final style = {
+    final styles = <String, String>{
       'display': 'flex',
       'flex-wrap': 'wrap',
       'flex-direction': direction == Axis.horizontal ? 'row' : 'column',
       'justify-content': justify,
-      'gap': '${runSpacing}px ${spacing}px', // row-gap col-gap
+      'gap': '${runSpacing}px ${spacing}px',
       ...?cssStyle,
-    }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    };
 
-    return '''
-      <div class="flart-wrap" style="$style ${rawCss ?? ''}">
-        ${children.map((c) => c.render(context)).join('')}
-      </div>
-    ''';
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      attributes: {'class': 'flart-wrap'},
+      styles: styles,
+      children: children.map((c) => c.buildNode(context)).toList(),
+    );
   }
 
   String _mapAlignment(MainAxisAlignment align) {

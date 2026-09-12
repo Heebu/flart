@@ -90,7 +90,7 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
     final flexibleOpacity = 1.0 - collapseRatio;
 
     return FDContainer(
-      rawCss: 'id="$_scrollListenerId"',
+      id: _scrollListenerId,
       cssStyle: {
         'position': widget.pinned ? 'sticky' : 'relative',
         'top': '0',

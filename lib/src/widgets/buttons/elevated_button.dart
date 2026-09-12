@@ -1,6 +1,4 @@
 import '../../../flartdart.dart';
-import '../../helper/callback_manager.dart';
-
 class FDElevatedButton extends Widget {
   final Widget child;
   final VoidCallback? onPressed;
@@ -90,7 +88,7 @@ class FDElevatedButton extends Widget {
       </style>
     ''';
 
-    final events = <String, Function(dynamic)>{};
+    final events = <String, void Function(dynamic)>{};
 
     if (onPressed != null) {
       events['click'] = (e) => onPressed!();

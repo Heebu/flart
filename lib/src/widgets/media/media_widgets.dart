@@ -9,12 +9,12 @@ class VideoPlayer extends Widget {
   final bool controls;
   final bool loop;
   final bool muted;
-  final String? poster; // Thumbnail FDImage
+  final String? poster;
   final VoidCallback? onPlay;
   final VoidCallback? onPause;
   final VoidCallback? onEnded;
 
-  VideoPlayer({
+  const VideoPlayer({
     required this.src,
     this.width,
     this.height,
@@ -26,41 +26,39 @@ class VideoPlayer extends Widget {
     this.onPlay,
     this.onPause,
     this.onEnded,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final id = 'video_${DateTime.now().microsecondsSinceEpoch}';
+  FlartNode buildNode(BuildContext context) {
+    final styles = <String, String>{
+      'max-width': '100%',
+      'border-radius': '8px',
+      'background-color': '#000',
+    };
 
-    return '''
-      <video
-        id="$id"
-        src="$src"
-        ${width != null ? 'width="$width"' : ''}
-        ${height != null ? 'height="$height"' : ''}
-        ${autoplay ? 'autoplay' : ''}
-        ${controls ? 'controls' : ''}
-        ${loop ? 'loop' : ''}
-        ${muted ? 'muted' : ''}
-        ${poster != null ? 'poster="$poster"' : ''}
-        style="
-          max-width: 100%;
-          border-radius: 8px;
-          background-color: #000;
-        "
-      >
-        Your browser does not support the video tag.
-      </video>
-      
-      <script>
-        (function() {
-          const video = document.getElementById('$id');
-          ${onPlay != null ? "video.addEventListener('play', () => console.log('Video playing'));" : ''}
-          ${onPause != null ? "video.addEventListener('pause', () => console.log('Video paused'));" : ''}
-          ${onEnded != null ? "video.addEventListener('ended', () => console.log('Video ended'));" : ''}
-        })();
-      </script>
-    ''';
+    final attributes = <String, String>{
+      'src': src,
+      if (width != null) 'width': width.toString(),
+      if (height != null) 'height': height.toString(),
+      if (autoplay) 'autoplay': 'true',
+      if (controls) 'controls': 'true',
+      if (loop) 'loop': 'true',
+      if (muted) 'muted': 'true',
+      if (poster != null) 'poster': poster!,
+    };
+
+    return FlartElementNode(
+      'video',
+      id: key?.toString(),
+      attributes: attributes,
+      styles: styles,
+      events: {
+        if (onPlay != null) 'play': (_) => onPlay!(),
+        if (onPause != null) 'pause': (_) => onPause!(),
+        if (onEnded != null) 'ended': (_) => onEnded!(),
+      },
+    );
   }
 }
 
@@ -75,7 +73,7 @@ class AudioPlayer extends Widget {
   final VoidCallback? onPause;
   final VoidCallback? onEnded;
 
-  AudioPlayer({
+  const AudioPlayer({
     required this.src,
     this.autoplay = false,
     this.controls = true,
@@ -84,34 +82,30 @@ class AudioPlayer extends Widget {
     this.onPlay,
     this.onPause,
     this.onEnded,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final id = 'audio_${DateTime.now().microsecondsSinceEpoch}';
+  FlartNode buildNode(BuildContext context) {
+    final attributes = <String, String>{
+      'src': src,
+      if (autoplay) 'autoplay': 'true',
+      if (controls) 'controls': 'true',
+      if (loop) 'loop': 'true',
+      if (muted) 'muted': 'true',
+    };
 
-    return '''
-      <audio
-        id="$id"
-        src="$src"
-        ${autoplay ? 'autoplay' : ''}
-        ${controls ? 'controls' : ''}
-        ${loop ? 'loop' : ''}
-        ${muted ? 'muted' : ''}
-        style="width: 100%;"
-      >
-        Your browser does not support the audio tag.
-      </audio>
-      
-      <script>
-        (function() {
-          const audio = document.getElementById('$id');
-          ${onPlay != null ? "audio.addEventListener('play', () => console.log('Audio playing'));" : ''}
-          ${onPause != null ? "audio.addEventListener('pause', () => console.log('Audio paused'));" : ''}
-          ${onEnded != null ? "audio.addEventListener('ended', () => console.log('Audio ended'));" : ''}
-        })();
-      </script>
-    ''';
+    return FlartElementNode(
+      'audio',
+      id: key?.toString(),
+      attributes: attributes,
+      styles: {'width': '100%'},
+      events: {
+        if (onPlay != null) 'play': (_) => onPlay!(),
+        if (onPause != null) 'pause': (_) => onPause!(),
+        if (onEnded != null) 'ended': (_) => onEnded!(),
+      },
+    );
   }
 }
 
@@ -125,7 +119,7 @@ class IFrame extends Widget {
   final String? sandbox;
   final Map<String, String>? cssStyle;
 
-  IFrame({
+  const IFrame({
     required this.src,
     this.width,
     this.height,
@@ -133,10 +127,11 @@ class IFrame extends Widget {
     this.allowFullscreen = true,
     this.sandbox,
     this.cssStyle,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     final styles = <String, String>{
       'border': 'none',
       'border-radius': '8px',
@@ -145,18 +140,19 @@ class IFrame extends Widget {
       ...?cssStyle,
     };
 
-    final styleString =
-        styles.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    final attributes = <String, String>{
+      'src': src,
+      if (title != null) 'title': title!,
+      if (allowFullscreen) 'allowfullscreen': 'true',
+      if (sandbox != null) 'sandbox': sandbox!,
+    };
 
-    return '''
-      <iframe
-        src="$src"
-        ${title != null ? 'title="$title"' : ''}
-        ${allowFullscreen ? 'allowfullscreen' : ''}
-        ${sandbox != null ? 'sandbox="$sandbox"' : ''}
-        style="$styleString"
-      ></iframe>
-    ''';
+    return FlartElementNode(
+      'iframe',
+      id: key?.toString(),
+      attributes: attributes,
+      styles: styles,
+    );
   }
 }
 
@@ -170,7 +166,7 @@ class YouTubePlayer extends Widget {
   final bool loop;
   final bool muted;
 
-  YouTubePlayer({
+  const YouTubePlayer({
     required this.videoId,
     this.width,
     this.height,
@@ -178,10 +174,11 @@ class YouTubePlayer extends Widget {
     this.controls = true,
     this.loop = false,
     this.muted = false,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     final w = width ?? 560;
     final h = height ?? 315;
 
@@ -193,18 +190,20 @@ class YouTubePlayer extends Widget {
 
     final paramString = params.isNotEmpty ? '?${params.join('&')}' : '';
 
-    return '''
-      <iframe
-        width="$w"
-        height="$h"
-        src="https://www.youtube.com/embed/$videoId$paramString"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-        style="border-radius: 8px;"
-      ></iframe>
-    ''';
+    return FlartElementNode(
+      'iframe',
+      id: key?.toString(),
+      attributes: {
+        'width': w.toString(),
+        'height': h.toString(),
+        'src': 'https://www.youtube.com/embed/$videoId$paramString',
+        'title': 'YouTube video player',
+        'frameborder': '0',
+        'allow': 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+        'allowfullscreen': 'true',
+      },
+      styles: {'border-radius': '8px'},
+    );
   }
 }
 
@@ -215,28 +214,34 @@ class MapEmbed extends Widget {
   final double? height;
   final int zoom;
 
-  MapEmbed({
+  const MapEmbed({
     required this.location,
     this.width,
     this.height,
     this.zoom = 15,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
+  FlartNode buildNode(BuildContext context) {
     final w = width ?? 600;
     final h = height ?? 450;
     final encodedLocation = Uri.encodeComponent(location);
 
-    return '''
-      <iframe
-        width="$w"
-        height="$h"
-        style="border: 0; border-radius: 8px;"
-        loading="lazy"
-        allowfullscreen
-        src="https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=$encodedLocation&zoom=$zoom"
-      ></iframe>
-    ''';
+    return FlartElementNode(
+      'iframe',
+      id: key?.toString(),
+      attributes: {
+        'width': w.toString(),
+        'height': h.toString(),
+        'loading': 'lazy',
+        'allowfullscreen': 'true',
+        'src': 'https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=$encodedLocation&zoom=$zoom',
+      },
+      styles: {
+        'border': '0',
+        'border-radius': '8px',
+      },
+    );
   }
 }

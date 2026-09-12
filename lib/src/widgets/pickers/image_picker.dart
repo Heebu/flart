@@ -1,57 +1,98 @@
-import 'package:web/web.dart' as html;
+import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
-import '../../helper/file_picker_manager.dart';
 
-typedef ImagePickCallback = void Function(List<html.File> files);
+typedef ImagePickCallback = void Function(List<web.File> files);
 
 class FDImagePicker extends Widget {
   final bool multiple;
   final ImagePickCallback onImageSelected;
   final Map<String, String>? cssStyle;
   final String buttonLabel;
+  final String? rawCss;
 
-  FDImagePicker({
+  const FDImagePicker({
     required this.onImageSelected,
     this.multiple = false,
     this.cssStyle,
-    this.buttonLabel = 'Pick FDImage',
+    this.buttonLabel = 'Pick Image',
+    this.rawCss,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final id = FlartFilePickerManager.register(onImageSelected);
-    final styleString =
-        (cssStyle ?? {}).entries.map((e) => '${e.key}: ${e.value};').join(' ');
+  FlartNode buildNode(BuildContext context) {
+    final inputId = 'file_input_${key?.toString() ?? hashCode}';
 
-    return '''
-      <div>
-        <input type="file" id="$id" accept="FDImage/*" style="display:none;" ${multiple ? 'multiple' : ''} />
-        <button style="$styleString" onclick="document.getElementById('$id').click()">
-          $buttonLabel
-        </button>
-        <script>
-          document.getElementById('$id').addEventListener('change', function(e) {
-            window.__flartHandleFilePick('$id');
-          });
-        </script>
-      </div>
-    ''';
+    final buttonStyles = <String, String>{
+      'padding': '10px 20px',
+      'background-color': '#4caf50',
+      'color': '#ffffff',
+      'border-radius': '4px',
+      'border': 'none',
+      'cursor': 'pointer',
+      'font-size': '14px',
+      ...?cssStyle,
+    };
+
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          buttonStyles[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
+    final inputEvents = <String, void Function(web.Event)>{
+      'change': (web.Event e) {
+        final target = e.target as web.HTMLInputElement?;
+        if (target != null && target.files != null) {
+          final fileList = <web.File>[];
+          final files = target.files!;
+          for (var i = 0; i < files.length; i++) {
+            final f = files.item(i);
+            if (f != null) fileList.add(f);
+          }
+          if (fileList.isNotEmpty) {
+            onImageSelected(fileList);
+          }
+        }
+      },
+    };
+
+    final buttonEvents = <String, void Function(dynamic)>{
+      'click': (e) {
+        final inputEl = web.document.getElementById(inputId) as web.HTMLInputElement?;
+        inputEl?.click();
+      },
+    };
+
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      styles: {'display': 'inline-block'},
+      children: [
+        FlartElementNode(
+          'input',
+          id: inputId,
+          attributes: {
+            'type': 'file',
+            'accept': 'image/*',
+            if (multiple) 'multiple': 'true',
+          },
+          styles: {'display': 'none'},
+          events: inputEvents,
+        ),
+        FlartElementNode(
+          'button',
+          attributes: {'type': 'button', 'class': 'flart-image-picker-button'},
+          styles: buttonStyles,
+          events: buttonEvents,
+          children: [FlartTextNode(buttonLabel)],
+        ),
+      ],
+    );
   }
 }
-
-//FDImagePicker(
-//   multiple: false,
-//   buttonLabel: "Upload Profile Pic",
-//   cssStyle: {
-//     'padding': '10px 20px',
-//     'background': '#4caf50',
-//     'color': '#fff',
-//     'border-radius': '4px',
-//     'border': 'none',
-//     'cursor': 'pointer',
-//   },
-//   onImageSelected: (files) {
-//     print("User picked: ${files.first.name}");
-//     // You can generate a Blob URL or base64 if needed
-//   },
-// )

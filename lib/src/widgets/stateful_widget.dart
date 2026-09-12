@@ -1,7 +1,5 @@
 import 'package:web/web.dart' as web;
 import '../../flartdart.dart';
-import '../core/vdom/vdom_reconciler.dart';
-import '../core/vdom/flart_node.dart';
 
 // Global state registry to persist state across renders
 final Map<String, State> _stateRegistry = {};
@@ -120,9 +118,7 @@ abstract class StatefulWidget extends Widget {
 
   @override
   String render(BuildContext context) {
-    // For legacy callers that still call render directly,
-    // though the engine now prefers buildNode.
-    return '<div style="display: contents;">Legacy render fallback. Use buildNode.</div>';
+    return buildNode(context).toHtml();
   }
 
   /// Clean up state when widget is removed
@@ -131,3 +127,10 @@ abstract class StatefulWidget extends Widget {
     state?.dispose();
   }
 }
+
+/// Reset all state in the registry. Useful for testing or hot reloads.
+void resetStateRegistry() {
+  _stateRegistry.forEach((_, state) => state.dispose());
+  _stateRegistry.clear();
+}
+

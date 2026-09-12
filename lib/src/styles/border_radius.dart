@@ -38,6 +38,9 @@ class BorderRadius {
   static const BorderRadius zero = BorderRadius.all(0);
 
   String toCss() {
-    return 'border-radius: ${topLeft}px ${topRight}px ${bottomRight}px ${bottomLeft}px;';
+    if (topLeft == topRight && topRight == bottomRight && bottomRight == bottomLeft) {
+      return '${topLeft}px';
+    }
+    return '${topLeft}px ${topRight}px ${bottomRight}px ${bottomLeft}px';
   }
 }

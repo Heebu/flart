@@ -435,9 +435,6 @@
     get$hashCode$(receiver) {
       return J.getInterceptor$(receiver).get$hashCode(receiver);
     },
-    get$isEmpty$asx(receiver) {
-      return J.getInterceptor$asx(receiver).get$isEmpty(receiver);
-    },
     get$iterator$ax(receiver) {
       return J.getInterceptor$ax(receiver).get$iterator(receiver);
     },
@@ -453,13 +450,6 @@
       if (typeof receiver != "object")
         return a0 != null && receiver === a0;
       return J.getInterceptor$(receiver).$eq(receiver, a0);
-    },
-    $index$asx(receiver, a0) {
-      if (typeof a0 === "number")
-        if (Array.isArray(receiver) || typeof receiver == "string" || A.isJsIndexable(receiver, receiver[init.dispatchPropertyName]))
-          if (a0 >>> 0 === a0 && a0 < receiver.length)
-            return receiver[a0];
-      return J.getInterceptor$asx(receiver).$index(receiver, a0);
     },
     allMatches$1$s(receiver, a0) {
       return J.getInterceptor$s(receiver).allMatches$1(receiver, a0);
@@ -579,7 +569,7 @@
     SubListIterable: function SubListIterable(t0, t1, t2, t3) {
       var _ = this;
       _.__internal$_iterable = t0;
-      _._start = t1;
+      _.__internal$_start = t1;
       _._endOrLength = t2;
       _.$ti = t3;
     },
@@ -628,13 +618,6 @@
     UnmodifiableListMixin: function UnmodifiableListMixin() {
     },
     UnmodifiableListBase: function UnmodifiableListBase() {
-    },
-    _ListIndicesIterable: function _ListIndicesIterable(t0) {
-      this._backedList = t0;
-    },
-    ListMapView: function ListMapView(t0, t1) {
-      this._values = t0;
-      this.$ti = t1;
     },
     ConstantMap__throwUnmodifiable() {
       throw A.wrapException(A.UnsupportedError$("Cannot modify unmodifiable Map"));
@@ -710,6 +693,19 @@
       }
       return parseInt(source, radix);
     },
+    Primitives_parseDouble(source) {
+      var result, trimmed;
+      if (!/^\s*[+-]?(?:Infinity|NaN|(?:\.\d+|\d+(?:\.\d*)?)(?:[eE][+-]?\d+)?)\s*$/.test(source))
+        return null;
+      result = parseFloat(source);
+      if (isNaN(result)) {
+        trimmed = B.JSString_methods.trim$0(source);
+        if (trimmed === "NaN" || trimmed === "+NaN" || trimmed === "-NaN")
+          return result;
+        return null;
+      }
+      return result;
+    },
     Primitives_objectTypeName(object) {
       var interceptor, dispatchName, $constructor, constructorName;
       if (object instanceof A.Object)
@@ -767,6 +763,25 @@
       }
       throw A.wrapException(A.RangeError$range(charCode, 0, 1114111, null, null));
     },
+    Primitives_valueFromDecomposedDate(years, month, day, hours, minutes, seconds, milliseconds, microseconds, isUtc) {
+      var remainder, value, t1,
+        jsMonth = month - 1;
+      if (0 <= years && years < 100) {
+        years += 400;
+        jsMonth -= 4800;
+      }
+      remainder = B.JSInt_methods.$mod(microseconds, 1000);
+      milliseconds += B.JSInt_methods._tdivFast$1(microseconds - remainder, 1000);
+      value = isUtc ? Date.UTC(years, jsMonth, day, hours, minutes, seconds, milliseconds) : new Date(years, jsMonth, day, hours, minutes, seconds, milliseconds).valueOf();
+      t1 = true;
+      if (!isNaN(value))
+        if (!(value < -864e13))
+          if (!(value > 864e13))
+            t1 = value === 864e13 && remainder !== 0;
+      if (t1)
+        return null;
+      return value;
+    },
     Primitives_lazyAsJsDate(receiver) {
       if (receiver.date === void 0)
         receiver.date = new Date(receiver._value);
@@ -799,15 +814,6 @@
         return null;
       return A.getTraceFromException(jsError);
     },
-    Primitives_trySetStackTrace(error, stackTrace) {
-      var jsError;
-      if (error.$thrownJsError == null) {
-        jsError = new Error();
-        A.initializeExceptionWrapper(error, jsError);
-        error.$thrownJsError = jsError;
-        jsError.stack = "";
-      }
-    },
     iae(argument) {
       throw A.wrapException(A.argumentErrorValue(argument));
     },
@@ -822,7 +828,7 @@
         return new A.ArgumentError(true, index, _s5_, null);
       $length = J.get$length$asx(indexable);
       if (index < 0 || index >= $length)
-        return A.IndexError$withLength(index, $length, indexable, null, _s5_);
+        return A.IndexError$withLength(index, $length, indexable, _s5_);
       return A.RangeError$value(index, _s5_);
     },
     diagnoseRangeError(start, end, $length) {
@@ -1536,7 +1542,7 @@
     },
     ConstantStringMap: function ConstantStringMap(t0, t1, t2) {
       this._jsIndex = t0;
-      this.__js_helper$_values = t1;
+      this._values = t1;
       this.$ti = t2;
     },
     GeneralConstantMap: function GeneralConstantMap(t0, t1) {
@@ -3240,21 +3246,8 @@
         return null;
       return null;
     },
-    _interceptUserError(error, stackTrace) {
-      if ($.Zone__current !== B.C__RootZone)
-        A._interceptError(error, stackTrace);
-      if (type$.Error._is(error)) {
-        stackTrace = error.get$stackTrace();
-        if (stackTrace == null) {
-          A.Primitives_trySetStackTrace(error, B.C__StringStackTrace);
-          stackTrace = B.C__StringStackTrace;
-        }
-      } else
-        stackTrace = B.C__StringStackTrace;
-      return new A.AsyncError(error, stackTrace);
-    },
     _Future__chainCoreFuture(source, target, sync) {
-      var t2, t3, ignoreError, listeners, _box_0 = {},
+      var t2, t3, listeners, _box_0 = {},
         t1 = _box_0.source = source;
       for (t2 = type$._Future_dynamic; t3 = t1._state, (t3 & 4) !== 0; t1 = source) {
         source = t2._as(t1._resultOrListeners);
@@ -3265,8 +3258,8 @@
         target._asyncCompleteErrorObject$1(new A.AsyncError(new A.ArgumentError(true, t1, null, "Cannot complete a future with itself"), t2));
         return;
       }
-      ignoreError = target._state & 1;
-      t2 = t1._state = t3 | ignoreError;
+      t2 = t3 | target._state & 1;
+      t1._state = t2;
       if ((t2 & 24) === 0) {
         listeners = type$.nullable__FutureListener_dynamic_dynamic._as(target._resultOrListeners);
         target._state = target._state & 1 | 4;
@@ -3274,21 +3267,10 @@
         t1._prependListeners$1(listeners);
         return;
       }
-      if (!sync)
-        if (target._resultOrListeners == null)
-          t1 = (t2 & 16) === 0 || ignoreError !== 0;
-        else
-          t1 = false;
-      else
-        t1 = true;
-      if (t1) {
-        listeners = target._removeListeners$0();
-        target._cloneResult$1(_box_0.source);
-        A._Future__propagateToListeners(target, listeners);
-        return;
-      }
-      target._state ^= 2;
-      A._rootScheduleMicrotask(null, null, target._zone, type$.void_Function._as(new A._Future__chainCoreFuture_closure(_box_0, target)));
+      listeners = target._removeListeners$0();
+      target._cloneResult$1(_box_0.source);
+      A._Future__propagateToListeners(target, listeners);
+      return;
     },
     _Future__propagateToListeners(source, listeners) {
       var t2, t3, _box_0, t4, t5, hasError, asyncError, nextListener, nextListener0, sourceResult, t6, zone, oldZone, result, current, _box_1 = {},
@@ -3539,12 +3521,6 @@
       this.result = t1;
       this.T = t2;
     },
-    _Completer: function _Completer() {
-    },
-    _AsyncCompleter: function _AsyncCompleter(t0, t1) {
-      this.future = t0;
-      this.$ti = t1;
-    },
     _FutureListener: function _FutureListener(t0, t1, t2, t3, t4) {
       var _ = this;
       _._nextListener = null;
@@ -3568,14 +3544,6 @@
     _Future__prependListeners_closure: function _Future__prependListeners_closure(t0, t1) {
       this._box_0 = t0;
       this.$this = t1;
-    },
-    _Future__chainCoreFuture_closure: function _Future__chainCoreFuture_closure(t0, t1) {
-      this._box_0 = t0;
-      this.target = t1;
-    },
-    _Future__asyncCompleteWithValue_closure: function _Future__asyncCompleteWithValue_closure(t0, t1) {
-      this.$this = t0;
-      this.value = t1;
     },
     _Future__asyncCompleteErrorObject_closure: function _Future__asyncCompleteErrorObject_closure(t0, t1) {
       this.$this = t0;
@@ -3617,22 +3585,6 @@
       this.error = t0;
       this.stackTrace = t1;
     },
-    _HashMap__getTableEntry(table, key) {
-      var entry = table[key];
-      return entry === table ? null : entry;
-    },
-    _HashMap__setTableEntry(table, key, value) {
-      if (value == null)
-        table[key] = table;
-      else
-        table[key] = value;
-    },
-    _HashMap__newHashTable() {
-      var table = Object.create(null);
-      A._HashMap__setTableEntry(table, "<non-identifier-key>", table);
-      delete table["<non-identifier-key>"];
-      return table;
-    },
     LinkedHashMap_LinkedHashMap($K, $V) {
       return new A.JsLinkedHashMap($K._eval$1("@<0>")._bind$1($V)._eval$1("JsLinkedHashMap<1,2>"));
     },
@@ -3672,26 +3624,6 @@
       t1 = result._contents;
       return t1.charCodeAt(0) == 0 ? t1 : t1;
     },
-    _HashMap: function _HashMap() {
-    },
-    _IdentityHashMap: function _IdentityHashMap(t0) {
-      var _ = this;
-      _._collection$_length = 0;
-      _._keys = _._collection$_rest = _._collection$_nums = _._collection$_strings = null;
-      _.$ti = t0;
-    },
-    _HashMapKeyIterable: function _HashMapKeyIterable(t0, t1) {
-      this._collection$_map = t0;
-      this.$ti = t1;
-    },
-    _HashMapKeyIterator: function _HashMapKeyIterator(t0, t1, t2) {
-      var _ = this;
-      _._collection$_map = t0;
-      _._keys = t1;
-      _._offset = 0;
-      _._collection$_current = null;
-      _.$ti = t2;
-    },
     LinkedHashMap_LinkedHashMap$from_closure: function LinkedHashMap_LinkedHashMap$from_closure(t0, t1, t2) {
       this.result = t0;
       this.K = t1;
@@ -3701,14 +3633,9 @@
     },
     MapBase: function MapBase() {
     },
-    MapBase_entries_closure: function MapBase_entries_closure(t0) {
-      this.$this = t0;
-    },
     MapBase_mapToString_closure: function MapBase_mapToString_closure(t0, t1) {
       this._box_0 = t0;
       this.result = t1;
-    },
-    UnmodifiableMapBase: function UnmodifiableMapBase() {
     },
     _UnmodifiableMapMixin: function _UnmodifiableMapMixin() {
     },
@@ -3895,7 +3822,7 @@
       bytes = B.C_Utf8Encoder.convert$1(text);
       for (t1 = bytes.length, i = 0, t2 = ""; i < t1; ++i) {
         byte = bytes[i];
-        if (byte < 128 && (string$.x00_____.charCodeAt(byte) & canonicalMask) !== 0)
+        if (byte < 128 && (string$.______.charCodeAt(byte) & canonicalMask) !== 0)
           t2 += A.Primitives_stringFromCharCode(byte);
         else
           t2 = spaceToPlus && byte === 32 ? t2 + "+" : t2 + "%" + _s16_[byte >>> 4 & 15] + _s16_[byte & 15];
@@ -3916,6 +3843,93 @@
     },
     StackTrace_current() {
       return A.getTraceFromException(new Error());
+    },
+    DateTime__finishParse(year, month, day, hour, minute, second, millisecond, microsecond, isUtc) {
+      var _s11_ = "microsecond",
+        value = A.Primitives_valueFromDecomposedDate(year, month, day, hour, minute, second, millisecond, microsecond, isUtc);
+      if (value == null)
+        return null;
+      if (microsecond > 999)
+        A.throwExpression(A.RangeError$range(microsecond, 0, 999, _s11_, null));
+      if (value < -864e13 || value > 864e13)
+        A.throwExpression(A.RangeError$range(value, -864e13, 864e13, "millisecondsSinceEpoch", null));
+      if (value === 864e13 && microsecond !== 0)
+        A.throwExpression(A.ArgumentError$value(microsecond, _s11_, "Time including microseconds is outside valid range"));
+      A.checkNotNullable(isUtc, "isUtc", type$.bool);
+      return new A.DateTime(value, microsecond, isUtc);
+    },
+    DateTime_parse(formattedString) {
+      var t1, t2, t3, years, month, day, hour, minute, second, milliAndMicroseconds, millisecond, isUtc, tzSign, sign, hourDifference, result, _null = null,
+        match = $.$get$DateTime__parseFormat().firstMatch$1(formattedString);
+      if (match != null) {
+        t1 = new A.DateTime_parse_parseIntOrZero();
+        t2 = match._match;
+        if (1 >= t2.length)
+          return A.ioore(t2, 1);
+        t3 = t2[1];
+        t3.toString;
+        years = A.int_parse(t3, _null);
+        if (2 >= t2.length)
+          return A.ioore(t2, 2);
+        t3 = t2[2];
+        t3.toString;
+        month = A.int_parse(t3, _null);
+        if (3 >= t2.length)
+          return A.ioore(t2, 3);
+        t3 = t2[3];
+        t3.toString;
+        day = A.int_parse(t3, _null);
+        if (4 >= t2.length)
+          return A.ioore(t2, 4);
+        hour = t1.call$1(t2[4]);
+        if (5 >= t2.length)
+          return A.ioore(t2, 5);
+        minute = t1.call$1(t2[5]);
+        if (6 >= t2.length)
+          return A.ioore(t2, 6);
+        second = t1.call$1(t2[6]);
+        if (7 >= t2.length)
+          return A.ioore(t2, 7);
+        milliAndMicroseconds = new A.DateTime_parse_parseMilliAndMicroseconds().call$1(t2[7]);
+        millisecond = B.JSInt_methods._tdivFast$1(milliAndMicroseconds, 1000);
+        t3 = t2.length;
+        if (8 >= t3)
+          return A.ioore(t2, 8);
+        isUtc = t2[8] != null;
+        if (isUtc) {
+          if (9 >= t3)
+            return A.ioore(t2, 9);
+          tzSign = t2[9];
+          if (tzSign != null) {
+            sign = tzSign === "-" ? -1 : 1;
+            if (10 >= t3)
+              return A.ioore(t2, 10);
+            t3 = t2[10];
+            t3.toString;
+            hourDifference = A.int_parse(t3, _null);
+            if (11 >= t2.length)
+              return A.ioore(t2, 11);
+            minute -= sign * (t1.call$1(t2[11]) + 60 * hourDifference);
+          }
+        }
+        result = A.DateTime__finishParse(years, month, day, hour, minute, second, millisecond, milliAndMicroseconds % 1000, isUtc);
+        if (result == null)
+          throw A.wrapException(A.FormatException$("Time out of range", formattedString, _null));
+        return result;
+      } else
+        throw A.wrapException(A.FormatException$("Invalid date format", formattedString, _null));
+    },
+    DateTime_tryParse(formattedString) {
+      var t1, exception;
+      try {
+        t1 = A.DateTime_parse(formattedString);
+        return t1;
+      } catch (exception) {
+        if (A.unwrapException(exception) instanceof A.FormatException)
+          return null;
+        else
+          throw exception;
+      }
     },
     DateTime__fourDigits(n) {
       var absN = Math.abs(n),
@@ -3982,7 +3996,7 @@
         throw A.wrapException(A.RangeError$range(value, 0, null, $name, null));
       return value;
     },
-    IndexError$withLength(invalidValue, $length, indexable, message, $name) {
+    IndexError$withLength(invalidValue, $length, indexable, $name) {
       return new A.IndexError($length, true, invalidValue, $name, "Index out of range");
     },
     UnsupportedError$(message) {
@@ -4349,7 +4363,7 @@
     Uri__validateIPvFutureAddress(host, start, end) {
       var t1, cursor, cursor0, char, ucChar,
         _s38_ = "Missing hex-digit in IPvFuture address",
-        _s128_ = string$.x00_____;
+        _s128_ = string$.______;
       ++start;
       for (t1 = host.length, cursor = start;; cursor = cursor0) {
         if (cursor < end) {
@@ -4610,7 +4624,7 @@
           index += 3;
           sectionStart = index;
           isNormalized = true;
-        } else if (char < 127 && (string$.x00_____.charCodeAt(char) & 1) !== 0) {
+        } else if (char < 127 && (string$.______.charCodeAt(char) & 1) !== 0) {
           if (isNormalized && 65 <= char && 90 >= char) {
             if (buffer == null)
               buffer = new A.StringBuffer("");
@@ -4657,7 +4671,7 @@
     },
     _Uri__normalizeRegName(host, start, end) {
       var t1, index, sectionStart, buffer, isNormalized, char, replacement, t2, slice, t3, sourceLength, tail,
-        _s128_ = string$.x00_____;
+        _s128_ = string$.______;
       for (t1 = host.length, index = start, sectionStart = index, buffer = null, isNormalized = true; index < end;) {
         if (!(index >= 0 && index < t1))
           return A.ioore(host, index);
@@ -4750,7 +4764,7 @@
         if (!(i < t1))
           return A.ioore(scheme, i);
         codeUnit = scheme.charCodeAt(i);
-        if (!(codeUnit < 128 && (string$.x00_____.charCodeAt(codeUnit) & 8) !== 0))
+        if (!(codeUnit < 128 && (string$.______.charCodeAt(codeUnit) & 8) !== 0))
           A._Uri__fail(scheme, i, "Illegal scheme character");
         if (65 <= codeUnit && codeUnit <= 90)
           containsUpperCase = true;
@@ -4820,7 +4834,7 @@
     },
     _Uri__normalizeEscape(source, index, lowerCase) {
       var t3, firstDigit, secondDigit, firstDigitValue, secondDigitValue, value,
-        _s128_ = string$.x00_____,
+        _s128_ = string$.______,
         t1 = index + 2,
         t2 = source.length;
       if (t1 >= t2)
@@ -4902,7 +4916,7 @@
     },
     _Uri__normalize(component, start, end, charMask, escapeDelimiters, replaceBackslash) {
       var t1, t2, index, sectionStart, buffer, char, sourceLength, replacement, t3, tail, _null = null,
-        _s128_ = string$.x00_____;
+        _s128_ = string$.______;
       for (t1 = !escapeDelimiters, t2 = component.length, index = start, sectionStart = index, buffer = _null; index < end;) {
         if (!(index >= 0 && index < t2))
           return A.ioore(component, index);
@@ -5029,7 +5043,7 @@
     },
     _Uri__escapeScheme(path) {
       var i, char, t2,
-        _s128_ = string$.x00_____,
+        _s128_ = string$.______,
         t1 = path.length;
       if (t1 >= 2 && A._Uri__isAlphabeticCharacter(path.charCodeAt(0)))
         for (i = 1; i < t1; ++i) {
@@ -5196,6 +5210,10 @@
       this._microsecond = t1;
       this.isUtc = t2;
     },
+    DateTime_parse_parseIntOrZero: function DateTime_parse_parseIntOrZero() {
+    },
+    DateTime_parse_parseMilliAndMicroseconds: function DateTime_parse_parseMilliAndMicroseconds() {
+    },
     Duration: function Duration(t0) {
       this._duration = t0;
     },
@@ -5328,60 +5346,6 @@
       this._jsWeakMap = t0;
       this.$ti = t1;
     },
-    NullRejectionException: function NullRejectionException(t0) {
-      this.isUndefined = t0;
-    },
-    _functionToJS1(f) {
-      var result;
-      if (typeof f == "function")
-        throw A.wrapException(A.ArgumentError$("Attempting to rewrap a JS function.", null));
-      result = function(_call, f) {
-        return function(arg1) {
-          return _call(f, arg1, arguments.length);
-        };
-      }(A._callDartFunctionFast1, f);
-      result[$.$get$DART_CLOSURE_DART_JSINTEROP_PROPERTY_NAME()] = f;
-      return result;
-    },
-    _callDartFunctionFast1(callback, arg1, $length) {
-      type$.Function._as(callback);
-      if (A._asInt($length) >= 1)
-        return callback.call$1(arg1);
-      return callback.call$0();
-    },
-    _callDartFunctionFast2(callback, arg1, arg2, $length) {
-      type$.Function._as(callback);
-      A._asInt($length);
-      if ($length >= 2)
-        return callback.call$2(arg1, arg2);
-      if ($length === 1)
-        return callback.call$1(arg1);
-      return callback.call$0();
-    },
-    promiseToFuture(jsPromise, $T) {
-      var t1 = new A._Future($.Zone__current, $T._eval$1("_Future<0>")),
-        completer = new A._AsyncCompleter(t1, $T._eval$1("_AsyncCompleter<0>"));
-      jsPromise.then(A.convertDartClosureToJS(new A.promiseToFuture_closure(completer, $T), 1), A.convertDartClosureToJS(new A.promiseToFuture_closure0(completer), 1));
-      return t1;
-    },
-    _noDartifyRequired(o) {
-      return o == null || typeof o === "boolean" || typeof o === "number" || typeof o === "string" || o instanceof Int8Array || o instanceof Uint8Array || o instanceof Uint8ClampedArray || o instanceof Int16Array || o instanceof Uint16Array || o instanceof Int32Array || o instanceof Uint32Array || o instanceof Float32Array || o instanceof Float64Array || o instanceof ArrayBuffer || o instanceof DataView;
-    },
-    dartify(o) {
-      if (A._noDartifyRequired(o))
-        return o;
-      return new A.dartify_convert(new A._IdentityHashMap(type$._IdentityHashMap_of_nullable_Object_and_nullable_Object)).call$1(o);
-    },
-    promiseToFuture_closure: function promiseToFuture_closure(t0, t1) {
-      this.completer = t0;
-      this.T = t1;
-    },
-    promiseToFuture_closure0: function promiseToFuture_closure0(t0) {
-      this.completer = t0;
-    },
-    dartify_convert: function dartify_convert(t0) {
-      this._convertedObjects = t0;
-    },
     TextEditingController: function TextEditingController(t0, t1) {
       this._text = t0;
       this._listeners = t1;
@@ -5421,7 +5385,6 @@
             oldDomNode.textContent = t1;
         }
       else if (newVNode instanceof A.FlartRawHtmlNode) {
-        A._asInt(oldDomNode.nodeType);
         template = A._asJSObject(A._asJSObject(init.G.document).createElement("div"));
         template.setHTMLUnsafe(newVNode.html);
         if (A._asInt(A._asJSObject(template.childNodes).length) === 1) {
@@ -5541,7 +5504,7 @@
       var t1, currentListeners, toRemove, _i,
         newEvents = vnode.events;
       if (newEvents == null)
-        newEvents = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, type$.dynamic_Function_JSObject);
+        newEvents = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, type$.void_Function_JSObject);
       t1 = $.$get$VDOMReconciler__elementListeners();
       currentListeners = t1._jsWeakMap.get(el);
       if (currentListeners == null)
@@ -5636,51 +5599,6 @@
     Offset: function Offset(t0, t1) {
       this.dx = t0;
       this.dy = t1;
-    },
-    FlartCallbackManager_register(callback) {
-      var id,
-        t1 = $.FlartCallbackManager__counter;
-      $.FlartCallbackManager__counter = t1 + 1;
-      id = "flart_cb_" + t1;
-      $.FlartCallbackManager__handlers.$indexSet(0, id, callback);
-      if (!$.FlartCallbackManager__jsInjected)
-        A.FlartCallbackManager__injectGlobalHandler();
-      return id;
-    },
-    FlartCallbackManager_registerEvent(callback) {
-      var id,
-        t1 = $.FlartCallbackManager__counter;
-      $.FlartCallbackManager__counter = t1 + 1;
-      id = "flart_ev_" + t1;
-      $.FlartCallbackManager__eventHandlers.$indexSet(0, id, callback);
-      if (!$.FlartCallbackManager__jsInjected)
-        A.FlartCallbackManager__injectGlobalHandler();
-      return id;
-    },
-    FlartCallbackManager__injectGlobalHandler() {
-      var t1, _this, t2, result;
-      $.FlartCallbackManager__jsInjected = true;
-      t1 = init.G;
-      _this = A._asJSObject(A._asJSObject(t1.document).createElement("script"));
-      _this.textContent = "        window.__flartHandleClick = function(id) {\n          if (window.__dartHandleClick) {\n            window.__dartHandleClick(id);\n          }\n        };\n        window.__flartHandleEvent = function(id, value) {\n          if (window.__dartHandleEvent) {\n            window.__dartHandleEvent(id, value);\n          }\n        };\n      ";
-      t2 = A._asJSObjectQ(A._asJSObject(t1.document).body);
-      if (t2 != null)
-        t2.append(_this);
-      t1.__dartHandleClick = A._functionToJS1(new A.FlartCallbackManager__injectGlobalHandler_closure());
-      t2 = new A.FlartCallbackManager__injectGlobalHandler_closure0();
-      if (typeof t2 == "function")
-        A.throwExpression(A.ArgumentError$("Attempting to rewrap a JS function.", null));
-      result = function(_call, f) {
-        return function(arg1, arg2) {
-          return _call(f, arg1, arg2, arguments.length);
-        };
-      }(A._callDartFunctionFast2, t2);
-      result[$.$get$DART_CLOSURE_DART_JSINTEROP_PROPERTY_NAME()] = t2;
-      t1.__dartHandleEvent = result;
-    },
-    FlartCallbackManager__injectGlobalHandler_closure: function FlartCallbackManager__injectGlobalHandler_closure() {
-    },
-    FlartCallbackManager__injectGlobalHandler_closure0: function FlartCallbackManager__injectGlobalHandler_closure0() {
     },
     normalizePath(path) {
       var segments;
@@ -5784,6 +5702,8 @@
       return t1;
     },
     _splitPathSegments_closure: function _splitPathSegments_closure() {
+    },
+    Alignment: function Alignment() {
     },
     Border_Border$all(color, width) {
       var side = new A.BorderSide(width, color);
@@ -5988,6 +5908,9 @@
     FDColumn_buildNode_closure: function FDColumn_buildNode_closure(t0) {
       this.context = t0;
     },
+    FDPositioned$(bottom, child, left, right, $top) {
+      return new A.FDPositioned(child, $top, left, right, bottom, null);
+    },
     FDPositioned: function FDPositioned(t0, t1, t2, t3, t4, t5) {
       var _ = this;
       _.child = t0;
@@ -5996,8 +5919,6 @@
       _.right = t3;
       _.bottom = t4;
       _.key = t5;
-    },
-    FDPositioned_render_closure: function FDPositioned_render_closure() {
     },
     FDRow$(children, crossAxisAlignment, mainAxisAlignment) {
       return new A.FDRow(children, mainAxisAlignment, crossAxisAlignment, null);
@@ -6012,11 +5933,15 @@
     FDRow_buildNode_closure: function FDRow_buildNode_closure(t0) {
       this.context = t0;
     },
+    FDStack$(children) {
+      return new A.FDStack(children, null);
+    },
     FDStack: function FDStack(t0, t1) {
       this.children = t0;
       this.key = t1;
     },
-    FDStack_render_closure: function FDStack_render_closure() {
+    FDStack_buildNode_closure: function FDStack_buildNode_closure(t0) {
+      this.context = t0;
     },
     FDWrap$(children, runSpacing, spacing) {
       return new A.FDWrap(children, spacing, runSpacing, null);
@@ -6028,9 +5953,7 @@
       _.runSpacing = t2;
       _.key = t3;
     },
-    FDWrap_render_closure: function FDWrap_render_closure() {
-    },
-    FDWrap_render_closure0: function FDWrap_render_closure0(t0) {
+    FDWrap_buildNode_closure: function FDWrap_buildNode_closure(t0) {
       this.context = t0;
     },
     FDElevatedButton$(child, cssStyle, onPressed) {
@@ -6062,6 +5985,26 @@
     FDGestureDetector_buildNode_closure: function FDGestureDetector_buildNode_closure(t0) {
       this.$this = t0;
     },
+    FDInkWell: function FDInkWell(t0, t1, t2, t3) {
+      var _ = this;
+      _.child = t0;
+      _.onTap = t1;
+      _.borderRadius = t2;
+      _.key = t3;
+    },
+    FDInkWell_buildNode_closure: function FDInkWell_buildNode_closure(t0) {
+      this.$this = t0;
+    },
+    FDOutlinedButton: function FDOutlinedButton(t0, t1, t2, t3) {
+      var _ = this;
+      _.child = t0;
+      _.onPressed = t1;
+      _.cssStyle = t2;
+      _.key = t3;
+    },
+    FDOutlinedButton_buildNode_closure: function FDOutlinedButton_buildNode_closure(t0) {
+      this.$this = t0;
+    },
     InheritedWidget: function InheritedWidget() {
     },
     FDCheckbox$(onChanged, value) {
@@ -6075,7 +6018,7 @@
       this.onChanged = t1;
       this.key = t2;
     },
-    FDCheckbox_render_closure: function FDCheckbox_render_closure(t0) {
+    FDCheckbox_buildNode_closure: function FDCheckbox_buildNode_closure(t0) {
       this.$this = t0;
     },
     FDRadio: function FDRadio(t0, t1, t2, t3, t4) {
@@ -6086,7 +6029,7 @@
       _.key = t3;
       _.$ti = t4;
     },
-    FDRadio_render_closure: function FDRadio_render_closure(t0) {
+    FDRadio_buildNode_closure: function FDRadio_buildNode_closure(t0) {
       this.$this = t0;
     },
     FDSwitch: function FDSwitch(t0, t1, t2, t3) {
@@ -6096,7 +6039,7 @@
       _.activeColor = t2;
       _.key = t3;
     },
-    FDSwitch_render_closure: function FDSwitch_render_closure(t0) {
+    FDSwitch_buildNode_closure: function FDSwitch_buildNode_closure(t0) {
       this.$this = t0;
     },
     FDTextField: function FDTextField(t0, t1, t2, t3, t4, t5) {
@@ -6123,17 +6066,49 @@
       _.controls = t3;
       _.key = t4;
     },
-    FDDateRangePicker: function FDDateRangePicker(t0, t1, t2, t3) {
+    DateTimeRange: function DateTimeRange(t0, t1) {
+      this.start = t0;
+      this.end = t1;
+    },
+    FDDateRangePicker: function FDDateRangePicker(t0, t1, t2, t3, t4) {
       var _ = this;
       _.startDate = t0;
       _.endDate = t1;
-      _.label = t2;
-      _.key = t3;
+      _.onChanged = t2;
+      _.label = t3;
+      _.key = t4;
+    },
+    _FDDateRangePickerState: function _FDDateRangePickerState() {
+      var _ = this;
+      _._end = _._start = null;
+      _.__State_context_A = _.__State_widget_A = $;
+      _._stateKey = null;
+    },
+    _FDDateRangePickerState_build_closure: function _FDDateRangePickerState_build_closure(t0) {
+      this.$this = t0;
+    },
+    _FDDateRangePickerState_build__closure0: function _FDDateRangePickerState_build__closure0(t0, t1) {
+      this.$this = t0;
+      this.parsed = t1;
+    },
+    _FDDateRangePickerState_build_closure0: function _FDDateRangePickerState_build_closure0(t0) {
+      this.$this = t0;
+    },
+    _FDDateRangePickerState_build__closure: function _FDDateRangePickerState_build__closure(t0, t1) {
+      this.$this = t0;
+      this.parsed = t1;
+    },
+    _RawFlartNodeWidget: function _RawFlartNodeWidget(t0, t1) {
+      this.node = t0;
+      this.key = t1;
     },
     DateTimePicker: function DateTimePicker(t0, t1, t2) {
       this.label = t0;
       this.helperText = t1;
       this.key = t2;
+    },
+    DateTimePicker_buildNode_closure: function DateTimePicker_buildNode_closure(t0) {
+      this.$this = t0;
     },
     RangePicker: function RangePicker(t0, t1, t2, t3, t4, t5) {
       var _ = this;
@@ -6143,6 +6118,25 @@
       _.endValue = t3;
       _.label = t4;
       _.key = t5;
+    },
+    _RangePickerState: function _RangePickerState() {
+      var _ = this;
+      _.__State_context_A = _.__State_widget_A = _.___RangePickerState__end_A = _.___RangePickerState__start_A = $;
+      _._stateKey = null;
+    },
+    _RangePickerState_build_closure: function _RangePickerState_build_closure(t0) {
+      this.$this = t0;
+    },
+    _RangePickerState_build__closure0: function _RangePickerState_build__closure0(t0, t1) {
+      this.$this = t0;
+      this.val = t1;
+    },
+    _RangePickerState_build_closure0: function _RangePickerState_build_closure0(t0) {
+      this.$this = t0;
+    },
+    _RangePickerState_build__closure: function _RangePickerState_build__closure(t0, t1) {
+      this.$this = t0;
+      this.val = t1;
     },
     State: function State() {
     },
@@ -6158,38 +6152,47 @@
       this.backgroundColor = t1;
       this.key = t2;
     },
+    FDCard$(child, padding) {
+      return new A.FDCard(child, padding, null);
+    },
     FDCard: function FDCard(t0, t1, t2) {
       this.child = t0;
       this.padding = t1;
       this.key = t2;
     },
-    FDCard_render_closure: function FDCard_render_closure() {
+    FDBadge: function FDBadge(t0, t1, t2) {
+      this.child = t0;
+      this.backgroundColor = t1;
+      this.key = t2;
+    },
+    FDContainer$(child, cssStyle, decoration, height, id, key, margin, padding, width) {
+      return new A.FDContainer(child, id, width, height, padding, margin, decoration, cssStyle, key);
     },
     FDContainer: function FDContainer(t0, t1, t2, t3, t4, t5, t6, t7, t8) {
       var _ = this;
       _.child = t0;
-      _.width = t1;
-      _.height = t2;
-      _.padding = t3;
-      _.margin = t4;
-      _.decoration = t5;
-      _.cssStyle = t6;
-      _.rawCss = t7;
+      _.id = t1;
+      _.width = t2;
+      _.height = t3;
+      _.padding = t4;
+      _.margin = t5;
+      _.decoration = t6;
+      _.cssStyle = t7;
       _.key = t8;
     },
     FDDialog: function FDDialog(t0, t1) {
       this.child = t0;
       this.key = t1;
     },
-    FDDivider$(color, thickness) {
-      return new A.FDDivider(thickness, color, null);
+    FDDivider$(color, margin, thickness) {
+      return new A.FDDivider(thickness, color, margin, null);
     },
-    FDDivider: function FDDivider(t0, t1, t2) {
-      this.thickness = t0;
-      this.color = t1;
-      this.key = t2;
-    },
-    FDDivider_render_closure: function FDDivider_render_closure() {
+    FDDivider: function FDDivider(t0, t1, t2, t3) {
+      var _ = this;
+      _.thickness = t0;
+      _.color = t1;
+      _.margin = t2;
+      _.key = t3;
     },
     FDDrawer: function FDDrawer(t0, t1) {
       this.child = t0;
@@ -6237,7 +6240,20 @@
       _.cssStyle = t4;
       _.key = t5;
     },
-    FDImage_render_closure: function FDImage_render_closure() {
+    FDListTile$(leading, onTap, subtitle, title, trailing) {
+      return new A.FDListTile(leading, title, subtitle, trailing, onTap, null);
+    },
+    FDListTile: function FDListTile(t0, t1, t2, t3, t4, t5) {
+      var _ = this;
+      _.leading = t0;
+      _.title = t1;
+      _.subtitle = t2;
+      _.trailing = t3;
+      _.onTap = t4;
+      _.key = t5;
+    },
+    FDListTile_buildNode_closure: function FDListTile_buildNode_closure(t0) {
+      this.$this = t0;
     },
     FDMaterialApp: function FDMaterialApp(t0, t1, t2) {
       this.title = t0;
@@ -6287,8 +6303,6 @@
       _.borderRadius = t2;
       _.key = t3;
     },
-    FDSkeleton_render_closure: function FDSkeleton_render_closure() {
-    },
     FDTabBar: function FDTabBar(t0, t1, t2, t3) {
       var _ = this;
       _.tabs = t0;
@@ -6296,17 +6310,9 @@
       _.onTap = t2;
       _.key = t3;
     },
-    FDTabBar_render_closure: function FDTabBar_render_closure(t0, t1, t2, t3, t4) {
-      var _ = this;
-      _.$this = t0;
-      _.selected = t1;
-      _.unselected = t2;
-      _.context = t3;
-      _.indicator = t4;
-    },
-    FDTabBar_render__closure: function FDTabBar_render__closure(t0, t1) {
+    FDTabBar_buildNode_closure: function FDTabBar_buildNode_closure(t0, t1) {
       this.$this = t0;
-      this.index = t1;
+      this.i = t1;
     },
     FDTabBarView: function FDTabBarView(t0, t1, t2) {
       this.children = t0;
@@ -6333,22 +6339,10 @@
     },
     _FDEditableTextState__handleControllerChanged_closure: function _FDEditableTextState__handleControllerChanged_closure() {
     },
-    _FDEditableTextState_build_closure: function _FDEditableTextState_build_closure() {
+    _FDEditableTextState_build_closure: function _FDEditableTextState_build_closure(t0) {
+      this.$this = t0;
     },
     _FDEditableTextState_build_closure0: function _FDEditableTextState_build_closure0(t0) {
-      this.$this = t0;
-    },
-    _FDEditableTextState_build_closure1: function _FDEditableTextState_build_closure1(t0) {
-      this.$this = t0;
-    },
-    _FDEditableTextState_build_closure2: function _FDEditableTextState_build_closure2() {
-    },
-    _FDEditableTextState_build_closure3: function _FDEditableTextState_build_closure3() {
-    },
-    _FDEditableTextState_build_closure4: function _FDEditableTextState_build_closure4(t0) {
-      this.$this = t0;
-    },
-    _FDEditableTextState_build_closure5: function _FDEditableTextState_build_closure5(t0) {
       this.$this = t0;
     },
     FDText$($content, style) {
@@ -6369,7 +6363,8 @@
       _.cssStyle = t2;
       _.key = t3;
     },
-    FDTextButton_render_closure: function FDTextButton_render_closure() {
+    FDTextButton_buildNode_closure: function FDTextButton_buildNode_closure(t0) {
+      this.$this = t0;
     },
     BuildContext$(inheritedWidgets, $parent, states, widget) {
       var t1, t2;
@@ -6457,28 +6452,30 @@
     },
     _InputShowcaseState_build_closure2: function _InputShowcaseState_build_closure2() {
     },
-    _InputShowcaseState_build_closure3: function _InputShowcaseState_build_closure3(t0) {
+    _InputShowcaseState_build_closure3: function _InputShowcaseState_build_closure3() {
+    },
+    _InputShowcaseState_build_closure4: function _InputShowcaseState_build_closure4(t0) {
       this.$this = t0;
     },
     _InputShowcaseState_build__closure2: function _InputShowcaseState_build__closure2(t0, t1) {
       this.$this = t0;
       this.val = t1;
     },
-    _InputShowcaseState_build_closure4: function _InputShowcaseState_build_closure4(t0) {
+    _InputShowcaseState_build_closure5: function _InputShowcaseState_build_closure5(t0) {
       this.$this = t0;
     },
     _InputShowcaseState_build__closure1: function _InputShowcaseState_build__closure1(t0, t1) {
       this.$this = t0;
       this.val = t1;
     },
-    _InputShowcaseState_build_closure5: function _InputShowcaseState_build_closure5(t0) {
+    _InputShowcaseState_build_closure6: function _InputShowcaseState_build_closure6(t0) {
       this.$this = t0;
     },
     _InputShowcaseState_build__closure0: function _InputShowcaseState_build__closure0(t0, t1) {
       this.$this = t0;
       this.val = t1;
     },
-    _InputShowcaseState_build_closure6: function _InputShowcaseState_build_closure6(t0) {
+    _InputShowcaseState_build_closure7: function _InputShowcaseState_build_closure7(t0) {
       this.$this = t0;
     },
     _InputShowcaseState_build__closure: function _InputShowcaseState_build__closure(t0, t1) {
@@ -6496,6 +6493,13 @@
       _._stateKey = null;
     },
     _InteractiveShowcaseState_build_closure: function _InteractiveShowcaseState_build_closure(t0) {
+      this.$this = t0;
+    },
+    _InteractiveShowcaseState_build__closure0: function _InteractiveShowcaseState_build__closure0(t0, t1) {
+      this.$this = t0;
+      this.val = t1;
+    },
+    _InteractiveShowcaseState_build_closure0: function _InteractiveShowcaseState_build_closure0(t0) {
       this.$this = t0;
     },
     _InteractiveShowcaseState_build__closure: function _InteractiveShowcaseState_build__closure(t0, t1) {
@@ -6594,6 +6598,10 @@
     StructureShowcase: function StructureShowcase(t0) {
       this.key = t0;
     },
+    StructureShowcase_build_closure: function StructureShowcase_build_closure() {
+    },
+    StructureShowcase_build_closure0: function StructureShowcase_build_closure0() {
+    },
     printString(string) {
       if (typeof dartPrint == "function") {
         dartPrint(string);
@@ -6614,6 +6622,24 @@
     },
     throwLateFieldADI(fieldName) {
       throw A.initializeExceptionWrapper(A.LateError$fieldADI(fieldName), new Error());
+    },
+    _functionToJS1(f) {
+      var result;
+      if (typeof f == "function")
+        throw A.wrapException(A.ArgumentError$("Attempting to rewrap a JS function.", null));
+      result = function(_call, f) {
+        return function(arg1) {
+          return _call(f, arg1, arguments.length);
+        };
+      }(A._callDartFunctionFast1, f);
+      result[$.$get$DART_CLOSURE_DART_JSINTEROP_PROPERTY_NAME()] = f;
+      return result;
+    },
+    _callDartFunctionFast1(callback, arg1, $length) {
+      type$.Function._as(callback);
+      if (A._asInt($length) >= 1)
+        return callback.call$1(arg1);
+      return callback.call$0();
     },
     _renderApp() {
       var context, vnode, e, stack, exception,
@@ -6761,14 +6787,6 @@
         return A.ioore(receiver, index);
       return receiver[index];
     },
-    sublist$1(receiver, start) {
-      var t1 = receiver.length;
-      if (start > t1)
-        throw A.wrapException(A.RangeError$range(start, 0, t1, "start", null));
-      if (start === t1)
-        return A._setArrayType([], A._arrayInstanceType(receiver));
-      return A._setArrayType(receiver.slice(start, t1), A._arrayInstanceType(receiver));
-    },
     get$first(receiver) {
       if (receiver.length > 0)
         return receiver[0];
@@ -6779,9 +6797,6 @@
       if (t1 > 0)
         return receiver[t1 - 1];
       throw A.wrapException(A.IterableElementError_noElement());
-    },
-    get$isEmpty(receiver) {
-      return receiver.length === 0;
     },
     toString$0(receiver) {
       return A.Iterable_iterableToFullString(receiver, "[", "]");
@@ -6866,6 +6881,19 @@
         return t1 + 0;
       }
       throw A.wrapException(A.UnsupportedError$("" + receiver + ".toInt()"));
+    },
+    toStringAsFixed$1(receiver, fractionDigits) {
+      var result, t1;
+      if (fractionDigits > 20)
+        throw A.wrapException(A.RangeError$range(fractionDigits, 0, 20, "fractionDigits", null));
+      result = receiver.toFixed(fractionDigits);
+      if (receiver === 0)
+        t1 = 1 / receiver < 0;
+      else
+        t1 = false;
+      if (t1)
+        return "-" + result;
+      return result;
     },
     toRadixString$1(receiver, radix) {
       var result, t1, t2, match, exponent;
@@ -7116,20 +7144,6 @@
       var _this = this;
       return new A.ListIterator(_this, _this.get$length(_this), A._instanceType(_this)._eval$1("ListIterator<ListIterable.E>"));
     },
-    get$isEmpty(_) {
-      return this.get$length(this) === 0;
-    },
-    contains$1(_, element) {
-      var i, _this = this,
-        $length = _this.get$length(_this);
-      for (i = 0; i < $length; ++i) {
-        if (J.$eq$(_this.elementAt$1(0, i), element))
-          return true;
-        if ($length !== _this.get$length(_this))
-          throw A.wrapException(A.ConcurrentModificationError$(_this));
-      }
-      return false;
-    },
     join$1(_, separator) {
       var first, t1, i, _this = this,
         $length = _this.get$length(_this);
@@ -7153,19 +7167,12 @@
         }
         return t1.charCodeAt(0) == 0 ? t1 : t1;
       }
-    },
-    join$0(_) {
-      return this.join$1(0, "");
-    },
-    map$1$1(_, toElement, $T) {
-      var t1 = A._instanceType(this);
-      return new A.MappedListIterable(this, t1._bind$1($T)._eval$1("1(ListIterable.E)")._as(toElement), t1._eval$1("@<ListIterable.E>")._bind$1($T)._eval$1("MappedListIterable<1,2>"));
     }
   };
   A.SubListIterable.prototype = {
     SubListIterable$3(_iterable, _start, _endOrLength, $E) {
       var endOrLength,
-        t1 = this._start;
+        t1 = this.__internal$_start;
       A.RangeError_checkNotNegative(t1, "start");
       endOrLength = this._endOrLength;
       if (endOrLength != null) {
@@ -7183,7 +7190,7 @@
     },
     get$_startIndex() {
       var $length = J.get$length$asx(this.__internal$_iterable),
-        t1 = this._start;
+        t1 = this.__internal$_start;
       if (t1 > $length)
         return $length;
       return t1;
@@ -7191,7 +7198,7 @@
     get$length(_) {
       var endOrLength,
         $length = J.get$length$asx(this.__internal$_iterable),
-        t1 = this._start;
+        t1 = this.__internal$_start;
       if (t1 >= $length)
         return 0;
       endOrLength = this._endOrLength;
@@ -7203,7 +7210,7 @@
       var _this = this,
         realIndex = _this.get$_startIndex() + index;
       if (index < 0 || realIndex >= _this.get$_endIndex())
-        throw A.wrapException(A.IndexError$withLength(index, _this.get$length(0), _this, null, "index"));
+        throw A.wrapException(A.IndexError$withLength(index, _this.get$length(0), _this, "index"));
       return J.elementAt$1$ax(_this.__internal$_iterable, realIndex);
     }
   };
@@ -7292,46 +7299,6 @@
     }
   };
   A.UnmodifiableListBase.prototype = {};
-  A._ListIndicesIterable.prototype = {
-    get$length(_) {
-      return J.get$length$asx(this._backedList);
-    },
-    elementAt$1(_, index) {
-      var t1 = J.get$length$asx(this._backedList);
-      if (0 > index || index >= t1)
-        A.throwExpression(A.IndexError$withLength(index, t1, this, null, "index"));
-      return index;
-    }
-  };
-  A.ListMapView.prototype = {
-    $index(_, key) {
-      return this.containsKey$1(key) ? J.$index$asx(this._values, A._asInt(key)) : null;
-    },
-    get$length(_) {
-      return J.get$length$asx(this._values);
-    },
-    get$keys() {
-      return new A._ListIndicesIterable(this._values);
-    },
-    get$isEmpty(_) {
-      return J.get$isEmpty$asx(this._values);
-    },
-    containsKey$1(key) {
-      return A._isInt(key) && key >= 0 && key < J.get$length$asx(this._values);
-    },
-    forEach$1(_, f) {
-      var t1, t2, $length, i;
-      this.$ti._eval$1("~(int,1)")._as(f);
-      t1 = this._values;
-      t2 = J.getInterceptor$asx(t1);
-      $length = t2.get$length(t1);
-      for (i = 0; i < $length; ++i) {
-        f.call$2(i, t2.$index(t1, i));
-        if ($length !== t2.get$length(t1))
-          throw A.wrapException(A.ConcurrentModificationError$(t1));
-      }
-    }
-  };
   A.ConstantMap.prototype = {
     get$isEmpty(_) {
       return this.get$length(this) === 0;
@@ -7352,9 +7319,9 @@
   };
   A.ConstantStringMap.prototype = {
     get$length(_) {
-      return this.__js_helper$_values.length;
+      return this._values.length;
     },
-    get$__js_helper$_keys() {
+    get$_keys() {
       var keys = this.$keys;
       if (keys == null) {
         keys = Object.keys(this._jsIndex);
@@ -7372,13 +7339,13 @@
     $index(_, key) {
       if (!this.containsKey$1(key))
         return null;
-      return this.__js_helper$_values[this._jsIndex[key]];
+      return this._values[this._jsIndex[key]];
     },
     forEach$1(_, f) {
       var keys, values, t1, i;
       this.$ti._eval$1("~(1,2)")._as(f);
-      keys = this.get$__js_helper$_keys();
-      values = this.__js_helper$_values;
+      keys = this.get$_keys();
+      values = this._values;
       for (t1 = keys.length, i = 0; i < t1; ++i)
         f.call$2(keys[i], values[i]);
     }
@@ -7528,9 +7495,6 @@
     },
     get$isEmpty(_) {
       return this.__js_helper$_length === 0;
-    },
-    get$keys() {
-      return new A.LinkedHashMapKeysIterable(this, A._instanceType(this)._eval$1("LinkedHashMapKeysIterable<1>"));
     },
     containsKey$1(key) {
       var strings = this._strings;
@@ -7716,15 +7680,9 @@
     get$length(_) {
       return this._map.__js_helper$_length;
     },
-    get$isEmpty(_) {
-      return this._map.__js_helper$_length === 0;
-    },
     get$iterator(_) {
       var t1 = this._map;
       return new A.LinkedHashMapKeyIterator(t1, t1._modifications, t1._first, this.$ti._eval$1("LinkedHashMapKeyIterator<1>"));
-    },
-    contains$1(_, element) {
-      return this._map.containsKey$1(element);
     }
   };
   A.LinkedHashMapKeyIterator.prototype = {
@@ -7799,19 +7757,19 @@
     call$1(o) {
       return this.getTag(o);
     },
-    $signature: 12
+    $signature: 14
   };
   A.initHooks_closure0.prototype = {
     call$2(o, tag) {
       return this.getUnknownTag(o, tag);
     },
-    $signature: 21
+    $signature: 15
   };
   A.initHooks_closure1.prototype = {
     call$1(tag) {
       return this.prototypeForTag(A._asString(tag));
     },
-    $signature: 18
+    $signature: 16
   };
   A.JSSyntaxRegExp.prototype = {
     toString$0(_) {
@@ -7824,6 +7782,12 @@
         return t1;
       t1 = _this._nativeRegExp;
       return _this._nativeGlobalRegExp = A.JSSyntaxRegExp_makeNative(_this.pattern, t1.multiline, !t1.ignoreCase, t1.unicode, t1.dotAll, "g");
+    },
+    firstMatch$1(string) {
+      var m = this._nativeRegExp.exec(string);
+      if (m == null)
+        return null;
+      return new A._MatchImplementation(m);
     },
     allMatches$2(_, string, start) {
       var t1 = string.length;
@@ -8147,7 +8111,7 @@
       t1.storedCallback = null;
       f.call$0();
     },
-    $signature: 2
+    $signature: 9
   };
   A._AsyncRun__initializeScheduleImmediate_closure.prototype = {
     call$1(callback) {
@@ -8157,7 +8121,7 @@
       t2 = this.span;
       t1.firstChild ? t1.removeChild(t2) : t1.appendChild(t2);
     },
-    $signature: 16
+    $signature: 17
   };
   A._AsyncRun__scheduleImmediateJsOverride_internalCallback.prototype = {
     call$0() {
@@ -8220,15 +8184,6 @@
     },
     $signature: 0
   };
-  A._Completer.prototype = {
-    completeError$1(error) {
-      var t1 = this.future;
-      if ((t1._state & 30) !== 0)
-        throw A.wrapException(A.StateError$("Future already completed"));
-      t1._asyncCompleteErrorObject$1(A._interceptUserError(error, null));
-    }
-  };
-  A._AsyncCompleter.prototype = {};
   A._FutureListener.prototype = {
     matchesErrorTest$1(asyncError) {
       if ((this.state & 15) !== 6)
@@ -8358,14 +8313,6 @@
         A._Future__propagateToListeners(_this, listeners);
       }
     },
-    _completeWithValue$1(value) {
-      var listeners, _this = this;
-      _this.$ti._precomputed1._as(value);
-      listeners = _this._removeListeners$0();
-      _this._state = 8;
-      _this._resultOrListeners = value;
-      A._Future__propagateToListeners(_this, listeners);
-    },
     _completeWithResultOf$1(source) {
       var t1, listeners, _this = this;
       if ((source._state & 16) !== 0) {
@@ -8384,25 +8331,6 @@
       this._setErrorObject$1(error);
       A._Future__propagateToListeners(this, listeners);
     },
-    _asyncComplete$1(value) {
-      var t1 = this.$ti;
-      t1._eval$1("1/")._as(value);
-      if (t1._eval$1("Future<1>")._is(value)) {
-        this._chainFuture$1(value);
-        return;
-      }
-      this._asyncCompleteWithValue$1(value);
-    },
-    _asyncCompleteWithValue$1(value) {
-      var _this = this;
-      _this.$ti._precomputed1._as(value);
-      _this._state ^= 2;
-      A._rootScheduleMicrotask(null, null, _this._zone, type$.void_Function._as(new A._Future__asyncCompleteWithValue_closure(_this, value)));
-    },
-    _chainFuture$1(value) {
-      A._Future__chainCoreFuture(this.$ti._eval$1("Future<1>")._as(value), this, false);
-      return;
-    },
     _asyncCompleteErrorObject$1(error) {
       this._state ^= 2;
       A._rootScheduleMicrotask(null, null, this._zone, type$.void_Function._as(new A._Future__asyncCompleteErrorObject_closure(this, error)));
@@ -8418,18 +8346,6 @@
   A._Future__prependListeners_closure.prototype = {
     call$0() {
       A._Future__propagateToListeners(this.$this, this._box_0.listeners);
-    },
-    $signature: 0
-  };
-  A._Future__chainCoreFuture_closure.prototype = {
-    call$0() {
-      A._Future__chainCoreFuture(this._box_0.source, this.target, true);
-    },
-    $signature: 0
-  };
-  A._Future__asyncCompleteWithValue_closure.prototype = {
-    call$0() {
-      this.$this._completeWithValue$1(this.value);
     },
     $signature: 0
   };
@@ -8486,7 +8402,7 @@
     call$1(__wc0_formal) {
       this.joinedResult._completeWithResultOf$1(this.originalSource);
     },
-    $signature: 2
+    $signature: 9
   };
   A._Future__propagateToListeners_handleWhenCompleteCallback_closure0.prototype = {
     call$2(e, s) {
@@ -8494,7 +8410,7 @@
       type$.StackTrace._as(s);
       this.joinedResult._completeErrorObject$1(new A.AsyncError(e, s));
     },
-    $signature: 25
+    $signature: 18
   };
   A._Future__propagateToListeners_handleValueCallback.prototype = {
     call$0() {
@@ -8607,250 +8523,11 @@
     },
     $signature: 0
   };
-  A._HashMap.prototype = {
-    get$length(_) {
-      return this._collection$_length;
-    },
-    get$isEmpty(_) {
-      return this._collection$_length === 0;
-    },
-    get$keys() {
-      return new A._HashMapKeyIterable(this, this.$ti._eval$1("_HashMapKeyIterable<1>"));
-    },
-    containsKey$1(key) {
-      var strings, nums;
-      if (typeof key == "string" && key !== "__proto__") {
-        strings = this._collection$_strings;
-        return strings == null ? false : strings[key] != null;
-      } else if (typeof key == "number" && (key & 1073741823) === key) {
-        nums = this._collection$_nums;
-        return nums == null ? false : nums[key] != null;
-      } else
-        return this._containsKey$1(key);
-    },
-    _containsKey$1(key) {
-      var rest = this._collection$_rest;
-      if (rest == null)
-        return false;
-      return this._findBucketIndex$2(this._getBucket$2(rest, key), key) >= 0;
-    },
-    $index(_, key) {
-      var strings, t1, nums;
-      if (typeof key == "string" && key !== "__proto__") {
-        strings = this._collection$_strings;
-        t1 = strings == null ? null : A._HashMap__getTableEntry(strings, key);
-        return t1;
-      } else if (typeof key == "number" && (key & 1073741823) === key) {
-        nums = this._collection$_nums;
-        t1 = nums == null ? null : A._HashMap__getTableEntry(nums, key);
-        return t1;
-      } else
-        return this._get$1(key);
-    },
-    _get$1(key) {
-      var bucket, index,
-        rest = this._collection$_rest;
-      if (rest == null)
-        return null;
-      bucket = this._getBucket$2(rest, key);
-      index = this._findBucketIndex$2(bucket, key);
-      return index < 0 ? null : bucket[index + 1];
-    },
-    $indexSet(_, key, value) {
-      var strings, nums, rest, hash, bucket, index, _this = this,
-        t1 = _this.$ti;
-      t1._precomputed1._as(key);
-      t1._rest[1]._as(value);
-      if (typeof key == "string" && key !== "__proto__") {
-        strings = _this._collection$_strings;
-        _this._collection$_addHashTableEntry$3(strings == null ? _this._collection$_strings = A._HashMap__newHashTable() : strings, key, value);
-      } else if (typeof key == "number" && (key & 1073741823) === key) {
-        nums = _this._collection$_nums;
-        _this._collection$_addHashTableEntry$3(nums == null ? _this._collection$_nums = A._HashMap__newHashTable() : nums, key, value);
-      } else {
-        rest = _this._collection$_rest;
-        if (rest == null)
-          rest = _this._collection$_rest = A._HashMap__newHashTable();
-        hash = A.objectHashCode(key) & 1073741823;
-        bucket = rest[hash];
-        if (bucket == null) {
-          A._HashMap__setTableEntry(rest, hash, [key, value]);
-          ++_this._collection$_length;
-          _this._keys = null;
-        } else {
-          index = _this._findBucketIndex$2(bucket, key);
-          if (index >= 0)
-            bucket[index + 1] = value;
-          else {
-            bucket.push(key, value);
-            ++_this._collection$_length;
-            _this._keys = null;
-          }
-        }
-      }
-    },
-    remove$1(_, key) {
-      var t1;
-      if (key !== "__proto__")
-        return this._collection$_removeHashTableEntry$2(this._collection$_strings, key);
-      else {
-        t1 = this._remove$1(key);
-        return t1;
-      }
-    },
-    _remove$1(key) {
-      var hash, bucket, index, result, _this = this,
-        rest = _this._collection$_rest;
-      if (rest == null)
-        return null;
-      hash = A.objectHashCode(key) & 1073741823;
-      bucket = rest[hash];
-      index = _this._findBucketIndex$2(bucket, key);
-      if (index < 0)
-        return null;
-      --_this._collection$_length;
-      _this._keys = null;
-      result = bucket.splice(index, 2)[1];
-      if (0 === bucket.length)
-        delete rest[hash];
-      return result;
-    },
-    forEach$1(_, action) {
-      var keys, $length, t2, i, key, t3, _this = this,
-        t1 = _this.$ti;
-      t1._eval$1("~(1,2)")._as(action);
-      keys = _this._computeKeys$0();
-      for ($length = keys.length, t2 = t1._precomputed1, t1 = t1._rest[1], i = 0; i < $length; ++i) {
-        key = keys[i];
-        t2._as(key);
-        t3 = _this.$index(0, key);
-        action.call$2(key, t3 == null ? t1._as(t3) : t3);
-        if (keys !== _this._keys)
-          throw A.wrapException(A.ConcurrentModificationError$(_this));
-      }
-    },
-    _computeKeys$0() {
-      var strings, index, names, entries, i, nums, rest, bucket, $length, i0, _this = this,
-        result = _this._keys;
-      if (result != null)
-        return result;
-      result = A.List_List$filled(_this._collection$_length, null, false, type$.dynamic);
-      strings = _this._collection$_strings;
-      index = 0;
-      if (strings != null) {
-        names = Object.getOwnPropertyNames(strings);
-        entries = names.length;
-        for (i = 0; i < entries; ++i) {
-          result[index] = names[i];
-          ++index;
-        }
-      }
-      nums = _this._collection$_nums;
-      if (nums != null) {
-        names = Object.getOwnPropertyNames(nums);
-        entries = names.length;
-        for (i = 0; i < entries; ++i) {
-          result[index] = +names[i];
-          ++index;
-        }
-      }
-      rest = _this._collection$_rest;
-      if (rest != null) {
-        names = Object.getOwnPropertyNames(rest);
-        entries = names.length;
-        for (i = 0; i < entries; ++i) {
-          bucket = rest[names[i]];
-          $length = bucket.length;
-          for (i0 = 0; i0 < $length; i0 += 2) {
-            result[index] = bucket[i0];
-            ++index;
-          }
-        }
-      }
-      return _this._keys = result;
-    },
-    _collection$_addHashTableEntry$3(table, key, value) {
-      var t1 = this.$ti;
-      t1._precomputed1._as(key);
-      t1._rest[1]._as(value);
-      if (table[key] == null) {
-        ++this._collection$_length;
-        this._keys = null;
-      }
-      A._HashMap__setTableEntry(table, key, value);
-    },
-    _collection$_removeHashTableEntry$2(table, key) {
-      var value;
-      if (table != null && table[key] != null) {
-        value = this.$ti._rest[1]._as(A._HashMap__getTableEntry(table, key));
-        delete table[key];
-        --this._collection$_length;
-        this._keys = null;
-        return value;
-      } else
-        return null;
-    },
-    _getBucket$2(table, key) {
-      return table[A.objectHashCode(key) & 1073741823];
-    }
-  };
-  A._IdentityHashMap.prototype = {
-    _findBucketIndex$2(bucket, key) {
-      var $length, i, t1;
-      if (bucket == null)
-        return -1;
-      $length = bucket.length;
-      for (i = 0; i < $length; i += 2) {
-        t1 = bucket[i];
-        if (t1 == null ? key == null : t1 === key)
-          return i;
-      }
-      return -1;
-    }
-  };
-  A._HashMapKeyIterable.prototype = {
-    get$length(_) {
-      return this._collection$_map._collection$_length;
-    },
-    get$isEmpty(_) {
-      return this._collection$_map._collection$_length === 0;
-    },
-    get$iterator(_) {
-      var t1 = this._collection$_map;
-      return new A._HashMapKeyIterator(t1, t1._computeKeys$0(), this.$ti._eval$1("_HashMapKeyIterator<1>"));
-    },
-    contains$1(_, element) {
-      return this._collection$_map.containsKey$1(element);
-    }
-  };
-  A._HashMapKeyIterator.prototype = {
-    get$current() {
-      var t1 = this._collection$_current;
-      return t1 == null ? this.$ti._precomputed1._as(t1) : t1;
-    },
-    moveNext$0() {
-      var _this = this,
-        keys = _this._keys,
-        offset = _this._offset,
-        t1 = _this._collection$_map;
-      if (keys !== t1._keys)
-        throw A.wrapException(A.ConcurrentModificationError$(t1));
-      else if (offset >= keys.length) {
-        _this._collection$_current = null;
-        return false;
-      } else {
-        _this._collection$_current = keys[offset];
-        _this._offset = offset + 1;
-        return true;
-      }
-    },
-    $isIterator: 1
-  };
   A.LinkedHashMap_LinkedHashMap$from_closure.prototype = {
     call$2(k, v) {
       this.result.$indexSet(0, this.K._as(k), this.V._as(v));
     },
-    $signature: 29
+    $signature: 19
   };
   A.ListBase.prototype = {
     get$iterator(receiver) {
@@ -8858,9 +8535,6 @@
     },
     elementAt$1(receiver, index) {
       return this.$index(receiver, index);
-    },
-    get$isEmpty(receiver) {
-      return this.get$length(receiver) === 0;
     },
     fillRange$3(receiver, start, end, fill) {
       var i;
@@ -8878,47 +8552,28 @@
   };
   A.MapBase.prototype = {
     forEach$1(_, action) {
-      var t2, key, t3,
-        t1 = A._instanceType(this);
-      t1._eval$1("~(MapBase.K,MapBase.V)")._as(action);
-      for (t2 = this.get$keys(), t2 = t2.get$iterator(t2), t1 = t1._eval$1("MapBase.V"); t2.moveNext$0();) {
-        key = t2.get$current();
-        t3 = this.$index(0, key);
+      var t2, key, t3, _this = this,
+        t1 = A._instanceType(_this);
+      t1._eval$1("~(1,2)")._as(action);
+      for (t2 = new A.LinkedHashMapKeyIterator(_this, _this._modifications, _this._first, t1._eval$1("LinkedHashMapKeyIterator<1>")), t1 = t1._rest[1]; t2.moveNext$0();) {
+        key = t2.__js_helper$_current;
+        t3 = _this.$index(0, key);
         action.call$2(key, t3 == null ? t1._as(t3) : t3);
       }
     },
-    get$entries() {
-      return this.get$keys().map$1$1(0, new A.MapBase_entries_closure(this), A._instanceType(this)._eval$1("MapEntry<MapBase.K,MapBase.V>"));
-    },
     containsKey$1(key) {
-      return this.get$keys().contains$1(0, key);
+      return this.containsKey$1(key);
     },
     get$length(_) {
-      var t1 = this.get$keys();
-      return t1.get$length(t1);
+      return this.__js_helper$_length;
     },
     get$isEmpty(_) {
-      var t1 = this.get$keys();
-      return t1.get$isEmpty(t1);
+      return this.__js_helper$_length === 0;
     },
     toString$0(_) {
       return A.MapBase_mapToString(this);
     },
     $isMap: 1
-  };
-  A.MapBase_entries_closure.prototype = {
-    call$1(key) {
-      var t1 = this.$this,
-        t2 = A._instanceType(t1);
-      t2._eval$1("MapBase.K")._as(key);
-      t1 = t1.$index(0, key);
-      if (t1 == null)
-        t1 = t2._eval$1("MapBase.V")._as(t1);
-      return new A.MapEntry(key, t1, t2._eval$1("MapEntry<MapBase.K,MapBase.V>"));
-    },
-    $signature() {
-      return A._instanceType(this.$this)._eval$1("MapEntry<MapBase.K,MapBase.V>(MapBase.K)");
-    }
   };
   A.MapBase_mapToString_closure.prototype = {
     call$2(k, v) {
@@ -8933,14 +8588,13 @@
       t2 = A.S(v);
       t1._contents += t2;
     },
-    $signature: 30
+    $signature: 20
   };
-  A.UnmodifiableMapBase.prototype = {};
   A._UnmodifiableMapMixin.prototype = {
     $indexSet(_, key, value) {
-      var t1 = A._instanceType(this);
-      t1._eval$1("_UnmodifiableMapMixin.K")._as(key);
-      t1._eval$1("_UnmodifiableMapMixin.V")._as(value);
+      var t1 = this.$ti;
+      t1._precomputed1._as(key);
+      t1._rest[1]._as(value);
       throw A.wrapException(A.UnsupportedError$("Cannot modify unmodifiable map"));
     },
     remove$1(_, key) {
@@ -9438,7 +9092,7 @@
             A._asStringQ(value);
         }
     },
-    $signature: 9
+    $signature: 11
   };
   A.DateTime.prototype = {
     $eq(_, other) {
@@ -9466,6 +9120,31 @@
       else
         return t1 + "-" + d + " " + h + ":" + min + ":" + sec + "." + ms + us;
     }
+  };
+  A.DateTime_parse_parseIntOrZero.prototype = {
+    call$1(matched) {
+      if (matched == null)
+        return 0;
+      return A.int_parse(matched, null);
+    },
+    $signature: 12
+  };
+  A.DateTime_parse_parseMilliAndMicroseconds.prototype = {
+    call$1(matched) {
+      var t1, result, i;
+      if (matched == null)
+        return 0;
+      for (t1 = matched.length, result = 0, i = 0; i < 6; ++i) {
+        result *= 10;
+        if (i < t1) {
+          if (!(i < t1))
+            return A.ioore(matched, i);
+          result += matched.charCodeAt(i) ^ 48;
+        }
+      }
+      return result;
+    },
+    $signature: 12
   };
   A.Duration.prototype = {
     $eq(_, other) {
@@ -9688,10 +9367,6 @@
     }
   };
   A.Iterable.prototype = {
-    map$1$1(_, toElement, $T) {
-      var t1 = A._instanceType(this);
-      return A.MappedIterable_MappedIterable(this, t1._bind$1($T)._eval$1("1(Iterable.E)")._as(toElement), t1._eval$1("Iterable.E"), $T);
-    },
     join$1(_, separator) {
       var first, t1,
         iterator = this.get$iterator(this);
@@ -9712,9 +9387,6 @@
         while (iterator.moveNext$0());
       }
       return t1.charCodeAt(0) == 0 ? t1 : t1;
-    },
-    join$0(_) {
-      return this.join$1(0, "");
     },
     get$length(_) {
       var count,
@@ -9738,7 +9410,7 @@
           return iterator.get$current();
         --skipCount;
       }
-      throw A.wrapException(A.IndexError$withLength(index, index - skipCount, this, null, "index"));
+      throw A.wrapException(A.IndexError$withLength(index, index - skipCount, this, "index"));
     },
     toString$0(_) {
       return A.Iterable_iterableToShortString(this, "(", ")");
@@ -9747,9 +9419,6 @@
   A.MapEntry.prototype = {
     toString$0(_) {
       return "MapEntry(" + A.S(this.key) + ": " + A.S(this.value) + ")";
-    },
-    get$key() {
-      return this.key;
     }
   };
   A.Null.prototype = {
@@ -9810,13 +9479,13 @@
       }
       return map;
     },
-    $signature: 13
+    $signature: 21
   };
   A.Uri_parseIPv6Address_error.prototype = {
     call$2(msg, position) {
       throw A.wrapException(A.FormatException$("Illegal IPv6 address, " + msg, this.host, position));
     },
-    $signature: 14
+    $signature: 22
   };
   A._Uri.prototype = {
     get$_core$_text() {
@@ -9960,7 +9629,7 @@
         t1._contents += t2;
       }
     },
-    $signature: 15
+    $signature: 23
   };
   A._Uri__makeQueryFromParametersDefault_closure.prototype = {
     call$2(key, value) {
@@ -9972,7 +9641,7 @@
         for (t1 = J.get$iterator$ax(type$.Iterable_dynamic._as(value)), t2 = this.writeParameter; t1.moveNext$0();)
           t2.call$2(key, A._asString(t1.get$current()));
     },
-    $signature: 9
+    $signature: 11
   };
   A.UriData.prototype = {
     get$uri() {
@@ -10098,84 +9767,6 @@
       return "Expando:null";
     }
   };
-  A.NullRejectionException.prototype = {
-    toString$0(_) {
-      return "Promise was rejected with a value of `" + (this.isUndefined ? "undefined" : "null") + "`.";
-    }
-  };
-  A.promiseToFuture_closure.prototype = {
-    call$1(r) {
-      var t1 = this.completer,
-        t2 = t1.$ti;
-      r = t2._eval$1("1/?")._as(this.T._eval$1("0/?")._as(r));
-      t1 = t1.future;
-      if ((t1._state & 30) !== 0)
-        A.throwExpression(A.StateError$("Future already completed"));
-      t1._asyncComplete$1(t2._eval$1("1/")._as(r));
-      return null;
-    },
-    $signature: 3
-  };
-  A.promiseToFuture_closure0.prototype = {
-    call$1(e) {
-      if (e == null)
-        return this.completer.completeError$1(new A.NullRejectionException(e === undefined));
-      return this.completer.completeError$1(e);
-    },
-    $signature: 3
-  };
-  A.dartify_convert.prototype = {
-    call$1(o) {
-      var t1, millisSinceEpoch, proto, t2, dartObject, originalKeys, dartKeys, i, jsKey, dartKey, l, $length;
-      if (A._noDartifyRequired(o))
-        return o;
-      t1 = this._convertedObjects;
-      o.toString;
-      if (t1.containsKey$1(o))
-        return t1.$index(0, o);
-      if (o instanceof Date) {
-        millisSinceEpoch = o.getTime();
-        if (millisSinceEpoch < -864e13 || millisSinceEpoch > 864e13)
-          A.throwExpression(A.RangeError$range(millisSinceEpoch, -864e13, 864e13, "millisecondsSinceEpoch", null));
-        A.checkNotNullable(true, "isUtc", type$.bool);
-        return new A.DateTime(millisSinceEpoch, 0, true);
-      }
-      if (o instanceof RegExp)
-        throw A.wrapException(A.ArgumentError$("structured clone of RegExp", null));
-      if (o instanceof Promise)
-        return A.promiseToFuture(o, type$.nullable_Object);
-      proto = Object.getPrototypeOf(o);
-      if (proto === Object.prototype || proto === null) {
-        t2 = type$.nullable_Object;
-        dartObject = A.LinkedHashMap_LinkedHashMap$_empty(t2, t2);
-        t1.$indexSet(0, o, dartObject);
-        originalKeys = Object.keys(o);
-        dartKeys = [];
-        for (t1 = J.getInterceptor$ax(originalKeys), t2 = t1.get$iterator(originalKeys); t2.moveNext$0();)
-          dartKeys.push(A.dartify(t2.get$current()));
-        for (i = 0; i < t1.get$length(originalKeys); ++i) {
-          jsKey = t1.$index(originalKeys, i);
-          if (!(i < dartKeys.length))
-            return A.ioore(dartKeys, i);
-          dartKey = dartKeys[i];
-          if (jsKey != null)
-            dartObject.$indexSet(0, dartKey, this.call$1(o[jsKey]));
-        }
-        return dartObject;
-      }
-      if (o instanceof Array) {
-        l = o;
-        dartObject = [];
-        t1.$indexSet(0, o, dartObject);
-        $length = A._asInt(o.length);
-        for (t1 = J.getInterceptor$asx(l), i = 0; i < $length; ++i)
-          dartObject.push(this.call$1(t1.$index(l, i)));
-        return dartObject;
-      }
-      return o;
-    },
-    $signature: 17
-  };
   A.TextEditingController.prototype = {
     set$text(newText) {
       if (this._text === newText)
@@ -10230,7 +9821,7 @@
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value + ";";
     },
-    $signature: 1
+    $signature: 2
   };
   A.FlartTextNode.prototype = {
     toHtml$0() {
@@ -10250,7 +9841,7 @@
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value + ";";
     },
-    $signature: 1
+    $signature: 2
   };
   A.VDOMReconciler__patchEvents_closure.prototype = {
     call$2(type, jsFunc) {
@@ -10261,13 +9852,13 @@
         B.JSArray_methods.add$1(this.toRemove, type);
       }
     },
-    $signature: 19
+    $signature: 24
   };
   A.VDOMReconciler__patchEvents_closure0.prototype = {
     call$2(type, handler) {
       var t1, jsFunc;
       A._asString(type);
-      type$.dynamic_Function_JSObject._as(handler);
+      type$.void_Function_JSObject._as(handler);
       t1 = this.currentListeners;
       if (t1.containsKey$1(type))
         this.el.removeEventListener(type, t1.$index(0, type));
@@ -10275,13 +9866,13 @@
       this.el.addEventListener(type, jsFunc);
       t1.$indexSet(0, type, jsFunc);
     },
-    $signature: 20
+    $signature: 25
   };
   A.VDOMReconciler__patchEvents__closure.prototype = {
     call$1(e) {
       this.handler.call$1(A._asJSObject(e));
     },
-    $signature: 11
+    $signature: 13
   };
   A.Axis.prototype = {
     _enumToString$0() {
@@ -10344,32 +9935,31 @@
       return "Offset(" + this.dx + ", " + this.dy + ")";
     }
   };
-  A.FlartCallbackManager__injectGlobalHandler_closure.prototype = {
-    call$1(id) {
-      var handler = $.FlartCallbackManager__handlers.$index(0, A._asString(id));
-      if (handler != null)
-        handler.call$0();
-    },
-    $signature: 33
-  };
-  A.FlartCallbackManager__injectGlobalHandler_closure0.prototype = {
-    call$2(id, value) {
-      var handler = $.FlartCallbackManager__eventHandlers.$index(0, A._asString(id));
-      if (handler != null)
-        handler.call$1(value == null ? null : A.dartify(value));
-    },
-    $signature: 22
-  };
   A._splitPathSegments_closure.prototype = {
     call$1(segment) {
       return A._asString(segment).length !== 0;
     },
-    $signature: 23
+    $signature: 26
   };
+  A.Alignment.prototype = {};
   A.Border.prototype = {};
   A.BorderSide.prototype = {};
   A.BoxBorder.prototype = {};
-  A.BorderRadius.prototype = {};
+  A.BorderRadius.prototype = {
+    toCss$0() {
+      var t3, _this = this,
+        t1 = _this.topLeft,
+        t2 = _this.topRight;
+      if (t1 === t2) {
+        t3 = _this.bottomRight;
+        t3 = t2 === t3 && t3 === _this.bottomLeft;
+      } else
+        t3 = false;
+      if (t3)
+        return "" + t1 + "px";
+      return "" + t1 + "px " + t2 + "px " + _this.bottomRight + "px " + _this.bottomLeft + "px";
+    }
+  };
   A.BoxDecoration.prototype = {
     toCss$0() {
       var t3, css, _this = this,
@@ -10415,7 +10005,7 @@
       dy = t1.dy;
       return "" + dx + "px " + dy + "px " + e.blurRadius + "px " + e.color.hex;
     },
-    $signature: 24
+    $signature: 27
   };
   A.BoxShadow.prototype = {};
   A.FlartColor.prototype = {
@@ -10492,7 +10082,7 @@
         $.PageNavigator__currentTransition = B.RouteTransition_0;
       }
     },
-    $signature: 11
+    $signature: 13
   };
   A.FontWeight.prototype = {
     toString$0(_) {
@@ -10531,7 +10121,7 @@
       A.Future_Future$delayed(B.Duration_0, new A._HeroState_build_closure(this, heroId), type$.Null);
       t1 = type$.String;
       t1 = A.LinkedHashMap_LinkedHashMap$_literal(["display", "inline-block"], t1, t1);
-      return new A.FDContainer(this.__State_widget_A.child, _null, _null, _null, _null, _null, t1, 'id="' + heroId + '"', new A.ValueKey(heroId, type$.ValueKey_String));
+      return A.FDContainer$(this.__State_widget_A.child, t1, _null, _null, heroId, new A.ValueKey(heroId, type$.ValueKey_String), _null, _null, _null);
     }
   };
   A._HeroState_build_closure.prototype = {
@@ -10603,36 +10193,30 @@
     call$1(child) {
       return type$.Widget._as(child).buildNode$1(this.context);
     },
-    $signature: 7
+    $signature: 4
   };
   A.FDPositioned.prototype = {
-    render$1(context) {
-      var t3, _this = this,
-        t1 = type$.String,
-        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
-      t2.$indexSet(0, "position", "absolute");
-      t3 = _this.top;
-      if (t3 != null)
-        t2.$indexSet(0, "top", A.S(t3) + "px");
-      t3 = _this.left;
-      if (t3 != null)
-        t2.$indexSet(0, "left", A.S(t3) + "px");
-      t3 = _this.right;
-      if (t3 != null)
-        t2.$indexSet(0, "right", A.S(t3) + "px");
-      t3 = _this.bottom;
-      if (t3 != null)
-        t2.$indexSet(0, "bottom", A.S(t3) + "px");
-      t3 = t2.$ti._eval$1("LinkedHashMapEntriesIterable<1,2>");
-      return '<div style="' + A.MappedIterable_MappedIterable(new A.LinkedHashMapEntriesIterable(t2, t3), t3._eval$1("String(Iterable.E)")._as(new A.FDPositioned_render_closure()), t3._eval$1("Iterable.E"), t1).join$1(0, " ") + '">' + _this.child.render$1(context) + "</div>";
+    buildNode$1(context) {
+      var t2, _this = this,
+        t1 = type$.String;
+      t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t1.$indexSet(0, "position", "absolute");
+      t2 = _this.top;
+      if (t2 != null)
+        t1.$indexSet(0, "top", A.S(t2) + "px");
+      t2 = _this.left;
+      if (t2 != null)
+        t1.$indexSet(0, "left", A.S(t2) + "px");
+      t2 = _this.right;
+      if (t2 != null)
+        t1.$indexSet(0, "right", A.S(t2) + "px");
+      t2 = _this.bottom;
+      if (t2 != null)
+        t1.$indexSet(0, "bottom", A.S(t2) + "px");
+      t2 = _this.key;
+      t2 = t2 == null ? null : "ValueKey(" + t2.value + ")";
+      return new A.FlartElementNode("div", t2, null, t1, A._setArrayType([_this.child.buildNode$1(context)], type$.JSArray_FlartNode), null);
     }
-  };
-  A.FDPositioned_render_closure.prototype = {
-    call$1(e) {
-      type$.MapEntry_String_String._as(e);
-      return e.key + ": " + e.value + ";";
-    },
-    $signature: 1
   };
   A.FDRow.prototype = {
     buildNode$1(context) {
@@ -10685,33 +10269,34 @@
     call$1(child) {
       return type$.Widget._as(child).buildNode$1(this.context);
     },
-    $signature: 7
+    $signature: 4
   };
   A.FDStack.prototype = {
-    render$1(context) {
-      var t3, style, _i,
-        t1 = type$.String,
-        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
-      t2.$indexSet(0, "position", "relative");
-      t3 = t2.$ti._eval$1("LinkedHashMapEntriesIterable<1,2>");
-      style = A.MappedIterable_MappedIterable(new A.LinkedHashMapEntriesIterable(t2, t3), t3._eval$1("String(Iterable.E)")._as(new A.FDStack_render_closure()), t3._eval$1("Iterable.E"), t1).join$1(0, " ");
-      t1 = '<div style="' + style + ' ">\n';
-      for (t2 = this.children, t3 = t2.length, _i = 0; _i < t2.length; t2.length === t3 || (0, A.throwConcurrentModificationError)(t2), ++_i)
-        t1 += t2[_i].render$1(context) + "\n";
-      t1 += "</div>\n";
-      return t1.charCodeAt(0) == 0 ? t1 : t1;
+    buildNode$1(context) {
+      var t2, t3, t4, t5,
+        t1 = type$.String;
+      t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t1.$indexSet(0, "position", "relative");
+      t1.$indexSet(0, "width", "100%");
+      t1.$indexSet(0, "height", "100%");
+      t2 = this.key;
+      t2 = t2 == null ? null : "ValueKey(" + t2.value + ")";
+      t3 = this.children;
+      t4 = A._arrayInstanceType(t3);
+      t5 = t4._eval$1("MappedListIterable<1,FlartNode>");
+      t3 = A.List_List$_of(new A.MappedListIterable(t3, t4._eval$1("FlartNode(1)")._as(new A.FDStack_buildNode_closure(context)), t5), t5._eval$1("ListIterable.E"));
+      return new A.FlartElementNode("div", t2, null, t1, t3, null);
     }
   };
-  A.FDStack_render_closure.prototype = {
-    call$1(e) {
-      type$.MapEntry_String_String._as(e);
-      return e.key + ": " + e.value + ";";
+  A.FDStack_buildNode_closure.prototype = {
+    call$1(child) {
+      return type$.Widget._as(child).buildNode$1(this.context);
     },
-    $signature: 1
+    $signature: 4
   };
   A.FDWrap.prototype = {
-    render$1(context) {
-      var t3, style, _this = this,
+    buildNode$1(context) {
+      var t3, t4, t5, t6, _this = this,
         justify = _this._mapAlignment$1(B.MainAxisAlignment_0),
         t1 = type$.String,
         t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
@@ -10720,11 +10305,14 @@
       t2.$indexSet(0, "flex-direction", "row");
       t2.$indexSet(0, "justify-content", justify);
       t2.$indexSet(0, "gap", "" + _this.runSpacing + "px " + _this.spacing + "px");
-      t3 = t2.$ti._eval$1("LinkedHashMapEntriesIterable<1,2>");
-      style = A.MappedIterable_MappedIterable(new A.LinkedHashMapEntriesIterable(t2, t3), t3._eval$1("String(Iterable.E)")._as(new A.FDWrap_render_closure()), t3._eval$1("Iterable.E"), t1).join$1(0, " ");
-      t1 = _this.children;
-      t2 = A._arrayInstanceType(t1);
-      return '      <div class="flart-wrap" style="' + style + ' ">\n        ' + new A.MappedListIterable(t1, t2._eval$1("String(1)")._as(new A.FDWrap_render_closure0(context)), t2._eval$1("MappedListIterable<1,String>")).join$1(0, "") + "\n      </div>\n    ";
+      t3 = _this.key;
+      t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
+      t1 = A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-wrap"], t1, t1);
+      t4 = _this.children;
+      t5 = A._arrayInstanceType(t4);
+      t6 = t5._eval$1("MappedListIterable<1,FlartNode>");
+      t4 = A.List_List$_of(new A.MappedListIterable(t4, t5._eval$1("FlartNode(1)")._as(new A.FDWrap_buildNode_closure(context)), t6), t6._eval$1("ListIterable.E"));
+      return new A.FlartElementNode("div", t3, t1, t2, t4, null);
     },
     _mapAlignment$1(align) {
       switch (align.index) {
@@ -10743,18 +10331,11 @@
       }
     }
   };
-  A.FDWrap_render_closure.prototype = {
-    call$1(e) {
-      type$.MapEntry_String_String._as(e);
-      return e.key + ": " + e.value + ";";
-    },
-    $signature: 1
-  };
-  A.FDWrap_render_closure0.prototype = {
+  A.FDWrap_buildNode_closure.prototype = {
     call$1(c) {
-      return type$.Widget._as(c).render$1(this.context);
+      return type$.Widget._as(c).buildNode$1(this.context);
     },
-    $signature: 26
+    $signature: 4
   };
   A.FDElevatedButton.prototype = {
     buildNode$1(context) {
@@ -10799,7 +10380,7 @@
       activeStyleStr = A.MappedIterable_MappedIterable(new A.LinkedHashMapEntriesIterable(t5, t6), t6._eval$1("String(Iterable.E)")._as(new A.FDElevatedButton_buildNode_closure1()), t6._eval$1("Iterable.E"), t1).join$1(0, " ");
       t6 = t3.$ti._eval$1("LinkedHashMapEntriesIterable<1,2>");
       disabledStyleStr = A.MappedIterable_MappedIterable(new A.LinkedHashMapEntriesIterable(t3, t6), t6._eval$1("String(Iterable.E)")._as(new A.FDElevatedButton_buildNode_closure2()), t6._eval$1("Iterable.E"), t1).join$1(0, " ");
-      events = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.dynamic_Function_dynamic);
+      events = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_dynamic);
       events.$indexSet(0, "click", new A.FDElevatedButton_buildNode_closure3(_this));
       t2 = A.LinkedHashMap_LinkedHashMap$_literal(["class", classId], t1, t1);
       t3 = type$.JSArray_FlartNode;
@@ -10812,28 +10393,28 @@
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value + ";";
     },
-    $signature: 1
+    $signature: 2
   };
   A.FDElevatedButton_buildNode_closure0.prototype = {
     call$1(e) {
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value + ";";
     },
-    $signature: 1
+    $signature: 2
   };
   A.FDElevatedButton_buildNode_closure1.prototype = {
     call$1(e) {
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value + ";";
     },
-    $signature: 1
+    $signature: 2
   };
   A.FDElevatedButton_buildNode_closure2.prototype = {
     call$1(e) {
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value + ";";
     },
-    $signature: 1
+    $signature: 2
   };
   A.FDElevatedButton_buildNode_closure3.prototype = {
     call$1(e) {
@@ -10845,7 +10426,7 @@
     buildNode$1(context) {
       var t2, t3,
         t1 = type$.String,
-        events = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.dynamic_Function_dynamic);
+        events = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_dynamic);
       events.$indexSet(0, "click", new A.FDGestureDetector_buildNode_closure(this));
       t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
       t2.$indexSet(0, "outline", "none");
@@ -10867,6 +10448,70 @@
     },
     $signature: 3
   };
+  A.FDInkWell.prototype = {
+    buildNode$1(context) {
+      var events, t3, t4, _this = this,
+        t1 = type$.String,
+        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t2.$indexSet(0, "position", "relative");
+      t2.$indexSet(0, "overflow", "hidden");
+      t2.$indexSet(0, "cursor", "pointer");
+      t2.$indexSet(0, "user-select", "none");
+      t2.$indexSet(0, "border-radius", _this.borderRadius.toCss$0());
+      t2.$indexSet(0, "transition", "background-color 0.15s ease-in-out");
+      events = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_dynamic);
+      events.$indexSet(0, "click", new A.FDInkWell_buildNode_closure(_this));
+      t3 = _this.key;
+      t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
+      t1 = A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-ink-well"], t1, t1);
+      t4 = A._setArrayType([_this.child.buildNode$1(context)], type$.JSArray_FlartNode);
+      return new A.FlartElementNode("div", t3, t1, t2, t4, events);
+    }
+  };
+  A.FDInkWell_buildNode_closure.prototype = {
+    call$1(_) {
+      return this.$this.onTap.call$0();
+    },
+    $signature: 3
+  };
+  A.FDOutlinedButton.prototype = {
+    buildNode$1(context) {
+      var events, t3, _this = this,
+        primary = A.Theme_of(context).primaryColor.hex,
+        t1 = type$.String,
+        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t2.$indexSet(0, "display", "inline-flex");
+      t2.$indexSet(0, "align-items", "center");
+      t2.$indexSet(0, "justify-content", "center");
+      t2.$indexSet(0, "padding", "10px 16px");
+      t2.$indexSet(0, "font-size", "14px");
+      t2.$indexSet(0, "font-weight", "500");
+      t2.$indexSet(0, "background-color", "transparent");
+      t2.$indexSet(0, "color", primary);
+      t2.$indexSet(0, "border", "1px solid " + primary);
+      t2.$indexSet(0, "border-radius", "4px");
+      t2.$indexSet(0, "cursor", "pointer");
+      t2.$indexSet(0, "outline", "none");
+      t2.$indexSet(0, "user-select", "none");
+      t2.$indexSet(0, "transition", "all 0.2s ease-in-out");
+      t2.$indexSet(0, "box-sizing", "border-box");
+      t2.addAll$1(0, _this.cssStyle);
+      events = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_dynamic);
+      events.$indexSet(0, "click", new A.FDOutlinedButton_buildNode_closure(_this));
+      t3 = _this.key;
+      t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
+      t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t1.$indexSet(0, "type", "button");
+      t1.$indexSet(0, "class", "flart-outlined-button");
+      return new A.FlartElementNode("button", t3, t1, t2, A._setArrayType([_this.child.buildNode$1(context)], type$.JSArray_FlartNode), events);
+    }
+  };
+  A.FDOutlinedButton_buildNode_closure.prototype = {
+    call$1(e) {
+      return this.$this.onPressed.call$0();
+    },
+    $signature: 3
+  };
   A.InheritedWidget.prototype = {
     buildNode$1(context) {
       var _this = this,
@@ -10882,57 +10527,101 @@
     }
   };
   A.FDCheckbox.prototype = {
-    render$1(context) {
-      var t1 = Date.now(),
+    buildNode$1(context) {
+      var events, t3,
         theme = A.Theme_of(context),
-        cbId = A.FlartCallbackManager_register(new A.FDCheckbox_render_closure(this)),
-        t2 = this.value ? "checked" : "";
-      return '      <input \n        type="checkbox" \n        id="' + ("checkbox_" + 1000 * t1) + '" \n        ' + t2 + string$.x20x0a____ + theme.primaryColor.hex + string$.x3b_____ + ("onchange=\"window.__flartHandleClick('" + cbId + "')\"") + "\n      />\n    ";
+        t1 = type$.String,
+        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t2.$indexSet(0, "width", "20px");
+      t2.$indexSet(0, "height", "20px");
+      t2.$indexSet(0, "cursor", "pointer");
+      t2.$indexSet(0, "accent-color", theme.primaryColor.hex);
+      t2.$indexSet(0, "transition", "accent-color 0.2s");
+      events = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_JSObject);
+      events.$indexSet(0, "change", new A.FDCheckbox_buildNode_closure(this));
+      t3 = this.key;
+      t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
+      t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t1.$indexSet(0, "type", "checkbox");
+      if (this.value)
+        t1.$indexSet(0, "checked", "true");
+      return new A.FlartElementNode("input", t3, t1, t2, null, events);
     }
   };
-  A.FDCheckbox_render_closure.prototype = {
-    call$0() {
-      var t1 = this.$this;
-      return t1.onChanged.call$1(!t1.value);
+  A.FDCheckbox_buildNode_closure.prototype = {
+    call$1(e) {
+      var target = A._asJSObjectQ(A._asJSObject(e).target),
+        isChecked = target == null ? null : A._asBool(target.checked);
+      if (isChecked == null)
+        isChecked = !this.$this.value;
+      this.$this.onChanged.call$1(isChecked);
     },
-    $signature: 0
+    $signature: 1
   };
   A.FDRadio.prototype = {
-    render$1(context) {
-      var t1 = Date.now(),
+    buildNode$1(context) {
+      var events, t3, _this = this,
         theme = A.Theme_of(context),
-        cbId = A.FlartCallbackManager_register(new A.FDRadio_render_closure(this)),
-        t2 = this.value === this.groupValue ? "checked" : "";
-      return '      <input \n        type="radio" \n        id="' + ("radio_" + 1000 * t1) + '" \n        ' + t2 + string$.x20x0a____ + theme.primaryColor.hex + string$.x3b_____ + ("onchange=\"window.__flartHandleClick('" + cbId + "')\"") + "\n      />\n    ";
+        t1 = type$.String,
+        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t2.$indexSet(0, "width", "20px");
+      t2.$indexSet(0, "height", "20px");
+      t2.$indexSet(0, "cursor", "pointer");
+      t2.$indexSet(0, "accent-color", theme.primaryColor.hex);
+      t2.$indexSet(0, "transition", "accent-color 0.2s");
+      events = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_JSObject);
+      events.$indexSet(0, "change", new A.FDRadio_buildNode_closure(_this));
+      t3 = _this.key;
+      t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
+      t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t1.$indexSet(0, "type", "radio");
+      if (_this.value === _this.groupValue)
+        t1.$indexSet(0, "checked", "true");
+      return new A.FlartElementNode("input", t3, t1, t2, null, events);
     }
   };
-  A.FDRadio_render_closure.prototype = {
-    call$0() {
-      var t1 = this.$this;
-      return t1.onChanged.call$1(t1.value);
+  A.FDRadio_buildNode_closure.prototype = {
+    call$1(e) {
+      var t1;
+      A._asJSObject(e);
+      t1 = this.$this;
+      t1.onChanged.call$1(t1.value);
     },
-    $signature: 0
+    $signature: 1
   };
   A.FDSwitch.prototype = {
-    render$1(context) {
-      var t1 = Date.now(),
+    buildNode$1(context) {
+      var events, t3, t4, t5, t6, t7, _this = this, _null = null,
+        _s16_ = "background-color",
         theme = A.Theme_of(context),
-        active = this.activeColor.hex,
+        active = _this.activeColor.hex,
         inactive = theme.dividerColor.hex,
-        cbId = A.FlartCallbackManager_register(new A.FDSwitch_render_closure(this)),
-        t2 = this.value,
-        t3 = t2 ? "checked" : "",
-        t4 = t2 ? active : inactive;
-      t2 = t2 ? "26px" : "2px";
-      return '      <label style="\n        display: inline-flex;\n        align-items: center;\n        cursor: pointer;\n        opacity: 1;\n        \n      ">\n        <input \n          type="checkbox" \n          id="' + ("switch_" + 1000 * t1) + '" \n          ' + t3 + ' \n          \n          style="display: none;"\n          ' + ("onchange=\"window.__flartHandleClick('" + cbId + "')\"") + '\n        />\n        <div style="\n          width: 50px;\n          height: 26px;\n          background-color: ' + t4 + ';\n          border-radius: 13px;\n          position: relative;\n          transition: background-color 0.3s;\n        ">\n          <div style="\n            width: 22px;\n            height: 22px;\n            background-color: white;\n            border-radius: 50%;\n            position: absolute;\n            top: 2px;\n            left: ' + t2 + ';\n            transition: left 0.3s;\n            box-shadow: 0 2px 4px rgba(0,0,0,0.2);\n          "></div>\n        </div>\n      </label>\n    ';
+        t1 = type$.String,
+        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t2.$indexSet(0, "display", "inline-flex");
+      t2.$indexSet(0, "align-items", "center");
+      t2.$indexSet(0, "cursor", "pointer");
+      t2.$indexSet(0, "opacity", "1");
+      t2.$indexSet(0, "user-select", "none");
+      events = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_JSObject);
+      events.$indexSet(0, "click", new A.FDSwitch_buildNode_closure(_this));
+      t3 = _this.key;
+      t3 = t3 == null ? _null : "ValueKey(" + t3.value + ")";
+      t4 = _this.value;
+      t5 = A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-switch", "role", "switch", "aria-checked", t4 ? "true" : "false"], t1, t1);
+      t6 = A.LinkedHashMap_LinkedHashMap$_literal(["width", "50px", "height", "26px", _s16_, t4 ? active : inactive, "border-radius", "13px", "position", "relative", "transition", "background-color 0.3s"], t1, t1);
+      t7 = type$.JSArray_FlartNode;
+      return new A.FlartElementNode("div", t3, t5, t2, A._setArrayType([new A.FlartElementNode("div", _null, _null, t6, A._setArrayType([new A.FlartElementNode("div", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["width", "22px", "height", "22px", _s16_, "white", "border-radius", "50%", "position", "absolute", "top", "2px", "left", t4 ? "26px" : "2px", "transition", "left 0.3s", "box-shadow", "0 2px 4px rgba(0,0,0,0.2)"], t1, t1), _null, _null)], t7), _null)], t7), events);
     }
   };
-  A.FDSwitch_render_closure.prototype = {
-    call$0() {
-      var t1 = this.$this;
-      return t1.onChanged.call$1(!t1.value);
+  A.FDSwitch_buildNode_closure.prototype = {
+    call$1(e) {
+      var t1;
+      A._asJSObject(e);
+      t1 = this.$this;
+      t1.onChanged.call$1(!t1.value);
     },
-    $signature: 0
+    $signature: 1
   };
   A.FDTextField.prototype = {
     build$1(context) {
@@ -10950,51 +10639,270 @@
       t4 = theme.dividerColor;
       t4 = A.Border_Border$all(t4, 1);
       t2 = A._setArrayType([new A.FDEditableText(effectiveController, theme.textStyle, _this.placeholder, false, _null, _this.onChanged, _null, B.TextAlign_4, _this.padding, _null)], t2);
-      t3.push(new A.FDContainer(new A.FDStack(t2, _null), _null, _null, _null, _null, new A.BoxDecoration(theme.cardColor, new A.BorderRadius(4, 4, 4, 4), _null, t4), _null, _null, _null));
-      return new A.FDContainer(A.FDColumn$(t3, B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null, _null, _null, _null, _null, t1, _null, _null);
+      t3.push(A.FDContainer$(A.FDStack$(t2), _null, new A.BoxDecoration(theme.cardColor, new A.BorderRadius(4, 4, 4, 4), _null, t4), _null, _null, _null, _null, _null, _null));
+      return A.FDContainer$(A.FDColumn$(t3, B.CrossAxisAlignment_0, B.MainAxisAlignment_0), t1, _null, _null, _null, _null, _null, _null, _null);
     }
   };
   A.VideoPlayer.prototype = {
-    render$1(context) {
-      var id = "video_" + 1000 * Date.now();
-      return '      <video\n        id="' + id + '"\n        src="' + this.src + '"\n        ' + ('width="' + this.width + '"') + '\n        \n        \n        controls\n        \n        \n        \n        style="\n          max-width: 100%;\n          border-radius: 8px;\n          background-color: #000;\n        "\n      >\n        Your browser does not support the video tag.\n      </video>\n      \n      <script>\n        (function() {\n          const video = document.getElementById(\'' + id + "');\n          \n          \n          \n        })();\n      </script>\n    ";
+    buildNode$1(context) {
+      var t3,
+        t1 = type$.String,
+        styles = A.LinkedHashMap_LinkedHashMap$_literal(["max-width", "100%", "border-radius", "8px", "background-color", "#000"], t1, t1),
+        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t2.$indexSet(0, "src", this.src);
+      t2.$indexSet(0, "width", B.JSInt_methods.toString$0(this.width));
+      t2.$indexSet(0, "controls", "true");
+      t3 = this.key;
+      t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
+      return new A.FlartElementNode("video", t3, t2, styles, null, A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_JSObject));
     }
   };
   A.YouTubePlayer.prototype = {
-    render$1(context) {
-      var params = A._setArrayType([], type$.JSArray_String),
-        paramString = params.length !== 0 ? "?" + B.JSArray_methods.join$1(params, "&") : "";
-      return '      <iframe\n        width="' + this.width + '"\n        height="' + this.height + '"\n        src="https://www.youtube.com/embed/' + this.videoId + paramString + '"\n        title="YouTube video player"\n        frameborder="0"\n        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"\n        allowfullscreen\n        style="border-radius: 8px;"\n      ></iframe>\n    ';
+    buildNode$1(context) {
+      var t2, _this = this,
+        params = A._setArrayType([], type$.JSArray_String),
+        paramString = params.length !== 0 ? "?" + B.JSArray_methods.join$1(params, "&") : "",
+        t1 = _this.key;
+      t1 = t1 == null ? null : "ValueKey(" + t1.value + ")";
+      t2 = type$.String;
+      return new A.FlartElementNode("iframe", t1, A.LinkedHashMap_LinkedHashMap$_literal(["width", B.JSInt_methods.toString$0(_this.width), "height", B.JSInt_methods.toString$0(_this.height), "src", "https://www.youtube.com/embed/" + _this.videoId + paramString, "title", "YouTube video player", "frameborder", "0", "allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", "allowfullscreen", "true"], t2, t2), A.LinkedHashMap_LinkedHashMap$_literal(["border-radius", "8px"], t2, t2), null, null);
     }
   };
+  A.DateTimeRange.prototype = {};
   A.FDDateRangePicker.prototype = {
-    render$1(context) {
-      var startId = "daterange_start_" + 1000 * Date.now(),
-        endId = "daterange_end_" + 1000 * Date.now();
-      return string$.x20x20____ + (string$.x3clabel + this.label + "</label>") + '\n        \n        <div style="display: flex; gap: 8px; align-items: center;">\n          <input\n            type="date"\n            id="' + startId + '"\n            value=""\n            style="\n              padding: 8px 12px;\n              border: 1px solid #cccccc;\n              border-radius: 4px;\n              font-size: 14px;\n              \n            "\n          />\n          <span style="color: #666;">to</span>\n          <input\n            type="date"\n            id="' + endId + '"\n            value=""\n            style="\n              padding: 8px 12px;\n              border: 1px solid #cccccc;\n              border-radius: 4px;\n              font-size: 14px;\n              \n            "\n          />\n        </div>\n      </div>\n      \n      <script>\n        (function() {\n          const startInput = document.getElementById(\'' + startId + string$.x27_____ + endId + "');\n          \n          function handleChange() {\n            if (startInput.value && endInput.value) {\n              console.log('Date range:', startInput.value, 'to', endInput.value);\n            }\n          }\n          \n          startInput.addEventListener('change', handleChange);\n          endInput.addEventListener('change', handleChange);\n        })();\n      </script>\n    ";
+    createState$0() {
+      return new A._FDDateRangePickerState();
+    }
+  };
+  A._FDDateRangePickerState.prototype = {
+    initState$0() {
+      var t1, _this = this;
+      _this.super$State$initState();
+      t1 = _this.__State_widget_A;
+      t1 === $ && A.throwLateFieldNI("widget");
+      _this._start = t1.startDate;
+      _this._end = t1.endDate;
+    },
+    _formatDate$1(date) {
+      return "" + A.Primitives_getYear(date) + "-" + B.JSString_methods.padLeft$2(B.JSInt_methods.toString$0(A.Primitives_getMonth(date)), 2, "0") + "-" + B.JSString_methods.padLeft$2(B.JSInt_methods.toString$0(A.Primitives_getDay(date)), 2, "0");
+    },
+    _notify$0() {
+      var t2, t3, _this = this,
+        t1 = _this._start;
+      if (t1 != null) {
+        t2 = _this._end != null;
+        if (t2)
+          _this.__State_widget_A === $ && A.throwLateFieldNI("widget");
+      } else
+        t2 = false;
+      if (t2) {
+        t2 = _this.__State_widget_A;
+        t2 === $ && A.throwLateFieldNI("widget");
+        t3 = _this._end;
+        t3.toString;
+        t2.onChanged.call$1(new A.DateTimeRange(t1, t3));
+      }
+    },
+    build$1(context) {
+      var endValue, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, _this = this, _null = null,
+        _s10_ = "aria-label",
+        t1 = _this._start,
+        startValue = t1 != null ? _this._formatDate$1(t1) : "";
+      t1 = _this._end;
+      endValue = t1 != null ? _this._formatDate$1(t1) : "";
+      t1 = type$.String;
+      t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t2.$indexSet(0, "padding", "8px 12px");
+      t2.$indexSet(0, "border", "1px solid #cccccc");
+      t2.$indexSet(0, "border-radius", "4px");
+      t2.$indexSet(0, "font-size", "14px");
+      _this.__State_widget_A === $ && A.throwLateFieldNI("widget");
+      t3 = type$.JSArray_FlartNode;
+      t4 = A._setArrayType([], t3);
+      t4.push(new A.FlartElementNode("label", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "font-weight", "500", "color", "#333"], t1, t1), A._setArrayType([new A.FlartTextNode(_this.__State_widget_A.label)], t3), _null));
+      t5 = A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "gap", "8px", "align-items", "center"], t1, t1);
+      t6 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t6.$indexSet(0, "type", "date");
+      if (startValue.length !== 0)
+        t6.$indexSet(0, "value", startValue);
+      t6.$indexSet(0, _s10_, "Start Date");
+      t7 = type$.void_Function_JSObject;
+      t8 = A.LinkedHashMap_LinkedHashMap$_literal(["change", new A._FDDateRangePickerState_build_closure(_this)], t1, t7);
+      t9 = A.LinkedHashMap_LinkedHashMap$_literal(["color", "#666"], t1, t1);
+      t10 = A._setArrayType([new A.FlartTextNode("to")], t3);
+      t11 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t11.$indexSet(0, "type", "date");
+      if (endValue.length !== 0)
+        t11.$indexSet(0, "value", endValue);
+      t11.$indexSet(0, _s10_, "End Date");
+      t4.push(new A.FlartElementNode("div", _null, _null, t5, A._setArrayType([new A.FlartElementNode("input", _null, t6, t2, _null, t8), new A.FlartElementNode("span", _null, _null, t9, t10, _null), new A.FlartElementNode("input", _null, t11, t2, _null, A.LinkedHashMap_LinkedHashMap$_literal(["change", new A._FDDateRangePickerState_build_closure0(_this)], t1, t7))], t3), _null));
+      t2 = _this.__State_widget_A.key;
+      t2 = t2 == null ? _null : "ValueKey(" + t2.value + ")";
+      return new A._RawFlartNodeWidget(new A.FlartElementNode("div", t2, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "flex-direction", "column", "gap", "4px"], t1, t1), t4, _null), _null);
+    }
+  };
+  A._FDDateRangePickerState_build_closure.prototype = {
+    call$1(e) {
+      var parsed, t1,
+        target = A._asJSObjectQ(A._asJSObject(e).target);
+      if (target != null && A._asString(target.value).length !== 0) {
+        parsed = A.DateTime_tryParse(A._asString(target.value));
+        if (parsed != null) {
+          t1 = this.$this;
+          type$.void_Function._as(new A._FDDateRangePickerState_build__closure0(t1, parsed)).call$0();
+          t1._performScopedUpdate$0();
+          t1._notify$0();
+        }
+      }
+    },
+    $signature: 1
+  };
+  A._FDDateRangePickerState_build__closure0.prototype = {
+    call$0() {
+      this.$this._start = this.parsed;
+    },
+    $signature: 0
+  };
+  A._FDDateRangePickerState_build_closure0.prototype = {
+    call$1(e) {
+      var parsed, t1,
+        target = A._asJSObjectQ(A._asJSObject(e).target);
+      if (target != null && A._asString(target.value).length !== 0) {
+        parsed = A.DateTime_tryParse(A._asString(target.value));
+        if (parsed != null) {
+          t1 = this.$this;
+          type$.void_Function._as(new A._FDDateRangePickerState_build__closure(t1, parsed)).call$0();
+          t1._performScopedUpdate$0();
+          t1._notify$0();
+        }
+      }
+    },
+    $signature: 1
+  };
+  A._FDDateRangePickerState_build__closure.prototype = {
+    call$0() {
+      this.$this._end = this.parsed;
+    },
+    $signature: 0
+  };
+  A._RawFlartNodeWidget.prototype = {
+    buildNode$1(context) {
+      return this.node;
     }
   };
   A.DateTimePicker.prototype = {
-    render$1(context) {
-      var id = "datetimepicker_" + 1000 * Date.now();
-      return string$.x20x20____ + ('<label for="' + id + '" style="font-size: 14px; font-weight: 500; color: #333;">' + this.label + "</label>") + '\n        \n        <input\n          type="datetime-local"\n          id="' + id + '"\n          value=""\n          style="\n            padding: 8px 12px;\n            border: 1px solid #cccccc;\n            border-radius: 4px;\n            font-size: 14px;\n          "\n        />\n        \n        ' + ('<span style="font-size: 12px; color: #666;">' + this.helperText + "</span>") + "\n      </div>\n      \n      <script>\n        (function() {\n          const input = document.getElementById('" + id + "');\n          \n        })();\n      </script>\n    ";
+    buildNode$1(context) {
+      var t4, _this = this, _null = null,
+        t1 = type$.JSArray_FlartNode,
+        t2 = A._setArrayType([], t1),
+        t3 = type$.String;
+      t2.push(new A.FlartElementNode("label", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "font-weight", "500", "color", "#333"], t3, t3), A._setArrayType([new A.FlartTextNode(_this.label)], t1), _null));
+      t4 = A.LinkedHashMap_LinkedHashMap$_empty(t3, t3);
+      t4.$indexSet(0, "type", "datetime-local");
+      t2.push(new A.FlartElementNode("input", _null, t4, A.LinkedHashMap_LinkedHashMap$_literal(["padding", "8px 12px", "border", "1px solid #cccccc", "border-radius", "4px", "font-size", "14px"], t3, t3), _null, A.LinkedHashMap_LinkedHashMap$_literal(["change", new A.DateTimePicker_buildNode_closure(_this)], t3, type$.void_Function_JSObject)));
+      t2.push(new A.FlartElementNode("span", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "12px", "color", "#666"], t3, t3), A._setArrayType([new A.FlartTextNode(_this.helperText)], t1), _null));
+      t1 = _this.key;
+      t1 = t1 == null ? _null : "ValueKey(" + t1.value + ")";
+      return new A.FlartElementNode("div", t1, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "flex-direction", "column", "gap", "4px"], t3, t3), t2, _null);
     }
   };
+  A.DateTimePicker_buildNode_closure.prototype = {
+    call$1(e) {
+      var target = A._asJSObjectQ(A._asJSObject(e).target);
+      if (target != null && A._asString(target.value).length !== 0)
+        A.DateTime_tryParse(A._asString(target.value));
+    },
+    $signature: 1
+  };
   A.RangePicker.prototype = {
-    render$1(context) {
-      var _this = this,
-        _s19_ = '"\n            min="',
-        _s19_0 = '"\n            max="',
-        _s21_ = '"\n            value="',
-        startId = "range_start_" + 1000 * Date.now(),
-        endId = "range_end_" + 1000 * Date.now(),
-        displayId = "range_display_" + 1000 * Date.now(),
-        t1 = "" + _this.min,
-        t2 = "" + _this.max,
-        t3 = "" + _this.startValue,
-        t4 = "" + _this.endValue;
-      return '      <div style="display: flex; flex-direction: column; gap: 8px;">\n        ' + (string$.x3clabel + _this.label + "</label>") + '\n        \n        <div style="display: flex; gap: 12px; align-items: center;">\n          <input\n            type="range"\n            id="' + startId + _s19_ + t1 + _s19_0 + t2 + _s21_ + t3 + '"\n            style="flex: 1;"\n          />\n          <input\n            type="range"\n            id="' + endId + _s19_ + t1 + _s19_0 + t2 + _s21_ + t4 + '"\n            style="flex: 1;"\n          />\n        </div>\n        \n        <div id="' + displayId + '" style="font-size: 14px; color: #666; text-align: center;">\n          ' + t3 + " - " + t4 + "\n        </div>\n      </div>\n      \n      <script>\n        (function() {\n          const startInput = document.getElementById('" + startId + string$.x27_____ + endId + "');\n          const display = document.getElementById('" + displayId + "');\n          \n          function updateDisplay() {\n            display.textContent = startInput.value + ' - ' + endInput.value;\n            console.log('Range:', startInput.value, 'to', endInput.value);\n          }\n          \n          startInput.addEventListener('input', updateDisplay);\n          endInput.addEventListener('input', updateDisplay);\n        })();\n      </script>\n    ";
+    createState$0() {
+      return new A._RangePickerState();
     }
+  };
+  A._RangePickerState.prototype = {
+    initState$0() {
+      var t1, _this = this;
+      _this.super$State$initState();
+      t1 = _this.__State_widget_A;
+      t1 === $ && A.throwLateFieldNI("widget");
+      _this.___RangePickerState__start_A = t1.startValue;
+      _this.___RangePickerState__end_A = t1.endValue;
+    },
+    _notify$0() {
+      this.__State_widget_A === $ && A.throwLateFieldNI("widget");
+    },
+    build$1(context) {
+      var t3, t4, t5, t6, t7, t8, t9, t10, t11, _this = this, _null = null,
+        t1 = type$.JSArray_FlartNode,
+        t2 = A._setArrayType([], t1);
+      _this.__State_widget_A === $ && A.throwLateFieldNI("widget");
+      t3 = type$.String;
+      t2.push(new A.FlartElementNode("label", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "font-weight", "500", "color", "#333"], t3, t3), A._setArrayType([new A.FlartTextNode(_this.__State_widget_A.label)], t1), _null));
+      t4 = A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "gap", "12px", "align-items", "center"], t3, t3);
+      t5 = _this.__State_widget_A;
+      t6 = B.JSInt_methods.toString$0(t5.min);
+      t5 = B.JSInt_methods.toString$0(t5.max);
+      t7 = _this.___RangePickerState__start_A;
+      t7 === $ && A.throwLateFieldNI("_start");
+      t7 = A.LinkedHashMap_LinkedHashMap$_literal(["type", "range", "min", t6, "max", t5, "value", B.JSNumber_methods.toString$0(t7)], t3, t3);
+      t5 = A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1"], t3, t3);
+      t6 = type$.void_Function_JSObject;
+      t8 = A.LinkedHashMap_LinkedHashMap$_literal(["input", new A._RangePickerState_build_closure(_this)], t3, t6);
+      t9 = _this.__State_widget_A;
+      t10 = B.JSInt_methods.toString$0(t9.min);
+      t9 = B.JSInt_methods.toString$0(t9.max);
+      t11 = _this.___RangePickerState__end_A;
+      t11 === $ && A.throwLateFieldNI("_end");
+      t2.push(new A.FlartElementNode("div", _null, _null, t4, A._setArrayType([new A.FlartElementNode("input", _null, t7, t5, _null, t8), new A.FlartElementNode("input", _null, A.LinkedHashMap_LinkedHashMap$_literal(["type", "range", "min", t10, "max", t9, "value", B.JSNumber_methods.toString$0(t11)], t3, t3), A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1"], t3, t3), _null, A.LinkedHashMap_LinkedHashMap$_literal(["input", new A._RangePickerState_build_closure0(_this)], t3, t6))], t1), _null));
+      t2.push(new A.FlartElementNode("div", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "color", "#666", "text-align", "center"], t3, t3), A._setArrayType([new A.FlartTextNode(B.JSNumber_methods.toStringAsFixed$1(_this.___RangePickerState__start_A, 0) + " - " + B.JSNumber_methods.toStringAsFixed$1(_this.___RangePickerState__end_A, 0))], t1), _null));
+      t1 = _this.__State_widget_A.key;
+      t1 = t1 == null ? _null : "ValueKey(" + t1.value + ")";
+      return new A._RawFlartNodeWidget(new A.FlartElementNode("div", t1, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "flex-direction", "column", "gap", "8px"], t3, t3), t2, _null), _null);
+    }
+  };
+  A._RangePickerState_build_closure.prototype = {
+    call$1(e) {
+      var val, t1,
+        target = A._asJSObjectQ(A._asJSObject(e).target);
+      if (target != null) {
+        val = A.Primitives_parseDouble(A._asString(target.value));
+        if (val != null) {
+          t1 = this.$this;
+          type$.void_Function._as(new A._RangePickerState_build__closure0(t1, val)).call$0();
+          t1._performScopedUpdate$0();
+          t1._notify$0();
+        }
+      }
+    },
+    $signature: 1
+  };
+  A._RangePickerState_build__closure0.prototype = {
+    call$0() {
+      this.$this.___RangePickerState__start_A = this.val;
+    },
+    $signature: 0
+  };
+  A._RangePickerState_build_closure0.prototype = {
+    call$1(e) {
+      var val, t1,
+        target = A._asJSObjectQ(A._asJSObject(e).target);
+      if (target != null) {
+        val = A.Primitives_parseDouble(A._asString(target.value));
+        if (val != null) {
+          t1 = this.$this;
+          type$.void_Function._as(new A._RangePickerState_build__closure(t1, val)).call$0();
+          t1._performScopedUpdate$0();
+          t1._notify$0();
+        }
+      }
+    },
+    $signature: 1
+  };
+  A._RangePickerState_build__closure.prototype = {
+    call$0() {
+      this.$this.___RangePickerState__end_A = this.val;
+    },
+    $signature: 0
   };
   A.State.prototype = {
     initState$0() {
@@ -11059,7 +10967,7 @@
       return new A.FlartElementNode("div", stateKey, null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "contents"], t1, t1), A._setArrayType([childNode], type$.JSArray_FlartNode), null);
     },
     render$1(context) {
-      return '<div style="display: contents;">Legacy render fallback. Use buildNode.</div>';
+      return this.buildNode$1(context).toHtml$0();
     }
   };
   A.StatelessWidget.prototype = {
@@ -11085,8 +10993,8 @@
     }
   };
   A.FDCard.prototype = {
-    render$1(context) {
-      var t3, styleString,
+    buildNode$1(context) {
+      var t3, t4,
         theme = A.Theme_of(context),
         t1 = type$.String,
         t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
@@ -11095,91 +11003,96 @@
       t2.$indexSet(0, "border-radius", "4px");
       t2.$indexSet(0, "box-shadow", "0 1px 2px rgba(0,0,0,0.1), 0 0.5px 3px rgba(0,0,0,0.06)");
       t2.$indexSet(0, "padding", this.padding.toCss$0());
-      t3 = t2.$ti._eval$1("LinkedHashMapEntriesIterable<1,2>");
-      styleString = A.MappedIterable_MappedIterable(new A.LinkedHashMapEntriesIterable(t2, t3), t3._eval$1("String(Iterable.E)")._as(new A.FDCard_render_closure()), t3._eval$1("Iterable.E"), t1).join$1(0, " ");
-      t1 = this.child.render$1(context);
-      return '<div style="' + styleString + ' ">' + t1 + "</div>";
+      t3 = this.key;
+      t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
+      t1 = A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-card"], t1, t1);
+      t4 = A._setArrayType([this.child.buildNode$1(context)], type$.JSArray_FlartNode);
+      return new A.FlartElementNode("div", t3, t1, t2, t4, null);
     }
   };
-  A.FDCard_render_closure.prototype = {
-    call$1(e) {
-      type$.MapEntry_String_String._as(e);
-      return e.key + ": " + e.value + ";";
-    },
-    $signature: 1
+  A.FDBadge.prototype = {
+    buildNode$1(context) {
+      var t1, t2, children, t3;
+      A.Theme_of(context);
+      t1 = type$.String;
+      t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t2.$indexSet(0, "position", "relative");
+      t2.$indexSet(0, "display", "inline-block");
+      children = A._setArrayType([this.child.buildNode$1(context)], type$.JSArray_FlartNode);
+      t3 = this.key;
+      t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
+      return new A.FlartElementNode("div", t3, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-badge-container"], t1, t1), t2, children, null);
+    }
   };
   A.FDContainer.prototype = {
     buildNode$1(context) {
-      var t2, pairs, t3, _i, pair, parts, _this = this, _null = null,
-        t1 = type$.String;
-      t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
-      t2 = _this.width;
-      if (t2 != null)
-        t1.$indexSet(0, "width", t2 === 1 / 0 ? "100%" : A.S(t2) + "px");
-      t2 = _this.height;
-      if (t2 != null)
-        t1.$indexSet(0, "height", t2 === 1 / 0 ? "100%" : A.S(t2) + "px");
-      t2 = _this.padding;
-      if (t2 != null)
-        t1.$indexSet(0, "padding", t2.toCss$0());
-      t2 = _this.margin;
-      if (t2 != null)
-        t1.$indexSet(0, "margin", t2.toCss$0());
-      t2 = _this.decoration;
-      t2 = t2 == null ? _null : t2.toCss$0();
-      if (t2 != null)
-        t1.addAll$1(0, t2);
-      t2 = _this.cssStyle;
-      if (t2 != null)
-        t1.addAll$1(0, t2);
-      t2 = _this.rawCss;
-      if (t2 != null && t2.length !== 0) {
-        pairs = t2.split(";");
-        for (t2 = pairs.length, t3 = type$.JSArray_String, _i = 0; _i < t2; ++_i) {
-          pair = pairs[_i];
-          if (B.JSString_methods.trim$0(pair).length === 0)
-            continue;
-          parts = A._setArrayType(pair.split(":"), t3);
-          if (parts.length >= 2)
-            t1.$indexSet(0, B.JSString_methods.trim$0(parts[0]), B.JSString_methods.trim$0(B.JSArray_methods.join$1(B.JSArray_methods.sublist$1(parts, 1), ":")));
-        }
+      var t1, t2, t3, events, t4, _this = this, _null = null,
+        effectiveDecoration = _this.decoration;
+      if (effectiveDecoration == null)
+        effectiveDecoration = _null;
+      t1 = type$.String;
+      t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t3 = _this.width;
+      if (t3 != null)
+        t2.$indexSet(0, "width", t3 === 1 / 0 ? "100%" : A.S(t3) + "px");
+      t3 = _this.height;
+      if (t3 != null)
+        t2.$indexSet(0, "height", t3 === 1 / 0 ? "100%" : A.S(t3) + "px");
+      t3 = _this.padding;
+      if (t3 != null)
+        t2.$indexSet(0, "padding", t3.toCss$0());
+      t3 = _this.margin;
+      if (t3 != null)
+        t2.$indexSet(0, "margin", t3.toCss$0());
+      t3 = effectiveDecoration == null ? _null : effectiveDecoration.toCss$0();
+      if (t3 != null)
+        t2.addAll$1(0, t3);
+      t3 = _this.cssStyle;
+      if (t3 != null)
+        t2.addAll$1(0, t3);
+      events = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_dynamic);
+      t1 = _this.id;
+      if (t1 == null) {
+        t1 = _this.key;
+        t1 = t1 == null ? _null : "ValueKey(" + t1.value + ")";
       }
-      t2 = _this.child;
-      return new A.FlartElementNode("div", _null, _null, t1, t2 != null ? A._setArrayType([t2.buildNode$1(context)], type$.JSArray_FlartNode) : _null, _null);
+      t3 = events.__js_helper$_length !== 0 ? events : _null;
+      t4 = _this.child;
+      return new A.FlartElementNode("div", t1, _null, t2, t4 != null ? A._setArrayType([t4.buildNode$1(context)], type$.JSArray_FlartNode) : _null, t3);
     }
   };
   A.FDDialog.prototype = {
-    render$1(context) {
-      var t1 = this.child.render$1(context);
-      return '      <div style="\n        background-color: #ffffff; \n        padding: 40px 40px 40px 40px;\n        border-radius: 4px; \n        box-shadow: 0 11px 15px -7px rgba(0,0,0,0.2), 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12);\n        max-width: 80%;\n        max-height: 80%;\n        overflow: auto;\n        display: flex;\n        flex-direction: column;\n        pointer-events: auto;\n        \n      ">\n        ' + t1 + "\n      </div>\n    ";
+    buildNode$1(context) {
+      var t2,
+        t1 = type$.String,
+        styles = A.LinkedHashMap_LinkedHashMap$_literal(["background-color", "#ffffff", "padding", B.EdgeInsets_40_40_40_40.toCss$0(), "border-radius", "4px", "box-shadow", "0 11px 15px -7px rgba(0,0,0,0.2), 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12)", "max-width", "80%", "max-height", "80%", "overflow", "auto", "display", "flex", "flex-direction", "column", "pointer-events", "auto", "box-sizing", "border-box"], t1, t1);
+      t1 = this.key;
+      t1 = t1 == null ? null : "ValueKey(" + t1.value + ")";
+      t2 = A._setArrayType([this.child.buildNode$1(context)], type$.JSArray_FlartNode);
+      return new A.FlartElementNode("div", t1, null, styles, t2, null);
     }
   };
   A.FDDivider.prototype = {
-    render$1(context) {
-      var t3, styleString,
+    buildNode$1(context) {
+      var t2, _this = this, _null = null,
         theme = A.Theme_of(context),
-        t1 = type$.String,
-        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
-      t2.$indexSet(0, "height", "" + this.thickness + "px");
-      t2.$indexSet(0, "width", "100%");
-      t3 = this.color;
-      t3 = t3 == null ? null : t3.hex;
-      t2.$indexSet(0, "background-color", t3 == null ? theme.dividerColor.hex : t3);
-      t2.$indexSet(0, "border", "none");
-      t2.$indexSet(0, "display", "block");
-      t2.$indexSet(0, "margin-left", "0px");
-      t2.$indexSet(0, "margin-right", "0px");
-      t3 = t2.$ti._eval$1("LinkedHashMapEntriesIterable<1,2>");
-      styleString = A.MappedIterable_MappedIterable(new A.LinkedHashMapEntriesIterable(t2, t3), t3._eval$1("String(Iterable.E)")._as(new A.FDDivider_render_closure()), t3._eval$1("Iterable.E"), t1).join$1(0, " ");
-      return '<hr style="' + styleString + ' " />';
+        t1 = type$.String;
+      t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t1.$indexSet(0, "height", "" + _this.thickness + "px");
+      t1.$indexSet(0, "width", "100%");
+      t2 = _this.color;
+      t2 = t2 == null ? _null : t2.hex;
+      t1.$indexSet(0, "background-color", t2 == null ? theme.dividerColor.hex : t2);
+      t1.$indexSet(0, "border", "none");
+      t1.$indexSet(0, "display", "block");
+      t1.$indexSet(0, "margin-left", "0px");
+      t1.$indexSet(0, "margin-right", "0px");
+      t2 = _this.margin;
+      if (t2 != null)
+        t1.$indexSet(0, "margin", t2.toCss$0());
+      t2 = _this.key;
+      return new A.FlartElementNode("hr", t2 == null ? _null : "ValueKey(" + t2.value + ")", _null, t1, _null, _null);
     }
-  };
-  A.FDDivider_render_closure.prototype = {
-    call$1(e) {
-      type$.MapEntry_String_String._as(e);
-      return e.key + ": " + e.value + ";";
-    },
-    $signature: 1
   };
   A.FDDrawer.prototype = {
     render$1(context) {
@@ -11200,7 +11113,7 @@
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value + ";";
     },
-    $signature: 1
+    $signature: 2
   };
   A.FDExpanded.prototype = {
     buildNode$1(context) {
@@ -11238,11 +11151,17 @@
       var _null = null;
       return new A.FlartElementNode("div", _null, _null, _null, A._setArrayType([type$.Widget._as(child).buildNode$1(this.context)], type$.JSArray_FlartNode), _null);
     },
-    $signature: 27
+    $signature: 28
   };
   A.FDIcon.prototype = {
-    render$1(context) {
-      return '      <i class="material-icons" style="font-size: ' + this.size + "px; color: " + this.color.hex + '; user-select: none;" >\n        ' + this.icon + "\n      </i>\n    ";
+    buildNode$1(context) {
+      var t2, t3, _this = this,
+        t1 = _this.key;
+      t1 = t1 == null ? null : "ValueKey(" + t1.value + ")";
+      t2 = type$.String;
+      t3 = A.LinkedHashMap_LinkedHashMap$_empty(t2, t2);
+      t3.$indexSet(0, "class", "material-icons");
+      return new A.FlartElementNode("i", t1, t3, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "" + _this.size + "px", "color", _this.color.hex, "user-select", "none", "display", "inline-flex", "align-items", "center", "justify-content", "center"], t2, t2), A._setArrayType([new A.FlartTextNode(_this.icon)], type$.JSArray_FlartNode), null);
     }
   };
   A.ImageLoading.prototype = {
@@ -11251,17 +11170,17 @@
     }
   };
   A.FDImage.prototype = {
-    render$1(context) {
-      var t3, style, _this = this,
+    buildNode$1(context) {
+      var t3, _this = this,
         t1 = type$.String,
         t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
       t2.$indexSet(0, "width", "" + _this.width + "px");
       t2.$indexSet(0, "height", "" + _this.height + "px");
       t2.$indexSet(0, "object-fit", _this._boxFitToCss$1(_this.fit));
       t2.addAll$1(0, _this.cssStyle);
-      t3 = t2.$ti._eval$1("LinkedHashMapEntriesIterable<1,2>");
-      style = A.MappedIterable_MappedIterable(new A.LinkedHashMapEntriesIterable(t2, t3), t3._eval$1("String(Iterable.E)")._as(new A.FDImage_render_closure()), t3._eval$1("Iterable.E"), t1).join$1(0, " ");
-      return '      <img src="' + _this.src + '" alt="" style="' + style + ' " loading="lazy" />\n    ';
+      t3 = _this.key;
+      t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
+      return new A.FlartElementNode("img", t3, A.LinkedHashMap_LinkedHashMap$_literal(["src", _this.src, "alt", "", "loading", "lazy"], t1, t1), t2, null, null);
     },
     _boxFitToCss$1(fit) {
       switch (fit.index) {
@@ -11278,10 +11197,46 @@
       }
     }
   };
-  A.FDImage_render_closure.prototype = {
-    call$1(e) {
-      type$.MapEntry_String_String._as(e);
-      return e.key + ": " + e.value + ";";
+  A.FDListTile.prototype = {
+    buildNode$1(context) {
+      var t3, children, textChildren, t4, _this = this, _null = null, _s3_ = "div",
+        theme = A.Theme_of(context),
+        pad = new A.EdgeInsets(8, 16, 8, 16),
+        t1 = type$.String,
+        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t2.$indexSet(0, "display", "flex");
+      t2.$indexSet(0, "align-items", "center");
+      t2.$indexSet(0, "padding", pad.toCss$0());
+      t2.$indexSet(0, "background-color", "transparent");
+      t2.$indexSet(0, "min-height", "48px");
+      t2.$indexSet(0, "cursor", "pointer");
+      t2.$indexSet(0, "user-select", "none");
+      t2.$indexSet(0, "transition", "background-color 0.2s");
+      t2.$indexSet(0, "box-sizing", "border-box");
+      t3 = type$.JSArray_FlartNode;
+      children = A._setArrayType([], t3);
+      B.JSArray_methods.add$1(children, new A.FlartElementNode(_s3_, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "align-items", "center", "justify-content", "center", "margin-right", "16px", "flex-shrink", "0"], t1, t1), A._setArrayType([_this.leading.buildNode$1(context)], t3), _null));
+      textChildren = A._setArrayType([], t3);
+      t4 = theme.textStyle.color;
+      t4 = t4 == null ? _null : t4.hex;
+      if (t4 == null)
+        t4 = "#212121";
+      B.JSArray_methods.add$1(textChildren, new A.FlartElementNode(_s3_, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "16px", "font-weight", "500", "color", t4, "line-height", "1.3"], t1, t1), A._setArrayType([_this.title.buildNode$1(context)], t3), _null));
+      B.JSArray_methods.add$1(textChildren, new A.FlartElementNode(_s3_, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "color", "#757575", "margin-top", "2px", "line-height", "1.3"], t1, t1), A._setArrayType([_this.subtitle.buildNode$1(context)], t3), _null));
+      B.JSArray_methods.add$1(children, new A.FlartElementNode(_s3_, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1", "min-width", "0", "display", "flex", "flex-direction", "column", "justify-content", "center"], t1, t1), textChildren, _null));
+      B.JSArray_methods.add$1(children, new A.FlartElementNode(_s3_, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "align-items", "center", "justify-content", "center", "margin-left", "16px", "flex-shrink", "0"], t1, t1), A._setArrayType([_this.trailing.buildNode$1(context)], t3), _null));
+      t3 = _this.key;
+      t3 = t3 == null ? _null : "ValueKey(" + t3.value + ")";
+      t4 = A.LinkedHashMap_LinkedHashMap$_literal(["role", "listitem", "class", "flart-list-tile"], t1, t1);
+      t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_JSObject);
+      t1.$indexSet(0, "click", new A.FDListTile_buildNode_closure(_this));
+      return new A.FlartElementNode(_s3_, t3, t4, t2, children, t1);
+    }
+  };
+  A.FDListTile_buildNode_closure.prototype = {
+    call$1(_) {
+      A._asJSObject(_);
+      return this.$this.onTap.call$0();
     },
     $signature: 1
   };
@@ -11365,12 +11320,27 @@
     }
   };
   A.FDCircularProgressIndicator.prototype = {
-    render$1(context) {
-      var theme = A.Theme_of(context),
-        t1 = Date.now(),
-        mainColor = this.color.hex,
-        t2 = "" + this.size;
-      return '      <div id="' + ("progress_" + 1000 * t1) + '" style="\n        width: ' + t2 + "px;\n        height: " + t2 + "px;\n        border: " + this.strokeWidth + "px solid " + theme.dividerColor.hex + ";\n        border-top-color: " + mainColor + ';\n        border-radius: 50%;\n        animation: spin 1s linear infinite;\n      "></div>\n      <style>\n        @keyframes spin {\n          to { transform: rotate(360deg); }\n        }\n      </style>\n    ';
+    buildNode$1(context) {
+      var _this = this,
+        theme = A.Theme_of(context),
+        mainColor = _this.color.hex,
+        t1 = type$.String,
+        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1),
+        t3 = "" + _this.size + "px";
+      t2.$indexSet(0, "width", t3);
+      t2.$indexSet(0, "height", t3);
+      t2.$indexSet(0, "border", "" + _this.strokeWidth + "px solid " + theme.dividerColor.hex);
+      t2.$indexSet(0, "border-top-color", mainColor);
+      t2.$indexSet(0, "border-radius", "50%");
+      t2.$indexSet(0, "display", "inline-block");
+      t2.$indexSet(0, "box-sizing", "border-box");
+      t2.$indexSet(0, "animation", "flart-spin 1s linear infinite");
+      t3 = _this.key;
+      t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
+      t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t1.$indexSet(0, "class", "flart-circular-progress");
+      t1.$indexSet(0, "role", "progressbar");
+      return new A.FlartElementNode("div", t3, t1, t2, A._setArrayType([new A.FlartRawHtmlNode("      <style>\n        @keyframes flart-spin {\n          to { transform: rotate(360deg); }\n        }\n      </style>\n    ")], type$.JSArray_FlartNode), null);
     }
   };
   A.FDScaffold.prototype = {
@@ -11425,81 +11395,85 @@
     }
   };
   A.FDSkeleton.prototype = {
-    render$1(context) {
-      var t2, t3, styleString,
-        theme = A.Theme_of(context),
-        id = "skeleton_" + 1000 * Date.now(),
-        t1 = theme.isDark,
+    buildNode$1(context) {
+      var t2, t3, _this = this, _null = null,
+        t1 = A.Theme_of(context).isDark,
         baseColor = t1 ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.08)",
         highlightColor = t1 ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0.5)";
       t1 = type$.String;
       t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
       t2.$indexSet(0, "display", "inline-block");
-      t2.$indexSet(0, "width", "" + this.width + "px");
-      t2.$indexSet(0, "height", "" + this.height + "px");
+      t2.$indexSet(0, "width", "" + _this.width + "px");
+      t2.$indexSet(0, "height", "" + _this.height + "px");
       t2.$indexSet(0, "background-color", baseColor);
       t2.$indexSet(0, "position", "relative");
       t2.$indexSet(0, "overflow", "hidden");
-      t3 = this.borderRadius;
+      t3 = _this.borderRadius;
       t2.$indexSet(0, "border-radius", "" + t3.topLeft + "px " + t3.topRight + "px " + t3.bottomRight + "px " + t3.bottomLeft + "px");
-      t3 = t2.$ti._eval$1("LinkedHashMapEntriesIterable<1,2>");
-      styleString = A.MappedIterable_MappedIterable(new A.LinkedHashMapEntriesIterable(t2, t3), t3._eval$1("String(Iterable.E)")._as(new A.FDSkeleton_render_closure()), t3._eval$1("Iterable.E"), t1).join$1(0, " ");
-      return '      <div id="' + id + '" class="flart-skeleton" style="' + styleString + ' ">\n        <div class="flart-shimmer"></div>\n      </div>\n      <style>\n        #' + id + " .flart-shimmer {\n          position: absolute;\n          top: 0;\n          left: -100%;\n          width: 200%;\n          height: 100%;\n          background: linear-gradient(\n            90deg, \n            transparent 0%, \n            " + highlightColor + " 50%, \n            transparent 100%\n          );\n          animation: flart-shimmer-anim 1.5s infinite;\n        }\n        @keyframes flart-shimmer-anim {\n          0% { transform: translateX(-50%); }\n          100% { transform: translateX(50%); }\n        }\n      </style>\n    ";
+      t3 = _this.key;
+      t3 = t3 == null ? _null : "ValueKey(" + t3.value + ")";
+      return new A.FlartElementNode("div", t3, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-skeleton"], t1, t1), t2, A._setArrayType([new A.FlartRawHtmlNode("      <style>\n        .flart-skeleton .flart-shimmer {\n          position: absolute;\n          top: 0;\n          left: -100%;\n          width: 200%;\n          height: 100%;\n          background: linear-gradient(\n            90deg, \n            transparent 0%, \n            " + highlightColor + " 50%, \n            transparent 100%\n          );\n          animation: flart-shimmer-anim 1.5s infinite;\n        }\n        @keyframes flart-shimmer-anim {\n          0% { transform: translateX(-50%); }\n          100% { transform: translateX(50%); }\n        }\n      </style>\n    "), new A.FlartElementNode("div", _null, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-shimmer"], t1, t1), _null, _null, _null)], type$.JSArray_FlartNode), _null);
     }
-  };
-  A.FDSkeleton_render_closure.prototype = {
-    call$1(e) {
-      type$.MapEntry_String_String._as(e);
-      return e.key + ": " + e.value + ";";
-    },
-    $signature: 1
   };
   A.FDTabBar.prototype = {
-    render$1(context) {
-      var t1, selected, t2, t3, t4,
+    buildNode$1(context) {
+      var t3, children, t4, t5, t6, i, tab, isSelected, tabEvents, tabChildren, t7, t8, t9, _this = this, _null = null,
         theme = A.Theme_of(context),
-        themeColor = theme.textStyle.color;
-      themeColor = themeColor instanceof A.FlartColor ? themeColor : B.FlartColor_hwE;
-      t1 = Date.now();
-      selected = theme.primaryColor.hex;
-      t2 = themeColor.lerp$2(B.FlartMaterialColor_qTw, 0.4);
-      t3 = theme.dividerColor.toString$0(0);
-      t4 = this.tabs;
-      return '      <div id="' + ("tabbar_" + 1000 * t1) + '" style="\n        display: flex;\n        border-bottom: 2px solid ' + t3 + ';\n        transition: border-color 0.3s;\n        position: relative;\n        \n      ">\n        ' + new A.ListMapView(t4, A._arrayInstanceType(t4)._eval$1("ListMapView<1>")).get$entries().map$1$1(0, new A.FDTabBar_render_closure(this, selected, t2.hex, context, selected), type$.String).join$0(0) + "\n      </div>\n    ";
+        themeColor = theme.textStyle.color,
+        selected = theme.primaryColor.hex,
+        unselected = themeColor instanceof A.FlartColor ? themeColor.lerp$2(B.FlartMaterialColor_qTw, 0.4).hex : "#9E9E9E",
+        t1 = type$.String,
+        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t2.$indexSet(0, "display", "flex");
+      t2.$indexSet(0, "border-bottom", "2px solid " + theme.dividerColor.toString$0(0));
+      t2.$indexSet(0, "transition", "border-color 0.3s");
+      t2.$indexSet(0, "position", "relative");
+      t2.$indexSet(0, "width", "100%");
+      t3 = type$.JSArray_FlartNode;
+      children = A._setArrayType([], t3);
+      for (t4 = _this.tabs, t5 = _this.currentIndex, t6 = type$.void_Function_dynamic, i = 0; i < 3; ++i) {
+        tab = t4[i];
+        isSelected = i === t5;
+        tabEvents = A.LinkedHashMap_LinkedHashMap$_empty(t1, t6);
+        tabEvents.$indexSet(0, "click", new A.FDTabBar_buildNode_closure(_this, i));
+        tabChildren = A._setArrayType([tab.buildNode$1(context)], t3);
+        if (isSelected)
+          B.JSArray_methods.add$1(tabChildren, new A.FlartElementNode("div", _null, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-tab-indicator"], t1, t1), A.LinkedHashMap_LinkedHashMap$_literal(["position", "absolute", "bottom", "-2px", "left", "0", "right", "0", "height", "2px", "background-color", selected], t1, t1), _null, _null));
+        t7 = "" + i;
+        t8 = isSelected ? " selected" : "";
+        t9 = isSelected ? "true" : "false";
+        t9 = A.LinkedHashMap_LinkedHashMap$_literal(["class", "tab-item" + t8, "data-index", t7, "role", "tab", "aria-selected", t9], t1, t1);
+        t8 = isSelected ? selected : unselected;
+        B.JSArray_methods.add$1(children, new A.FlartElementNode("div", "tab-item-" + t7, t9, A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1", "padding", "12px 16px", "text-align", "center", "cursor", "pointer", "color", t8, "font-weight", isSelected ? "bold" : "normal", "position", "relative", "transition", "color 0.3s", "user-select", "none"], t1, t1), tabChildren, tabEvents));
+      }
+      t3 = _this.key;
+      t3 = t3 == null ? _null : "ValueKey(" + t3.value + ")";
+      return new A.FlartElementNode("div", t3, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-tab-bar", "role", "tablist"], t1, t1), t2, children, _null);
     }
   };
-  A.FDTabBar_render_closure.prototype = {
-    call$1(entry) {
-      var index, t1, isSelected, cbId, t2, t3, t4, _this = this;
-      type$.MapEntry_int_Widget._as(entry);
-      index = entry.key;
-      t1 = _this.$this;
-      isSelected = index === t1.currentIndex;
-      cbId = A.FlartCallbackManager_register(new A.FDTabBar_render__closure(t1, index));
-      t1 = isSelected ? _this.selected : _this.unselected;
-      t2 = isSelected ? "bold" : "normal";
-      t3 = entry.value.render$1(_this.context);
-      t4 = isSelected ? '                <div style="\n                  position: absolute;\n                  bottom: -2px;\n                  left: 0;\n                  right: 0;\n                  height: 2px;\n                  background-color: ' + _this.indicator + ';\n                "></div>\n              ' : "";
-      return '            <div \n              class="tab-item" \n              data-index="' + index + '"\n              style="\n                flex: 1;\n                padding: 12px 16px;\n                text-align: center;\n                cursor: pointer;\n                color: ' + t1 + ";\n                font-weight: " + t2 + ';\n                position: relative;\n                transition: color 0.3s;\n              "\n              ' + ("onclick=\"window.__flartHandleClick('" + cbId + "')\"") + "\n            >\n              " + t3 + "\n              " + t4 + "\n            </div>\n          ";
+  A.FDTabBar_buildNode_closure.prototype = {
+    call$1(e) {
+      return this.$this.onTap.call$1(this.i);
     },
-    $signature: 28
-  };
-  A.FDTabBar_render__closure.prototype = {
-    call$0() {
-      return this.$this.onTap.call$1(this.index);
-    },
-    $signature: 0
+    $signature: 3
   };
   A.FDTabBarView.prototype = {
-    render$1(context) {
-      var t2,
+    buildNode$1(context) {
+      var t2, t3, t4, t5, _null = null,
         t1 = this.currentIndex;
-      if (t1 < 0 || t1 >= 3)
-        return "<div>Invalid tab index</div>";
-      t2 = this.children;
-      if (!(t1 >= 0 && t1 < 3))
-        return A.ioore(t2, t1);
-      return '      <div style="padding: 16px; ">\n        ' + t2[t1].render$1(context) + "\n      </div>\n    ";
+      if (t1 >= 3)
+        return new A.FlartElementNode("div", _null, _null, _null, A._setArrayType([new A.FlartTextNode("Invalid tab index")], type$.JSArray_FlartNode), _null);
+      t2 = type$.String;
+      t3 = A.LinkedHashMap_LinkedHashMap$_empty(t2, t2);
+      t3.$indexSet(0, "padding", "16px");
+      t3.$indexSet(0, "width", "100%");
+      t4 = this.key;
+      t4 = t4 == null ? _null : "ValueKey(" + t4.value + ")";
+      t2 = A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-tab-view", "role", "tabpanel"], t2, t2);
+      t5 = this.children;
+      if (!(t1 < 3))
+        return A.ioore(t5, t1);
+      return new A.FlartElementNode("div", t4, t2, t3, A._setArrayType([t5[t1].buildNode$1(context)], type$.JSArray_FlartNode), _null);
     }
   };
   A.FDEditableText.prototype = {
@@ -11534,7 +11508,7 @@
       this._performScopedUpdate$0();
     },
     build$1(context) {
-      var t2, t3, t4, t5, _this = this, _null = null,
+      var t2, t3, t4, _this = this, _null = null,
         theme = A.Theme_of(context),
         t1 = _this.__State_widget_A;
       t1 === $ && A.throwLateFieldNI("widget");
@@ -11554,21 +11528,15 @@
       t3.$indexSet(0, "width", "100%");
       t3.$indexSet(0, "box-sizing", "border-box");
       t3.$indexSet(0, "background", "transparent");
-      t1 = t3.$ti._eval$1("LinkedHashMapEntriesIterable<1,2>");
-      A.MappedIterable_MappedIterable(new A.LinkedHashMapEntriesIterable(t3, t1), t1._eval$1("String(Iterable.E)")._as(new A._FDEditableTextState_build_closure()), t1._eval$1("Iterable.E"), t2).join$1(0, " ");
-      A.FlartCallbackManager_registerEvent(new A._FDEditableTextState_build_closure0(_this));
-      A.FlartCallbackManager_registerEvent(new A._FDEditableTextState_build_closure1(_this));
-      t1 = type$.dynamic_Function_dynamic;
-      A.LinkedHashMap_LinkedHashMap$_literal(["input", new A._FDEditableTextState_build_closure2(), "keydown", new A._FDEditableTextState_build_closure3()], t2, t1);
-      t4 = A.LinkedHashMap_LinkedHashMap$_empty(t2, t2);
-      t5 = _this.___FDEditableTextState__inputId_A;
-      t5 === $ && A.throwLateFieldNI("_inputId");
-      t4.$indexSet(0, "id", t5);
-      t4.$indexSet(0, "type", "text");
-      t4.$indexSet(0, "placeholder", _this.__State_widget_A.placeholder);
-      t5 = _this.__State_widget_A;
-      t4.$indexSet(0, "value", t5.controller._text);
-      return new A.FDElement("input", _null, t4, t3, A.LinkedHashMap_LinkedHashMap$_literal(["input", new A._FDEditableTextState_build_closure4(_this), "keydown", new A._FDEditableTextState_build_closure5(_this)], t2, t1), _null, _null);
+      t1 = A.LinkedHashMap_LinkedHashMap$_empty(t2, t2);
+      t4 = _this.___FDEditableTextState__inputId_A;
+      t4 === $ && A.throwLateFieldNI("_inputId");
+      t1.$indexSet(0, "id", t4);
+      t1.$indexSet(0, "type", "text");
+      t1.$indexSet(0, "placeholder", _this.__State_widget_A.placeholder);
+      t4 = _this.__State_widget_A;
+      t1.$indexSet(0, "value", t4.controller._text);
+      return new A.FDElement("input", _null, t1, t3, A.LinkedHashMap_LinkedHashMap$_literal(["input", new A._FDEditableTextState_build_closure(_this), "keydown", new A._FDEditableTextState_build_closure0(_this)], t2, type$.void_Function_JSObject), _null, _null);
     }
   };
   A._FDEditableTextState__handleControllerChanged_closure.prototype = {
@@ -11578,64 +11546,34 @@
   };
   A._FDEditableTextState_build_closure.prototype = {
     call$1(e) {
-      type$.MapEntry_String_String._as(e);
-      return e.key + ": " + e.value + ";";
+      var value, t1, t2,
+        target = A._asJSObjectQ(A._asJSObject(e).target);
+      if (target != null) {
+        value = A._asString(target.value);
+        t1 = this.$this;
+        t2 = t1.__State_widget_A;
+        t2 === $ && A.throwLateFieldNI("widget");
+        t2 = t2.controller;
+        if (t2._text !== value) {
+          t2.set$text(value);
+          t1.__State_widget_A.onChanged.call$1(value);
+        }
+      }
     },
     $signature: 1
   };
   A._FDEditableTextState_build_closure0.prototype = {
-    call$1(val) {
-      var newVal = J.toString$0$(val),
-        t1 = this.$this,
-        t2 = t1.__State_widget_A;
-      t2 === $ && A.throwLateFieldNI("widget");
-      t2 = t2.controller;
-      if (t2._text !== newVal) {
-        t2.set$text(newVal);
-        t1.__State_widget_A.onChanged.call$1(newVal);
-      }
-    },
-    $signature: 3
-  };
-  A._FDEditableTextState_build_closure1.prototype = {
-    call$1(val) {
-      this.$this.__State_widget_A === $ && A.throwLateFieldNI("widget");
-    },
-    $signature: 3
-  };
-  A._FDEditableTextState_build_closure2.prototype = {
-    call$1(e) {
-    },
-    $signature: 2
-  };
-  A._FDEditableTextState_build_closure3.prototype = {
-    call$1(e) {
-    },
-    $signature: 2
-  };
-  A._FDEditableTextState_build_closure4.prototype = {
-    call$1(e) {
-      var value = e.get$target().get$value(),
-        t1 = this.$this,
-        t2 = t1.__State_widget_A;
-      t2 === $ && A.throwLateFieldNI("widget");
-      t2.controller.set$text(value);
-      t1 = t1.__State_widget_A;
-      t1.onChanged.call$1(value);
-    },
-    $signature: 2
-  };
-  A._FDEditableTextState_build_closure5.prototype = {
     call$1(e) {
       var target;
-      if (J.$eq$(e.get$key(), "Enter")) {
-        target = e.get$target();
-        target.get$value();
+      A._asJSObject(e);
+      target = A._asJSObjectQ(e.target);
+      if (A._asString(e.key) === "Enter" && target != null) {
+        A._asString(target.value);
         this.$this.__State_widget_A === $ && A.throwLateFieldNI("widget");
-        target.blur$0();
+        target.blur();
       }
     },
-    $signature: 2
+    $signature: 1
   };
   A.FDText.prototype = {
     buildNode$1(context) {
@@ -11651,37 +11589,42 @@
     }
   };
   A.FDTextButton.prototype = {
-    render$1(context) {
-      var t3, styleString,
-        id = "text_btn_" + Date.now(),
-        pressId = A.FlartCallbackManager_register(this.onPressed),
+    buildNode$1(context) {
+      var t3, children, events, _this = this, _s4_ = "none",
+        theme = A.Theme_of(context),
         t1 = type$.String,
         t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
-      t2.$indexSet(0, "background", "none");
-      t2.$indexSet(0, "border", "none");
-      t2.$indexSet(0, "color", "inherit");
-      t2.$indexSet(0, "font-size", "inherit");
+      t2.$indexSet(0, "background", _s4_);
+      t2.$indexSet(0, "border", _s4_);
+      t2.$indexSet(0, "color", theme.primaryColor.hex);
+      t2.$indexSet(0, "font-size", "14px");
+      t2.$indexSet(0, "font-weight", "500");
       t2.$indexSet(0, "cursor", "pointer");
-      t2.$indexSet(0, "padding", "4px 8px");
+      t2.$indexSet(0, "padding", "8px 12px");
+      t2.$indexSet(0, "border-radius", "4px");
       t2.$indexSet(0, "transition", "all 0.2s ease-in-out");
-      t2.$indexSet(0, "text-decoration", "underline");
-      t3 = this.cssStyle;
+      t2.$indexSet(0, "outline", _s4_);
+      t2.$indexSet(0, "user-select", _s4_);
+      t3 = _this.cssStyle;
       if (t3 != null)
         t2.addAll$1(0, t3);
-      t3 = t2.$ti._eval$1("LinkedHashMapEntriesIterable<1,2>");
-      styleString = A.MappedIterable_MappedIterable(new A.LinkedHashMapEntriesIterable(t2, t3), t3._eval$1("String(Iterable.E)")._as(new A.FDTextButton_render_closure()), t3._eval$1("Iterable.E"), t1).join$1(0, " ");
-      t1 = this.child.render$1(context);
-      if (t1 == null)
-        t1 = "";
-      return '      <button id="' + id + '" style="' + styleString + ' ">\n        ' + t1 + "\n      </button>\n      <script>\n        document.getElementById('" + id + "').addEventListener('click', () => {\n          " + ("__flartHandleClick('" + pressId + "')") + "\n        });\n      </script>\n    ";
+      children = A._setArrayType([], type$.JSArray_FlartNode);
+      B.JSArray_methods.add$1(children, _this.child.buildNode$1(context));
+      events = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_dynamic);
+      events.$indexSet(0, "click", new A.FDTextButton_buildNode_closure(_this));
+      t3 = _this.key;
+      t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
+      t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t1.$indexSet(0, "type", "button");
+      t1.$indexSet(0, "class", "flart-text-button");
+      return new A.FlartElementNode("button", t3, t1, t2, children, events);
     }
   };
-  A.FDTextButton_render_closure.prototype = {
-    call$1(e) {
-      type$.MapEntry_String_String._as(e);
-      return e.key + ": " + e.value + ";";
+  A.FDTextButton_buildNode_closure.prototype = {
+    call$1(_) {
+      return this.$this.onPressed.call$0();
     },
-    $signature: 1
+    $signature: 3
   };
   A.BuildContext.prototype = {
     copyWith$3$inheritedWidgets$states$widget(inheritedWidgets, states, widget) {
@@ -11722,7 +11665,7 @@
     call$1(child) {
       return type$.Widget._as(child).buildNode$1(this.context);
     },
-    $signature: 7
+    $signature: 4
   };
   A.Widget.prototype = {
     render$1(context) {
@@ -11739,9 +11682,6 @@
     },
     buildNode$1(context) {
       return new A.FlartRawHtmlNode(this.render$1(context));
-    },
-    get$key() {
-      return this.key;
     }
   };
   A.AnimationShowcase.prototype = {
@@ -11770,7 +11710,7 @@
         t6.$indexSet(0, "box-shadow", "0 10px 20px rgba(16, 185, 129, 0.5)");
       t7 = _this._isExpanded ? "Expanded!" : "Tap Button";
       t8 = type$.JSArray_Widget;
-      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDAnimatedContainer", "A container that gradually changes its values over a period of time.", A.FDColumn$(A._setArrayType([new A.FDContainer(new A.FDCenter(A.FDText$(t7, new A.TextStyle(new A.FlartColor(_s7_), _null, B.FontWeight_bold)), _null), _null, _null, _null, _null, _null, t6, _null, _null), A.FDSizedBox$(24, _null), A.FDElevatedButton$(new A.FDIcon(_s8_, 40, new A.FlartColor(_s7_), _null), A.LinkedHashMap_LinkedHashMap$_literal([_s16_, "#0f172a", "padding", "10px 20px", "border-radius", "6px", "border", "none", "cursor", "pointer"], t5, t5), new A._AnimationShowcaseState_build_closure(_this))], t8), B.CrossAxisAlignment_1, B.MainAxisAlignment_0), _null), new A.ShowcaseCard("FDHero", "A widget that flies from one screen to another. (Requires navigation to fully demonstrate, but here is the base structure)", new A.Hero("showcase-hero", new A.FDContainer(new A.FDCenter(new A.FDIcon(_s8_, 40, new A.FlartColor(_s7_), _null), _null), 100, 100, _null, _null, new A.BoxDecoration(new A.FlartColor("#f59e0b"), new A.BorderRadius(50, 50, 50, 50), _null, _null), _null, _null, _null), _null), _null)], t8), B.CrossAxisAlignment_0, B.MainAxisAlignment_0);
+      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDAnimatedContainer", "A container that gradually changes its values over a period of time.", A.FDColumn$(A._setArrayType([A.FDContainer$(new A.FDCenter(A.FDText$(t7, new A.TextStyle(new A.FlartColor(_s7_), _null, B.FontWeight_bold)), _null), t6, _null, _null, _null, _null, _null, _null, _null), A.FDSizedBox$(24, _null), A.FDElevatedButton$(new A.FDIcon(_s8_, 40, new A.FlartColor(_s7_), _null), A.LinkedHashMap_LinkedHashMap$_literal([_s16_, "#0f172a", "padding", "10px 20px", "border-radius", "6px", "border", "none", "cursor", "pointer"], t5, t5), new A._AnimationShowcaseState_build_closure(_this))], t8), B.CrossAxisAlignment_1, B.MainAxisAlignment_0), _null), new A.ShowcaseCard("FDHero", "A widget that flies from one screen to another. (Requires navigation to fully demonstrate, but here is the base structure)", new A.Hero("showcase-hero", A.FDContainer$(new A.FDCenter(new A.FDIcon(_s8_, 40, new A.FlartColor(_s7_), _null), _null), _null, new A.BoxDecoration(new A.FlartColor("#f59e0b"), new A.BorderRadius(50, 50, 50, 50), _null, _null), 100, _null, _null, _null, _null, 100), _null), _null)], t8), B.CrossAxisAlignment_0, B.MainAxisAlignment_0);
     }
   };
   A._AnimationShowcaseState_build_closure.prototype = {
@@ -11798,7 +11738,7 @@
         t5 = A.FDText$("This is an example of FDText widget in FlartDart!", new A.TextStyle(new A.FlartColor("#3b82f6"), 18, B.FontWeight_xE6)),
         t6 = A._setArrayType([new A.BoxShadow(new A.Offset(0, 8), 15, new A.FlartColor("#ec4899").withOpacity$1(0.4))], type$.JSArray_BoxShadow),
         t7 = type$.JSArray_Widget;
-      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDText", "A run of text with a single style.", t5, _null), new A.ShowcaseCard("FDContainer", "A convenience widget that combines common painting, positioning, and sizing widgets.", new A.FDContainer(new A.FDCenter(A.FDText$("Container", new A.TextStyle(new A.FlartColor("#ffffff"), _null, B.FontWeight_bold)), _null), 200, 100, _null, _null, new A.BoxDecoration(new A.FlartColor("#ec4899"), new A.BorderRadius(16, 16, 16, 16), t6, _null), _null, _null, _null), _null), new A.ShowcaseCard("FDIcon", "A graphical icon widget drawn with a glyph from a font described in an IconData.", A.FDRow$(A._setArrayType([new A.FDIcon("home", 48, new A.FlartColor("#10b981"), _null), A.FDSizedBox$(_null, 24), new A.FDIcon("favorite", 48, new A.FlartColor("#ef4444"), _null), A.FDSizedBox$(_null, 24), new A.FDIcon("settings", 48, new A.FlartColor("#64748b"), _null)], t7), B.CrossAxisAlignment_0, B.MainAxisAlignment_1), _null)], t7), B.CrossAxisAlignment_0, B.MainAxisAlignment_0);
+      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDText", "A run of text with a single style.", t5, _null), new A.ShowcaseCard("FDContainer", "A convenience widget that combines common painting, positioning, and sizing widgets.", A.FDContainer$(new A.FDCenter(A.FDText$("Container", new A.TextStyle(new A.FlartColor("#ffffff"), _null, B.FontWeight_bold)), _null), _null, new A.BoxDecoration(new A.FlartColor("#ec4899"), new A.BorderRadius(16, 16, 16, 16), t6, _null), 100, _null, _null, _null, _null, 200), _null), new A.ShowcaseCard("FDIcon", "A graphical icon widget drawn with a glyph from a font described in an IconData.", A.FDRow$(A._setArrayType([new A.FDIcon("home", 48, new A.FlartColor("#10b981"), _null), A.FDSizedBox$(_null, 24), new A.FDIcon("favorite", 48, new A.FlartColor("#ef4444"), _null), A.FDSizedBox$(_null, 24), new A.FDIcon("settings", 48, new A.FlartColor("#64748b"), _null)], t7), B.CrossAxisAlignment_0, B.MainAxisAlignment_1), _null)], t7), B.CrossAxisAlignment_0, B.MainAxisAlignment_0);
     }
   };
   A.DialogShowcase.prototype = {
@@ -11815,7 +11755,7 @@
         t9 = type$.String;
       t9 = A.LinkedHashMap_LinkedHashMap$_literal(["position", "relative", "overflow", "hidden", "background-color", "#cbd5e1"], t9, t9);
       t10 = type$.JSArray_Widget;
-      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDDialog", "A material design dialog.", t5, _null), new A.FDContainer(A.FDColumn$(A._setArrayType([t7, t8, new A.FDContainer(new A.FDCenter(new A.FDDialog(A.FDColumn$(A._setArrayType([A.FDText$("Alert Dialog Title", new A.TextStyle(_null, 20, B.FontWeight_bold)), A.FDSizedBox$(16, _null), A.FDText$("This is the content of the dialog. It can contain any widget.", new A.TextStyle(new A.FlartColor("#475569"), _null, _null)), A.FDSizedBox$(24, _null), A.FDRow$(A._setArrayType([A.FDTextButton$(A.FDText$("Cancel", new A.TextStyle(B.FlartMaterialColor_MYO, _null, _null)), _null, new A.DialogShowcase_build_closure0()), A.FDSizedBox$(_null, 8), A.FDElevatedButton$(A.FDText$("Confirm", new A.TextStyle(new A.FlartColor("#ffffff"), _null, _null)), _null, new A.DialogShowcase_build_closure1())], t10), B.CrossAxisAlignment_0, B.MainAxisAlignment_2)], t10), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null), _null), _null, 300, _null, _null, _null, t9, _null, _null)], t10), B.CrossAxisAlignment_3, B.MainAxisAlignment_0), _null, _null, new A.EdgeInsets(16, 16, 16, 16), _null, new A.BoxDecoration(new A.FlartColor("#f8fafc"), new A.BorderRadius(8, 8, 8, 8), _null, t6), _null, _null, _null)], t10), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
+      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDDialog", "A material design dialog.", t5, _null), A.FDContainer$(A.FDColumn$(A._setArrayType([t7, t8, A.FDContainer$(new A.FDCenter(new A.FDDialog(A.FDColumn$(A._setArrayType([A.FDText$("Alert Dialog Title", new A.TextStyle(_null, 20, B.FontWeight_bold)), A.FDSizedBox$(16, _null), A.FDText$("This is the content of the dialog. It can contain any widget.", new A.TextStyle(new A.FlartColor("#475569"), _null, _null)), A.FDSizedBox$(24, _null), A.FDRow$(A._setArrayType([A.FDTextButton$(A.FDText$("Cancel", new A.TextStyle(B.FlartMaterialColor_MYO, _null, _null)), _null, new A.DialogShowcase_build_closure0()), A.FDSizedBox$(_null, 8), A.FDElevatedButton$(A.FDText$("Confirm", new A.TextStyle(new A.FlartColor("#ffffff"), _null, _null)), _null, new A.DialogShowcase_build_closure1())], t10), B.CrossAxisAlignment_0, B.MainAxisAlignment_2)], t10), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null), _null), t9, _null, 300, _null, _null, _null, _null, _null)], t10), B.CrossAxisAlignment_3, B.MainAxisAlignment_0), _null, new A.BoxDecoration(new A.FlartColor("#f8fafc"), new A.BorderRadius(8, 8, 8, 8), _null, t6), _null, _null, _null, _null, new A.EdgeInsets(16, 16, 16, 16), _null)], t10), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
     }
   };
   A.DialogShowcase_build_closure.prototype = {
@@ -11844,9 +11784,16 @@
       var _this = this, _null = null,
         _s16_ = "background-color",
         _s7_ = "#3b82f6",
-        t1 = type$.String,
-        t2 = type$.JSArray_Widget;
-      return A.FDColumn$(A._setArrayType([A.FDText$("Input Widgets", new A.TextStyle(new A.FlartColor("#0f172a"), 32, B.FontWeight_bold)), A.FDSizedBox$(8, _null), A.FDText$("Widgets to collect user input, like text fields, checkboxes, and buttons.", new A.TextStyle(new A.FlartColor("#64748b"), 16, _null)), A.FDSizedBox$(32, _null), new A.ShowcaseCard("FDTextField", "A text input field for collecting short or long strings.", A.FDColumn$(A._setArrayType([new A.FDTextField("Enter some text...", _this._textFieldValue, new A._InputShowcaseState_build_closure(_this), new A.EdgeInsets(12, 16, 12, 16), A.LinkedHashMap_LinkedHashMap$_literal(["border", "1px solid #cbd5e1", "border-radius", "8px", _s16_, "#ffffff"], t1, t1), _null), A.FDSizedBox$(16, _null), A.FDText$("You typed: " + _this._textFieldValue, new A.TextStyle(new A.FlartColor(_s7_), _null, B.FontWeight_bold))], t2), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null), new A.ShowcaseCard("Buttons", "Various clickable buttons to trigger actions.", A.FDWrap$(A._setArrayType([A.FDElevatedButton$(A.FDText$("Elevated Button", new A.TextStyle(new A.FlartColor("#ffffff"), _null, _null)), A.LinkedHashMap_LinkedHashMap$_literal([_s16_, "#3b82f6", "padding", "12px 24px", "border-radius", "8px", "border", "none", "cursor", "pointer", "box-shadow", "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"], t1, t1), new A._InputShowcaseState_build_closure0()), A.FDElevatedButton$(A.FDText$("Outlined Button", new A.TextStyle(new A.FlartColor(_s7_), _null, _null)), A.LinkedHashMap_LinkedHashMap$_literal([_s16_, "transparent", "padding", "12px 24px", "border-radius", "8px", "border", "2px solid #3b82f6", "cursor", "pointer"], t1, t1), new A._InputShowcaseState_build_closure1()), A.FDTextButton$(A.FDText$("Text Button", new A.TextStyle(new A.FlartColor(_s7_), _null, _null)), A.LinkedHashMap_LinkedHashMap$_literal([_s16_, "transparent", "padding", "12px 24px", "border", "none", "cursor", "pointer"], t1, t1), new A._InputShowcaseState_build_closure2())], t2), 16, 16), _null), new A.ShowcaseCard("FDCheckbox", "A checkbox for boolean state selection.", A.FDColumn$(A._setArrayType([A.FDRow$(A._setArrayType([A.FDCheckbox$(new A._InputShowcaseState_build_closure3(_this), _this._isChecked1), A.FDSizedBox$(_null, 8), A.FDText$("Unchecked by default", _null)], t2), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), A.FDSizedBox$(12, _null), A.FDRow$(A._setArrayType([A.FDCheckbox$(new A._InputShowcaseState_build_closure4(_this), _this._isChecked2), A.FDSizedBox$(_null, 8), A.FDText$("Checked by default", _null)], t2), B.CrossAxisAlignment_0, B.MainAxisAlignment_0)], t2), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null), new A.ShowcaseCard("FDRadio", "Radio buttons for selecting a single option from a group.", A.FDColumn$(A._setArrayType([A.FDRow$(A._setArrayType([A.FDRadio$(_this._radioGroupValue, new A._InputShowcaseState_build_closure5(_this), "option1", t1), A.FDSizedBox$(_null, 8), A.FDText$("Option 1", _null)], t2), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), A.FDSizedBox$(12, _null), A.FDRow$(A._setArrayType([A.FDRadio$(_this._radioGroupValue, new A._InputShowcaseState_build_closure6(_this), "option2", t1), A.FDSizedBox$(_null, 8), A.FDText$("Option 2", _null)], t2), B.CrossAxisAlignment_0, B.MainAxisAlignment_0)], t2), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null)], t2), B.CrossAxisAlignment_0, B.MainAxisAlignment_0);
+        t1 = A.FDText$("Input Widgets", new A.TextStyle(new A.FlartColor("#0f172a"), 32, B.FontWeight_bold)),
+        t2 = A.FDSizedBox$(8, _null),
+        t3 = A.FDText$("Widgets to collect user input, like text fields, checkboxes, and buttons.", new A.TextStyle(new A.FlartColor("#64748b"), 16, _null)),
+        t4 = A.FDSizedBox$(32, _null),
+        t5 = type$.String,
+        t6 = type$.JSArray_Widget,
+        t7 = A.FDColumn$(A._setArrayType([new A.FDTextField("Enter some text...", _this._textFieldValue, new A._InputShowcaseState_build_closure(_this), new A.EdgeInsets(12, 16, 12, 16), A.LinkedHashMap_LinkedHashMap$_literal(["border", "1px solid #cbd5e1", "border-radius", "8px", _s16_, "#ffffff"], t5, t5), _null), A.FDSizedBox$(16, _null), A.FDText$("You typed: " + _this._textFieldValue, new A.TextStyle(new A.FlartColor(_s7_), _null, B.FontWeight_bold))], t6), B.CrossAxisAlignment_0, B.MainAxisAlignment_0),
+        t8 = A.FDElevatedButton$(A.FDText$("Elevated Button", new A.TextStyle(new A.FlartColor("#ffffff"), _null, _null)), A.LinkedHashMap_LinkedHashMap$_literal([_s16_, "#3b82f6", "padding", "12px 24px", "border-radius", "8px", "border", "none", "cursor", "pointer", "box-shadow", "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"], t5, t5), new A._InputShowcaseState_build_closure0()),
+        t9 = A.LinkedHashMap_LinkedHashMap$_literal(["padding", "12px 24px", "border-radius", "8px"], t5, t5);
+      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDTextField", "A text input field for collecting short or long strings.", t7, _null), new A.ShowcaseCard("Buttons", "Various clickable buttons to trigger actions.", A.FDWrap$(A._setArrayType([t8, new A.FDOutlinedButton(A.FDText$("Outlined Button", new A.TextStyle(new A.FlartColor(_s7_), _null, _null)), new A._InputShowcaseState_build_closure1(), t9, _null), A.FDTextButton$(A.FDText$("Text Button", new A.TextStyle(new A.FlartColor(_s7_), _null, _null)), A.LinkedHashMap_LinkedHashMap$_literal([_s16_, "transparent", "padding", "12px 24px", "border", "none", "cursor", "pointer"], t5, t5), new A._InputShowcaseState_build_closure2()), new A.FDInkWell(A.FDContainer$(A.FDText$("InkWell Touch Area", new A.TextStyle(new A.FlartColor("#1d4ed8"), _null, _null)), _null, new A.BoxDecoration(new A.FlartColor("#eff6ff"), new A.BorderRadius(8, 8, 8, 8), _null, _null), _null, _null, _null, _null, new A.EdgeInsets(10, 16, 10, 16), _null), new A._InputShowcaseState_build_closure3(), new A.BorderRadius(8, 8, 8, 8), _null)], t6), 16, 16), _null), new A.ShowcaseCard("FDCheckbox", "A checkbox for boolean state selection.", A.FDColumn$(A._setArrayType([A.FDRow$(A._setArrayType([A.FDCheckbox$(new A._InputShowcaseState_build_closure4(_this), _this._isChecked1), A.FDSizedBox$(_null, 8), A.FDText$("Unchecked by default", _null)], t6), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), A.FDSizedBox$(12, _null), A.FDRow$(A._setArrayType([A.FDCheckbox$(new A._InputShowcaseState_build_closure5(_this), _this._isChecked2), A.FDSizedBox$(_null, 8), A.FDText$("Checked by default", _null)], t6), B.CrossAxisAlignment_0, B.MainAxisAlignment_0)], t6), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null), new A.ShowcaseCard("FDRadio", "Radio buttons for selecting a single option from a group.", A.FDColumn$(A._setArrayType([A.FDRow$(A._setArrayType([A.FDRadio$(_this._radioGroupValue, new A._InputShowcaseState_build_closure6(_this), "option1", t5), A.FDSizedBox$(_null, 8), A.FDText$("Option 1", _null)], t6), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), A.FDSizedBox$(12, _null), A.FDRow$(A._setArrayType([A.FDRadio$(_this._radioGroupValue, new A._InputShowcaseState_build_closure7(_this), "option2", t5), A.FDSizedBox$(_null, 8), A.FDText$("Option 2", _null)], t6), B.CrossAxisAlignment_0, B.MainAxisAlignment_0)], t6), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null)], t6), B.CrossAxisAlignment_0, B.MainAxisAlignment_0);
     }
   };
   A._InputShowcaseState_build_closure.prototype = {
@@ -11855,7 +11802,7 @@
       type$.void_Function._as(new A._InputShowcaseState_build__closure3(t1, val)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 8
+    $signature: 6
   };
   A._InputShowcaseState_build__closure3.prototype = {
     call$0() {
@@ -11879,12 +11826,17 @@
     $signature: 0
   };
   A._InputShowcaseState_build_closure3.prototype = {
+    call$0() {
+    },
+    $signature: 0
+  };
+  A._InputShowcaseState_build_closure4.prototype = {
     call$1(val) {
       var t1 = this.$this;
       type$.void_Function._as(new A._InputShowcaseState_build__closure2(t1, val)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 4
+    $signature: 7
   };
   A._InputShowcaseState_build__closure2.prototype = {
     call$0() {
@@ -11892,13 +11844,13 @@
     },
     $signature: 0
   };
-  A._InputShowcaseState_build_closure4.prototype = {
+  A._InputShowcaseState_build_closure5.prototype = {
     call$1(val) {
       var t1 = this.$this;
       type$.void_Function._as(new A._InputShowcaseState_build__closure1(t1, val)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 4
+    $signature: 7
   };
   A._InputShowcaseState_build__closure1.prototype = {
     call$0() {
@@ -11906,13 +11858,13 @@
     },
     $signature: 0
   };
-  A._InputShowcaseState_build_closure5.prototype = {
+  A._InputShowcaseState_build_closure6.prototype = {
     call$1(val) {
       var t1 = this.$this;
       type$.void_Function._as(new A._InputShowcaseState_build__closure0(t1, val)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 8
+    $signature: 6
   };
   A._InputShowcaseState_build__closure0.prototype = {
     call$0() {
@@ -11920,13 +11872,13 @@
     },
     $signature: 0
   };
-  A._InputShowcaseState_build_closure6.prototype = {
+  A._InputShowcaseState_build_closure7.prototype = {
     call$1(val) {
       var t1 = this.$this;
       type$.void_Function._as(new A._InputShowcaseState_build__closure(t1, val)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 8
+    $signature: 6
   };
   A._InputShowcaseState_build__closure.prototype = {
     call$0() {
@@ -11941,26 +11893,44 @@
   };
   A._InteractiveShowcaseState.prototype = {
     build$1(context) {
-      var _null = null,
+      var _this = this, _null = null,
         t1 = A.FDText$("Interactive Widgets", new A.TextStyle(new A.FlartColor("#1e293b"), 32, B.FontWeight_bold)),
         t2 = A.FDSizedBox$(8, _null),
         t3 = A.FDText$("Advanced form inputs and pickers.", new A.TextStyle(new A.FlartColor("#64748b"), 16, _null)),
         t4 = A.FDSizedBox$(32, _null),
-        t5 = this._switchValue;
-      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDSwitch", "A custom toggle switch.", new A.FDSwitch(t5, new A._InteractiveShowcaseState_build_closure(this), B.FlartMaterialColor_MYO, _null), _null), new A.ShowcaseCard("FDDateRangePicker", "A picker for selecting a start and end date.", new A.FDDateRangePicker(_null, _null, "Select Event Range", _null), _null), new A.ShowcaseCard("DateTimePicker", "A native datetime-local input.", new A.DateTimePicker("Schedule Meeting", "Pick a time for the meeting", _null), _null), new A.ShowcaseCard("RangePicker", "A dual slider for picking a number range.", new A.RangePicker(0, 100, 20, 80, "Price Range ($)", _null), _null)], type$.JSArray_Widget), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
+        t5 = _this._switchValue,
+        t6 = _this._dateRange,
+        t7 = t6 == null,
+        t8 = t7 ? _null : t6.start;
+      t6 = t7 ? _null : t6.end;
+      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDSwitch", "A custom toggle switch.", new A.FDSwitch(t5, new A._InteractiveShowcaseState_build_closure(_this), B.FlartMaterialColor_MYO, _null), _null), new A.ShowcaseCard("FDDateRangePicker", "A picker for selecting a start and end date.", new A.FDDateRangePicker(t8, t6, new A._InteractiveShowcaseState_build_closure0(_this), "Select Event Range", _null), _null), new A.ShowcaseCard("DateTimePicker", "A native datetime-local input.", new A.DateTimePicker("Schedule Meeting", "Pick a time for the meeting", _null), _null), new A.ShowcaseCard("RangePicker", "A dual slider for picking a number range.", new A.RangePicker(0, 100, 20, 80, "Price Range ($)", _null), _null)], type$.JSArray_Widget), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
     }
   };
   A._InteractiveShowcaseState_build_closure.prototype = {
     call$1(val) {
       var t1 = this.$this;
+      type$.void_Function._as(new A._InteractiveShowcaseState_build__closure0(t1, val)).call$0();
+      t1._performScopedUpdate$0();
+    },
+    $signature: 7
+  };
+  A._InteractiveShowcaseState_build__closure0.prototype = {
+    call$0() {
+      this.$this._switchValue = this.val;
+    },
+    $signature: 0
+  };
+  A._InteractiveShowcaseState_build_closure0.prototype = {
+    call$1(val) {
+      var t1 = this.$this;
       type$.void_Function._as(new A._InteractiveShowcaseState_build__closure(t1, val)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 4
+    $signature: 29
   };
   A._InteractiveShowcaseState_build__closure.prototype = {
     call$0() {
-      this.$this._switchValue = this.val;
+      this.$this._dateRange = this.val;
     },
     $signature: 0
   };
@@ -11974,19 +11944,19 @@
         t5 = type$.JSArray_Widget,
         t6 = A.FDRow$(A._setArrayType([_this._buildColorBox$1("#3b82f6"), _this._buildColorBox$1("#10b981"), _this._buildColorBox$1("#f59e0b")], t5), B.CrossAxisAlignment_0, B.MainAxisAlignment_5),
         t7 = A.FDColumn$(A._setArrayType([_this._buildColorBox$1("#ef4444"), A.FDSizedBox$(10, _null), _this._buildColorBox$1("#8b5cf6"), A.FDSizedBox$(10, _null), _this._buildColorBox$1("#06b6d4")], t5), B.CrossAxisAlignment_1, B.MainAxisAlignment_1),
-        t8 = _this._buildColorBox$2$size("#3b82f6", 100),
-        t9 = _this._buildColorBox$2$size("#10b981", 100),
+        t8 = A.FDPositioned$(_null, _this._buildColorBox$2$size("#3b82f6", 100), 20, _null, 20),
+        t9 = A.FDPositioned$(20, _this._buildColorBox$2$size("#10b981", 100), _null, 20, _null),
         t10 = type$.String;
       t10 = A.LinkedHashMap_LinkedHashMap$_literal(["transform", "translate(-50%, -50%)"], t10, t10);
-      t10 = A._setArrayType([new A.FDPositioned(t8, 20, 20, _null, _null, _null), new A.FDPositioned(t9, _null, _null, 20, 20, _null), new A.FDPositioned(new A.FDContainer(_this._buildColorBox$2$size("#f59e0b", 80), _null, _null, _null, _null, _null, t10, _null, _null), 100, 100, _null, _null, _null)], t5);
+      t10 = A.FDContainer$(A.FDStack$(A._setArrayType([t8, t9, A.FDPositioned$(_null, A.FDContainer$(_this._buildColorBox$2$size("#f59e0b", 80), t10, _null, _null, _null, _null, _null, _null, _null), 100, _null, 100)], t5)), _null, new A.BoxDecoration(new A.FlartColor("#e2e8f0"), new A.BorderRadius(16, 16, 16, 16), _null, _null), 200, _null, _null, _null, _null, 200);
       _list = J.JSArray_JSArray$allocateGrowable(8, type$.Widget);
       for (index = 0; index < 8; ++index)
         _list[index] = _this._buildColorBox$2$size(B.JSInt_methods.$mod(index, 2) === 0 ? "#6366f1" : "#ec4899", 60);
-      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDRow", "A widget that displays its children in a horizontal array.", t6, _null), new A.ShowcaseCard("FDColumn", "A widget that displays its children in a vertical array.", t7, _null), new A.ShowcaseCard("FDStack & FDPositioned", "A widget that positions its children relative to the edges of its box. Useful for overlapping widgets.", new A.FDContainer(new A.FDStack(t10, _null), 200, 200, _null, _null, new A.BoxDecoration(new A.FlartColor("#e2e8f0"), new A.BorderRadius(16, 16, 16, 16), _null, _null), _null, _null, _null), _null), new A.ShowcaseCard("FDWrap", "A widget that displays its children in multiple horizontal or vertical runs.", A.FDWrap$(_list, 16, 16), _null)], t5), B.CrossAxisAlignment_0, B.MainAxisAlignment_0);
+      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDRow", "A widget that displays its children in a horizontal array.", t6, _null), new A.ShowcaseCard("FDColumn", "A widget that displays its children in a vertical array.", t7, _null), new A.ShowcaseCard("FDStack & FDPositioned", "A widget that positions its children relative to the edges of its box. Useful for overlapping widgets.", t10, _null), new A.ShowcaseCard("FDWrap", "A widget that displays its children in multiple horizontal or vertical runs.", A.FDWrap$(_list, 16, 16), _null)], t5), B.CrossAxisAlignment_0, B.MainAxisAlignment_0);
     },
     _buildColorBox$2$size(hexColor, size) {
       var _null = null;
-      return new A.FDContainer(_null, size, size, _null, _null, new A.BoxDecoration(new A.FlartColor(hexColor), new A.BorderRadius(8, 8, 8, 8), A._setArrayType([new A.BoxShadow(new A.Offset(0, 4), 8, new A.FlartColor(hexColor).withOpacity$1(0.4))], type$.JSArray_BoxShadow), _null), _null, _null, _null);
+      return A.FDContainer$(_null, _null, new A.BoxDecoration(new A.FlartColor(hexColor), new A.BorderRadius(8, 8, 8, 8), A._setArrayType([new A.BoxShadow(new A.Offset(0, 4), 8, new A.FlartColor(hexColor).withOpacity$1(0.4))], type$.JSArray_BoxShadow), _null), size, _null, _null, _null, _null, size);
     },
     _buildColorBox$1(hexColor) {
       return this._buildColorBox$2$size(hexColor, 50);
@@ -12002,14 +11972,14 @@
     build$1(context) {
       var t4, t5, _null = null,
         t1 = A.FDAppBar$(B.FlartMaterialColor_MYO, A.FDText$("FlartDart Widget Catalog \ud83d\ude80", new A.TextStyle(new A.FlartColor("#ffffff"), _null, B.FontWeight_bold))),
-        t2 = A.FDColumn$(A.List_List$generate(10, new A._CatalogAppState_build_closure(this), type$.Widget), B.CrossAxisAlignment_3, B.MainAxisAlignment_0),
+        t2 = A.FDContainer$(A.FDColumn$(A.List_List$generate(10, new A._CatalogAppState_build_closure(this), type$.Widget), B.CrossAxisAlignment_3, B.MainAxisAlignment_0), _null, new A.BoxDecoration(new A.FlartColor("#ffffff"), _null, _null, new A.Border(_null, new A.BorderSide(1, new A.FlartColor("#e2e8f0")), _null, _null)), _null, _null, _null, _null, _null, 250),
         t3 = type$.String;
       t3 = A.LinkedHashMap_LinkedHashMap$_literal(["overflow-y", "auto", "background-color", "#f1f5f9"], t3, t3);
       t4 = this._pages;
       t5 = this._selectedIndex;
       if (!(t5 < 10))
         return A.ioore(t4, t5);
-      return new A.FDMaterialApp("FlartDart Catalog", A.FDScaffold$(t1, A.FDRow$(A._setArrayType([new A.FDContainer(t2, 250, _null, _null, _null, new A.BoxDecoration(new A.FlartColor("#ffffff"), _null, _null, new A.Border(_null, new A.BorderSide(1, new A.FlartColor("#e2e8f0")), _null, _null)), _null, _null, _null), new A.FDExpanded(new A.FDContainer(t4[t5], _null, _null, new A.EdgeInsets(40, 40, 40, 40), _null, _null, t3, _null, _null), _null)], type$.JSArray_Widget), B.CrossAxisAlignment_3, B.MainAxisAlignment_0), _null), _null);
+      return new A.FDMaterialApp("FlartDart Catalog", A.FDScaffold$(t1, A.FDRow$(A._setArrayType([t2, new A.FDExpanded(A.FDContainer$(t4[t5], t3, _null, _null, _null, _null, _null, new A.EdgeInsets(40, 40, 40, 40), _null), _null)], type$.JSArray_Widget), B.CrossAxisAlignment_3, B.MainAxisAlignment_0), _null), _null);
     }
   };
   A._CatalogAppState_build_closure.prototype = {
@@ -12021,7 +11991,7 @@
         return A.ioore(t3, index);
       return new A._SidebarItem(t3[index], t2 === index, new A._CatalogAppState_build__closure(t1, index), null);
     },
-    $signature: 31
+    $signature: 30
   };
   A._CatalogAppState_build__closure.prototype = {
     call$0() {
@@ -12046,7 +12016,7 @@
         t4 = t1 ? B.FontWeight_bold : B.FontWeight_normal;
       t1 = t1 ? "#1d4ed8" : "#475569";
       t5 = type$.String;
-      return new A.FDGestureDetector(new A.FDContainer(A.FDText$(this.title, new A.TextStyle(new A.FlartColor(t1), 16, t4)), _null, _null, new A.EdgeInsets(16, 20, 16, 20), _null, new A.BoxDecoration(new A.FlartColor(t2), _null, _null, new A.Border(_null, _null, _null, new A.BorderSide(4, new A.FlartColor(t3)))), A.LinkedHashMap_LinkedHashMap$_literal(["cursor", "pointer", "transition", "all 0.2s ease"], t5, t5), _null, _null), this.onTap, _null);
+      return new A.FDGestureDetector(A.FDContainer$(A.FDText$(this.title, new A.TextStyle(new A.FlartColor(t1), 16, t4)), A.LinkedHashMap_LinkedHashMap$_literal(["cursor", "pointer", "transition", "all 0.2s ease"], t5, t5), new A.BoxDecoration(new A.FlartColor(t2), _null, _null, new A.Border(_null, _null, _null, new A.BorderSide(4, new A.FlartColor(t3)))), _null, _null, _null, _null, new A.EdgeInsets(16, 20, 16, 20), _null), this.onTap, _null);
     }
   };
   A.MediaShowcase.prototype = {
@@ -12068,7 +12038,7 @@
   };
   A._NavigationShowcaseState.prototype = {
     build$1(context) {
-      var t10, _null = null,
+      var _null = null,
         _s7_ = "#64748b",
         _s7_0 = "#ffffff",
         t1 = A.FDText$("Navigation Widgets", new A.TextStyle(new A.FlartColor("#1e293b"), 32, B.FontWeight_bold)),
@@ -12080,12 +12050,12 @@
         t7 = type$.JSArray_Widget,
         t8 = A._setArrayType([A.FDText$("Home", _null), A.FDText$("Settings", _null), A.FDText$("Profile", _null)], t7),
         t9 = this._tabIndex;
-      t9 = A.FDColumn$(A._setArrayType([new A.FDTabBar(t8, t6, new A._NavigationShowcaseState_build_closure(this), _null), new A.FDTabBarView(A._setArrayType([new A.FDCenter(A.FDText$("Welcome to the Home Tab!", new A.TextStyle(new A.FlartColor(_s7_), _null, _null)), _null), new A.FDCenter(A.FDText$("Settings Configuration goes here.", new A.TextStyle(new A.FlartColor(_s7_), _null, _null)), _null), new A.FDCenter(A.FDText$("User Profile Information.", new A.TextStyle(new A.FlartColor(_s7_), _null, _null)), _null)], t7), t9, _null)], t7), B.CrossAxisAlignment_0, B.MainAxisAlignment_0);
-      t6 = type$.String;
-      t6 = A.LinkedHashMap_LinkedHashMap$_literal(["position", "relative", "overflow", "hidden"], t6, t6);
-      t8 = A.FDAppBar$(B.FlartMaterialColor_MYO, A.FDText$("App with Drawer", new A.TextStyle(new A.FlartColor(_s7_0), _null, _null)));
-      t10 = A.FDColumn$(A._setArrayType([new A.FDContainer(new A.FDCenter(A.FDText$("Menu", new A.TextStyle(new A.FlartColor(_s7_0), 24, _null)), _null), _null, 100, _null, _null, new A.BoxDecoration(B.FlartMaterialColor_MYO, _null, _null, _null), _null, _null, _null), A.FDText$("Item 1", _null), A.FDText$("Item 2", _null)], t7), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
-      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDTabBar & FDTabBarView", "A tabbed interface for switching between content.", new A.FDContainer(t9, _null, _null, _null, _null, new A.BoxDecoration(new A.FlartColor(_s7_0), new A.BorderRadius(8, 8, 8, 8), _null, t5), _null, _null, _null), _null), new A.ShowcaseCard("FDDrawer", "A navigation drawer sliding in from the edge.", new A.FDContainer(A.FDScaffold$(t8, new A.FDCenter(A.FDText$("Click the menu icon to open the drawer.", new A.TextStyle(new A.FlartColor("#475569"), _null, _null)), _null), new A.FDDrawer(t10, _null)), _null, 300, _null, _null, _null, t6, _null, _null), _null)], t7), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
+      t5 = A.FDContainer$(A.FDColumn$(A._setArrayType([new A.FDTabBar(t8, t6, new A._NavigationShowcaseState_build_closure(this), _null), new A.FDTabBarView(A._setArrayType([new A.FDCenter(A.FDText$("Welcome to the Home Tab!", new A.TextStyle(new A.FlartColor(_s7_), _null, _null)), _null), new A.FDCenter(A.FDText$("Settings Configuration goes here.", new A.TextStyle(new A.FlartColor(_s7_), _null, _null)), _null), new A.FDCenter(A.FDText$("User Profile Information.", new A.TextStyle(new A.FlartColor(_s7_), _null, _null)), _null)], t7), t9, _null)], t7), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null, new A.BoxDecoration(new A.FlartColor(_s7_0), new A.BorderRadius(8, 8, 8, 8), _null, t5), _null, _null, _null, _null, _null, _null);
+      t9 = type$.String;
+      t9 = A.LinkedHashMap_LinkedHashMap$_literal(["position", "relative", "overflow", "hidden"], t9, t9);
+      t6 = A.FDAppBar$(B.FlartMaterialColor_MYO, A.FDText$("App with Drawer", new A.TextStyle(new A.FlartColor(_s7_0), _null, _null)));
+      t8 = A.FDColumn$(A._setArrayType([A.FDContainer$(new A.FDCenter(A.FDText$("Menu", new A.TextStyle(new A.FlartColor(_s7_0), 24, _null)), _null), _null, new A.BoxDecoration(B.FlartMaterialColor_MYO, _null, _null, _null), 100, _null, _null, _null, _null, _null), A.FDText$("Item 1", _null), A.FDText$("Item 2", _null)], t7), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
+      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDTabBar & FDTabBarView", "A tabbed interface for switching between content.", t5, _null), new A.ShowcaseCard("FDDrawer", "A navigation drawer sliding in from the edge.", A.FDContainer$(A.FDScaffold$(t6, new A.FDCenter(A.FDText$("Click the menu icon to open the drawer.", new A.TextStyle(new A.FlartColor("#475569"), _null, _null)), _null), new A.FDDrawer(t8, _null)), t9, _null, 300, _null, _null, _null, _null, _null), _null)], t7), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
     }
   };
   A._NavigationShowcaseState_build_closure.prototype = {
@@ -12094,7 +12064,7 @@
       type$.void_Function._as(new A._NavigationShowcaseState_build__closure(t1, index)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 32
+    $signature: 31
   };
   A._NavigationShowcaseState_build__closure.prototype = {
     call$0() {
@@ -12104,7 +12074,7 @@
   };
   A.ScrollableShowcase.prototype = {
     build$1(context) {
-      var index, index0, t7, t8, t9, _null = null,
+      var index, index0, t7, t8, _null = null,
         t1 = A.FDText$("Scrollable Widgets", new A.TextStyle(new A.FlartColor("#1e293b"), 32, B.FontWeight_bold)),
         t2 = A.FDSizedBox$(8, _null),
         t3 = A.FDText$("Widgets that allow scrolling through content.", new A.TextStyle(new A.FlartColor("#64748b"), 16, _null)),
@@ -12114,18 +12084,18 @@
         _list = J.JSArray_JSArray$allocateGrowable(10, t6);
       for (index = 0; index < 10; index = index0) {
         index0 = index + 1;
-        _list[index] = new A.FDContainer(new A.FDText("Scrollable Item " + index0, _null, _null), _null, _null, new A.EdgeInsets(16, 16, 16, 16), new A.EdgeInsets(0, 0, 8, 0), new A.BoxDecoration(new A.FlartColor("#eff6ff"), new A.BorderRadius(4, 4, 4, 4), _null, _null), _null, _null, _null);
+        _list[index] = new A.FDContainer(new A.FDText("Scrollable Item " + index0, _null, _null), _null, _null, _null, new A.EdgeInsets(16, 16, 16, 16), new A.EdgeInsets(0, 0, 8, 0), new A.BoxDecoration(new A.FlartColor("#eff6ff"), new A.BorderRadius(4, 4, 4, 4), _null, _null), _null, _null);
       }
-      t7 = A.FDSingleChildScrollView$(A.FDColumn$(_list, B.CrossAxisAlignment_0, B.MainAxisAlignment_0), new A.EdgeInsets(16, 16, 16, 16));
-      t8 = A.Border_Border$all(new A.FlartColor("#cbd5e1"), 1);
-      t9 = type$.String;
-      t9 = A.LinkedHashMap_LinkedHashMap$_literal(["padding", "16px"], t9, t9);
+      t5 = A.FDContainer$(A.FDSingleChildScrollView$(A.FDColumn$(_list, B.CrossAxisAlignment_0, B.MainAxisAlignment_0), new A.EdgeInsets(16, 16, 16, 16)), _null, new A.BoxDecoration(new A.FlartColor("#ffffff"), new A.BorderRadius(8, 8, 8, 8), _null, t5), 150, _null, _null, _null, _null, _null);
+      t7 = A.Border_Border$all(new A.FlartColor("#cbd5e1"), 1);
+      t8 = type$.String;
+      t8 = A.LinkedHashMap_LinkedHashMap$_literal(["padding", "16px"], t8, t8);
       _list = J.JSArray_JSArray$allocateGrowable(12, t6);
       for (index = 0; index < 12; index = index0) {
         index0 = index + 1;
-        _list[index] = new A.FDContainer(new A.FDCenter(new A.FDText("" + index0, _null, _null), _null), _null, 60, _null, _null, new A.BoxDecoration(new A.FlartColor("#dbeafe"), new A.BorderRadius(4, 4, 4, 4), _null, _null), _null, _null, _null);
+        _list[index] = new A.FDContainer(new A.FDCenter(new A.FDText("" + index0, _null, _null), _null), _null, _null, 60, _null, _null, new A.BoxDecoration(new A.FlartColor("#dbeafe"), new A.BorderRadius(4, 4, 4, 4), _null, _null), _null, _null);
       }
-      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDSingleChildScrollView", "A box in which a single widget can be scrolled.", new A.FDContainer(t7, _null, 150, _null, _null, new A.BoxDecoration(new A.FlartColor("#ffffff"), new A.BorderRadius(8, 8, 8, 8), _null, t5), _null, _null, _null), _null), new A.ShowcaseCard("FDGridView", "A scrollable, 2D array of widgets.", new A.FDContainer(A.FDSingleChildScrollView$(new A.FDGridView(3, 8, 8, _list, t9, _null), _null), _null, 250, _null, _null, new A.BoxDecoration(new A.FlartColor("#ffffff"), new A.BorderRadius(8, 8, 8, 8), _null, t8), _null, _null, _null), _null)], type$.JSArray_Widget), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
+      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDSingleChildScrollView", "A box in which a single widget can be scrolled.", t5, _null), new A.ShowcaseCard("FDGridView", "A scrollable, 2D array of widgets.", A.FDContainer$(A.FDSingleChildScrollView$(new A.FDGridView(3, 8, 8, _list, t8, _null), _null), _null, new A.BoxDecoration(new A.FlartColor("#ffffff"), new A.BorderRadius(8, 8, 8, 8), _null, t7), 250, _null, _null, _null, _null, _null), _null)], type$.JSArray_Widget), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
     }
   };
   A.ShowcaseCard.prototype = {
@@ -12134,15 +12104,36 @@
         t1 = A.Border_Border$all(new A.FlartColor("#e2e8f0"), 1),
         t2 = A._setArrayType([new A.BoxShadow(new A.Offset(0, 4), 10, new A.FlartColor("#000000").withOpacity$1(0.05))], type$.JSArray_BoxShadow),
         t3 = type$.JSArray_Widget;
-      return new A.FDContainer(A.FDColumn$(A._setArrayType([new A.FDContainer(A.FDColumn$(A._setArrayType([A.FDText$(this.title, new A.TextStyle(new A.FlartColor("#1e293b"), 20, B.FontWeight_bold)), A.FDSizedBox$(8, _null), A.FDText$(this.description, new A.TextStyle(new A.FlartColor("#64748b"), 14, _null))], t3), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null, _null, new A.EdgeInsets(20, 20, 20, 20), _null, new A.BoxDecoration(_null, _null, _null, new A.Border(_null, _null, new A.BorderSide(1, new A.FlartColor("#e2e8f0")), _null)), _null, _null, _null), new A.FDContainer(new A.FDCenter(this.child, _null), _null, _null, new A.EdgeInsets(32, 32, 32, 32), _null, new A.BoxDecoration(new A.FlartColor("#f8fafc"), new A.BorderRadius(0, 0, 12, 12), _null, _null), _null, _null, _null)], t3), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null, _null, _null, new A.EdgeInsets(0, 0, 32, 0), new A.BoxDecoration(new A.FlartColor("#ffffff"), new A.BorderRadius(12, 12, 12, 12), t2, t1), _null, _null, _null);
+      return A.FDContainer$(A.FDColumn$(A._setArrayType([A.FDContainer$(A.FDColumn$(A._setArrayType([A.FDText$(this.title, new A.TextStyle(new A.FlartColor("#1e293b"), 20, B.FontWeight_bold)), A.FDSizedBox$(8, _null), A.FDText$(this.description, new A.TextStyle(new A.FlartColor("#64748b"), 14, _null))], t3), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null, new A.BoxDecoration(_null, _null, _null, new A.Border(_null, _null, new A.BorderSide(1, new A.FlartColor("#e2e8f0")), _null)), _null, _null, _null, _null, new A.EdgeInsets(20, 20, 20, 20), _null), A.FDContainer$(new A.FDCenter(this.child, _null), _null, new A.BoxDecoration(new A.FlartColor("#f8fafc"), new A.BorderRadius(0, 0, 12, 12), _null, _null), _null, _null, _null, _null, new A.EdgeInsets(32, 32, 32, 32), _null)], t3), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null, new A.BoxDecoration(new A.FlartColor("#ffffff"), new A.BorderRadius(12, 12, 12, 12), t2, t1), _null, _null, _null, new A.EdgeInsets(0, 0, 32, 0), _null, _null);
     }
   };
   A.StructureShowcase.prototype = {
     build$1(context) {
-      var _null = null,
-        t1 = type$.JSArray_Widget;
-      return A.FDColumn$(A._setArrayType([A.FDText$("Structure Widgets", new A.TextStyle(new A.FlartColor("#1e293b"), 32, B.FontWeight_bold)), A.FDSizedBox$(8, _null), A.FDText$("Widgets used for structuring and presenting content blocks.", new A.TextStyle(new A.FlartColor("#64748b"), 16, _null)), A.FDSizedBox$(32, _null), new A.ShowcaseCard("FDCard", "A material design card with a subtle shadow and rounded corners.", new A.FDCard(A.FDColumn$(A._setArrayType([A.FDText$("Card Title", new A.TextStyle(_null, 20, B.FontWeight_bold)), A.FDSizedBox$(8, _null), A.FDText$("This is the content inside the card. It looks nice and elevated.", new A.TextStyle(new A.FlartColor("#475569"), _null, _null))], t1), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), new A.EdgeInsets(20, 20, 20, 20), _null), _null), new A.ShowcaseCard("FDDivider", "A thin horizontal line used to separate content.", A.FDColumn$(A._setArrayType([A.FDText$("Item 1", _null), A.FDDivider$(_null, 1), A.FDText$("Item 2", _null), A.FDDivider$(B.FlartMaterialColor_MYO, 2), A.FDText$("Item 3 (Blue divider)", _null)], t1), B.CrossAxisAlignment_3, B.MainAxisAlignment_0), _null), new A.ShowcaseCard("FDSkeleton", "A placeholder skeleton for loading states.", A.FDColumn$(A._setArrayType([A.FDSkeleton$(new A.BorderRadius(4, 4, 4, 4), 20, 200), A.FDSizedBox$(12, _null), A.FDSkeleton$(new A.BorderRadius(4, 4, 4, 4), 16, 300), A.FDSizedBox$(8, _null), A.FDSkeleton$(new A.BorderRadius(4, 4, 4, 4), 16, 250)], t1), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null), new A.ShowcaseCard("FDProgressIndicator", "A circular loading indicator.", new A.FDCircularProgressIndicator(40, 4, B.FlartMaterialColor_MYO, _null), _null)], t1), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
+      var t10, t11, _null = null,
+        t1 = A.FDText$("Structure Widgets", new A.TextStyle(new A.FlartColor("#1e293b"), 32, B.FontWeight_bold)),
+        t2 = A.FDSizedBox$(8, _null),
+        t3 = A.FDText$("Widgets used for structuring and presenting content blocks.", new A.TextStyle(new A.FlartColor("#64748b"), 16, _null)),
+        t4 = A.FDSizedBox$(32, _null),
+        t5 = type$.JSArray_Widget,
+        t6 = A.FDCard$(A.FDColumn$(A._setArrayType([A.FDText$("Card Title", new A.TextStyle(_null, 20, B.FontWeight_bold)), A.FDSizedBox$(8, _null), A.FDText$("This is the content inside the card. It looks nice and elevated.", new A.TextStyle(new A.FlartColor("#475569"), _null, _null))], t5), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), new A.EdgeInsets(20, 20, 20, 20)),
+        t7 = A.FDColumn$(A._setArrayType([A.FDText$("Item 1", _null), A.FDDivider$(_null, _null, 1), A.FDText$("Item 2", _null), A.FDDivider$(B.FlartMaterialColor_MYO, _null, 2), A.FDText$("Item 3 (Blue divider)", _null)], t5), B.CrossAxisAlignment_3, B.MainAxisAlignment_0),
+        t8 = A.FDColumn$(A._setArrayType([A.FDSkeleton$(new A.BorderRadius(4, 4, 4, 4), 20, 200), A.FDSizedBox$(12, _null), A.FDSkeleton$(new A.BorderRadius(4, 4, 4, 4), 16, 300), A.FDSizedBox$(8, _null), A.FDSkeleton$(new A.BorderRadius(4, 4, 4, 4), 16, 250)], t5), B.CrossAxisAlignment_0, B.MainAxisAlignment_0),
+        t9 = A.FDText$("Inbox", new A.TextStyle(_null, _null, B.FontWeight_bold));
+      t9 = A.FDListTile$(new A.FDIcon("inbox", 24, B.FlartMaterialColor_MYO, _null), new A.StructureShowcase_build_closure(), A.FDText$("Check your recent messages", _null), t9, new A.FDBadge(A.FDText$("3", _null), B.FlartMaterialColor_MYO, _null));
+      t10 = A.FDDivider$(_null, B.EdgeInsets_0_0_0_0, 1);
+      t11 = A.FDText$("Starred", new A.TextStyle(_null, _null, B.FontWeight_bold));
+      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDCard", "A material design card with a subtle shadow and rounded corners.", t6, _null), new A.ShowcaseCard("FDDivider", "A thin horizontal line used to separate content.", t7, _null), new A.ShowcaseCard("FDSkeleton", "A placeholder skeleton for loading states.", t8, _null), new A.ShowcaseCard("FDListTile", "A single fixed-height row that typically contains some text as well as a leading or trailing icon.", A.FDCard$(A.FDColumn$(A._setArrayType([t9, t10, A.FDListTile$(new A.FDIcon("star", 24, B.FlartMaterialColor_NPE, _null), new A.StructureShowcase_build_closure0(), A.FDText$("Important pinned items", _null), t11, new A.FDIcon("chevron_right", 24, B.FlartMaterialColor_qTw, _null))], t5), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), B.EdgeInsets_0_0_0_0), _null), new A.ShowcaseCard("FDProgressIndicator", "A circular loading indicator.", new A.FDCircularProgressIndicator(40, 4, B.FlartMaterialColor_MYO, _null), _null)], t5), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
     }
+  };
+  A.StructureShowcase_build_closure.prototype = {
+    call$0() {
+    },
+    $signature: 0
+  };
+  A.StructureShowcase_build_closure0.prototype = {
+    call$0() {
+    },
+    $signature: 0
   };
   (function aliases() {
     var _ = J.LegacyJavaScriptObject.prototype;
@@ -12155,9 +12146,9 @@
     var _static_1 = hunkHelpers._static_1,
       _static_0 = hunkHelpers._static_0,
       _instance_0_u = hunkHelpers._instance_0u;
-    _static_1(A, "async__AsyncRun__scheduleImmediateJsOverride$closure", "_AsyncRun__scheduleImmediateJsOverride", 6);
-    _static_1(A, "async__AsyncRun__scheduleImmediateWithSetImmediate$closure", "_AsyncRun__scheduleImmediateWithSetImmediate", 6);
-    _static_1(A, "async__AsyncRun__scheduleImmediateWithTimer$closure", "_AsyncRun__scheduleImmediateWithTimer", 6);
+    _static_1(A, "async__AsyncRun__scheduleImmediateJsOverride$closure", "_AsyncRun__scheduleImmediateJsOverride", 8);
+    _static_1(A, "async__AsyncRun__scheduleImmediateWithSetImmediate$closure", "_AsyncRun__scheduleImmediateWithSetImmediate", 8);
+    _static_1(A, "async__AsyncRun__scheduleImmediateWithTimer$closure", "_AsyncRun__scheduleImmediateWithTimer", 8);
     _static_0(A, "async___startMicrotaskLoop$closure", "_startMicrotaskLoop", 0);
     _instance_0_u(A._FDEditableTextState.prototype, "get$_handleControllerChanged", "_handleControllerChanged$0", 0);
   })();
@@ -12166,7 +12157,7 @@
       _inherit = hunkHelpers.inherit,
       _inheritMany = hunkHelpers.inheritMany;
     _inherit(A.Object, null);
-    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, A.SafeToStringHook, J.ArrayIterator, A.Error, A.ListBase, A.SentinelValue, A.Iterable, A.ListIterator, A.MappedIterator, A.WhereIterator, A.FixedLengthListMixin, A.UnmodifiableListMixin, A.MapBase, A.ConstantMap, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A._StackTrace, A.Closure, A.LinkedHashMapCell, A.LinkedHashMapKeyIterator, A.LinkedHashMapEntryIterator, A.JSSyntaxRegExp, A._MatchImplementation, A._AllMatchesIterator, A.StringMatch, A._StringAllMatchesIterator, A.Rti, A._FunctionParameters, A._Type, A._TimerImpl, A.AsyncError, A._Completer, A._FutureListener, A._Future, A._AsyncCallbackEntry, A._Zone, A._HashMapKeyIterator, A._UnmodifiableMapMixin, A.MapView, A.Codec, A.Converter, A._Utf8Encoder, A._Utf8Decoder, A.DateTime, A.Duration, A._Enum, A.OutOfMemoryError, A.StackOverflowError, A._Exception, A.FormatException, A.MapEntry, A.Null, A._StringStackTrace, A.StringBuffer, A._Uri, A.UriData, A._SimpleUri, A.Expando, A.NullRejectionException, A.ChangeNotifier, A.FlartElementNode, A.FlartTextNode, A.FlartRawHtmlNode, A.Key, A.Offset, A.BoxBorder, A.BorderSide, A.BorderRadius, A.BoxDecoration, A.BoxShadow, A.FlartColor, A.EdgeInsets, A.FontWeight, A.TextStyle, A.ThemeData, A.Widget, A.State, A.BuildContext]);
+    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, A.SafeToStringHook, J.ArrayIterator, A.Error, A.ListBase, A.SentinelValue, A.Iterable, A.ListIterator, A.MappedIterator, A.WhereIterator, A.FixedLengthListMixin, A.UnmodifiableListMixin, A.ConstantMap, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A._StackTrace, A.Closure, A.MapBase, A.LinkedHashMapCell, A.LinkedHashMapKeyIterator, A.LinkedHashMapEntryIterator, A.JSSyntaxRegExp, A._MatchImplementation, A._AllMatchesIterator, A.StringMatch, A._StringAllMatchesIterator, A.Rti, A._FunctionParameters, A._Type, A._TimerImpl, A.AsyncError, A._FutureListener, A._Future, A._AsyncCallbackEntry, A._Zone, A._UnmodifiableMapMixin, A.MapView, A.Codec, A.Converter, A._Utf8Encoder, A._Utf8Decoder, A.DateTime, A.Duration, A._Enum, A.OutOfMemoryError, A.StackOverflowError, A._Exception, A.FormatException, A.MapEntry, A.Null, A._StringStackTrace, A.StringBuffer, A._Uri, A.UriData, A._SimpleUri, A.Expando, A.ChangeNotifier, A.FlartElementNode, A.FlartTextNode, A.FlartRawHtmlNode, A.Key, A.Offset, A.Alignment, A.BoxBorder, A.BorderSide, A.BorderRadius, A.BoxDecoration, A.BoxShadow, A.FlartColor, A.EdgeInsets, A.FontWeight, A.TextStyle, A.ThemeData, A.Widget, A.State, A.DateTimeRange, A.BuildContext]);
     _inheritMany(J.Interceptor, [J.JSBool, J.JSNull, J.JavaScriptObject, J.JavaScriptBigInt, J.JavaScriptSymbol, J.JSNumber, J.JSString]);
     _inheritMany(J.JavaScriptObject, [J.LegacyJavaScriptObject, J.JSArray, A.NativeByteBuffer, A.NativeTypedData]);
     _inheritMany(J.LegacyJavaScriptObject, [J.PlainJavaScriptObject, J.UnknownJavaScriptObject, J.JavaScriptFunction]);
@@ -12177,16 +12168,15 @@
     _inherit(A.UnmodifiableListBase, A.ListBase);
     _inherit(A.CodeUnits, A.UnmodifiableListBase);
     _inheritMany(A.Iterable, [A.EfficientLengthIterable, A.MappedIterable, A.WhereIterable, A._AllMatchesIterable, A._StringAllMatchesIterable]);
-    _inheritMany(A.EfficientLengthIterable, [A.ListIterable, A.LinkedHashMapKeysIterable, A.LinkedHashMapEntriesIterable, A._HashMapKeyIterable]);
-    _inheritMany(A.ListIterable, [A.SubListIterable, A.MappedListIterable, A._ListIndicesIterable]);
+    _inheritMany(A.EfficientLengthIterable, [A.ListIterable, A.LinkedHashMapKeysIterable, A.LinkedHashMapEntriesIterable]);
+    _inheritMany(A.ListIterable, [A.SubListIterable, A.MappedListIterable]);
     _inherit(A.EfficientLengthMappedIterable, A.MappedIterable);
-    _inheritMany(A.MapBase, [A.UnmodifiableMapBase, A.JsLinkedHashMap, A._HashMap]);
-    _inherit(A.ListMapView, A.UnmodifiableMapBase);
     _inheritMany(A.ConstantMap, [A.ConstantStringMap, A.GeneralConstantMap]);
     _inherit(A.NullError, A.TypeError);
-    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.MapBase_entries_closure, A.promiseToFuture_closure, A.promiseToFuture_closure0, A.dartify_convert, A.FlartElementNode_toHtml_closure, A.VDOMReconciler__patchStyles_closure, A.VDOMReconciler__patchEvents__closure, A.FlartCallbackManager__injectGlobalHandler_closure, A._splitPathSegments_closure, A.BoxDecoration_toCss_closure, A.PageNavigator_init_closure, A.FDColumn_buildNode_closure, A.FDPositioned_render_closure, A.FDRow_buildNode_closure, A.FDStack_render_closure, A.FDWrap_render_closure, A.FDWrap_render_closure0, A.FDElevatedButton_buildNode_closure, A.FDElevatedButton_buildNode_closure0, A.FDElevatedButton_buildNode_closure1, A.FDElevatedButton_buildNode_closure2, A.FDElevatedButton_buildNode_closure3, A.FDGestureDetector_buildNode_closure, A.FDCard_render_closure, A.FDDivider_render_closure, A.FDDrawer_render_closure, A.FDGridView_buildNode_closure, A.FDImage_render_closure, A.FDSkeleton_render_closure, A.FDTabBar_render_closure, A._FDEditableTextState_build_closure, A._FDEditableTextState_build_closure0, A._FDEditableTextState_build_closure1, A._FDEditableTextState_build_closure2, A._FDEditableTextState_build_closure3, A._FDEditableTextState_build_closure4, A._FDEditableTextState_build_closure5, A.FDTextButton_render_closure, A.FDElement_buildNode_closure, A._InputShowcaseState_build_closure, A._InputShowcaseState_build_closure3, A._InputShowcaseState_build_closure4, A._InputShowcaseState_build_closure5, A._InputShowcaseState_build_closure6, A._InteractiveShowcaseState_build_closure, A._CatalogAppState_build_closure, A._NavigationShowcaseState_build_closure]);
+    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.DateTime_parse_parseIntOrZero, A.DateTime_parse_parseMilliAndMicroseconds, A.FlartElementNode_toHtml_closure, A.VDOMReconciler__patchStyles_closure, A.VDOMReconciler__patchEvents__closure, A._splitPathSegments_closure, A.BoxDecoration_toCss_closure, A.PageNavigator_init_closure, A.FDColumn_buildNode_closure, A.FDRow_buildNode_closure, A.FDStack_buildNode_closure, A.FDWrap_buildNode_closure, A.FDElevatedButton_buildNode_closure, A.FDElevatedButton_buildNode_closure0, A.FDElevatedButton_buildNode_closure1, A.FDElevatedButton_buildNode_closure2, A.FDElevatedButton_buildNode_closure3, A.FDGestureDetector_buildNode_closure, A.FDInkWell_buildNode_closure, A.FDOutlinedButton_buildNode_closure, A.FDCheckbox_buildNode_closure, A.FDRadio_buildNode_closure, A.FDSwitch_buildNode_closure, A._FDDateRangePickerState_build_closure, A._FDDateRangePickerState_build_closure0, A.DateTimePicker_buildNode_closure, A._RangePickerState_build_closure, A._RangePickerState_build_closure0, A.FDDrawer_render_closure, A.FDGridView_buildNode_closure, A.FDListTile_buildNode_closure, A.FDTabBar_buildNode_closure, A._FDEditableTextState_build_closure, A._FDEditableTextState_build_closure0, A.FDTextButton_buildNode_closure, A.FDElement_buildNode_closure, A._InputShowcaseState_build_closure, A._InputShowcaseState_build_closure4, A._InputShowcaseState_build_closure5, A._InputShowcaseState_build_closure6, A._InputShowcaseState_build_closure7, A._InteractiveShowcaseState_build_closure, A._InteractiveShowcaseState_build_closure0, A._CatalogAppState_build_closure, A._NavigationShowcaseState_build_closure]);
     _inheritMany(A.TearOffClosure, [A.StaticClosure, A.BoundClosure]);
-    _inheritMany(A.Closure2Args, [A.JsLinkedHashMap_addAll_closure, A.initHooks_closure0, A._Future__propagateToListeners_handleWhenCompleteCallback_closure0, A.LinkedHashMap_LinkedHashMap$from_closure, A.MapBase_mapToString_closure, A._Uri__makeQueryFromParameters_closure, A.Uri_splitQueryString_closure, A.Uri_parseIPv6Address_error, A._Uri__makeQueryFromParametersDefault_writeParameter, A._Uri__makeQueryFromParametersDefault_closure, A.VDOMReconciler__patchEvents_closure, A.VDOMReconciler__patchEvents_closure0, A.FlartCallbackManager__injectGlobalHandler_closure0]);
+    _inherit(A.JsLinkedHashMap, A.MapBase);
+    _inheritMany(A.Closure2Args, [A.JsLinkedHashMap_addAll_closure, A.initHooks_closure0, A._Future__propagateToListeners_handleWhenCompleteCallback_closure0, A.LinkedHashMap_LinkedHashMap$from_closure, A.MapBase_mapToString_closure, A._Uri__makeQueryFromParameters_closure, A.Uri_splitQueryString_closure, A.Uri_parseIPv6Address_error, A._Uri__makeQueryFromParametersDefault_writeParameter, A._Uri__makeQueryFromParametersDefault_closure, A.VDOMReconciler__patchEvents_closure, A.VDOMReconciler__patchEvents_closure0]);
     _inherit(A.JsConstantLinkedHashMap, A.JsLinkedHashMap);
     _inheritMany(A.NativeTypedData, [A.NativeByteData, A.NativeTypedArray]);
     _inheritMany(A.NativeTypedArray, [A._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin, A._NativeTypedArrayOfInt_NativeTypedArray_ListMixin]);
@@ -12197,10 +12187,8 @@
     _inheritMany(A.NativeTypedArrayOfDouble, [A.NativeFloat32List, A.NativeFloat64List]);
     _inheritMany(A.NativeTypedArrayOfInt, [A.NativeInt16List, A.NativeInt32List, A.NativeInt8List, A.NativeUint16List, A.NativeUint32List, A.NativeUint8ClampedList, A.NativeUint8List]);
     _inherit(A._TypeError, A._Error);
-    _inheritMany(A.Closure0Args, [A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A.Future_Future$delayed_closure, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__chainCoreFuture_closure, A._Future__asyncCompleteWithValue_closure, A._Future__asyncCompleteErrorObject_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A._RootZone_bindCallbackGuarded_closure, A._rootHandleError_closure, A._Utf8Decoder__decoder_closure, A._Utf8Decoder__decoderNonfatal_closure, A._HeroState_build_closure, A.FDCheckbox_render_closure, A.FDRadio_render_closure, A.FDSwitch_render_closure, A.FDTabBar_render__closure, A._FDEditableTextState__handleControllerChanged_closure, A._AnimationShowcaseState_build_closure, A._AnimationShowcaseState_build__closure, A.DialogShowcase_build_closure, A.DialogShowcase_build_closure0, A.DialogShowcase_build_closure1, A._InputShowcaseState_build__closure3, A._InputShowcaseState_build_closure0, A._InputShowcaseState_build_closure1, A._InputShowcaseState_build_closure2, A._InputShowcaseState_build__closure2, A._InputShowcaseState_build__closure1, A._InputShowcaseState_build__closure0, A._InputShowcaseState_build__closure, A._InteractiveShowcaseState_build__closure, A._CatalogAppState_build__closure, A._CatalogAppState_build___closure, A._NavigationShowcaseState_build__closure]);
-    _inherit(A._AsyncCompleter, A._Completer);
+    _inheritMany(A.Closure0Args, [A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A.Future_Future$delayed_closure, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__asyncCompleteErrorObject_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A._RootZone_bindCallbackGuarded_closure, A._rootHandleError_closure, A._Utf8Decoder__decoder_closure, A._Utf8Decoder__decoderNonfatal_closure, A._HeroState_build_closure, A._FDDateRangePickerState_build__closure0, A._FDDateRangePickerState_build__closure, A._RangePickerState_build__closure0, A._RangePickerState_build__closure, A._FDEditableTextState__handleControllerChanged_closure, A._AnimationShowcaseState_build_closure, A._AnimationShowcaseState_build__closure, A.DialogShowcase_build_closure, A.DialogShowcase_build_closure0, A.DialogShowcase_build_closure1, A._InputShowcaseState_build__closure3, A._InputShowcaseState_build_closure0, A._InputShowcaseState_build_closure1, A._InputShowcaseState_build_closure2, A._InputShowcaseState_build_closure3, A._InputShowcaseState_build__closure2, A._InputShowcaseState_build__closure1, A._InputShowcaseState_build__closure0, A._InputShowcaseState_build__closure, A._InteractiveShowcaseState_build__closure0, A._InteractiveShowcaseState_build__closure, A._CatalogAppState_build__closure, A._CatalogAppState_build___closure, A._NavigationShowcaseState_build__closure, A.StructureShowcase_build_closure, A.StructureShowcase_build_closure0]);
     _inherit(A._RootZone, A._Zone);
-    _inherit(A._IdentityHashMap, A._HashMap);
     _inherit(A._UnmodifiableMapView_MapView__UnmodifiableMapMixin, A.MapView);
     _inherit(A.UnmodifiableMapView, A._UnmodifiableMapView_MapView__UnmodifiableMapMixin);
     _inheritMany(A.Codec, [A.Base64Codec, A.Encoding]);
@@ -12213,17 +12201,16 @@
     _inherit(A.ValueKey, A.Key);
     _inherit(A.Border, A.BoxBorder);
     _inherit(A.FlartMaterialColor, A.FlartColor);
-    _inheritMany(A.Widget, [A.InheritedWidget, A.StatefulWidget, A.FDCenter, A.FDColumn, A.FDPositioned, A.FDRow, A.FDStack, A.FDWrap, A.FDElevatedButton, A.FDGestureDetector, A.FDCheckbox, A.FDRadio, A.FDSwitch, A.StatelessWidget, A.VideoPlayer, A.YouTubePlayer, A.FDDateRangePicker, A.DateTimePicker, A.RangePicker, A.FDAppBar, A.FDCard, A.FDContainer, A.FDDialog, A.FDDivider, A.FDDrawer, A.FDExpanded, A.FDGridView, A.FDIcon, A.FDImage, A.FDMaterialApp, A.FDCircularProgressIndicator, A.FDScaffold, A.FDSingleChildScrollView, A.FDSizedBox, A.FDSkeleton, A.FDTabBar, A.FDTabBarView, A.FDText, A.FDTextButton, A.FDElement]);
+    _inheritMany(A.Widget, [A.InheritedWidget, A.StatefulWidget, A.FDCenter, A.FDColumn, A.FDPositioned, A.FDRow, A.FDStack, A.FDWrap, A.FDElevatedButton, A.FDGestureDetector, A.FDInkWell, A.FDOutlinedButton, A.FDCheckbox, A.FDRadio, A.FDSwitch, A.StatelessWidget, A.VideoPlayer, A.YouTubePlayer, A._RawFlartNodeWidget, A.DateTimePicker, A.FDAppBar, A.FDCard, A.FDBadge, A.FDContainer, A.FDDialog, A.FDDivider, A.FDDrawer, A.FDExpanded, A.FDGridView, A.FDIcon, A.FDImage, A.FDListTile, A.FDMaterialApp, A.FDCircularProgressIndicator, A.FDScaffold, A.FDSingleChildScrollView, A.FDSizedBox, A.FDSkeleton, A.FDTabBar, A.FDTabBarView, A.FDText, A.FDTextButton, A.FDElement]);
     _inherit(A.Theme, A.InheritedWidget);
-    _inheritMany(A.StatefulWidget, [A.Hero, A.FDEditableText, A.AnimationShowcase, A.InputShowcase, A.InteractiveShowcase, A.CatalogApp, A.NavigationShowcase]);
-    _inheritMany(A.State, [A._HeroState, A._FDEditableTextState, A._AnimationShowcaseState, A._InputShowcaseState, A._InteractiveShowcaseState, A._CatalogAppState, A._NavigationShowcaseState]);
+    _inheritMany(A.StatefulWidget, [A.Hero, A.FDDateRangePicker, A.RangePicker, A.FDEditableText, A.AnimationShowcase, A.InputShowcase, A.InteractiveShowcase, A.CatalogApp, A.NavigationShowcase]);
+    _inheritMany(A.State, [A._HeroState, A._FDDateRangePickerState, A._RangePickerState, A._FDEditableTextState, A._AnimationShowcaseState, A._InputShowcaseState, A._InteractiveShowcaseState, A._CatalogAppState, A._NavigationShowcaseState]);
     _inheritMany(A.StatelessWidget, [A.FDTextField, A.BasicShowcase, A.DialogShowcase, A.LayoutShowcase, A._SidebarItem, A.MediaShowcase, A.ScrollableShowcase, A.ShowcaseCard, A.StructureShowcase]);
     _mixin(A.UnmodifiableListBase, A.UnmodifiableListMixin);
     _mixin(A._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin, A.ListBase);
     _mixin(A._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin, A.FixedLengthListMixin);
     _mixin(A._NativeTypedArrayOfInt_NativeTypedArray_ListMixin, A.ListBase);
     _mixin(A._NativeTypedArrayOfInt_NativeTypedArray_ListMixin_FixedLengthListMixin, A.FixedLengthListMixin);
-    _mixin(A.UnmodifiableMapBase, A._UnmodifiableMapMixin);
     _mixin(A._UnmodifiableMapView_MapView__UnmodifiableMapMixin, A._UnmodifiableMapMixin);
   })();
   var init = {
@@ -12231,20 +12218,15 @@
     typeUniverse: {eC: new Map(), tR: {}, eT: {}, tPV: {}, sEA: []},
     mangledGlobalNames: {int: "int", double: "double", num: "num", String: "String", bool: "bool", Null: "Null", List: "List", Object: "Object", Map: "Map", JSObject: "JSObject"},
     mangledNames: {},
-    types: ["~()", "String(MapEntry<String,String>)", "Null(@)", "~(@)", "~(bool)", "Null()", "~(~())", "FlartNode(Widget)", "~(String)", "~(String,@)", "@()", "Null(JSObject)", "@(@)", "Map<String,String>(Map<String,String>,String)", "0&(String,int?)", "~(String,String?)", "Null(~())", "Object?(Object?)", "@(String)", "~(String,JavaScriptFunction)", "~(String,@(JSObject))", "@(@,String)", "Null(String,Object?)", "bool(String)", "String(BoxShadow)", "Null(Object,StackTrace)", "String(Widget)", "FlartElementNode(Widget)", "String(MapEntry<int,Widget>)", "~(@,@)", "~(Object?,Object?)", "_SidebarItem(int)", "~(int)", "Null(String)"],
+    types: ["~()", "~(JSObject)", "String(MapEntry<String,String>)", "~(@)", "FlartNode(Widget)", "Null()", "~(String)", "~(bool)", "~(~())", "Null(@)", "@()", "~(String,@)", "int(String?)", "Null(JSObject)", "@(@)", "@(@,String)", "@(String)", "Null(~())", "Null(Object,StackTrace)", "~(@,@)", "~(Object?,Object?)", "Map<String,String>(Map<String,String>,String)", "0&(String,int?)", "~(String,String?)", "~(String,JavaScriptFunction)", "~(String,~(JSObject))", "bool(String)", "String(BoxShadow)", "FlartElementNode(Widget)", "~(DateTimeRange)", "_SidebarItem(int)", "~(int)"],
     interceptorsByTag: null,
     leafTags: null,
     arrayRti: Symbol("$ti")
   };
-  A._Universe_addRules(init.typeUniverse, JSON.parse('{"JavaScriptFunction":"LegacyJavaScriptObject","PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","NativeArrayBuffer":"NativeByteBuffer","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"Null":[],"TrustedGetRuntimeType":[]},"JavaScriptObject":{"JSObject":[]},"LegacyJavaScriptObject":{"JSObject":[]},"JSArray":{"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"JSArraySafeToStringHook":{"SafeToStringHook":[]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"ArrayIterator":{"Iterator":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"Pattern":[],"TrustedGetRuntimeType":[]},"LateError":{"Error":[]},"CodeUnits":{"ListBase":["int"],"UnmodifiableListMixin":["int"],"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"],"ListBase.E":"int","UnmodifiableListMixin.E":"int"},"EfficientLengthIterable":{"Iterable":["1"]},"ListIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"]},"SubListIterable":{"ListIterable":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1","ListIterable.E":"1"},"ListIterator":{"Iterator":["1"]},"MappedIterable":{"Iterable":["2"],"Iterable.E":"2"},"EfficientLengthMappedIterable":{"MappedIterable":["1","2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2"},"MappedIterator":{"Iterator":["2"]},"MappedListIterable":{"ListIterable":["2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2","ListIterable.E":"2"},"WhereIterable":{"Iterable":["1"],"Iterable.E":"1"},"WhereIterator":{"Iterator":["1"]},"UnmodifiableListBase":{"ListBase":["1"],"UnmodifiableListMixin":["1"],"List":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"_ListIndicesIterable":{"ListIterable":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"],"Iterable.E":"int","ListIterable.E":"int"},"ListMapView":{"MapBase":["int","1"],"_UnmodifiableMapMixin":["int","1"],"Map":["int","1"],"MapBase.K":"int","MapBase.V":"1","_UnmodifiableMapMixin.K":"int","_UnmodifiableMapMixin.V":"1"},"ConstantMap":{"Map":["1","2"]},"ConstantStringMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"GeneralConstantMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"JsLinkedHashMap":{"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"],"MapBase.K":"1","MapBase.V":"2"},"LinkedHashMapKeysIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"LinkedHashMapKeyIterator":{"Iterator":["1"]},"LinkedHashMapEntriesIterable":{"EfficientLengthIterable":["MapEntry<1,2>"],"Iterable":["MapEntry<1,2>"],"Iterable.E":"MapEntry<1,2>"},"LinkedHashMapEntryIterator":{"Iterator":["MapEntry<1,2>"]},"JsConstantLinkedHashMap":{"JsLinkedHashMap":["1","2"],"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"],"MapBase.K":"1","MapBase.V":"2"},"JSSyntaxRegExp":{"RegExp":[],"Pattern":[]},"_MatchImplementation":{"RegExpMatch":[],"Match":[]},"_AllMatchesIterable":{"Iterable":["RegExpMatch"],"Iterable.E":"RegExpMatch"},"_AllMatchesIterator":{"Iterator":["RegExpMatch"]},"StringMatch":{"Match":[]},"_StringAllMatchesIterable":{"Iterable":["Match"],"Iterable.E":"Match"},"_StringAllMatchesIterator":{"Iterator":["Match"]},"NativeByteBuffer":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedData":{"JSObject":[]},"NativeByteData":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedArray":{"JavaScriptIndexingBehavior":["1"],"JSObject":[]},"NativeTypedArrayOfDouble":{"ListBase":["double"],"NativeTypedArray":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"]},"NativeTypedArrayOfInt":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"]},"NativeFloat32List":{"ListBase":["double"],"NativeTypedArray":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeFloat64List":{"ListBase":["double"],"NativeTypedArray":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeInt16List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt32List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt8List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint16List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint32List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8ClampedList":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8List":{"Uint8List":[],"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"_Type":{"Type":[]},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"AsyncError":{"Error":[]},"_AsyncCompleter":{"_Completer":["1"]},"_Future":{"Future":["1"]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"_HashMap":{"MapBase":["1","2"],"Map":["1","2"]},"_IdentityHashMap":{"_HashMap":["1","2"],"MapBase":["1","2"],"Map":["1","2"],"MapBase.K":"1","MapBase.V":"2"},"_HashMapKeyIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"_HashMapKeyIterator":{"Iterator":["1"]},"ListBase":{"List":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"MapBase":{"Map":["1","2"]},"UnmodifiableMapBase":{"MapBase":["1","2"],"_UnmodifiableMapMixin":["1","2"],"Map":["1","2"]},"MapView":{"Map":["1","2"]},"UnmodifiableMapView":{"_UnmodifiableMapView_MapView__UnmodifiableMapMixin":["1","2"],"MapView":["1","2"],"_UnmodifiableMapMixin":["1","2"],"Map":["1","2"],"_UnmodifiableMapMixin.K":"1","_UnmodifiableMapMixin.V":"2"},"Base64Codec":{"Codec":["List<int>","String"]},"Encoding":{"Codec":["String","List<int>"]},"Utf8Codec":{"Codec":["String","List<int>"]},"double":{"num":[]},"int":{"num":[]},"List":{"EfficientLengthIterable":["1"],"Iterable":["1"]},"RegExpMatch":{"Match":[]},"String":{"Pattern":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"OutOfMemoryError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"StringBuffer":{"StringSink":[]},"_Uri":{"Uri":[]},"_SimpleUri":{"Uri":[]},"_DataUri":{"Uri":[]},"FlartElementNode":{"FlartNode":[]},"FlartTextNode":{"FlartNode":[]},"FlartRawHtmlNode":{"FlartNode":[]},"ValueKey":{"Key":[]},"FlartMaterialColor":{"FlartColor":[]},"Theme":{"Widget":[]},"Hero":{"StatefulWidget":[],"Widget":[]},"_HeroState":{"State":["Hero"],"State.T":"Hero"},"FDCenter":{"Widget":[]},"FDColumn":{"Widget":[]},"FDPositioned":{"Widget":[]},"FDRow":{"Widget":[]},"FDStack":{"Widget":[]},"FDWrap":{"Widget":[]},"FDElevatedButton":{"Widget":[]},"FDGestureDetector":{"Widget":[]},"InheritedWidget":{"Widget":[]},"FDCheckbox":{"Widget":[]},"FDRadio":{"Widget":[]},"FDSwitch":{"Widget":[]},"FDTextField":{"Widget":[]},"VideoPlayer":{"Widget":[]},"YouTubePlayer":{"Widget":[]},"FDDateRangePicker":{"Widget":[]},"DateTimePicker":{"Widget":[]},"RangePicker":{"Widget":[]},"StatefulWidget":{"Widget":[]},"StatelessWidget":{"Widget":[]},"FDAppBar":{"Widget":[]},"FDCard":{"Widget":[]},"FDContainer":{"Widget":[]},"FDDialog":{"Widget":[]},"FDDivider":{"Widget":[]},"FDDrawer":{"Widget":[]},"FDExpanded":{"Widget":[]},"FDGridView":{"Widget":[]},"FDIcon":{"Widget":[]},"FDImage":{"Widget":[]},"FDMaterialApp":{"Widget":[]},"FDCircularProgressIndicator":{"Widget":[]},"FDScaffold":{"Widget":[]},"FDSingleChildScrollView":{"Widget":[]},"FDSizedBox":{"Widget":[]},"FDSkeleton":{"Widget":[]},"FDTabBar":{"Widget":[]},"FDTabBarView":{"Widget":[]},"FDEditableText":{"StatefulWidget":[],"Widget":[]},"_FDEditableTextState":{"State":["FDEditableText"],"State.T":"FDEditableText"},"FDText":{"Widget":[]},"FDTextButton":{"Widget":[]},"FDElement":{"Widget":[]},"AnimationShowcase":{"StatefulWidget":[],"Widget":[]},"_AnimationShowcaseState":{"State":["AnimationShowcase"],"State.T":"AnimationShowcase"},"BasicShowcase":{"Widget":[]},"DialogShowcase":{"Widget":[]},"InputShowcase":{"StatefulWidget":[],"Widget":[]},"_InputShowcaseState":{"State":["InputShowcase"],"State.T":"InputShowcase"},"InteractiveShowcase":{"StatefulWidget":[],"Widget":[]},"_InteractiveShowcaseState":{"State":["InteractiveShowcase"],"State.T":"InteractiveShowcase"},"LayoutShowcase":{"Widget":[]},"CatalogApp":{"StatefulWidget":[],"Widget":[]},"_SidebarItem":{"Widget":[]},"_CatalogAppState":{"State":["CatalogApp"],"State.T":"CatalogApp"},"MediaShowcase":{"Widget":[]},"NavigationShowcase":{"StatefulWidget":[],"Widget":[]},"_NavigationShowcaseState":{"State":["NavigationShowcase"],"State.T":"NavigationShowcase"},"ScrollableShowcase":{"Widget":[]},"ShowcaseCard":{"Widget":[]},"StructureShowcase":{"Widget":[]},"Int8List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint8List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint8ClampedList":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Int16List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint16List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Int32List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint32List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Float32List":{"List":["double"],"EfficientLengthIterable":["double"],"Iterable":["double"]},"Float64List":{"List":["double"],"EfficientLengthIterable":["double"],"Iterable":["double"]}}'));
-  A._Universe_addErasedTypes(init.typeUniverse, JSON.parse('{"EfficientLengthIterable":1,"UnmodifiableListBase":1,"NativeTypedArray":1,"UnmodifiableMapBase":2,"Converter":2}'));
+  A._Universe_addRules(init.typeUniverse, JSON.parse('{"JavaScriptFunction":"LegacyJavaScriptObject","PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","NativeArrayBuffer":"NativeByteBuffer","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"Null":[],"TrustedGetRuntimeType":[]},"JavaScriptObject":{"JSObject":[]},"LegacyJavaScriptObject":{"JSObject":[]},"JSArray":{"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"JSArraySafeToStringHook":{"SafeToStringHook":[]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"ArrayIterator":{"Iterator":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"Pattern":[],"TrustedGetRuntimeType":[]},"LateError":{"Error":[]},"CodeUnits":{"ListBase":["int"],"UnmodifiableListMixin":["int"],"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"],"ListBase.E":"int","UnmodifiableListMixin.E":"int"},"EfficientLengthIterable":{"Iterable":["1"]},"ListIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"]},"SubListIterable":{"ListIterable":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1","ListIterable.E":"1"},"ListIterator":{"Iterator":["1"]},"MappedIterable":{"Iterable":["2"],"Iterable.E":"2"},"EfficientLengthMappedIterable":{"MappedIterable":["1","2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2"},"MappedIterator":{"Iterator":["2"]},"MappedListIterable":{"ListIterable":["2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2","ListIterable.E":"2"},"WhereIterable":{"Iterable":["1"],"Iterable.E":"1"},"WhereIterator":{"Iterator":["1"]},"UnmodifiableListBase":{"ListBase":["1"],"UnmodifiableListMixin":["1"],"List":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"ConstantMap":{"Map":["1","2"]},"ConstantStringMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"GeneralConstantMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"JsLinkedHashMap":{"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"]},"LinkedHashMapKeysIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"LinkedHashMapKeyIterator":{"Iterator":["1"]},"LinkedHashMapEntriesIterable":{"EfficientLengthIterable":["MapEntry<1,2>"],"Iterable":["MapEntry<1,2>"],"Iterable.E":"MapEntry<1,2>"},"LinkedHashMapEntryIterator":{"Iterator":["MapEntry<1,2>"]},"JsConstantLinkedHashMap":{"JsLinkedHashMap":["1","2"],"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"]},"JSSyntaxRegExp":{"RegExp":[],"Pattern":[]},"_MatchImplementation":{"RegExpMatch":[],"Match":[]},"_AllMatchesIterable":{"Iterable":["RegExpMatch"],"Iterable.E":"RegExpMatch"},"_AllMatchesIterator":{"Iterator":["RegExpMatch"]},"StringMatch":{"Match":[]},"_StringAllMatchesIterable":{"Iterable":["Match"],"Iterable.E":"Match"},"_StringAllMatchesIterator":{"Iterator":["Match"]},"NativeByteBuffer":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedData":{"JSObject":[]},"NativeByteData":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedArray":{"JavaScriptIndexingBehavior":["1"],"JSObject":[]},"NativeTypedArrayOfDouble":{"ListBase":["double"],"NativeTypedArray":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"]},"NativeTypedArrayOfInt":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"]},"NativeFloat32List":{"ListBase":["double"],"NativeTypedArray":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeFloat64List":{"ListBase":["double"],"NativeTypedArray":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeInt16List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt32List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt8List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint16List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint32List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8ClampedList":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8List":{"Uint8List":[],"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"_Type":{"Type":[]},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"AsyncError":{"Error":[]},"_Future":{"Future":["1"]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"ListBase":{"List":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"MapBase":{"Map":["1","2"]},"MapView":{"Map":["1","2"]},"UnmodifiableMapView":{"_UnmodifiableMapView_MapView__UnmodifiableMapMixin":["1","2"],"MapView":["1","2"],"_UnmodifiableMapMixin":["1","2"],"Map":["1","2"]},"Base64Codec":{"Codec":["List<int>","String"]},"Encoding":{"Codec":["String","List<int>"]},"Utf8Codec":{"Codec":["String","List<int>"]},"double":{"num":[]},"int":{"num":[]},"List":{"EfficientLengthIterable":["1"],"Iterable":["1"]},"RegExpMatch":{"Match":[]},"String":{"Pattern":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"OutOfMemoryError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"StringBuffer":{"StringSink":[]},"_Uri":{"Uri":[]},"_SimpleUri":{"Uri":[]},"_DataUri":{"Uri":[]},"FlartElementNode":{"FlartNode":[]},"FlartTextNode":{"FlartNode":[]},"FlartRawHtmlNode":{"FlartNode":[]},"ValueKey":{"Key":[]},"FlartMaterialColor":{"FlartColor":[]},"Theme":{"Widget":[]},"Hero":{"StatefulWidget":[],"Widget":[]},"_HeroState":{"State":["Hero"],"State.T":"Hero"},"FDCenter":{"Widget":[]},"FDColumn":{"Widget":[]},"FDPositioned":{"Widget":[]},"FDRow":{"Widget":[]},"FDStack":{"Widget":[]},"FDWrap":{"Widget":[]},"FDElevatedButton":{"Widget":[]},"FDGestureDetector":{"Widget":[]},"FDInkWell":{"Widget":[]},"FDOutlinedButton":{"Widget":[]},"InheritedWidget":{"Widget":[]},"FDCheckbox":{"Widget":[]},"FDRadio":{"Widget":[]},"FDSwitch":{"Widget":[]},"FDTextField":{"Widget":[]},"VideoPlayer":{"Widget":[]},"YouTubePlayer":{"Widget":[]},"FDDateRangePicker":{"StatefulWidget":[],"Widget":[]},"RangePicker":{"StatefulWidget":[],"Widget":[]},"_FDDateRangePickerState":{"State":["FDDateRangePicker"],"State.T":"FDDateRangePicker"},"_RawFlartNodeWidget":{"Widget":[]},"DateTimePicker":{"Widget":[]},"_RangePickerState":{"State":["RangePicker"],"State.T":"RangePicker"},"StatefulWidget":{"Widget":[]},"StatelessWidget":{"Widget":[]},"FDAppBar":{"Widget":[]},"FDCard":{"Widget":[]},"FDBadge":{"Widget":[]},"FDContainer":{"Widget":[]},"FDDialog":{"Widget":[]},"FDDivider":{"Widget":[]},"FDDrawer":{"Widget":[]},"FDExpanded":{"Widget":[]},"FDGridView":{"Widget":[]},"FDIcon":{"Widget":[]},"FDImage":{"Widget":[]},"FDListTile":{"Widget":[]},"FDMaterialApp":{"Widget":[]},"FDCircularProgressIndicator":{"Widget":[]},"FDScaffold":{"Widget":[]},"FDSingleChildScrollView":{"Widget":[]},"FDSizedBox":{"Widget":[]},"FDSkeleton":{"Widget":[]},"FDTabBar":{"Widget":[]},"FDTabBarView":{"Widget":[]},"FDEditableText":{"StatefulWidget":[],"Widget":[]},"_FDEditableTextState":{"State":["FDEditableText"],"State.T":"FDEditableText"},"FDText":{"Widget":[]},"FDTextButton":{"Widget":[]},"FDElement":{"Widget":[]},"AnimationShowcase":{"StatefulWidget":[],"Widget":[]},"_AnimationShowcaseState":{"State":["AnimationShowcase"],"State.T":"AnimationShowcase"},"BasicShowcase":{"Widget":[]},"DialogShowcase":{"Widget":[]},"InputShowcase":{"StatefulWidget":[],"Widget":[]},"_InputShowcaseState":{"State":["InputShowcase"],"State.T":"InputShowcase"},"InteractiveShowcase":{"StatefulWidget":[],"Widget":[]},"_InteractiveShowcaseState":{"State":["InteractiveShowcase"],"State.T":"InteractiveShowcase"},"LayoutShowcase":{"Widget":[]},"CatalogApp":{"StatefulWidget":[],"Widget":[]},"_SidebarItem":{"Widget":[]},"_CatalogAppState":{"State":["CatalogApp"],"State.T":"CatalogApp"},"MediaShowcase":{"Widget":[]},"NavigationShowcase":{"StatefulWidget":[],"Widget":[]},"_NavigationShowcaseState":{"State":["NavigationShowcase"],"State.T":"NavigationShowcase"},"ScrollableShowcase":{"Widget":[]},"ShowcaseCard":{"Widget":[]},"StructureShowcase":{"Widget":[]},"Int8List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint8List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint8ClampedList":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Int16List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint16List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Int32List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint32List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Float32List":{"List":["double"],"EfficientLengthIterable":["double"],"Iterable":["double"]},"Float64List":{"List":["double"],"EfficientLengthIterable":["double"],"Iterable":["double"]}}'));
+  A._Universe_addErasedTypes(init.typeUniverse, JSON.parse('{"EfficientLengthIterable":1,"UnmodifiableListBase":1,"NativeTypedArray":1,"Converter":2}'));
   var string$ = {
-    x00_____: "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\u03f6\x00\u0404\u03f4 \u03f4\u03f6\u01f6\u01f6\u03f6\u03fc\u01f4\u03ff\u03ff\u0584\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u05d4\u01f4\x00\u01f4\x00\u0504\u05c4\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u0400\x00\u0400\u0200\u03f7\u0200\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u0200\u0200\u0200\u03f7\x00",
-    x20x0a____: ' \n        \n        style="\n          width: 20px;\n          height: 20px;\n          cursor: pointer;\n          accent-color: ',
-    x20x20____: '      <div style="display: flex; flex-direction: column; gap: 4px;">\n        ',
-    x27_____: "');\n          const endInput = document.getElementById('",
-    x3b_____: ';\n          transition: accent-color 0.2s;\n          \n        "\n        ',
-    x3clabel: '<label style="font-size: 14px; font-weight: 500; color: #333;">',
+    ______: "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\u03f6\x00\u0404\u03f4 \u03f4\u03f6\u01f6\u01f6\u03f6\u03fc\u01f4\u03ff\u03ff\u0584\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u05d4\u01f4\x00\u01f4\x00\u0504\u05c4\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u0400\x00\u0400\u0200\u03f7\u0200\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u0200\u0200\u0200\u03f7\x00",
     Error_: "Error handler must accept one Object or one Object and a StackTrace as arguments, and return a value of the returned future's type"
   };
   var type$ = (function rtii() {
@@ -12274,7 +12256,6 @@
       List_dynamic: findType("List<@>"),
       List_int: findType("List<int>"),
       MapEntry_String_String: findType("MapEntry<String,String>"),
-      MapEntry_int_Widget: findType("MapEntry<int,Widget>"),
       Map_String_String: findType("Map<String,String>"),
       Null: findType("Null"),
       Object: findType("Object"),
@@ -12293,17 +12274,14 @@
       WhereIterable_String: findType("WhereIterable<String>"),
       Widget: findType("Widget"),
       _Future_dynamic: findType("_Future<@>"),
-      _IdentityHashMap_of_nullable_Object_and_nullable_Object: findType("_IdentityHashMap<Object?,Object?>"),
       bool: findType("bool"),
       bool_Function_Object: findType("bool(Object)"),
       bool_Function_String: findType("bool(String)"),
       double: findType("double"),
       dynamic: findType("@"),
       dynamic_Function: findType("@()"),
-      dynamic_Function_JSObject: findType("@(JSObject)"),
       dynamic_Function_Object: findType("@(Object)"),
       dynamic_Function_Object_StackTrace: findType("@(Object,StackTrace)"),
-      dynamic_Function_dynamic: findType("@(@)"),
       int: findType("int"),
       nullable_Future_Null: findType("Future<Null>?"),
       nullable_JSObject: findType("JSObject?"),
@@ -12318,7 +12296,9 @@
       nullable_num: findType("num?"),
       num: findType("num"),
       void: findType("~"),
-      void_Function: findType("~()")
+      void_Function: findType("~()"),
+      void_Function_JSObject: findType("~(JSObject)"),
+      void_Function_dynamic: findType("~(@)")
     };
   })();
   (function constants() {
@@ -12336,6 +12316,7 @@
     B.Axis_0 = new A.Axis(0, "horizontal");
     B.Axis_1 = new A.Axis(1, "vertical");
     B.BoxFit_2 = new A.BoxFit(2, "cover");
+    B.C_Alignment = new A.Alignment();
     B.C_Base64Encoder = new A.Base64Encoder();
     B.C_Base64Codec = new A.Base64Codec();
     B.C_JS_CONST = function getTagFallback(o) {
@@ -12473,6 +12454,7 @@
     B.CrossAxisAlignment_1 = new A.CrossAxisAlignment(1, "center");
     B.CrossAxisAlignment_3 = new A.CrossAxisAlignment(3, "stretch");
     B.Duration_0 = new A.Duration(0);
+    B.EdgeInsets_0_0_0_0 = new A.EdgeInsets(0, 0, 0, 0);
     B.EdgeInsets_40_40_40_40 = new A.EdgeInsets(40, 40, 40, 40);
     B.FlartColor_hwE = new A.FlartColor("#000000");
     B.FlartColor_wtx = new A.FlartColor("#FFFFFF");
@@ -12494,6 +12476,12 @@
     B.FlartColor_cez = new A.FlartColor("#0D47A1");
     B.Map_tFBcW = new A.GeneralConstantMap([50, B.FlartColor_zoP, 100, B.FlartColor_Gn4, 200, B.FlartColor_UZE, 300, B.FlartColor_ISC, 400, B.FlartColor_zTR, 500, B.FlartColor_QOb, 600, B.FlartColor_LG4, 700, B.FlartColor_fnX, 800, B.FlartColor_VUl, 900, B.FlartColor_cez], type$.GeneralConstantMap_int_FlartColor);
     B.FlartMaterialColor_MYO = new A.FlartMaterialColor(B.Map_tFBcW, "#2196F3");
+    B.FlartColor_rfX = new A.FlartColor("#FFF3E0");
+    B.FlartColor_jxz = new A.FlartColor("#FFE0B2");
+    B.FlartColor_PcC = new A.FlartColor("#FF9800");
+    B.FlartColor_lhR = new A.FlartColor("#E65100");
+    B.Map_sUEeW = new A.GeneralConstantMap([50, B.FlartColor_rfX, 100, B.FlartColor_jxz, 500, B.FlartColor_PcC, 900, B.FlartColor_lhR], type$.GeneralConstantMap_int_FlartColor);
+    B.FlartMaterialColor_NPE = new A.FlartMaterialColor(B.Map_sUEeW, "#FF9800");
     B.FlartColor_TZ2 = new A.FlartColor("#F5F5F5");
     B.FlartColor_Apb = new A.FlartColor("#E0E0E0");
     B.FlartColor_J1B = new A.FlartColor("#9E9E9E");
@@ -12549,10 +12537,6 @@
     $._rootWidget = null;
     $._appContainer = null;
     $._overlayContainer = null;
-    $.FlartCallbackManager__handlers = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, type$.void_Function);
-    $.FlartCallbackManager__eventHandlers = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, A.findType("~(@)"));
-    $.FlartCallbackManager__counter = 0;
-    $.FlartCallbackManager__jsInjected = false;
     $.PageNavigator__stack = A._setArrayType([], type$.JSArray_Widget);
     $.PageNavigator__routes = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, A.findType("Widget(Map<String,String>)"));
     $.PageNavigator__isInitialized = false;
@@ -12618,6 +12602,7 @@
     _lazyFinal($, "_Base64Decoder__inverseAlphabet", "$get$_Base64Decoder__inverseAlphabet", () => A.NativeInt8List__create1(A._ensureNativeList(A._setArrayType([-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -2, -2, -2, -2, -2, 62, -2, 62, -2, 63, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -2, -2, -2, -1, -2, -2, -2, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -2, -2, -2, -2, 63, -2, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -2, -2, -2, -2, -2], type$.JSArray_int))));
     _lazyFinal($, "_Uri__needsNoEncoding", "$get$_Uri__needsNoEncoding", () => A.RegExp_RegExp("^[\\-\\.0-9A-Z_a-z~]*$"));
     _lazyFinal($, "_Uri__useURLSearchParams", "$get$_Uri__useURLSearchParams", () => typeof URLSearchParams == "function");
+    _lazyFinal($, "DateTime__parseFormat", "$get$DateTime__parseFormat", () => A.RegExp_RegExp("^([+-]?\\d{4,6})-?(\\d\\d)-?(\\d\\d)(?:[ T](\\d\\d)(?::?(\\d\\d)(?::?(\\d\\d)(?:[.,](\\d+))?)?)?( ?[zZ]| ?([-+])(\\d\\d)(?::?(\\d\\d))?)?)?$"));
     _lazyFinal($, "_hashSeed", "$get$_hashSeed", () => A.objectHashCode(B.Type_Object_A4p));
     _lazyFinal($, "VDOMReconciler__elementListeners", "$get$VDOMReconciler__elementListeners", () => new A.Expando(new WeakMap(), A.findType("Expando<Map<String,JavaScriptFunction>>")));
   })();
@@ -12668,9 +12653,6 @@
   };
   Function.prototype.call$4 = function(a, b, c, d) {
     return this(a, b, c, d);
-  };
-  Function.prototype.call$1$1 = function(a) {
-    return this(a);
   };
   convertAllToFastObject(holders);
   convertToFastObject($);

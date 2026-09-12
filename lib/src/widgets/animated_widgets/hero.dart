@@ -31,8 +31,8 @@ class _HeroState extends State<Hero> {
     });
 
     return FDContainer(
+      id: heroId,
       key: ValueKey(heroId),
-      rawCss: 'id="$heroId"',
       cssStyle: {'display': 'inline-block'},
       child: widget.child,
     );

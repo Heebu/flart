@@ -1,26 +1,58 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 class FDAlign extends Widget {
   final Widget child;
-  final Aligns alignment;
+  final dynamic alignment;
+  final double? widthFactor;
+  final double? heightFactor;
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
-  FDAlign({
+  const FDAlign({
     required this.child,
-    this.alignment = Aligns.FDCenter,
+    this.alignment = Alignment.center,
+    this.widthFactor,
+    this.heightFactor,
     this.cssStyle,
     this.rawCss,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final alignStyle = alignment.toCss();
-    final combinedStyle = {
-      ...alignStyle,
-      ...?cssStyle,
-    }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+  FlartNode buildNode(BuildContext context) {
+    Map<String, String> alignStyle = {};
+    if (alignment is Alignment) {
+      alignStyle = (alignment as Alignment).toCss();
+    } else if (alignment is Aligns) {
+      alignStyle = (alignment as Aligns).toCss();
+    } else {
+      alignStyle = Alignment.center.toCss();
+    }
 
-    return '<div style="$combinedStyle ${rawCss ?? ''}">${child.render(context)}</div>';
+    final combinedStyle = <String, String>{
+      'display': 'flex',
+      ...alignStyle,
+      if (widthFactor != null) 'width': '${widthFactor! * 100}%' else 'width': '100%',
+      if (heightFactor != null) 'height': '${heightFactor! * 100}%' else 'height': '100%',
+      ...?cssStyle,
+    };
+
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          combinedStyle[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
+
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      styles: combinedStyle,
+      children: [child.buildNode(context)],
+    );
   }
 }

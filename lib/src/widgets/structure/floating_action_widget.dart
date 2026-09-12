@@ -1,6 +1,4 @@
 import '../../../flartdart.dart';
-import '../../helper/callback_manager.dart';
-
 typedef FlartVoidCallback = String Function();
 
 class FDFloatingActionButton extends Widget {
@@ -50,7 +48,7 @@ class FDFloatingActionButton extends Widget {
       }
     }
 
-    final events = <String, Function(dynamic)>{};
+    final events = <String, void Function(dynamic)>{};
     if (onPressed != null) {
       events['click'] = (e) => onPressed!();
     }

@@ -1,5 +1,7 @@
 import '../../../flartdart.dart';
 
+typedef Expanded = FDExpanded;
+
 class FDExpanded extends Widget {
   final Widget child;
   final int flex;
