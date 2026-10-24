@@ -261,7 +261,13 @@ Future<void> _runApp(bool release, String port) async {
     print('📁 Found example/ directory — serving widget catalog');
   }
 
-  final args = ['run', 'build_runner', 'serve', '$targetDir:$port'];
+  final args = [
+    'run',
+    'build_runner',
+    'serve',
+    '$targetDir:$port',
+    '--delete-conflicting-outputs',
+  ];
   if (release) {
     args.add('--release');
   }
@@ -299,7 +305,14 @@ Future<void> _buildApp(bool release) async {
   }
 
   final outputDir = '$targetDir:build';
-  final args = ['run', 'build_runner', 'build', '--output', outputDir];
+  final args = [
+    'run',
+    'build_runner',
+    'build',
+    '--output',
+    outputDir,
+    '--delete-conflicting-outputs',
+  ];
   if (release) {
     args.add('--release');
   }
