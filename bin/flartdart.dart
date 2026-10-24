@@ -247,7 +247,21 @@ Future<void> _runApp(bool release, String port) async {
     print('');
   }
 
-  final args = ['run', 'build_runner', 'serve', 'web:$port'];
+  final targetDir = Directory('web').existsSync()
+      ? 'web'
+      : (Directory('example').existsSync() ? 'example' : null);
+
+  if (targetDir == null) {
+    print('❌ Error: Neither web/ nor example/ directory found to serve.');
+    print('Make sure you are in a Flartdart project root or the framework repo.');
+    return;
+  }
+
+  if (targetDir == 'example') {
+    print('📁 Found example/ directory — serving widget catalog');
+  }
+
+  final args = ['run', 'build_runner', 'serve', '$targetDir:$port'];
   if (release) {
     args.add('--release');
   }
@@ -275,7 +289,17 @@ Future<void> _buildApp(bool release) async {
     return;
   }
 
-  final args = ['run', 'build_runner', 'build', '--output', 'web:build'];
+  final targetDir = Directory('web').existsSync()
+      ? 'web'
+      : (Directory('example').existsSync() ? 'example' : null);
+
+  if (targetDir == null) {
+    print('❌ Error: Neither web/ nor example/ directory found to build.');
+    return;
+  }
+
+  final outputDir = '$targetDir:build';
+  final args = ['run', 'build_runner', 'build', '--output', outputDir];
   if (release) {
     args.add('--release');
   }
