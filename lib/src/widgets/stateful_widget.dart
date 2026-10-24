@@ -4,16 +4,9 @@ import '../../flartdart.dart';
 // Global state registry to persist state across renders
 final Map<String, State> _stateRegistry = {};
 
-/// Monotonic counter for generating stable positional state keys.
-/// Unlike hashCode, this counter provides deterministic ordering
-/// across re-renders when no explicit Key is provided.
-int _renderCounter = 0;
-
 /// Reset the render counter at the start of each full render pass.
-/// Called by [reRenderApp] to ensure consistent positional keys.
-void resetRenderCounter() {
-  _renderCounter = 0;
-}
+/// Kept for backwards compatibility.
+void resetRenderCounter() {}
 
 /// Base class for State objects.
 abstract class State<T extends StatefulWidget> {
@@ -21,6 +14,7 @@ abstract class State<T extends StatefulWidget> {
   late BuildContext context;
   String? _stateKey;
   bool _mounted = true;
+  final Map<Type, InheritedWidget> _dependencies = {};
 
   bool get mounted => _mounted;
 
@@ -33,14 +27,51 @@ abstract class State<T extends StatefulWidget> {
   /// Called when a dependency of this State object changes.
   void didChangeDependencies() {}
 
+  Map<Type, InheritedWidget> get dependencies => _dependencies;
+
+  /// Records an inherited widget dependency.
+  void recordDependency(Type type, InheritedWidget widget) {
+    _dependencies[type] = widget;
+    context = context.copyWith(
+      inheritedWidgets: {
+        ...context.inheritedWidgets,
+        type: widget,
+      },
+    );
+  }
+
+  /// Checks if any inherited dependency changed and notifies if so.
+  void checkAndNotifyDependencies(BuildContext newContext) {
+    bool changed = false;
+    for (final entry in _dependencies.entries) {
+      final current = newContext.inheritedWidgets[entry.key];
+      if (current is InheritedWidget && current != entry.value) {
+        final shouldNotify = current.updateShouldNotify(entry.value);
+        _dependencies[entry.key] = current;
+        if (shouldNotify) {
+          changed = true;
+        }
+      }
+    }
+    if (changed) {
+      didChangeDependencies();
+    }
+  }
+
   /// Called when the state object is removed permanently.
   void dispose() {
     _mounted = false;
+    InheritedRegistry.unregisterState(this);
   }
 
   /// Call inside event handlers to update state and trigger a rebuild.
   void setState(void Function() fn) {
     fn();
+    _performScopedUpdate();
+  }
+
+  /// Triggers a scoped update from outside the widget.
+  void performScopedUpdate() {
     _performScopedUpdate();
   }
 
@@ -52,11 +83,13 @@ abstract class State<T extends StatefulWidget> {
 
     final element = web.document.getElementById(_stateKey!);
     if (element != null) {
-      // Use VDOMReconciler instead of string-based innerHTML replacement.
-      final newVNode = build(context).buildNode(context);
-      // Wait, VDOMReconciler replaces children, but here we want to replace the inside of the wrapper.
-      // So we can wrap it in a FlartRawHtmlNode if it was a string, but buildNode handles that.
-      // The wrapper has id=$stateKey. We need to reconcile its children.
+      final updateContext = context.copyWith(
+        path: _stateKey,
+        slotTracker: SlotTracker(),
+        currentBuildingState: this,
+        states: {...context.states, runtimeType: this},
+      );
+      final newVNode = build(updateContext).buildNode(updateContext);
       VDOMReconciler.reconcile(element, newVNode);
     } else {
       // Fallback if element not found in DOM
@@ -77,21 +110,43 @@ abstract class StatefulWidget extends Widget {
   FlartNode buildNode(BuildContext context) {
     final safeRuntimeType =
         runtimeType.toString().replaceAll(RegExp(r'[<>]'), '_');
-    final stateKey = key != null
-        ? '${safeRuntimeType}_${key.toString()}'
-        : '${safeRuntimeType}_pos${_renderCounter++}';
+    
+    final String stateKey;
+    if (key is GlobalKey) {
+      stateKey = 'gk_${key.toString()}';
+    } else if (key != null) {
+      final cleanKey =
+          key.toString().replaceAll(RegExp(r'[^a-zA-Z0-9_-]'), '_');
+      stateKey = '${context.path}__k_$cleanKey';
+    } else {
+      final slot = context.nextSlot();
+      stateKey = '${context.path}__${safeRuntimeType}_$slot';
+    }
 
     State state;
     if (_stateRegistry.containsKey(stateKey)) {
       state = _stateRegistry[stateKey]!;
       final oldWidget = state.widget;
       state.widget = this;
-      state.context = context;
+      final selfContext = context.copyWith(
+        path: stateKey,
+        slotTracker: SlotTracker(),
+        currentBuildingState: state,
+        states: {...context.states, state.runtimeType: state},
+      );
+      state.context = selfContext;
       state.didUpdateWidget(oldWidget);
+      state.checkAndNotifyDependencies(selfContext);
     } else {
       state = createState();
       state.widget = this;
-      state.context = context;
+      final selfContext = context.copyWith(
+        path: stateKey,
+        slotTracker: SlotTracker(),
+        currentBuildingState: state,
+        states: {...context.states, state.runtimeType: state},
+      );
+      state.context = selfContext;
       state._stateKey = stateKey;
       _stateRegistry[stateKey] = state;
       state.initState();
@@ -102,15 +157,13 @@ abstract class StatefulWidget extends Widget {
       (key as GlobalKey).setInternalState(state);
     }
 
-    final childContext = context.copyWith(
-      states: {...context.states, state.runtimeType: state},
-    );
-
+    final childContext = state.context;
     final childNode = state.build(childContext).buildNode(childContext);
 
     return FlartElementNode(
       'div',
       id: stateKey,
+      key: key?.toString() ?? stateKey,
       styles: {'display': 'contents'},
       children: [childNode],
     );
@@ -132,5 +185,7 @@ abstract class StatefulWidget extends Widget {
 void resetStateRegistry() {
   _stateRegistry.forEach((_, state) => state.dispose());
   _stateRegistry.clear();
+  InheritedRegistry.reset();
 }
+
 

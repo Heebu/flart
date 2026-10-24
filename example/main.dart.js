@@ -1597,8 +1597,8 @@
     JsLinkedHashMap: function JsLinkedHashMap(t0) {
       var _ = this;
       _.__js_helper$_length = 0;
-      _._last = _._first = _.__js_helper$_rest = _._nums = _._strings = null;
-      _._modifications = 0;
+      _.__js_helper$_last = _.__js_helper$_first = _.__js_helper$_rest = _.__js_helper$_nums = _.__js_helper$_strings = null;
+      _.__js_helper$_modifications = 0;
       _.$ti = t0;
     },
     JsLinkedHashMap_addAll_closure: function JsLinkedHashMap_addAll_closure(t0) {
@@ -1608,7 +1608,7 @@
       var _ = this;
       _.hashMapCellKey = t0;
       _.hashMapCellValue = t1;
-      _._previous = _._next = null;
+      _.__js_helper$_previous = _.__js_helper$_next = null;
     },
     LinkedHashMapKeysIterable: function LinkedHashMapKeysIterable(t0, t1) {
       this._map = t0;
@@ -1617,8 +1617,20 @@
     LinkedHashMapKeyIterator: function LinkedHashMapKeyIterator(t0, t1, t2, t3) {
       var _ = this;
       _._map = t0;
-      _._modifications = t1;
-      _._cell = t2;
+      _.__js_helper$_modifications = t1;
+      _.__js_helper$_cell = t2;
+      _.__js_helper$_current = null;
+      _.$ti = t3;
+    },
+    LinkedHashMapValuesIterable: function LinkedHashMapValuesIterable(t0, t1) {
+      this._map = t0;
+      this.$ti = t1;
+    },
+    LinkedHashMapValueIterator: function LinkedHashMapValueIterator(t0, t1, t2, t3) {
+      var _ = this;
+      _._map = t0;
+      _.__js_helper$_modifications = t1;
+      _.__js_helper$_cell = t2;
       _.__js_helper$_current = null;
       _.$ti = t3;
     },
@@ -1629,16 +1641,16 @@
     LinkedHashMapEntryIterator: function LinkedHashMapEntryIterator(t0, t1, t2, t3) {
       var _ = this;
       _._map = t0;
-      _._modifications = t1;
-      _._cell = t2;
+      _.__js_helper$_modifications = t1;
+      _.__js_helper$_cell = t2;
       _.__js_helper$_current = null;
       _.$ti = t3;
     },
     JsConstantLinkedHashMap: function JsConstantLinkedHashMap(t0) {
       var _ = this;
       _.__js_helper$_length = 0;
-      _._last = _._first = _.__js_helper$_rest = _._nums = _._strings = null;
-      _._modifications = 0;
+      _.__js_helper$_last = _.__js_helper$_first = _.__js_helper$_rest = _.__js_helper$_nums = _.__js_helper$_strings = null;
+      _.__js_helper$_modifications = 0;
       _.$ti = t0;
     },
     initHooks_closure: function initHooks_closure(t0) {
@@ -3594,6 +3606,15 @@
     LinkedHashMap_LinkedHashMap$_empty($K, $V) {
       return new A.JsLinkedHashMap($K._eval$1("@<0>")._bind$1($V)._eval$1("JsLinkedHashMap<1,2>"));
     },
+    LinkedHashSet_LinkedHashSet$_empty($E) {
+      return new A._LinkedHashSet($E._eval$1("_LinkedHashSet<0>"));
+    },
+    _LinkedHashSet__newHashTable() {
+      var table = Object.create(null);
+      table["<non-identifier-key>"] = table;
+      delete table["<non-identifier-key>"];
+      return table;
+    },
     LinkedHashMap_LinkedHashMap$from(other, $K, $V) {
       var result = A.LinkedHashMap_LinkedHashMap($K, $V);
       other.forEach$1(0, new A.LinkedHashMap_LinkedHashMap$from_closure(result, $K, $V));
@@ -3624,6 +3645,24 @@
       t1 = result._contents;
       return t1.charCodeAt(0) == 0 ? t1 : t1;
     },
+    _LinkedHashSet: function _LinkedHashSet(t0) {
+      var _ = this;
+      _._collection$_length = 0;
+      _._last = _._first = _._collection$_rest = _._nums = _._strings = null;
+      _._modifications = 0;
+      _.$ti = t0;
+    },
+    _LinkedHashSetCell: function _LinkedHashSetCell(t0) {
+      this._element = t0;
+      this._previous = this._next = null;
+    },
+    _LinkedHashSetIterator: function _LinkedHashSetIterator(t0, t1, t2) {
+      var _ = this;
+      _._set = t0;
+      _._modifications = t1;
+      _._collection$_current = _._cell = null;
+      _.$ti = t2;
+    },
     LinkedHashMap_LinkedHashMap$from_closure: function LinkedHashMap_LinkedHashMap$from_closure(t0, t1, t2) {
       this.result = t0;
       this.K = t1;
@@ -3644,6 +3683,10 @@
     UnmodifiableMapView: function UnmodifiableMapView(t0, t1) {
       this._collection$_map = t0;
       this.$ti = t1;
+    },
+    SetBase: function SetBase() {
+    },
+    _SetBase: function _SetBase() {
     },
     _UnmodifiableMapView_MapView__UnmodifiableMapMixin: function _UnmodifiableMapView_MapView__UnmodifiableMapMixin() {
     },
@@ -3736,6 +3779,11 @@
       this.allowMalformed = t0;
       this._convert$_state = 16;
       this._charOrIndex = 0;
+    },
+    Expando$($T) {
+      return new A.Expando(new WeakMap(), $T._eval$1("Expando<0>"));
+    },
+    Expando__checkType(object) {
     },
     int_parse(source, radix) {
       var value = A.Primitives_parseInt(source, radix);
@@ -5350,14 +5398,15 @@
       this._text = t0;
       this._listeners = t1;
     },
-    FlartElementNode: function FlartElementNode(t0, t1, t2, t3, t4, t5) {
+    FlartElementNode: function FlartElementNode(t0, t1, t2, t3, t4, t5, t6) {
       var _ = this;
       _.tag = t0;
       _.id = t1;
-      _.attributes = t2;
-      _.styles = t3;
-      _.children = t4;
-      _.events = t5;
+      _.key = t2;
+      _.attributes = t3;
+      _.styles = t4;
+      _.children = t5;
+      _.events = t6;
     },
     FlartElementNode_toHtml_closure: function FlartElementNode_toHtml_closure() {
     },
@@ -5367,53 +5416,128 @@
     FlartRawHtmlNode: function FlartRawHtmlNode(t0) {
       this.html = t0;
     },
-    VDOMReconciler_reconcile(container, vnode) {
-      var existingChild = A._asJSObjectQ(container.firstChild);
-      if (existingChild == null)
-        A._asJSObject(container.appendChild(A.VDOMReconciler__createRealNode(vnode)));
-      else
-        A.VDOMReconciler__patchNode(container, existingChild, vnode);
+    VDOMReconciler__cleanUpDomNode(node) {
+      var elementsWithId, t1, i, childNode, t2, state;
+      if (A._asInt(node.nodeType) === 1) {
+        $.$get$VDOMReconciler__elementListeners().$indexSet(0, node, null);
+        $.$get$VDOMReconciler__nodeKeys().$indexSet(0, node, null);
+        if (A._asString(node.id).length !== 0)
+          A.StatefulWidget_disposeState(A._asString(node.id));
+        elementsWithId = A._asJSObject(node.querySelectorAll("[id]"));
+        for (t1 = type$.JSObject, i = 0; i < A._asInt(elementsWithId.length); ++i) {
+          childNode = A._asJSObjectQ(elementsWithId.item(i));
+          if (t1._is(childNode) && A._asString(childNode.id).length !== 0) {
+            t2 = $.$get$VDOMReconciler__elementListeners();
+            t2._jsWeakMap.set(childNode, null);
+            t2 = $.$get$VDOMReconciler__nodeKeys();
+            t2._jsWeakMap.set(childNode, null);
+            state = $._stateRegistry.remove$1(0, A._asString(childNode.id));
+            if (state != null)
+              state.dispose$0();
+          }
+        }
+      }
+    },
+    VDOMReconciler__getDomKey(domNode) {
+      var t1, expKey, dataKey;
+      if (A._asInt(domNode.nodeType) !== 1)
+        return null;
+      t1 = $.$get$VDOMReconciler__nodeKeys();
+      A.Expando__checkType(domNode);
+      expKey = t1._jsWeakMap.get(domNode);
+      if (expKey != null && expKey.length !== 0)
+        return expKey;
+      dataKey = A._asStringQ(domNode.getAttribute("data-key"));
+      if (dataKey != null && dataKey.length !== 0)
+        return dataKey;
+      if (A._asString(domNode.id).length !== 0)
+        return A._asString(domNode.id);
+      return null;
+    },
+    VDOMReconciler__getVNodeKey(vnode) {
+      var t1;
+      if (vnode instanceof A.FlartElementNode) {
+        t1 = vnode.key;
+        if (t1 != null && t1.length !== 0)
+          return t1;
+        t1 = vnode.id;
+        if (t1 != null && t1.length !== 0)
+          return t1;
+      }
+      return null;
     },
     VDOMReconciler__patchNode($parent, oldDomNode, newVNode) {
-      var t1, template;
+      var newNode, t1, template, oldKey, newKey, isDifferentKey, t2, t3, t4, isDifferentId, k;
       if (newVNode instanceof A.FlartTextNode)
-        if (A._asInt(oldDomNode.nodeType) !== 3)
-          A._asJSObject($parent.replaceChild(A._asJSObject(A._asJSObject(init.G.document).createTextNode(newVNode.text)), oldDomNode));
-        else {
+        if (A._asInt(oldDomNode.nodeType) !== 3) {
+          A.VDOMReconciler__cleanUpDomNode(oldDomNode);
+          newNode = A._asJSObject(A._asJSObject(init.G.document).createTextNode(newVNode.text));
+          A._asJSObject($parent.replaceChild(newNode, oldDomNode));
+          return newNode;
+        } else {
           t1 = newVNode.text;
           if (A._asStringQ(oldDomNode.textContent) !== t1)
             oldDomNode.textContent = t1;
+          return oldDomNode;
         }
       else if (newVNode instanceof A.FlartRawHtmlNode) {
+        A.VDOMReconciler__cleanUpDomNode(oldDomNode);
         template = A._asJSObject(A._asJSObject(init.G.document).createElement("div"));
         template.setHTMLUnsafe(newVNode.html);
         if (A._asInt(A._asJSObject(template.childNodes).length) === 1) {
           t1 = A._asJSObjectQ(template.firstChild);
           t1.toString;
-          A._asJSObject($parent.replaceChild(t1, oldDomNode));
+          newNode = t1;
         } else
-          A._asJSObject($parent.replaceChild(template, oldDomNode));
+          newNode = template;
+        A._asJSObject($parent.replaceChild(newNode, oldDomNode));
+        return newNode;
       } else if (newVNode instanceof A.FlartElementNode)
-        if (A._asInt(oldDomNode.nodeType) !== 1)
-          A._asJSObject($parent.replaceChild(A.VDOMReconciler__createRealNode(newVNode), oldDomNode));
-        else {
-          if (A._asString(oldDomNode.tagName).toLowerCase() === newVNode.tag.toLowerCase()) {
-            t1 = newVNode.id;
-            t1 = t1 != null && A._asString(oldDomNode.id) !== t1;
-          } else
-            t1 = true;
-          if (t1)
-            A._asJSObject($parent.replaceChild(A.VDOMReconciler__createRealNode(newVNode), oldDomNode));
-          else {
+        if (A._asInt(oldDomNode.nodeType) !== 1) {
+          A.VDOMReconciler__cleanUpDomNode(oldDomNode);
+          newNode = A.VDOMReconciler__createRealNode(newVNode);
+          A._asJSObject($parent.replaceChild(newNode, oldDomNode));
+          return newNode;
+        } else {
+          t1 = A._asString(oldDomNode.tagName);
+          oldKey = A.VDOMReconciler__getDomKey(oldDomNode);
+          newKey = A.VDOMReconciler__getVNodeKey(newVNode);
+          isDifferentKey = newKey != null && oldKey != null && newKey !== oldKey;
+          t2 = newVNode.id;
+          t3 = t2 == null;
+          t4 = !t3;
+          isDifferentId = t4 && A._asString(oldDomNode.id).length !== 0 && A._asString(oldDomNode.id) !== t2;
+          if (t1.toLowerCase() !== newVNode.tag.toLowerCase() || isDifferentKey || isDifferentId) {
+            A.VDOMReconciler__cleanUpDomNode(oldDomNode);
+            newNode = A.VDOMReconciler__createRealNode(newVNode);
+            A._asJSObject($parent.replaceChild(newNode, oldDomNode));
+            return newNode;
+          } else {
+            if (t4 && A._asString(oldDomNode.id) !== t2)
+              oldDomNode.id = t2;
+            else if (t3 && A._asString(oldDomNode.id).length !== 0)
+              oldDomNode.removeAttribute("id");
+            k = newVNode.key;
+            if (k == null)
+              k = (t3 ? null : t2.length !== 0) === true ? t2 : null;
+            if (k != null) {
+              $.$get$VDOMReconciler__nodeKeys().$indexSet(0, oldDomNode, k);
+              oldDomNode.setAttribute("data-key", k);
+            } else {
+              $.$get$VDOMReconciler__nodeKeys().$indexSet(0, oldDomNode, null);
+              oldDomNode.removeAttribute("data-key");
+            }
             A.VDOMReconciler__patchAttributes(oldDomNode, newVNode);
             A.VDOMReconciler__patchStyles(oldDomNode, newVNode);
             A.VDOMReconciler__patchEvents(oldDomNode, newVNode);
             A.VDOMReconciler__patchChildren(oldDomNode, newVNode.children);
+            return oldDomNode;
           }
         }
+      throw A.wrapException(A.Exception_Exception("Unknown VDOM node type"));
     },
     VDOMReconciler__createRealNode(vnode) {
-      var div, t1, el, t2, _i;
+      var div, t1, el, t2, k, _i;
       if (vnode instanceof A.FlartTextNode)
         return A._asJSObject(A._asJSObject(init.G.document).createTextNode(vnode.text));
       else if (vnode instanceof A.FlartRawHtmlNode) {
@@ -5428,8 +5552,16 @@
       } else if (vnode instanceof A.FlartElementNode) {
         el = A._asJSObject(A._asJSObject(init.G.document).createElement(vnode.tag));
         t1 = vnode.id;
-        if (t1 != null)
+        t2 = t1 == null;
+        if (!t2)
           el.id = t1;
+        k = vnode.key;
+        if (k == null)
+          k = (t2 ? null : t1.length !== 0) === true ? t1 : null;
+        if (k != null) {
+          $.$get$VDOMReconciler__nodeKeys().$indexSet(0, el, k);
+          el.setAttribute("data-key", k);
+        }
         A.VDOMReconciler__patchAttributes(el, vnode);
         A.VDOMReconciler__patchStyles(el, vnode);
         A.VDOMReconciler__patchEvents(el, vnode);
@@ -5451,7 +5583,7 @@
       oldAttrNames = A._setArrayType([], type$.JSArray_String);
       for (i = 0; i < A._asInt(A._asJSObject(el.attributes).length); ++i) {
         attr = A._asJSObjectQ(A._asJSObject(el.attributes).item(i));
-        if (attr != null && A._asString(attr.name) !== "style" && A._asString(attr.name) !== "id")
+        if (attr != null && A._asString(attr.name) !== "style" && A._asString(attr.name) !== "id" && A._asString(attr.name) !== "data-key")
           B.JSArray_methods.add$1(oldAttrNames, A._asString(attr.name));
       }
       for (t1 = oldAttrNames.length, _i = 0; _i < oldAttrNames.length; oldAttrNames.length === t1 || (0, A.throwConcurrentModificationError)(oldAttrNames), ++_i) {
@@ -5506,6 +5638,7 @@
       if (newEvents == null)
         newEvents = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, type$.void_Function_JSObject);
       t1 = $.$get$VDOMReconciler__elementListeners();
+      A.Expando__checkType(el);
       currentListeners = t1._jsWeakMap.get(el);
       if (currentListeners == null)
         currentListeners = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, type$.JavaScriptFunction);
@@ -5520,23 +5653,119 @@
         $.$get$VDOMReconciler__elementListeners().$indexSet(0, el, currentListeners);
     },
     VDOMReconciler__patchChildren($parent, newChildren) {
-      var domChildren, i, t1, t2;
+      var domChildren, hasKeys, t1, _i, i, t2, oldKeyToNode, node, key, matchedOldNodes, unkeyedOldNodes, unkeyedCursor, newIndex, newVNode, newKey, matchedNode, unkeyedCursor0, candidate, activeNode, currentNodeAtIndex, oldNode;
       if (newChildren == null)
         newChildren = A._setArrayType([], type$.JSArray_FlartNode);
       domChildren = A.VDOMReconciler__childNodesToList($parent);
-      for (i = 0; t1 = newChildren.length, i < t1;) {
-        if (i < domChildren.length) {
-          t2 = domChildren[i];
-          if (!(i < t1))
-            return A.ioore(newChildren, i);
-          A.VDOMReconciler__patchNode($parent, t2, newChildren[i]);
-        } else
-          A._asJSObject($parent.appendChild(A.VDOMReconciler__createRealNode(newChildren[i])));
-        ++i;
+      t1 = newChildren.length;
+      _i = 0;
+      for (;;) {
+        if (!(_i < t1)) {
+          hasKeys = false;
+          break;
+        }
+        if (A.VDOMReconciler__getVNodeKey(newChildren[_i]) != null) {
+          hasKeys = true;
+          break;
+        }
+        ++_i;
       }
-      while (i < domChildren.length) {
-        A._asJSObject($parent.removeChild(domChildren[i]));
-        ++i;
+      if (!hasKeys) {
+        t1 = domChildren.length;
+        _i = 0;
+        for (;;) {
+          if (!(_i < domChildren.length)) {
+            hasKeys = false;
+            break;
+          }
+          if (A.VDOMReconciler__getDomKey(domChildren[_i]) != null) {
+            hasKeys = true;
+            break;
+          }
+          domChildren.length === t1 || (0, A.throwConcurrentModificationError)(domChildren);
+          ++_i;
+        }
+      }
+      if (!hasKeys) {
+        for (i = 0; t1 = newChildren.length, i < t1;) {
+          if (i < domChildren.length) {
+            t2 = domChildren[i];
+            if (!(i < t1))
+              return A.ioore(newChildren, i);
+            A.VDOMReconciler__patchNode($parent, t2, newChildren[i]);
+          } else
+            A._asJSObject($parent.appendChild(A.VDOMReconciler__createRealNode(newChildren[i])));
+          ++i;
+        }
+        while (i < domChildren.length) {
+          A.VDOMReconciler__cleanUpDomNode(domChildren[i]);
+          if (!(i < domChildren.length))
+            return A.ioore(domChildren, i);
+          t1 = domChildren[i];
+          if (A._asJSObjectQ(t1.parentNode) === $parent)
+            A._asJSObject($parent.removeChild(t1));
+          ++i;
+        }
+        return;
+      }
+      t1 = type$.JSObject;
+      oldKeyToNode = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, t1);
+      for (t2 = domChildren.length, _i = 0; _i < domChildren.length; domChildren.length === t2 || (0, A.throwConcurrentModificationError)(domChildren), ++_i) {
+        node = domChildren[_i];
+        key = A.VDOMReconciler__getDomKey(node);
+        if (key != null)
+          oldKeyToNode.putIfAbsent$2(key, new A.VDOMReconciler__patchChildren_closure(node));
+      }
+      matchedOldNodes = A.LinkedHashSet_LinkedHashSet$_empty(t1);
+      unkeyedOldNodes = A._setArrayType([], type$.JSArray_JSObject);
+      for (t1 = domChildren.length, _i = 0; _i < domChildren.length; domChildren.length === t1 || (0, A.throwConcurrentModificationError)(domChildren), ++_i) {
+        node = domChildren[_i];
+        if (A.VDOMReconciler__getDomKey(node) == null)
+          B.JSArray_methods.add$1(unkeyedOldNodes, node);
+      }
+      for (unkeyedCursor = 0, newIndex = 0; newIndex < newChildren.length; ++newIndex) {
+        newVNode = newChildren[newIndex];
+        newKey = A.VDOMReconciler__getVNodeKey(newVNode);
+        if (newKey != null)
+          matchedNode = oldKeyToNode.remove$1(0, newKey);
+        else
+          for (;;) {
+            t1 = unkeyedOldNodes.length;
+            if (!(unkeyedCursor < t1)) {
+              matchedNode = null;
+              break;
+            }
+            unkeyedCursor0 = unkeyedCursor + 1;
+            if (!(unkeyedCursor >= 0))
+              return A.ioore(unkeyedOldNodes, unkeyedCursor);
+            candidate = unkeyedOldNodes[unkeyedCursor];
+            if (!matchedOldNodes.contains$1(0, candidate)) {
+              matchedNode = candidate;
+              unkeyedCursor = unkeyedCursor0;
+              break;
+            }
+            unkeyedCursor = unkeyedCursor0;
+          }
+        if (matchedNode != null) {
+          matchedOldNodes.add$1(0, matchedNode);
+          activeNode = A.VDOMReconciler__patchNode($parent, matchedNode, newVNode);
+          if (activeNode !== matchedNode) {
+            matchedOldNodes.remove$1(0, matchedNode);
+            matchedOldNodes.add$1(0, activeNode);
+          }
+          currentNodeAtIndex = A._asJSObjectQ(A._asJSObject($parent.childNodes).item(newIndex));
+          if (currentNodeAtIndex !== activeNode)
+            A._asJSObject($parent.insertBefore(activeNode, currentNodeAtIndex));
+        } else
+          A._asJSObject($parent.insertBefore(A.VDOMReconciler__createRealNode(newVNode), A._asJSObjectQ(A._asJSObject($parent.childNodes).item(newIndex))));
+      }
+      for (t1 = domChildren.length, _i = 0; _i < domChildren.length; domChildren.length === t1 || (0, A.throwConcurrentModificationError)(domChildren), ++_i) {
+        oldNode = domChildren[_i];
+        if (!matchedOldNodes.contains$1(0, oldNode)) {
+          A.VDOMReconciler__cleanUpDomNode(oldNode);
+          if (A._asJSObjectQ(oldNode.parentNode) === $parent)
+            A._asJSObject($parent.removeChild(oldNode));
+        }
       }
     },
     VDOMReconciler__childNodesToList($parent) {
@@ -5563,6 +5792,9 @@
     },
     VDOMReconciler__patchEvents__closure: function VDOMReconciler__patchEvents__closure(t0) {
       this.handler = t0;
+    },
+    VDOMReconciler__patchChildren_closure: function VDOMReconciler__patchChildren_closure(t0) {
+      this.node = t0;
     },
     Axis: function Axis(t0, t1) {
       this.index = t0;
@@ -5757,6 +5989,31 @@
       _.bottom = t2;
       _.left = t3;
     },
+    PageNavigator_current() {
+      var page, t1, _null = null;
+      if ($.PageNavigator__stack.length === 0)
+        return B._EmptyWidget_null;
+      page = B.JSArray_methods.get$last($.PageNavigator__stack);
+      t1 = $.PageNavigator__currentTransition;
+      if (t1 === B.RouteTransition_0)
+        return page;
+      switch (t1.index) {
+        case 1:
+          return A.FDAnimate$(page, true, _null, _null, _null);
+        case 2:
+          return A.FDAnimate$(page, true, 100, _null, _null);
+        case 3:
+          return A.FDAnimate$(page, true, -100, _null, _null);
+        case 4:
+          return A.FDAnimate$(page, true, _null, 100, _null);
+        case 5:
+          return A.FDAnimate$(page, true, _null, -100, _null);
+        case 6:
+          return A.FDAnimate$(page, true, _null, _null, 0.8);
+        default:
+          return page;
+      }
+    },
     PageNavigator_init() {
       var t1, hash, uri;
       if ($.PageNavigator__isInitialized)
@@ -5777,14 +6034,13 @@
         _s19_ = "Re-rendering app...",
         page = A.PageNavigator__resolveRoute(path, queryParams);
       if (page != null) {
-        t1 = $.PageNavigator__stack.length;
-        if (t1 !== 0) {
-          if (0 >= t1)
+        if (replace && $.PageNavigator__stack.length !== 0) {
+          if (0 >= $.PageNavigator__stack.length)
             return A.ioore($.PageNavigator__stack, -1);
           $.PageNavigator__stack.pop();
         }
         B.JSArray_methods.add$1($.PageNavigator__stack, page);
-        A.PageNavigator__updateHistory(page, queryParams, true, path);
+        A.PageNavigator__updateHistory(page, queryParams, replace, path);
         t1 = $.PageNavigator__currentTransition;
         A.print(_s19_);
         A._renderApp();
@@ -5792,17 +6048,19 @@
           $.PageNavigator__currentTransition = B.RouteTransition_0;
         return;
       }
-      if (path === "/" && $.PageNavigator__routes.__js_helper$_length !== 0) {
+      t1 = path === "/";
+      if ((t1 || path.length === 0) && $.PageNavigator__stack.length !== 0)
+        return;
+      if (t1 && $.PageNavigator__routes.__js_helper$_length !== 0) {
         firstRoute = new A.LinkedHashMapEntriesIterable($.PageNavigator__routes, A._instanceType($.PageNavigator__routes)._eval$1("LinkedHashMapEntriesIterable<1,2>")).get$first(0);
         fallbackPage = firstRoute.value.call$1(queryParams);
-        t1 = $.PageNavigator__stack.length;
-        if (t1 !== 0) {
-          if (0 >= t1)
+        if (replace && $.PageNavigator__stack.length !== 0) {
+          if (0 >= $.PageNavigator__stack.length)
             return A.ioore($.PageNavigator__stack, -1);
           $.PageNavigator__stack.pop();
         }
         B.JSArray_methods.add$1($.PageNavigator__stack, fallbackPage);
-        A.PageNavigator__updateHistory(fallbackPage, queryParams, true, firstRoute.key);
+        A.PageNavigator__updateHistory(fallbackPage, queryParams, replace, firstRoute.key);
         t1 = $.PageNavigator__currentTransition;
         A.print(_s19_);
         A._renderApp();
@@ -5832,8 +6090,11 @@
     },
     PageNavigator__updateHistory(page, queryParams, replaceHistory, routeName) {
       var uri = A.buildHashRouteUrl(routeName, queryParams);
-      A._asJSObject(A._asJSObject(init.G.window).history).replaceState("Instance of '" + A.Primitives_objectTypeName(page) + "'", "", uri);
-      return;
+      if (replaceHistory) {
+        A._asJSObject(A._asJSObject(init.G.window).history).replaceState("Instance of '" + A.Primitives_objectTypeName(page) + "'", "", uri);
+        return;
+      }
+      A._asJSObject(A._asJSObject(init.G.window).history).pushState("Instance of '" + A.Primitives_objectTypeName(page) + "'", "", uri);
     },
     PageNavigator__show404(path) {
       var output = A._asJSObjectQ(A._asJSObject(init.G.document).querySelector("#output"));
@@ -5845,6 +6106,9 @@
       this._name = t1;
     },
     PageNavigator_init_closure: function PageNavigator_init_closure() {
+    },
+    _EmptyWidget: function _EmptyWidget(t0) {
+      this.key = t0;
     },
     FontWeight: function FontWeight(t0) {
       this.value = t0;
@@ -5858,8 +6122,7 @@
       return new A.ThemeData(B.FlartMaterialColor_MYO, B.FlartColor_wtx, B.FlartColor_wtx, new A.TextStyle(B.FlartColor_hwE, 16, null), new A.FlartColor("#eeeeee"), B.FlartMaterialColor_D5k, false);
     },
     Theme_of(context) {
-      var widget = context.inheritedWidgets.$index(0, A.createRuntimeType(type$.Theme)),
-        inheritedTheme = widget instanceof A.Theme ? widget : null,
+      var inheritedTheme = context.dependOnInheritedWidgetOfExactType$1$0(type$.Theme),
         t1 = inheritedTheme == null ? null : inheritedTheme.data;
       return t1 == null ? A.ThemeData_ThemeData$light() : t1;
     },
@@ -5878,14 +6141,54 @@
       this.child = t1;
       this.key = t2;
     },
+    _ensureSharedSheet() {
+      var t1, _this;
+      if ($._sharedAnimationSheet != null)
+        return;
+      t1 = init.G;
+      _this = A._asJSObject(A._asJSObject(t1.document).createElement("style"));
+      _this.id = "flart-animation-sheet";
+      t1 = A._asJSObjectQ(A._asJSObject(t1.document).head);
+      if (t1 != null)
+        t1.append(_this);
+      $._sharedAnimationSheet = A._asJSObjectQ(_this.sheet);
+      A._injectDefaultKeyframes();
+    },
+    _injectDefaultKeyframes() {
+      var t1, exception,
+        _s19_ = "flart-entrance-anim";
+      if ($._sharedAnimationSheet == null)
+        return;
+      if (!$._injectedKeyframes.contains$1(0, _s19_))
+        try {
+          t1 = $._sharedAnimationSheet;
+          A._asInt(t1.insertRule("@keyframes flart-entrance-anim {\n  0% {\n    opacity: var(--flart-anim-opacity, 1);\n    transform: translate(var(--flart-anim-x, 0px), var(--flart-anim-y, 0px)) scale(var(--flart-anim-scale, 1));\n  }\n  100% {\n    opacity: 1;\n    transform: translate(0px, 0px) scale(1);\n  }\n}\n", A._asInt(A._asJSObject(t1.cssRules).length)));
+          $._injectedKeyframes.add$1(0, _s19_);
+        } catch (exception) {
+        }
+    },
+    FDAnimate$(child, fadeIn, slideX, slideY, startScale) {
+      return new A.FDAnimate(child, slideX, slideY, startScale, true, null);
+    },
+    FDAnimate: function FDAnimate(t0, t1, t2, t3, t4, t5) {
+      var _ = this;
+      _.child = t0;
+      _.slideX = t1;
+      _.slideY = t2;
+      _.startScale = t3;
+      _.fadeIn = t4;
+      _.key = t5;
+    },
     Hero: function Hero(t0, t1, t2) {
       this.tag = t0;
       this.child = t1;
       this.key = t2;
     },
-    _HeroState: function _HeroState() {
-      this.__State_context_A = this.__State_widget_A = $;
-      this._stateKey = null;
+    _HeroState: function _HeroState(t0) {
+      var _ = this;
+      _.__State_context_A = _.__State_widget_A = $;
+      _._stateKey = null;
+      _._dependencies = t0;
     },
     _HeroState_build_closure: function _HeroState_build_closure(t0, t1) {
       this.$this = t0;
@@ -5977,6 +6280,9 @@
     FDElevatedButton_buildNode_closure3: function FDElevatedButton_buildNode_closure3(t0) {
       this.$this = t0;
     },
+    FDGestureDetector$(child, onTap) {
+      return new A.FDGestureDetector(child, onTap, null);
+    },
     FDGestureDetector: function FDGestureDetector(t0, t1, t2) {
       this.child = t0;
       this.onTap = t1;
@@ -6004,6 +6310,16 @@
     },
     FDOutlinedButton_buildNode_closure: function FDOutlinedButton_buildNode_closure(t0) {
       this.$this = t0;
+    },
+    InheritedRegistry_registerDependency(type, state) {
+      $.InheritedRegistry__dependents.putIfAbsent$2(type, new A.InheritedRegistry_registerDependency_closure()).add$1(0, state);
+    },
+    InheritedRegistry_unregisterState(state) {
+      var t1;
+      for (t1 = new A.LinkedHashMapValueIterator($.InheritedRegistry__dependents, $.InheritedRegistry__dependents.__js_helper$_modifications, $.InheritedRegistry__dependents.__js_helper$_first, A._instanceType($.InheritedRegistry__dependents)._eval$1("LinkedHashMapValueIterator<2>")); t1.moveNext$0();)
+        t1.__js_helper$_current.remove$1(0, state);
+    },
+    InheritedRegistry_registerDependency_closure: function InheritedRegistry_registerDependency_closure() {
     },
     InheritedWidget: function InheritedWidget() {
     },
@@ -6078,11 +6394,12 @@
       _.label = t3;
       _.key = t4;
     },
-    _FDDateRangePickerState: function _FDDateRangePickerState() {
+    _FDDateRangePickerState: function _FDDateRangePickerState(t0) {
       var _ = this;
       _._end = _._start = null;
       _.__State_context_A = _.__State_widget_A = $;
       _._stateKey = null;
+      _._dependencies = t0;
     },
     _FDDateRangePickerState_build_closure: function _FDDateRangePickerState_build_closure(t0) {
       this.$this = t0;
@@ -6119,10 +6436,11 @@
       _.label = t4;
       _.key = t5;
     },
-    _RangePickerState: function _RangePickerState() {
+    _RangePickerState: function _RangePickerState(t0) {
       var _ = this;
       _.__State_context_A = _.__State_widget_A = _.___RangePickerState__end_A = _.___RangePickerState__start_A = $;
       _._stateKey = null;
+      _._dependencies = t0;
     },
     _RangePickerState_build_closure: function _RangePickerState_build_closure(t0) {
       this.$this = t0;
@@ -6138,19 +6456,26 @@
       this.$this = t0;
       this.val = t1;
     },
+    StatefulWidget_disposeState(stateKey) {
+      var state = $._stateRegistry.remove$1(0, stateKey);
+      if (state != null)
+        state.dispose$0();
+    },
     State: function State() {
     },
     StatefulWidget: function StatefulWidget() {
     },
     StatelessWidget: function StatelessWidget() {
     },
-    FDAppBar$(backgroundColor, title) {
-      return new A.FDAppBar(title, backgroundColor, null);
-    },
-    FDAppBar: function FDAppBar(t0, t1, t2) {
-      this.title = t0;
-      this.backgroundColor = t1;
-      this.key = t2;
+    FDAppBar: function FDAppBar(t0, t1, t2, t3, t4, t5, t6) {
+      var _ = this;
+      _.title = t0;
+      _.leading = t1;
+      _.actions = t2;
+      _.backgroundColor = t3;
+      _.elevation = t4;
+      _.rawCss = t5;
+      _.key = t6;
     },
     FDCard$(child, padding) {
       return new A.FDCard(child, padding, null);
@@ -6197,8 +6522,6 @@
     FDDrawer: function FDDrawer(t0, t1) {
       this.child = t0;
       this.key = t1;
-    },
-    FDDrawer_render_closure: function FDDrawer_render_closure() {
     },
     FDExpanded: function FDExpanded(t0, t1) {
       this.child = t0;
@@ -6267,8 +6590,54 @@
       _.color = t2;
       _.key = t3;
     },
+    _ensureDrawerGlobalBridge() {
+      var t1, exception;
+      if ($._drawerBridgeInitialized)
+        return;
+      $._drawerBridgeInitialized = true;
+      try {
+        t1 = init.G;
+        t1.toggleDrawer = A._functionToJS0(new A._ensureDrawerGlobalBridge_closure());
+        t1.openDrawer = A._functionToJS0(new A._ensureDrawerGlobalBridge_closure0());
+        t1.closeDrawer = A._functionToJS0(new A._ensureDrawerGlobalBridge_closure1());
+      } catch (exception) {
+      }
+    },
+    openDrawer() {
+      var backdrop,
+        t1 = init.G,
+        drawer = A._asJSObjectQ(A._asJSObject(t1.document).getElementById("flart-drawer"));
+      if (drawer != null)
+        A._asJSObject(drawer.style).transform = "translateX(0%)";
+      backdrop = A._asJSObjectQ(A._asJSObject(t1.document).getElementById("flart-drawer-backdrop"));
+      if (backdrop != null) {
+        A._asJSObject(backdrop.style).opacity = "1";
+        A._asJSObject(backdrop.style).pointerEvents = "auto";
+      }
+    },
+    closeDrawer() {
+      var backdrop,
+        t1 = init.G,
+        drawer = A._asJSObjectQ(A._asJSObject(t1.document).getElementById("flart-drawer"));
+      if (drawer != null)
+        A._asJSObject(drawer.style).transform = "translateX(-100%)";
+      backdrop = A._asJSObjectQ(A._asJSObject(t1.document).getElementById("flart-drawer-backdrop"));
+      if (backdrop != null) {
+        A._asJSObject(backdrop.style).opacity = "0";
+        A._asJSObject(backdrop.style).pointerEvents = "none";
+      }
+    },
     FDScaffold$(appBar, body, drawer) {
       return new A.FDScaffold(appBar, body, drawer, null);
+    },
+    FDScaffold_openDrawer() {
+      return A.openDrawer();
+    },
+    _ensureDrawerGlobalBridge_closure: function _ensureDrawerGlobalBridge_closure() {
+    },
+    _ensureDrawerGlobalBridge_closure0: function _ensureDrawerGlobalBridge_closure0() {
+    },
+    _ensureDrawerGlobalBridge_closure1: function _ensureDrawerGlobalBridge_closure1() {
     },
     FDScaffold: function FDScaffold(t0, t1, t2, t3) {
       var _ = this;
@@ -6276,6 +6645,8 @@
       _.body = t1;
       _.drawer = t2;
       _.key = t3;
+    },
+    FDScaffold_buildNode_closure: function FDScaffold_buildNode_closure() {
     },
     FDSingleChildScrollView$(child, padding) {
       return new A.FDSingleChildScrollView(child, padding, null);
@@ -6332,10 +6703,11 @@
       _.padding = t8;
       _.key = t9;
     },
-    _FDEditableTextState: function _FDEditableTextState() {
+    _FDEditableTextState: function _FDEditableTextState(t0) {
       var _ = this;
       _.__State_context_A = _.__State_widget_A = _.___FDEditableTextState__inputId_A = $;
       _._stateKey = null;
+      _._dependencies = t0;
     },
     _FDEditableTextState__handleControllerChanged_closure: function _FDEditableTextState__handleControllerChanged_closure() {
     },
@@ -6366,24 +6738,43 @@
     FDTextButton_buildNode_closure: function FDTextButton_buildNode_closure(t0) {
       this.$this = t0;
     },
-    BuildContext$(inheritedWidgets, $parent, states, widget) {
-      var t1, t2;
+    BuildContext$(currentBuildingState, inheritedWidgets, $parent, path, slotTracker, states, widget) {
+      var t1, t2, t3, t4, _null = null;
       if (inheritedWidgets == null)
-        t1 = $parent == null ? null : $parent.inheritedWidgets;
+        t1 = $parent == null ? _null : $parent.inheritedWidgets;
       else
         t1 = inheritedWidgets;
       if (t1 == null)
         t1 = A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, type$.Widget);
       if (states == null)
-        t2 = $parent == null ? null : $parent._states;
+        t2 = $parent == null ? _null : $parent._states;
       else
         t2 = states;
-      return new A.BuildContext(widget, t1, t2 == null ? A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, type$.dynamic) : t2);
+      if (t2 == null)
+        t2 = A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, type$.dynamic);
+      if (path == null)
+        t3 = $parent == null ? _null : $parent.path;
+      else
+        t3 = path;
+      if (t3 == null)
+        t3 = "root";
+      if (slotTracker == null)
+        t4 = $parent == null ? _null : $parent.slotTracker;
+      else
+        t4 = slotTracker;
+      return new A.BuildContext(widget, t1, t2, t3, t4 == null ? new A.SlotTracker() : t4, currentBuildingState);
     },
-    BuildContext: function BuildContext(t0, t1, t2) {
-      this.widget = t0;
-      this.inheritedWidgets = t1;
-      this._states = t2;
+    SlotTracker: function SlotTracker() {
+      this._counter = 0;
+    },
+    BuildContext: function BuildContext(t0, t1, t2, t3, t4, t5) {
+      var _ = this;
+      _.widget = t0;
+      _.inheritedWidgets = t1;
+      _._states = t2;
+      _.path = t3;
+      _.slotTracker = t4;
+      _.currentBuildingState = t5;
     },
     FDElement: function FDElement(t0, t1, t2, t3, t4, t5, t6) {
       var _ = this;
@@ -6403,11 +6794,12 @@
     AnimationShowcase: function AnimationShowcase(t0) {
       this.key = t0;
     },
-    _AnimationShowcaseState: function _AnimationShowcaseState() {
+    _AnimationShowcaseState: function _AnimationShowcaseState(t0) {
       var _ = this;
       _._isExpanded = false;
       _.__State_context_A = _.__State_widget_A = $;
       _._stateKey = null;
+      _._dependencies = t0;
     },
     _AnimationShowcaseState_build_closure: function _AnimationShowcaseState_build_closure(t0) {
       this.$this = t0;
@@ -6430,7 +6822,7 @@
     InputShowcase: function InputShowcase(t0) {
       this.key = t0;
     },
-    _InputShowcaseState: function _InputShowcaseState() {
+    _InputShowcaseState: function _InputShowcaseState(t0) {
       var _ = this;
       _._textFieldValue = "";
       _._isChecked1 = false;
@@ -6438,6 +6830,7 @@
       _._radioGroupValue = "option1";
       _.__State_context_A = _.__State_widget_A = $;
       _._stateKey = null;
+      _._dependencies = t0;
     },
     _InputShowcaseState_build_closure: function _InputShowcaseState_build_closure(t0) {
       this.$this = t0;
@@ -6485,12 +6878,13 @@
     InteractiveShowcase: function InteractiveShowcase(t0) {
       this.key = t0;
     },
-    _InteractiveShowcaseState: function _InteractiveShowcaseState() {
+    _InteractiveShowcaseState: function _InteractiveShowcaseState(t0) {
       var _ = this;
       _._switchValue = false;
       _._dateRange = null;
       _.__State_context_A = _.__State_widget_A = $;
       _._stateKey = null;
+      _._dependencies = t0;
     },
     _InteractiveShowcaseState_build_closure: function _InteractiveShowcaseState_build_closure(t0) {
       this.$this = t0;
@@ -6540,13 +6934,14 @@
     CatalogApp: function CatalogApp(t0) {
       this.key = t0;
     },
-    _CatalogAppState: function _CatalogAppState(t0, t1) {
+    _CatalogAppState: function _CatalogAppState(t0, t1, t2) {
       var _ = this;
       _._selectedIndex = 0;
       _._menuItems = t0;
       _._pages = t1;
       _.__State_context_A = _.__State_widget_A = $;
       _._stateKey = null;
+      _._dependencies = t2;
     },
     _CatalogAppState_build_closure: function _CatalogAppState_build_closure(t0) {
       this.$this = t0;
@@ -6572,11 +6967,12 @@
     NavigationShowcase: function NavigationShowcase(t0) {
       this.key = t0;
     },
-    _NavigationShowcaseState: function _NavigationShowcaseState() {
+    _NavigationShowcaseState: function _NavigationShowcaseState(t0) {
       var _ = this;
       _._tabIndex = 0;
       _.__State_context_A = _.__State_widget_A = $;
       _._stateKey = null;
+      _._dependencies = t0;
     },
     _NavigationShowcaseState_build_closure: function _NavigationShowcaseState_build_closure(t0) {
       this.$this = t0;
@@ -6623,6 +7019,18 @@
     throwLateFieldADI(fieldName) {
       throw A.initializeExceptionWrapper(A.LateError$fieldADI(fieldName), new Error());
     },
+    _functionToJS0(f) {
+      var result;
+      if (typeof f == "function")
+        throw A.wrapException(A.ArgumentError$("Attempting to rewrap a JS function.", null));
+      result = function(_call, f) {
+        return function() {
+          return _call(f);
+        };
+      }(A._callDartFunctionFast0, f);
+      result[$.$get$DART_CLOSURE_DART_JSINTEROP_PROPERTY_NAME()] = f;
+      return result;
+    },
     _functionToJS1(f) {
       var result;
       if (typeof f == "function")
@@ -6635,6 +7043,9 @@
       result[$.$get$DART_CLOSURE_DART_JSINTEROP_PROPERTY_NAME()] = f;
       return result;
     },
+    _callDartFunctionFast0(callback) {
+      return type$.Function._as(callback).call$0();
+    },
     _callDartFunctionFast1(callback, arg1, $length) {
       type$.Function._as(callback);
       if (A._asInt($length) >= 1)
@@ -6642,19 +7053,18 @@
       return callback.call$0();
     },
     _renderApp() {
-      var context, vnode, e, stack, exception,
+      var context, vnode, e, stack, exception, _null = null,
         t1 = $._rootWidget;
       if (t1 == null || $._appContainer == null) {
         A.print("Cannot render: root widget or app container is null");
         return;
       }
-      $._renderCounter = 0;
       try {
-        context = A.BuildContext$(null, null, null, t1);
+        context = A.BuildContext$(_null, _null, _null, _null, _null, _null, t1);
         vnode = t1.buildNode$1(context);
         t1 = $._appContainer;
         t1.toString;
-        A.VDOMReconciler_reconcile(t1, vnode);
+        A.VDOMReconciler__patchChildren(t1, A._setArrayType([vnode], type$.JSArray_FlartNode));
       } catch (exception) {
         e = A.unwrapException(exception);
         stack = A.getTraceFromException(exception);
@@ -7497,10 +7907,22 @@
       return this.__js_helper$_length === 0;
     },
     containsKey$1(key) {
-      var strings = this._strings;
-      if (strings == null)
+      var strings, t1;
+      if (typeof key == "string") {
+        strings = this.__js_helper$_strings;
+        if (strings == null)
+          return false;
+        return strings[key] != null;
+      } else {
+        t1 = this.internalContainsKey$1(key);
+        return t1;
+      }
+    },
+    internalContainsKey$1(key) {
+      var rest = this.__js_helper$_rest;
+      if (rest == null)
         return false;
-      return strings[key] != null;
+      return this.internalFindBucketIndex$2(rest[this.internalComputeHashCode$1(key)], key) >= 0;
     },
     addAll$1(_, other) {
       A._instanceType(this)._eval$1("Map<1,2>")._as(other).forEach$1(0, new A.JsLinkedHashMap_addAll_closure(this));
@@ -7508,14 +7930,14 @@
     $index(_, key) {
       var strings, cell, t1, nums, _null = null;
       if (typeof key == "string") {
-        strings = this._strings;
+        strings = this.__js_helper$_strings;
         if (strings == null)
           return _null;
         cell = strings[key];
         t1 = cell == null ? _null : cell.hashMapCellValue;
         return t1;
       } else if (typeof key == "number" && (key & 0x3fffffff) === key) {
-        nums = this._nums;
+        nums = this.__js_helper$_nums;
         if (nums == null)
           return _null;
         cell = nums[key];
@@ -7541,11 +7963,11 @@
       t1._precomputed1._as(key);
       t1._rest[1]._as(value);
       if (typeof key == "string") {
-        strings = _this._strings;
-        _this._addHashTableEntry$3(strings == null ? _this._strings = _this._newHashTable$0() : strings, key, value);
+        strings = _this.__js_helper$_strings;
+        _this.__js_helper$_addHashTableEntry$3(strings == null ? _this.__js_helper$_strings = _this._newHashTable$0() : strings, key, value);
       } else if (typeof key == "number" && (key & 0x3fffffff) === key) {
-        nums = _this._nums;
-        _this._addHashTableEntry$3(nums == null ? _this._nums = _this._newHashTable$0() : nums, key, value);
+        nums = _this.__js_helper$_nums;
+        _this.__js_helper$_addHashTableEntry$3(nums == null ? _this.__js_helper$_nums = _this._newHashTable$0() : nums, key, value);
       } else
         _this.internalSet$2(key, value);
     },
@@ -7560,39 +7982,52 @@
       hash = _this.internalComputeHashCode$1(key);
       bucket = rest[hash];
       if (bucket == null)
-        rest[hash] = [_this._newLinkedCell$2(key, value)];
+        rest[hash] = [_this.__js_helper$_newLinkedCell$2(key, value)];
       else {
         index = _this.internalFindBucketIndex$2(bucket, key);
         if (index >= 0)
           bucket[index].hashMapCellValue = value;
         else
-          bucket.push(_this._newLinkedCell$2(key, value));
+          bucket.push(_this.__js_helper$_newLinkedCell$2(key, value));
       }
     },
+    putIfAbsent$2(key, ifAbsent) {
+      var t2, value, _this = this,
+        t1 = A._instanceType(_this);
+      t1._precomputed1._as(key);
+      t1._eval$1("2()")._as(ifAbsent);
+      if (_this.containsKey$1(key)) {
+        t2 = _this.$index(0, key);
+        return t2 == null ? t1._rest[1]._as(t2) : t2;
+      }
+      value = ifAbsent.call$0();
+      _this.$indexSet(0, key, value);
+      return value;
+    },
     remove$1(_, key) {
-      var t1 = this._removeHashTableEntry$2(this._strings, key);
+      var t1 = this._removeHashTableEntry$2(this.__js_helper$_strings, key);
       return t1;
     },
     forEach$1(_, action) {
       var cell, modifications, _this = this;
       A._instanceType(_this)._eval$1("~(1,2)")._as(action);
-      cell = _this._first;
-      modifications = _this._modifications;
+      cell = _this.__js_helper$_first;
+      modifications = _this.__js_helper$_modifications;
       while (cell != null) {
         action.call$2(cell.hashMapCellKey, cell.hashMapCellValue);
-        if (modifications !== _this._modifications)
+        if (modifications !== _this.__js_helper$_modifications)
           throw A.wrapException(A.ConcurrentModificationError$(_this));
-        cell = cell._next;
+        cell = cell.__js_helper$_next;
       }
     },
-    _addHashTableEntry$3(table, key, value) {
+    __js_helper$_addHashTableEntry$3(table, key, value) {
       var cell,
         t1 = A._instanceType(this);
       t1._precomputed1._as(key);
       t1._rest[1]._as(value);
       cell = table[key];
       if (cell == null)
-        table[key] = this._newLinkedCell$2(key, value);
+        table[key] = this.__js_helper$_newLinkedCell$2(key, value);
       else
         cell.hashMapCellValue = value;
     },
@@ -7603,43 +8038,43 @@
       cell = table[key];
       if (cell == null)
         return null;
-      this._unlinkCell$1(cell);
+      this.__js_helper$_unlinkCell$1(cell);
       delete table[key];
       return cell.hashMapCellValue;
     },
-    _modified$0() {
-      this._modifications = this._modifications + 1 & 1073741823;
+    __js_helper$_modified$0() {
+      this.__js_helper$_modifications = this.__js_helper$_modifications + 1 & 1073741823;
     },
-    _newLinkedCell$2(key, value) {
+    __js_helper$_newLinkedCell$2(key, value) {
       var _this = this,
         t1 = A._instanceType(_this),
         cell = new A.LinkedHashMapCell(t1._precomputed1._as(key), t1._rest[1]._as(value));
-      if (_this._first == null)
-        _this._first = _this._last = cell;
+      if (_this.__js_helper$_first == null)
+        _this.__js_helper$_first = _this.__js_helper$_last = cell;
       else {
-        t1 = _this._last;
+        t1 = _this.__js_helper$_last;
         t1.toString;
-        cell._previous = t1;
-        _this._last = t1._next = cell;
+        cell.__js_helper$_previous = t1;
+        _this.__js_helper$_last = t1.__js_helper$_next = cell;
       }
       ++_this.__js_helper$_length;
-      _this._modified$0();
+      _this.__js_helper$_modified$0();
       return cell;
     },
-    _unlinkCell$1(cell) {
+    __js_helper$_unlinkCell$1(cell) {
       var _this = this,
-        previous = cell._previous,
-        next = cell._next;
+        previous = cell.__js_helper$_previous,
+        next = cell.__js_helper$_next;
       if (previous == null)
-        _this._first = next;
+        _this.__js_helper$_first = next;
       else
-        previous._next = next;
+        previous.__js_helper$_next = next;
       if (next == null)
-        _this._last = previous;
+        _this.__js_helper$_last = previous;
       else
-        next._previous = previous;
+        next.__js_helper$_previous = previous;
       --_this.__js_helper$_length;
-      _this._modified$0();
+      _this.__js_helper$_modified$0();
     },
     internalComputeHashCode$1(key) {
       return J.get$hashCode$(key) & 1073741823;
@@ -7682,7 +8117,7 @@
     },
     get$iterator(_) {
       var t1 = this._map;
-      return new A.LinkedHashMapKeyIterator(t1, t1._modifications, t1._first, this.$ti._eval$1("LinkedHashMapKeyIterator<1>"));
+      return new A.LinkedHashMapKeyIterator(t1, t1.__js_helper$_modifications, t1.__js_helper$_first, this.$ti._eval$1("LinkedHashMapKeyIterator<1>"));
     }
   };
   A.LinkedHashMapKeyIterator.prototype = {
@@ -7692,15 +8127,45 @@
     moveNext$0() {
       var cell, _this = this,
         t1 = _this._map;
-      if (_this._modifications !== t1._modifications)
+      if (_this.__js_helper$_modifications !== t1.__js_helper$_modifications)
         throw A.wrapException(A.ConcurrentModificationError$(t1));
-      cell = _this._cell;
+      cell = _this.__js_helper$_cell;
       if (cell == null) {
         _this.__js_helper$_current = null;
         return false;
       } else {
         _this.__js_helper$_current = cell.hashMapCellKey;
-        _this._cell = cell._next;
+        _this.__js_helper$_cell = cell.__js_helper$_next;
+        return true;
+      }
+    },
+    $isIterator: 1
+  };
+  A.LinkedHashMapValuesIterable.prototype = {
+    get$length(_) {
+      return this._map.__js_helper$_length;
+    },
+    get$iterator(_) {
+      var t1 = this._map;
+      return new A.LinkedHashMapValueIterator(t1, t1.__js_helper$_modifications, t1.__js_helper$_first, this.$ti._eval$1("LinkedHashMapValueIterator<1>"));
+    }
+  };
+  A.LinkedHashMapValueIterator.prototype = {
+    get$current() {
+      return this.__js_helper$_current;
+    },
+    moveNext$0() {
+      var cell, _this = this,
+        t1 = _this._map;
+      if (_this.__js_helper$_modifications !== t1.__js_helper$_modifications)
+        throw A.wrapException(A.ConcurrentModificationError$(t1));
+      cell = _this.__js_helper$_cell;
+      if (cell == null) {
+        _this.__js_helper$_current = null;
+        return false;
+      } else {
+        _this.__js_helper$_current = cell.hashMapCellValue;
+        _this.__js_helper$_cell = cell.__js_helper$_next;
         return true;
       }
     },
@@ -7712,7 +8177,7 @@
     },
     get$iterator(_) {
       var t1 = this._map;
-      return new A.LinkedHashMapEntryIterator(t1, t1._modifications, t1._first, this.$ti._eval$1("LinkedHashMapEntryIterator<1,2>"));
+      return new A.LinkedHashMapEntryIterator(t1, t1.__js_helper$_modifications, t1.__js_helper$_first, this.$ti._eval$1("LinkedHashMapEntryIterator<1,2>"));
     }
   };
   A.LinkedHashMapEntryIterator.prototype = {
@@ -7724,15 +8189,15 @@
     moveNext$0() {
       var cell, _this = this,
         t1 = _this._map;
-      if (_this._modifications !== t1._modifications)
+      if (_this.__js_helper$_modifications !== t1.__js_helper$_modifications)
         throw A.wrapException(A.ConcurrentModificationError$(t1));
-      cell = _this._cell;
+      cell = _this.__js_helper$_cell;
       if (cell == null) {
         _this.__js_helper$_current = null;
         return false;
       } else {
         _this.__js_helper$_current = new A.MapEntry(cell.hashMapCellKey, cell.hashMapCellValue, _this.$ti._eval$1("MapEntry<1,2>"));
-        _this._cell = cell._next;
+        _this.__js_helper$_cell = cell.__js_helper$_next;
         return true;
       }
     },
@@ -7757,19 +8222,19 @@
     call$1(o) {
       return this.getTag(o);
     },
-    $signature: 14
+    $signature: 16
   };
   A.initHooks_closure0.prototype = {
     call$2(o, tag) {
       return this.getUnknownTag(o, tag);
     },
-    $signature: 15
+    $signature: 29
   };
   A.initHooks_closure1.prototype = {
     call$1(tag) {
       return this.prototypeForTag(A._asString(tag));
     },
-    $signature: 16
+    $signature: 26
   };
   A.JSSyntaxRegExp.prototype = {
     toString$0(_) {
@@ -8121,7 +8586,7 @@
       t2 = this.span;
       t1.firstChild ? t1.removeChild(t2) : t1.appendChild(t2);
     },
-    $signature: 17
+    $signature: 24
   };
   A._AsyncRun__scheduleImmediateJsOverride_internalCallback.prototype = {
     call$0() {
@@ -8410,7 +8875,7 @@
       type$.StackTrace._as(s);
       this.joinedResult._completeErrorObject$1(new A.AsyncError(e, s));
     },
-    $signature: 18
+    $signature: 23
   };
   A._Future__propagateToListeners_handleValueCallback.prototype = {
     call$0() {
@@ -8523,11 +8988,162 @@
     },
     $signature: 0
   };
+  A._LinkedHashSet.prototype = {
+    get$iterator(_) {
+      var _this = this,
+        t1 = new A._LinkedHashSetIterator(_this, _this._modifications, _this.$ti._eval$1("_LinkedHashSetIterator<1>"));
+      t1._cell = _this._first;
+      return t1;
+    },
+    get$length(_) {
+      return this._collection$_length;
+    },
+    contains$1(_, object) {
+      var strings, t1;
+      if (typeof object == "string" && object !== "__proto__") {
+        strings = this._strings;
+        if (strings == null)
+          return false;
+        return type$.nullable__LinkedHashSetCell._as(strings[object]) != null;
+      } else {
+        t1 = this._contains$1(object);
+        return t1;
+      }
+    },
+    _contains$1(object) {
+      var rest = this._collection$_rest;
+      if (rest == null)
+        return false;
+      return this._findBucketIndex$2(rest[J.get$hashCode$(object) & 1073741823], object) >= 0;
+    },
+    add$1(_, element) {
+      var strings, nums, _this = this;
+      _this.$ti._precomputed1._as(element);
+      if (typeof element == "string" && element !== "__proto__") {
+        strings = _this._strings;
+        return _this._addHashTableEntry$2(strings == null ? _this._strings = A._LinkedHashSet__newHashTable() : strings, element);
+      } else if (typeof element == "number" && (element & 1073741823) === element) {
+        nums = _this._nums;
+        return _this._addHashTableEntry$2(nums == null ? _this._nums = A._LinkedHashSet__newHashTable() : nums, element);
+      } else
+        return _this._add$1(element);
+    },
+    _add$1(element) {
+      var rest, hash, bucket, _this = this;
+      _this.$ti._precomputed1._as(element);
+      rest = _this._collection$_rest;
+      if (rest == null)
+        rest = _this._collection$_rest = A._LinkedHashSet__newHashTable();
+      hash = J.get$hashCode$(element) & 1073741823;
+      bucket = rest[hash];
+      if (bucket == null)
+        rest[hash] = [_this._newLinkedCell$1(element)];
+      else {
+        if (_this._findBucketIndex$2(bucket, element) >= 0)
+          return false;
+        bucket.push(_this._newLinkedCell$1(element));
+      }
+      return true;
+    },
+    remove$1(_, object) {
+      var t1 = this._remove$1(object);
+      return t1;
+    },
+    _remove$1(object) {
+      var hash, bucket, index, cell,
+        rest = this._collection$_rest;
+      if (rest == null)
+        return false;
+      hash = J.get$hashCode$(object) & 1073741823;
+      bucket = rest[hash];
+      index = this._findBucketIndex$2(bucket, object);
+      if (index < 0)
+        return false;
+      cell = bucket.splice(index, 1)[0];
+      if (0 === bucket.length)
+        delete rest[hash];
+      this._unlinkCell$1(cell);
+      return true;
+    },
+    _addHashTableEntry$2(table, element) {
+      this.$ti._precomputed1._as(element);
+      if (type$.nullable__LinkedHashSetCell._as(table[element]) != null)
+        return false;
+      table[element] = this._newLinkedCell$1(element);
+      return true;
+    },
+    _modified$0() {
+      this._modifications = this._modifications + 1 & 1073741823;
+    },
+    _newLinkedCell$1(element) {
+      var t1, _this = this,
+        cell = new A._LinkedHashSetCell(_this.$ti._precomputed1._as(element));
+      if (_this._first == null)
+        _this._first = _this._last = cell;
+      else {
+        t1 = _this._last;
+        t1.toString;
+        cell._previous = t1;
+        _this._last = t1._next = cell;
+      }
+      ++_this._collection$_length;
+      _this._modified$0();
+      return cell;
+    },
+    _unlinkCell$1(cell) {
+      var _this = this,
+        previous = cell._previous,
+        next = cell._next;
+      if (previous == null)
+        _this._first = next;
+      else
+        previous._next = next;
+      if (next == null)
+        _this._last = previous;
+      else
+        next._previous = previous;
+      --_this._collection$_length;
+      _this._modified$0();
+    },
+    _findBucketIndex$2(bucket, element) {
+      var $length, i;
+      if (bucket == null)
+        return -1;
+      $length = bucket.length;
+      for (i = 0; i < $length; ++i)
+        if (J.$eq$(bucket[i]._element, element))
+          return i;
+      return -1;
+    }
+  };
+  A._LinkedHashSetCell.prototype = {};
+  A._LinkedHashSetIterator.prototype = {
+    get$current() {
+      var t1 = this._collection$_current;
+      return t1 == null ? this.$ti._precomputed1._as(t1) : t1;
+    },
+    moveNext$0() {
+      var _this = this,
+        cell = _this._cell,
+        t1 = _this._set;
+      if (_this._modifications !== t1._modifications)
+        throw A.wrapException(A.ConcurrentModificationError$(t1));
+      else if (cell == null) {
+        _this._collection$_current = null;
+        return false;
+      } else {
+        _this._collection$_current = _this.$ti._eval$1("1?")._as(cell._element);
+        _this._cell = cell._next;
+        return true;
+      }
+    },
+    $isIterator: 1
+  };
   A.LinkedHashMap_LinkedHashMap$from_closure.prototype = {
     call$2(k, v) {
       this.result.$indexSet(0, this.K._as(k), this.V._as(v));
     },
-    $signature: 19
+    $signature: 21
   };
   A.ListBase.prototype = {
     get$iterator(receiver) {
@@ -8555,7 +9171,7 @@
       var t2, key, t3, _this = this,
         t1 = A._instanceType(_this);
       t1._eval$1("~(1,2)")._as(action);
-      for (t2 = new A.LinkedHashMapKeyIterator(_this, _this._modifications, _this._first, t1._eval$1("LinkedHashMapKeyIterator<1>")), t1 = t1._rest[1]; t2.moveNext$0();) {
+      for (t2 = new A.LinkedHashMapKeyIterator(_this, _this.__js_helper$_modifications, _this.__js_helper$_first, t1._eval$1("LinkedHashMapKeyIterator<1>")), t1 = t1._rest[1]; t2.moveNext$0();) {
         key = t2.__js_helper$_current;
         t3 = _this.$index(0, key);
         action.call$2(key, t3 == null ? t1._as(t3) : t3);
@@ -8588,7 +9204,7 @@
       t2 = A.S(v);
       t1._contents += t2;
     },
-    $signature: 20
+    $signature: 19
   };
   A._UnmodifiableMapMixin.prototype = {
     $indexSet(_, key, value) {
@@ -8632,6 +9248,15 @@
     $isMap: 1
   };
   A.UnmodifiableMapView.prototype = {};
+  A.SetBase.prototype = {
+    toString$0(_) {
+      return A.Iterable_iterableToFullString(this, "{", "}");
+    },
+    $isEfficientLengthIterable: 1,
+    $isIterable: 1,
+    $isSet: 1
+  };
+  A._SetBase.prototype = {};
   A._UnmodifiableMapView_MapView__UnmodifiableMapMixin.prototype = {};
   A._Utf8Decoder__decoder_closure.prototype = {
     call$0() {
@@ -8643,7 +9268,7 @@
       }
       return null;
     },
-    $signature: 10
+    $signature: 11
   };
   A._Utf8Decoder__decoderNonfatal_closure.prototype = {
     call$0() {
@@ -8655,7 +9280,7 @@
       }
       return null;
     },
-    $signature: 10
+    $signature: 11
   };
   A.Base64Codec.prototype = {
     normalize$3(source, start, end) {
@@ -9092,7 +9717,7 @@
             A._asStringQ(value);
         }
     },
-    $signature: 11
+    $signature: 13
   };
   A.DateTime.prototype = {
     $eq(_, other) {
@@ -9479,13 +10104,13 @@
       }
       return map;
     },
-    $signature: 21
+    $signature: 33
   };
   A.Uri_parseIPv6Address_error.prototype = {
     call$2(msg, position) {
       throw A.wrapException(A.FormatException$("Illegal IPv6 address, " + msg, this.host, position));
     },
-    $signature: 22
+    $signature: 14
   };
   A._Uri.prototype = {
     get$_core$_text() {
@@ -9629,7 +10254,7 @@
         t1._contents += t2;
       }
     },
-    $signature: 23
+    $signature: 15
   };
   A._Uri__makeQueryFromParametersDefault_closure.prototype = {
     call$2(key, value) {
@@ -9641,7 +10266,7 @@
         for (t1 = J.get$iterator$ax(type$.Iterable_dynamic._as(value)), t2 = this.writeParameter; t1.moveNext$0();)
           t2.call$2(key, A._asString(t1.get$current()));
     },
-    $signature: 11
+    $signature: 13
   };
   A.UriData.prototype = {
     get$uri() {
@@ -9821,7 +10446,7 @@
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value + ";";
     },
-    $signature: 2
+    $signature: 3
   };
   A.FlartTextNode.prototype = {
     toHtml$0() {
@@ -9841,7 +10466,7 @@
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value + ";";
     },
-    $signature: 2
+    $signature: 3
   };
   A.VDOMReconciler__patchEvents_closure.prototype = {
     call$2(type, jsFunc) {
@@ -9852,7 +10477,7 @@
         B.JSArray_methods.add$1(this.toRemove, type);
       }
     },
-    $signature: 24
+    $signature: 17
   };
   A.VDOMReconciler__patchEvents_closure0.prototype = {
     call$2(type, handler) {
@@ -9866,13 +10491,19 @@
       this.el.addEventListener(type, jsFunc);
       t1.$indexSet(0, type, jsFunc);
     },
-    $signature: 25
+    $signature: 18
   };
   A.VDOMReconciler__patchEvents__closure.prototype = {
     call$1(e) {
       this.handler.call$1(A._asJSObject(e));
     },
-    $signature: 13
+    $signature: 10
+  };
+  A.VDOMReconciler__patchChildren_closure.prototype = {
+    call$0() {
+      return this.node;
+    },
+    $signature: 20
   };
   A.Axis.prototype = {
     _enumToString$0() {
@@ -9939,7 +10570,7 @@
     call$1(segment) {
       return A._asString(segment).length !== 0;
     },
-    $signature: 26
+    $signature: 28
   };
   A.Alignment.prototype = {};
   A.Border.prototype = {};
@@ -10005,7 +10636,7 @@
       dy = t1.dy;
       return "" + dx + "px " + dy + "px " + e.blurRadius + "px " + e.color.hex;
     },
-    $signature: 27
+    $signature: 22
   };
   A.BoxShadow.prototype = {};
   A.FlartColor.prototype = {
@@ -10082,7 +10713,12 @@
         $.PageNavigator__currentTransition = B.RouteTransition_0;
       }
     },
-    $signature: 13
+    $signature: 10
+  };
+  A._EmptyWidget.prototype = {
+    render$1(context) {
+      return "<div>No route defined</div>";
+    }
   };
   A.FontWeight.prototype = {
     toString$0(_) {
@@ -10107,9 +10743,34 @@
   };
   A.ThemeData.prototype = {};
   A.Theme.prototype = {};
+  A.FDAnimate.prototype = {
+    buildNode$1(context) {
+      var currentScale, initialX, initialY, t1, styles, t2, t3, _this = this, _null = null;
+      A._ensureSharedSheet();
+      currentScale = _this.startScale;
+      if (currentScale == null)
+        currentScale = 1;
+      initialX = _this.slideX;
+      if (initialX == null)
+        initialX = 0;
+      initialY = _this.slideY;
+      if (initialY == null)
+        initialY = 0;
+      t1 = type$.String;
+      styles = A.LinkedHashMap_LinkedHashMap$_literal(["--flart-anim-opacity", "0", "--flart-anim-x", "" + initialX + "px", "--flart-anim-y", "" + initialY + "px", "--flart-anim-scale", B.JSNumber_methods.toString$0(currentScale), "animation", "flart-entrance-anim 600ms ease-out 0ms both", "will-change", "opacity, transform"], t1, t1);
+      t1 = _this.key;
+      t2 = t1 == null;
+      t3 = t2 ? _null : "ValueKey(" + t1.value + ")";
+      t1 = t2 ? _null : "ValueKey(" + t1.value + ")";
+      return new A.FlartElementNode("div", t3, t1, _null, styles, A._setArrayType([_this.child.buildNode$1(context)], type$.JSArray_FlartNode), _null);
+    },
+    render$1(context) {
+      return this.buildNode$1(context).toHtml$0();
+    }
+  };
   A.Hero.prototype = {
     createState$0() {
-      return new A._HeroState();
+      return new A._HeroState(A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, type$.InheritedWidget));
     }
   };
   A._HeroState.prototype = {
@@ -10138,14 +10799,15 @@
   };
   A.FDCenter.prototype = {
     buildNode$1(context) {
-      var t1 = type$.String,
+      var _null = null,
+        t1 = type$.String,
         styleMap = A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "align-items", "center", "justify-content", "center", "width", "100%", "height", "100%"], t1, t1);
-      return new A.FlartElementNode("div", null, null, styleMap, A._setArrayType([this.child.buildNode$1(context)], type$.JSArray_FlartNode), null);
+      return new A.FlartElementNode("div", _null, _null, _null, styleMap, A._setArrayType([this.child.buildNode$1(context)], type$.JSArray_FlartNode), _null);
     }
   };
   A.FDColumn.prototype = {
     buildNode$1(context) {
-      var t2, t3, t4, t5, _this = this,
+      var t2, t3, t4, t5, _this = this, _null = null,
         t1 = type$.String;
       t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
       t1.$indexSet(0, "display", "flex");
@@ -10153,12 +10815,12 @@
       t1.$indexSet(0, "justify-content", _this._mapMainAxis$1(_this.mainAxisAlignment));
       t1.$indexSet(0, "align-items", _this._mapCrossAxis$1(_this.crossAxisAlignment));
       t2 = _this.key;
-      t2 = t2 == null ? null : "ValueKey(" + t2.value + ")";
+      t2 = t2 == null ? _null : "ValueKey(" + t2.value + ")";
       t3 = _this.children;
       t4 = A._arrayInstanceType(t3);
       t5 = t4._eval$1("MappedListIterable<1,FlartNode>");
       t3 = A.List_List$_of(new A.MappedListIterable(t3, t4._eval$1("FlartNode(1)")._as(new A.FDColumn_buildNode_closure(context)), t5), t5._eval$1("ListIterable.E"));
-      return new A.FlartElementNode("div", t2, null, t1, t3, null);
+      return new A.FlartElementNode("div", t2, _null, _null, t1, t3, _null);
     },
     _mapMainAxis$1(value) {
       switch (value.index) {
@@ -10197,7 +10859,7 @@
   };
   A.FDPositioned.prototype = {
     buildNode$1(context) {
-      var t2, _this = this,
+      var t2, _this = this, _null = null,
         t1 = type$.String;
       t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
       t1.$indexSet(0, "position", "absolute");
@@ -10214,13 +10876,13 @@
       if (t2 != null)
         t1.$indexSet(0, "bottom", A.S(t2) + "px");
       t2 = _this.key;
-      t2 = t2 == null ? null : "ValueKey(" + t2.value + ")";
-      return new A.FlartElementNode("div", t2, null, t1, A._setArrayType([_this.child.buildNode$1(context)], type$.JSArray_FlartNode), null);
+      t2 = t2 == null ? _null : "ValueKey(" + t2.value + ")";
+      return new A.FlartElementNode("div", t2, _null, _null, t1, A._setArrayType([_this.child.buildNode$1(context)], type$.JSArray_FlartNode), _null);
     }
   };
   A.FDRow.prototype = {
     buildNode$1(context) {
-      var t2, t3, t4, t5, _this = this,
+      var t2, t3, t4, t5, _this = this, _null = null,
         t1 = type$.String;
       t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
       t1.$indexSet(0, "display", "flex");
@@ -10229,12 +10891,12 @@
       t1.$indexSet(0, "align-items", _this._row$_mapCrossAxis$1(_this.crossAxisAlignment));
       t1.$indexSet(0, "overflow-wrap", "break-word");
       t2 = _this.key;
-      t2 = t2 == null ? null : "ValueKey(" + t2.value + ")";
+      t2 = t2 == null ? _null : "ValueKey(" + t2.value + ")";
       t3 = _this.children;
       t4 = A._arrayInstanceType(t3);
       t5 = t4._eval$1("MappedListIterable<1,FlartNode>");
       t3 = A.List_List$_of(new A.MappedListIterable(t3, t4._eval$1("FlartNode(1)")._as(new A.FDRow_buildNode_closure(context)), t5), t5._eval$1("ListIterable.E"));
-      return new A.FlartElementNode("div", t2, null, t1, t3, null);
+      return new A.FlartElementNode("div", t2, _null, _null, t1, t3, _null);
     },
     _row$_mapMainAxis$1(value) {
       switch (value.index) {
@@ -10273,19 +10935,19 @@
   };
   A.FDStack.prototype = {
     buildNode$1(context) {
-      var t2, t3, t4, t5,
+      var t2, t3, t4, t5, _null = null,
         t1 = type$.String;
       t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
       t1.$indexSet(0, "position", "relative");
       t1.$indexSet(0, "width", "100%");
       t1.$indexSet(0, "height", "100%");
       t2 = this.key;
-      t2 = t2 == null ? null : "ValueKey(" + t2.value + ")";
+      t2 = t2 == null ? _null : "ValueKey(" + t2.value + ")";
       t3 = this.children;
       t4 = A._arrayInstanceType(t3);
       t5 = t4._eval$1("MappedListIterable<1,FlartNode>");
       t3 = A.List_List$_of(new A.MappedListIterable(t3, t4._eval$1("FlartNode(1)")._as(new A.FDStack_buildNode_closure(context)), t5), t5._eval$1("ListIterable.E"));
-      return new A.FlartElementNode("div", t2, null, t1, t3, null);
+      return new A.FlartElementNode("div", t2, _null, _null, t1, t3, _null);
     }
   };
   A.FDStack_buildNode_closure.prototype = {
@@ -10312,7 +10974,7 @@
       t5 = A._arrayInstanceType(t4);
       t6 = t5._eval$1("MappedListIterable<1,FlartNode>");
       t4 = A.List_List$_of(new A.MappedListIterable(t4, t5._eval$1("FlartNode(1)")._as(new A.FDWrap_buildNode_closure(context)), t6), t6._eval$1("ListIterable.E"));
-      return new A.FlartElementNode("div", t3, t1, t2, t4, null);
+      return new A.FlartElementNode("div", t3, null, t1, t2, t4, null);
     },
     _mapAlignment$1(align) {
       switch (align.index) {
@@ -10385,7 +11047,7 @@
       t2 = A.LinkedHashMap_LinkedHashMap$_literal(["class", classId], t1, t1);
       t3 = type$.JSArray_FlartNode;
       t4 = A._setArrayType([_this.child.buildNode$1(context)], t3);
-      return new A.FlartElementNode("div", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "contents"], t1, t1), A._setArrayType([new A.FlartRawHtmlNode("      <style>\n        ." + classId + " {\n          " + baseStyleStr + "\n          \n        }\n        ." + classId + ":hover {\n          " + hoverStyleStr + _s20_ + classId + ":active {\n          " + activeStyleStr + _s20_ + classId + ":disabled {\n          " + disabledStyleStr + "\n        }\n      </style>\n    "), new A.FlartElementNode("button", id, t2, _null, t4, events)], t3), _null);
+      return new A.FlartElementNode("div", _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "contents"], t1, t1), A._setArrayType([new A.FlartRawHtmlNode("      <style>\n        ." + classId + " {\n          " + baseStyleStr + "\n          \n        }\n        ." + classId + ":hover {\n          " + hoverStyleStr + _s20_ + classId + ":active {\n          " + activeStyleStr + _s20_ + classId + ":disabled {\n          " + disabledStyleStr + "\n        }\n      </style>\n    "), new A.FlartElementNode("button", id, _null, t2, _null, t4, events)], t3), _null);
     }
   };
   A.FDElevatedButton_buildNode_closure.prototype = {
@@ -10393,38 +11055,38 @@
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value + ";";
     },
-    $signature: 2
+    $signature: 3
   };
   A.FDElevatedButton_buildNode_closure0.prototype = {
     call$1(e) {
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value + ";";
     },
-    $signature: 2
+    $signature: 3
   };
   A.FDElevatedButton_buildNode_closure1.prototype = {
     call$1(e) {
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value + ";";
     },
-    $signature: 2
+    $signature: 3
   };
   A.FDElevatedButton_buildNode_closure2.prototype = {
     call$1(e) {
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value + ";";
     },
-    $signature: 2
+    $signature: 3
   };
   A.FDElevatedButton_buildNode_closure3.prototype = {
     call$1(e) {
       return this.$this.onPressed.call$0();
     },
-    $signature: 3
+    $signature: 2
   };
   A.FDGestureDetector.prototype = {
     buildNode$1(context) {
-      var t2, t3,
+      var t2, t3, t4,
         t1 = type$.String,
         events = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_dynamic);
       events.$indexSet(0, "click", new A.FDGestureDetector_buildNode_closure(this));
@@ -10433,20 +11095,15 @@
       t2.$indexSet(0, "display", "inline-block");
       t2.$indexSet(0, "cursor", "pointer");
       t3 = this.key;
-      t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
-      if (t3 == null) {
-        t3 = $._gestureCounter;
-        $._gestureCounter = t3 + 1;
-        t3 = "gesture_" + t3;
-      }
-      return new A.FDElement("div", t3, A.LinkedHashMap_LinkedHashMap$_literal(["tabindex", "0"], t1, t1), t2, events, A._setArrayType([this.child], type$.JSArray_Widget), null).buildNode$1(context);
+      t4 = t3 == null ? null : "ValueKey(" + t3.value + ")";
+      return new A.FDElement("div", t4, A.LinkedHashMap_LinkedHashMap$_literal(["tabindex", "0"], t1, t1), t2, events, A._setArrayType([this.child], type$.JSArray_Widget), t3).buildNode$1(context);
     }
   };
   A.FDGestureDetector_buildNode_closure.prototype = {
     call$1(e) {
       return this.$this.onTap.call$0();
     },
-    $signature: 3
+    $signature: 2
   };
   A.FDInkWell.prototype = {
     buildNode$1(context) {
@@ -10465,14 +11122,14 @@
       t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
       t1 = A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-ink-well"], t1, t1);
       t4 = A._setArrayType([_this.child.buildNode$1(context)], type$.JSArray_FlartNode);
-      return new A.FlartElementNode("div", t3, t1, t2, t4, events);
+      return new A.FlartElementNode("div", t3, null, t1, t2, t4, events);
     }
   };
   A.FDInkWell_buildNode_closure.prototype = {
     call$1(_) {
       return this.$this.onTap.call$0();
     },
-    $signature: 3
+    $signature: 2
   };
   A.FDOutlinedButton.prototype = {
     buildNode$1(context) {
@@ -10503,25 +11160,33 @@
       t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
       t1.$indexSet(0, "type", "button");
       t1.$indexSet(0, "class", "flart-outlined-button");
-      return new A.FlartElementNode("button", t3, t1, t2, A._setArrayType([_this.child.buildNode$1(context)], type$.JSArray_FlartNode), events);
+      return new A.FlartElementNode("button", t3, null, t1, t2, A._setArrayType([_this.child.buildNode$1(context)], type$.JSArray_FlartNode), events);
     }
   };
   A.FDOutlinedButton_buildNode_closure.prototype = {
     call$1(e) {
       return this.$this.onPressed.call$0();
     },
-    $signature: 3
+    $signature: 2
+  };
+  A.InheritedRegistry_registerDependency_closure.prototype = {
+    call$0() {
+      return A.LinkedHashSet_LinkedHashSet$_empty(type$.State_StatefulWidget);
+    },
+    $signature: 25
   };
   A.InheritedWidget.prototype = {
     buildNode$1(context) {
-      var _this = this,
-        t1 = A.LinkedHashMap_LinkedHashMap$of(context.inheritedWidgets, type$.Type, type$.Widget);
+      var t1, _this = this;
+      $.InheritedRegistry__lastInstances.$indexSet(0, A.getRuntimeTypeOfDartObject(_this), _this);
+      t1 = A.LinkedHashMap_LinkedHashMap$of(context.inheritedWidgets, type$.Type, type$.Widget);
       t1.$indexSet(0, A.getRuntimeTypeOfDartObject(_this), _this);
       return _this.child.buildNode$1(context.copyWith$2$inheritedWidgets$widget(t1, _this));
     },
     render$1(context) {
-      var _this = this,
-        t1 = A.LinkedHashMap_LinkedHashMap$of(context.inheritedWidgets, type$.Type, type$.Widget);
+      var t1, _this = this;
+      $.InheritedRegistry__lastInstances.$indexSet(0, A.getRuntimeTypeOfDartObject(_this), _this);
+      t1 = A.LinkedHashMap_LinkedHashMap$of(context.inheritedWidgets, type$.Type, type$.Widget);
       t1.$indexSet(0, A.getRuntimeTypeOfDartObject(_this), _this);
       return _this.child.render$1(context.copyWith$2$inheritedWidgets$widget(t1, _this));
     }
@@ -10545,7 +11210,7 @@
       t1.$indexSet(0, "type", "checkbox");
       if (this.value)
         t1.$indexSet(0, "checked", "true");
-      return new A.FlartElementNode("input", t3, t1, t2, null, events);
+      return new A.FlartElementNode("input", t3, null, t1, t2, null, events);
     }
   };
   A.FDCheckbox_buildNode_closure.prototype = {
@@ -10577,7 +11242,7 @@
       t1.$indexSet(0, "type", "radio");
       if (_this.value === _this.groupValue)
         t1.$indexSet(0, "checked", "true");
-      return new A.FlartElementNode("input", t3, t1, t2, null, events);
+      return new A.FlartElementNode("input", t3, null, t1, t2, null, events);
     }
   };
   A.FDRadio_buildNode_closure.prototype = {
@@ -10611,7 +11276,7 @@
       t5 = A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-switch", "role", "switch", "aria-checked", t4 ? "true" : "false"], t1, t1);
       t6 = A.LinkedHashMap_LinkedHashMap$_literal(["width", "50px", "height", "26px", _s16_, t4 ? active : inactive, "border-radius", "13px", "position", "relative", "transition", "background-color 0.3s"], t1, t1);
       t7 = type$.JSArray_FlartNode;
-      return new A.FlartElementNode("div", t3, t5, t2, A._setArrayType([new A.FlartElementNode("div", _null, _null, t6, A._setArrayType([new A.FlartElementNode("div", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["width", "22px", "height", "22px", _s16_, "white", "border-radius", "50%", "position", "absolute", "top", "2px", "left", t4 ? "26px" : "2px", "transition", "left 0.3s", "box-shadow", "0 2px 4px rgba(0,0,0,0.2)"], t1, t1), _null, _null)], t7), _null)], t7), events);
+      return new A.FlartElementNode("div", t3, _null, t5, t2, A._setArrayType([new A.FlartElementNode("div", _null, _null, _null, t6, A._setArrayType([new A.FlartElementNode("div", _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["width", "22px", "height", "22px", _s16_, "white", "border-radius", "50%", "position", "absolute", "top", "2px", "left", t4 ? "26px" : "2px", "transition", "left 0.3s", "box-shadow", "0 2px 4px rgba(0,0,0,0.2)"], t1, t1), _null, _null)], t7), _null)], t7), events);
     }
   };
   A.FDSwitch_buildNode_closure.prototype = {
@@ -10654,24 +11319,24 @@
       t2.$indexSet(0, "controls", "true");
       t3 = this.key;
       t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
-      return new A.FlartElementNode("video", t3, t2, styles, null, A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_JSObject));
+      return new A.FlartElementNode("video", t3, null, t2, styles, null, A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_JSObject));
     }
   };
   A.YouTubePlayer.prototype = {
     buildNode$1(context) {
-      var t2, _this = this,
+      var t2, _this = this, _null = null,
         params = A._setArrayType([], type$.JSArray_String),
         paramString = params.length !== 0 ? "?" + B.JSArray_methods.join$1(params, "&") : "",
         t1 = _this.key;
-      t1 = t1 == null ? null : "ValueKey(" + t1.value + ")";
+      t1 = t1 == null ? _null : "ValueKey(" + t1.value + ")";
       t2 = type$.String;
-      return new A.FlartElementNode("iframe", t1, A.LinkedHashMap_LinkedHashMap$_literal(["width", B.JSInt_methods.toString$0(_this.width), "height", B.JSInt_methods.toString$0(_this.height), "src", "https://www.youtube.com/embed/" + _this.videoId + paramString, "title", "YouTube video player", "frameborder", "0", "allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", "allowfullscreen", "true"], t2, t2), A.LinkedHashMap_LinkedHashMap$_literal(["border-radius", "8px"], t2, t2), null, null);
+      return new A.FlartElementNode("iframe", t1, _null, A.LinkedHashMap_LinkedHashMap$_literal(["width", B.JSInt_methods.toString$0(_this.width), "height", B.JSInt_methods.toString$0(_this.height), "src", "https://www.youtube.com/embed/" + _this.videoId + paramString, "title", "YouTube video player", "frameborder", "0", "allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", "allowfullscreen", "true"], t2, t2), A.LinkedHashMap_LinkedHashMap$_literal(["border-radius", "8px"], t2, t2), _null, _null);
     }
   };
   A.DateTimeRange.prototype = {};
   A.FDDateRangePicker.prototype = {
     createState$0() {
-      return new A._FDDateRangePickerState();
+      return new A._FDDateRangePickerState(A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, type$.InheritedWidget));
     }
   };
   A._FDDateRangePickerState.prototype = {
@@ -10719,7 +11384,7 @@
       _this.__State_widget_A === $ && A.throwLateFieldNI("widget");
       t3 = type$.JSArray_FlartNode;
       t4 = A._setArrayType([], t3);
-      t4.push(new A.FlartElementNode("label", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "font-weight", "500", "color", "#333"], t1, t1), A._setArrayType([new A.FlartTextNode(_this.__State_widget_A.label)], t3), _null));
+      t4.push(new A.FlartElementNode("label", _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "font-weight", "500", "color", "#333"], t1, t1), A._setArrayType([new A.FlartTextNode(_this.__State_widget_A.label)], t3), _null));
       t5 = A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "gap", "8px", "align-items", "center"], t1, t1);
       t6 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
       t6.$indexSet(0, "type", "date");
@@ -10735,10 +11400,10 @@
       if (endValue.length !== 0)
         t11.$indexSet(0, "value", endValue);
       t11.$indexSet(0, _s10_, "End Date");
-      t4.push(new A.FlartElementNode("div", _null, _null, t5, A._setArrayType([new A.FlartElementNode("input", _null, t6, t2, _null, t8), new A.FlartElementNode("span", _null, _null, t9, t10, _null), new A.FlartElementNode("input", _null, t11, t2, _null, A.LinkedHashMap_LinkedHashMap$_literal(["change", new A._FDDateRangePickerState_build_closure0(_this)], t1, t7))], t3), _null));
+      t4.push(new A.FlartElementNode("div", _null, _null, _null, t5, A._setArrayType([new A.FlartElementNode("input", _null, _null, t6, t2, _null, t8), new A.FlartElementNode("span", _null, _null, _null, t9, t10, _null), new A.FlartElementNode("input", _null, _null, t11, t2, _null, A.LinkedHashMap_LinkedHashMap$_literal(["change", new A._FDDateRangePickerState_build_closure0(_this)], t1, t7))], t3), _null));
       t2 = _this.__State_widget_A.key;
       t2 = t2 == null ? _null : "ValueKey(" + t2.value + ")";
-      return new A._RawFlartNodeWidget(new A.FlartElementNode("div", t2, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "flex-direction", "column", "gap", "4px"], t1, t1), t4, _null), _null);
+      return new A._RawFlartNodeWidget(new A.FlartElementNode("div", t2, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "flex-direction", "column", "gap", "4px"], t1, t1), t4, _null), _null);
     }
   };
   A._FDDateRangePickerState_build_closure.prototype = {
@@ -10796,14 +11461,14 @@
         t1 = type$.JSArray_FlartNode,
         t2 = A._setArrayType([], t1),
         t3 = type$.String;
-      t2.push(new A.FlartElementNode("label", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "font-weight", "500", "color", "#333"], t3, t3), A._setArrayType([new A.FlartTextNode(_this.label)], t1), _null));
+      t2.push(new A.FlartElementNode("label", _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "font-weight", "500", "color", "#333"], t3, t3), A._setArrayType([new A.FlartTextNode(_this.label)], t1), _null));
       t4 = A.LinkedHashMap_LinkedHashMap$_empty(t3, t3);
       t4.$indexSet(0, "type", "datetime-local");
-      t2.push(new A.FlartElementNode("input", _null, t4, A.LinkedHashMap_LinkedHashMap$_literal(["padding", "8px 12px", "border", "1px solid #cccccc", "border-radius", "4px", "font-size", "14px"], t3, t3), _null, A.LinkedHashMap_LinkedHashMap$_literal(["change", new A.DateTimePicker_buildNode_closure(_this)], t3, type$.void_Function_JSObject)));
-      t2.push(new A.FlartElementNode("span", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "12px", "color", "#666"], t3, t3), A._setArrayType([new A.FlartTextNode(_this.helperText)], t1), _null));
+      t2.push(new A.FlartElementNode("input", _null, _null, t4, A.LinkedHashMap_LinkedHashMap$_literal(["padding", "8px 12px", "border", "1px solid #cccccc", "border-radius", "4px", "font-size", "14px"], t3, t3), _null, A.LinkedHashMap_LinkedHashMap$_literal(["change", new A.DateTimePicker_buildNode_closure(_this)], t3, type$.void_Function_JSObject)));
+      t2.push(new A.FlartElementNode("span", _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "12px", "color", "#666"], t3, t3), A._setArrayType([new A.FlartTextNode(_this.helperText)], t1), _null));
       t1 = _this.key;
       t1 = t1 == null ? _null : "ValueKey(" + t1.value + ")";
-      return new A.FlartElementNode("div", t1, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "flex-direction", "column", "gap", "4px"], t3, t3), t2, _null);
+      return new A.FlartElementNode("div", t1, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "flex-direction", "column", "gap", "4px"], t3, t3), t2, _null);
     }
   };
   A.DateTimePicker_buildNode_closure.prototype = {
@@ -10816,7 +11481,7 @@
   };
   A.RangePicker.prototype = {
     createState$0() {
-      return new A._RangePickerState();
+      return new A._RangePickerState(A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, type$.InheritedWidget));
     }
   };
   A._RangePickerState.prototype = {
@@ -10837,7 +11502,7 @@
         t2 = A._setArrayType([], t1);
       _this.__State_widget_A === $ && A.throwLateFieldNI("widget");
       t3 = type$.String;
-      t2.push(new A.FlartElementNode("label", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "font-weight", "500", "color", "#333"], t3, t3), A._setArrayType([new A.FlartTextNode(_this.__State_widget_A.label)], t1), _null));
+      t2.push(new A.FlartElementNode("label", _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "font-weight", "500", "color", "#333"], t3, t3), A._setArrayType([new A.FlartTextNode(_this.__State_widget_A.label)], t1), _null));
       t4 = A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "gap", "12px", "align-items", "center"], t3, t3);
       t5 = _this.__State_widget_A;
       t6 = B.JSInt_methods.toString$0(t5.min);
@@ -10853,11 +11518,11 @@
       t9 = B.JSInt_methods.toString$0(t9.max);
       t11 = _this.___RangePickerState__end_A;
       t11 === $ && A.throwLateFieldNI("_end");
-      t2.push(new A.FlartElementNode("div", _null, _null, t4, A._setArrayType([new A.FlartElementNode("input", _null, t7, t5, _null, t8), new A.FlartElementNode("input", _null, A.LinkedHashMap_LinkedHashMap$_literal(["type", "range", "min", t10, "max", t9, "value", B.JSNumber_methods.toString$0(t11)], t3, t3), A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1"], t3, t3), _null, A.LinkedHashMap_LinkedHashMap$_literal(["input", new A._RangePickerState_build_closure0(_this)], t3, t6))], t1), _null));
-      t2.push(new A.FlartElementNode("div", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "color", "#666", "text-align", "center"], t3, t3), A._setArrayType([new A.FlartTextNode(B.JSNumber_methods.toStringAsFixed$1(_this.___RangePickerState__start_A, 0) + " - " + B.JSNumber_methods.toStringAsFixed$1(_this.___RangePickerState__end_A, 0))], t1), _null));
+      t2.push(new A.FlartElementNode("div", _null, _null, _null, t4, A._setArrayType([new A.FlartElementNode("input", _null, _null, t7, t5, _null, t8), new A.FlartElementNode("input", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["type", "range", "min", t10, "max", t9, "value", B.JSNumber_methods.toString$0(t11)], t3, t3), A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1"], t3, t3), _null, A.LinkedHashMap_LinkedHashMap$_literal(["input", new A._RangePickerState_build_closure0(_this)], t3, t6))], t1), _null));
+      t2.push(new A.FlartElementNode("div", _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "color", "#666", "text-align", "center"], t3, t3), A._setArrayType([new A.FlartTextNode(B.JSNumber_methods.toStringAsFixed$1(_this.___RangePickerState__start_A, 0) + " - " + B.JSNumber_methods.toStringAsFixed$1(_this.___RangePickerState__end_A, 0))], t1), _null));
       t1 = _this.__State_widget_A.key;
       t1 = t1 == null ? _null : "ValueKey(" + t1.value + ")";
-      return new A._RawFlartNodeWidget(new A.FlartElementNode("div", t1, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "flex-direction", "column", "gap", "8px"], t3, t3), t2, _null), _null);
+      return new A._RawFlartNodeWidget(new A.FlartElementNode("div", t1, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "flex-direction", "column", "gap", "8px"], t3, t3), t2, _null), _null);
     }
   };
   A._RangePickerState_build_closure.prototype = {
@@ -10910,8 +11575,21 @@
     didUpdateWidget$1(oldWidget) {
       A._instanceType(this)._eval$1("State.T")._as(oldWidget);
     },
+    checkAndNotifyDependencies$1(newContext) {
+      var t1, t2, t3, entry, t4, current;
+      for (t1 = this._dependencies, t2 = new A.LinkedHashMapEntriesIterable(t1, A._instanceType(t1)._eval$1("LinkedHashMapEntriesIterable<1,2>")).get$iterator(0), t3 = newContext.inheritedWidgets; t2.moveNext$0();) {
+        entry = t2.__js_helper$_current;
+        t4 = entry.key;
+        current = t3.$index(0, t4);
+        if (current instanceof A.Theme && current !== entry.value)
+          t1.$indexSet(0, t4, current);
+      }
+    },
+    dispose$0() {
+      A.InheritedRegistry_unregisterState(this);
+    },
     _performScopedUpdate$0() {
-      var element, _this = this,
+      var element, t2, t3, updateContext, _this = this,
         _s19_ = "Re-rendering app...",
         t1 = _this._stateKey;
       if (t1 == null) {
@@ -10923,7 +11601,11 @@
       if (element != null) {
         t1 = _this.__State_context_A;
         t1 === $ && A.throwLateFieldNI("context");
-        A.VDOMReconciler_reconcile(element, _this.build$1(t1).buildNode$1(_this.__State_context_A));
+        t2 = _this._stateKey;
+        t3 = A.LinkedHashMap_LinkedHashMap$of(t1._states, type$.Type, type$.dynamic);
+        t3.$indexSet(0, A.getRuntimeTypeOfDartObject(_this), _this);
+        updateContext = t1.copyWith$4$currentBuildingState$path$slotTracker$states(_this, t2, new A.SlotTracker(), t3);
+        A.VDOMReconciler__patchChildren(element, A._setArrayType([_this.build$1(updateContext).buildNode$1(updateContext)], type$.JSArray_FlartNode));
       } else {
         A.print(_s19_);
         A._renderApp();
@@ -10932,39 +11614,50 @@
   };
   A.StatefulWidget.prototype = {
     buildNode$1(context) {
-      var stateKey, state, childContext, childNode, _this = this,
-        t1 = A._rtiToString(A.getRuntimeTypeOfDartObject(_this)._rti, null),
+      var stateKey, t3, state, t4, selfContext, childNode, _this = this, _null = null,
+        t1 = A._rtiToString(A.getRuntimeTypeOfDartObject(_this)._rti, _null),
         t2 = A.RegExp_RegExp("[<>]"),
         safeRuntimeType = A.stringReplaceAllUnchecked(t1, t2, "_");
       t1 = _this.key;
-      if (t1 != null)
-        stateKey = safeRuntimeType + "_" + t1.toString$0(0);
-      else {
-        t1 = $._renderCounter;
-        $._renderCounter = t1 + 1;
-        stateKey = safeRuntimeType + "_pos" + t1;
-      }
+      if (t1 != null) {
+        t1 = t1.toString$0(0);
+        t2 = A.RegExp_RegExp("[^a-zA-Z0-9_-]");
+        stateKey = context.path + "__k_" + A.stringReplaceAllUnchecked(t1, t2, "_");
+      } else
+        stateKey = context.path + "__" + safeRuntimeType + "_" + context.slotTracker._counter++;
+      t1 = type$.Type;
+      t2 = type$.dynamic;
+      t3 = context._states;
       if ($._stateRegistry.containsKey$1(stateKey)) {
         state = $._stateRegistry.$index(0, stateKey);
-        t1 = state.__State_widget_A;
-        t1 === $ && A.throwLateFieldNI("widget");
+        t4 = state.__State_widget_A;
+        t4 === $ && A.throwLateFieldNI("widget");
         state.__State_widget_A = A._instanceType(state)._eval$1("State.T")._as(_this);
-        state.__State_context_A = context;
-        state.didUpdateWidget$1(t1);
+        t2 = A.LinkedHashMap_LinkedHashMap$of(t3, t1, t2);
+        t2.$indexSet(0, A.getRuntimeTypeOfDartObject(state), state);
+        selfContext = context.copyWith$4$currentBuildingState$path$slotTracker$states(state, stateKey, new A.SlotTracker(), t2);
+        state.__State_context_A = selfContext;
+        state.didUpdateWidget$1(t4);
+        state.checkAndNotifyDependencies$1(selfContext);
       } else {
         state = _this.createState$0();
         state.__State_widget_A = A._instanceType(state)._eval$1("State.T")._as(_this);
-        state.__State_context_A = context;
+        t1 = A.LinkedHashMap_LinkedHashMap$of(t3, t1, t2);
+        t1.$indexSet(0, A.getRuntimeTypeOfDartObject(state), state);
+        state.__State_context_A = context.copyWith$4$currentBuildingState$path$slotTracker$states(state, stateKey, new A.SlotTracker(), t1);
         state._stateKey = stateKey;
         $._stateRegistry.$indexSet(0, stateKey, state);
         state.initState$0();
       }
-      t1 = A.LinkedHashMap_LinkedHashMap$of(context._states, type$.Type, type$.dynamic);
-      t1.$indexSet(0, A.getRuntimeTypeOfDartObject(state), state);
-      childContext = context.copyWith$1$states(t1);
-      childNode = state.build$1(childContext).buildNode$1(childContext);
-      t1 = type$.String;
-      return new A.FlartElementNode("div", stateKey, null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "contents"], t1, t1), A._setArrayType([childNode], type$.JSArray_FlartNode), null);
+      t1 = state.__State_context_A;
+      t1 === $ && A.throwLateFieldNI("context");
+      childNode = state.build$1(t1).buildNode$1(t1);
+      t1 = _this.key;
+      t1 = t1 == null ? _null : "ValueKey(" + t1.value + ")";
+      if (t1 == null)
+        t1 = stateKey;
+      t2 = type$.String;
+      return new A.FlartElementNode("div", stateKey, t1, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "contents"], t2, t2), A._setArrayType([childNode], type$.JSArray_FlartNode), _null);
     },
     render$1(context) {
       return this.buildNode$1(context).toHtml$0();
@@ -10980,16 +11673,20 @@
   };
   A.FDAppBar.prototype = {
     buildNode$1(context) {
-      var t1, styles, t2, children, _null = null;
+      var t1, t2, styles, children, t3, _this = this, _null = null;
       A.Theme_of(context);
-      t1 = type$.String;
-      styles = A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "align-items", "center", "justify-content", "space-between", "padding", "0 16px", "height", "56px", "background-color", this.backgroundColor.hex, "transition", "background-color 0.3s ease, color 0.3s ease", "box-shadow", "0 4px 8px rgba(0,0,0,0.15)", "color", "white"], t1, t1);
-      t2 = type$.JSArray_FlartNode;
-      children = A._setArrayType([], t2);
-      t1 = A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1", "font-size", "20px", "font-weight", "500"], t1, t1);
-      t2 = A._setArrayType([this.title.buildNode$1(context)], t2);
-      B.JSArray_methods.add$1(children, new A.FlartElementNode("div", _null, _null, t1, t2, _null));
-      return new A.FlartElementNode("div", _null, _null, styles, children, _null);
+      t1 = _this.elevation;
+      t2 = type$.String;
+      styles = A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "align-items", "center", "justify-content", "space-between", "padding", "0 16px", "height", "56px", "background-color", _this.backgroundColor.hex, "transition", "background-color 0.3s ease, color 0.3s ease", "box-shadow", "0 " + t1 + "px " + t1 * 2 + "px rgba(0,0,0,0.15)", "color", "white"], t2, t2);
+      t1 = type$.JSArray_FlartNode;
+      children = A._setArrayType([], t1);
+      t3 = _this.leading;
+      if (t3 != null)
+        B.JSArray_methods.add$1(children, new A.FlartElementNode("div", _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["margin-right", "16px"], t2, t2), A._setArrayType([t3.buildNode$1(context)], t1), _null));
+      t2 = A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1", "font-size", "20px", "font-weight", "500"], t2, t2);
+      t1 = A._setArrayType([_this.title.buildNode$1(context)], t1);
+      B.JSArray_methods.add$1(children, new A.FlartElementNode("div", _null, _null, _null, t2, t1, _null));
+      return new A.FlartElementNode("div", _null, _null, _null, styles, children, _null);
     }
   };
   A.FDCard.prototype = {
@@ -11007,7 +11704,7 @@
       t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
       t1 = A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-card"], t1, t1);
       t4 = A._setArrayType([this.child.buildNode$1(context)], type$.JSArray_FlartNode);
-      return new A.FlartElementNode("div", t3, t1, t2, t4, null);
+      return new A.FlartElementNode("div", t3, null, t1, t2, t4, null);
     }
   };
   A.FDBadge.prototype = {
@@ -11021,7 +11718,7 @@
       children = A._setArrayType([this.child.buildNode$1(context)], type$.JSArray_FlartNode);
       t3 = this.key;
       t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
-      return new A.FlartElementNode("div", t3, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-badge-container"], t1, t1), t2, children, null);
+      return new A.FlartElementNode("div", t3, null, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-badge-container"], t1, t1), t2, children, null);
     }
   };
   A.FDContainer.prototype = {
@@ -11058,18 +11755,18 @@
       }
       t3 = events.__js_helper$_length !== 0 ? events : _null;
       t4 = _this.child;
-      return new A.FlartElementNode("div", t1, _null, t2, t4 != null ? A._setArrayType([t4.buildNode$1(context)], type$.JSArray_FlartNode) : _null, t3);
+      return new A.FlartElementNode("div", t1, _null, _null, t2, t4 != null ? A._setArrayType([t4.buildNode$1(context)], type$.JSArray_FlartNode) : _null, t3);
     }
   };
   A.FDDialog.prototype = {
     buildNode$1(context) {
-      var t2,
+      var t2, _null = null,
         t1 = type$.String,
         styles = A.LinkedHashMap_LinkedHashMap$_literal(["background-color", "#ffffff", "padding", B.EdgeInsets_40_40_40_40.toCss$0(), "border-radius", "4px", "box-shadow", "0 11px 15px -7px rgba(0,0,0,0.2), 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12)", "max-width", "80%", "max-height", "80%", "overflow", "auto", "display", "flex", "flex-direction", "column", "pointer-events", "auto", "box-sizing", "border-box"], t1, t1);
       t1 = this.key;
-      t1 = t1 == null ? null : "ValueKey(" + t1.value + ")";
+      t1 = t1 == null ? _null : "ValueKey(" + t1.value + ")";
       t2 = A._setArrayType([this.child.buildNode$1(context)], type$.JSArray_FlartNode);
-      return new A.FlartElementNode("div", t1, null, styles, t2, null);
+      return new A.FlartElementNode("div", t1, _null, _null, styles, t2, _null);
     }
   };
   A.FDDivider.prototype = {
@@ -11091,35 +11788,34 @@
       if (t2 != null)
         t1.$indexSet(0, "margin", t2.toCss$0());
       t2 = _this.key;
-      return new A.FlartElementNode("hr", t2 == null ? _null : "ValueKey(" + t2.value + ")", _null, t1, _null, _null);
+      return new A.FlartElementNode("hr", t2 == null ? _null : "ValueKey(" + t2.value + ")", _null, _null, t1, _null, _null);
     }
   };
   A.FDDrawer.prototype = {
-    render$1(context) {
-      var t3, style,
-        t1 = type$.String,
-        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
-      t2.$indexSet(0, "width", "250px");
-      t2.$indexSet(0, "height", "100%");
-      t2.$indexSet(0, "background-color", "white");
-      t2.$indexSet(0, "overflow-y", "auto");
-      t3 = t2.$ti._eval$1("LinkedHashMapEntriesIterable<1,2>");
-      style = A.MappedIterable_MappedIterable(new A.LinkedHashMapEntriesIterable(t2, t3), t3._eval$1("String(Iterable.E)")._as(new A.FDDrawer_render_closure()), t3._eval$1("Iterable.E"), t1).join$1(0, " ");
-      return '      <div style="' + style + ' ">\n        ' + this.child.render$1(context) + "\n      </div>\n    ";
-    }
-  };
-  A.FDDrawer_render_closure.prototype = {
-    call$1(e) {
-      type$.MapEntry_String_String._as(e);
-      return e.key + ": " + e.value + ";";
+    buildNode$1(context) {
+      var t2, t3, t4, _null = null,
+        t1 = type$.String;
+      t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
+      t1.$indexSet(0, "width", "250px");
+      t1.$indexSet(0, "height", "100%");
+      t1.$indexSet(0, "background-color", "white");
+      t1.$indexSet(0, "overflow-y", "auto");
+      t2 = this.key;
+      t3 = t2 == null;
+      t4 = t3 ? _null : "ValueKey(" + t2.value + ")";
+      t2 = t3 ? _null : "ValueKey(" + t2.value + ")";
+      return new A.FlartElementNode("div", t4, t2, _null, t1, A._setArrayType([this.child.buildNode$1(context)], type$.JSArray_FlartNode), _null);
     },
-    $signature: 2
+    render$1(context) {
+      return this.buildNode$1(context).toHtml$0();
+    }
   };
   A.FDExpanded.prototype = {
     buildNode$1(context) {
-      var t1 = type$.String,
+      var _null = null,
+        t1 = type$.String,
         styles = A.LinkedHashMap_LinkedHashMap$_literal(["flex", B.JSInt_methods.toString$0(1)], t1, t1);
-      return new A.FlartElementNode("div", null, null, styles, A._setArrayType([this.child.buildNode$1(context)], type$.JSArray_FlartNode), null);
+      return new A.FlartElementNode("div", _null, _null, _null, styles, A._setArrayType([this.child.buildNode$1(context)], type$.JSArray_FlartNode), _null);
     }
   };
   A.GridViewType.prototype = {
@@ -11129,7 +11825,7 @@
   };
   A.FDGridView.prototype = {
     buildNode$1(context) {
-      var t1, styles, t2, childrenNodes, _this = this,
+      var t1, styles, t2, childrenNodes, _this = this, _null = null,
         builtChildren = A._setArrayType([], type$.JSArray_Widget);
       switch (0) {
         case 0:
@@ -11143,15 +11839,15 @@
       t1 = A._arrayInstanceType(builtChildren);
       t2 = t1._eval$1("MappedListIterable<1,FlartElementNode>");
       childrenNodes = A.List_List$_of(new A.MappedListIterable(builtChildren, t1._eval$1("FlartElementNode(1)")._as(new A.FDGridView_buildNode_closure(context)), t2), t2._eval$1("ListIterable.E"));
-      return new A.FlartElementNode("div", null, null, styles, childrenNodes, null);
+      return new A.FlartElementNode("div", _null, _null, _null, styles, childrenNodes, _null);
     }
   };
   A.FDGridView_buildNode_closure.prototype = {
     call$1(child) {
       var _null = null;
-      return new A.FlartElementNode("div", _null, _null, _null, A._setArrayType([type$.Widget._as(child).buildNode$1(this.context)], type$.JSArray_FlartNode), _null);
+      return new A.FlartElementNode("div", _null, _null, _null, _null, A._setArrayType([type$.Widget._as(child).buildNode$1(this.context)], type$.JSArray_FlartNode), _null);
     },
-    $signature: 28
+    $signature: 27
   };
   A.FDIcon.prototype = {
     buildNode$1(context) {
@@ -11161,7 +11857,7 @@
       t2 = type$.String;
       t3 = A.LinkedHashMap_LinkedHashMap$_empty(t2, t2);
       t3.$indexSet(0, "class", "material-icons");
-      return new A.FlartElementNode("i", t1, t3, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "" + _this.size + "px", "color", _this.color.hex, "user-select", "none", "display", "inline-flex", "align-items", "center", "justify-content", "center"], t2, t2), A._setArrayType([new A.FlartTextNode(_this.icon)], type$.JSArray_FlartNode), null);
+      return new A.FlartElementNode("i", t1, null, t3, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "" + _this.size + "px", "color", _this.color.hex, "user-select", "none", "display", "inline-flex", "align-items", "center", "justify-content", "center"], t2, t2), A._setArrayType([new A.FlartTextNode(_this.icon)], type$.JSArray_FlartNode), null);
     }
   };
   A.ImageLoading.prototype = {
@@ -11171,7 +11867,7 @@
   };
   A.FDImage.prototype = {
     buildNode$1(context) {
-      var t3, _this = this,
+      var t3, _this = this, _null = null,
         t1 = type$.String,
         t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
       t2.$indexSet(0, "width", "" + _this.width + "px");
@@ -11179,8 +11875,8 @@
       t2.$indexSet(0, "object-fit", _this._boxFitToCss$1(_this.fit));
       t2.addAll$1(0, _this.cssStyle);
       t3 = _this.key;
-      t3 = t3 == null ? null : "ValueKey(" + t3.value + ")";
-      return new A.FlartElementNode("img", t3, A.LinkedHashMap_LinkedHashMap$_literal(["src", _this.src, "alt", "", "loading", "lazy"], t1, t1), t2, null, null);
+      t3 = t3 == null ? _null : "ValueKey(" + t3.value + ")";
+      return new A.FlartElementNode("img", t3, _null, A.LinkedHashMap_LinkedHashMap$_literal(["src", _this.src, "alt", "", "loading", "lazy"], t1, t1), t2, _null, _null);
     },
     _boxFitToCss$1(fit) {
       switch (fit.index) {
@@ -11215,22 +11911,22 @@
       t2.$indexSet(0, "box-sizing", "border-box");
       t3 = type$.JSArray_FlartNode;
       children = A._setArrayType([], t3);
-      B.JSArray_methods.add$1(children, new A.FlartElementNode(_s3_, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "align-items", "center", "justify-content", "center", "margin-right", "16px", "flex-shrink", "0"], t1, t1), A._setArrayType([_this.leading.buildNode$1(context)], t3), _null));
+      B.JSArray_methods.add$1(children, new A.FlartElementNode(_s3_, _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "align-items", "center", "justify-content", "center", "margin-right", "16px", "flex-shrink", "0"], t1, t1), A._setArrayType([_this.leading.buildNode$1(context)], t3), _null));
       textChildren = A._setArrayType([], t3);
       t4 = theme.textStyle.color;
       t4 = t4 == null ? _null : t4.hex;
       if (t4 == null)
         t4 = "#212121";
-      B.JSArray_methods.add$1(textChildren, new A.FlartElementNode(_s3_, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "16px", "font-weight", "500", "color", t4, "line-height", "1.3"], t1, t1), A._setArrayType([_this.title.buildNode$1(context)], t3), _null));
-      B.JSArray_methods.add$1(textChildren, new A.FlartElementNode(_s3_, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "color", "#757575", "margin-top", "2px", "line-height", "1.3"], t1, t1), A._setArrayType([_this.subtitle.buildNode$1(context)], t3), _null));
-      B.JSArray_methods.add$1(children, new A.FlartElementNode(_s3_, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1", "min-width", "0", "display", "flex", "flex-direction", "column", "justify-content", "center"], t1, t1), textChildren, _null));
-      B.JSArray_methods.add$1(children, new A.FlartElementNode(_s3_, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "align-items", "center", "justify-content", "center", "margin-left", "16px", "flex-shrink", "0"], t1, t1), A._setArrayType([_this.trailing.buildNode$1(context)], t3), _null));
+      B.JSArray_methods.add$1(textChildren, new A.FlartElementNode(_s3_, _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "16px", "font-weight", "500", "color", t4, "line-height", "1.3"], t1, t1), A._setArrayType([_this.title.buildNode$1(context)], t3), _null));
+      B.JSArray_methods.add$1(textChildren, new A.FlartElementNode(_s3_, _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["font-size", "14px", "color", "#757575", "margin-top", "2px", "line-height", "1.3"], t1, t1), A._setArrayType([_this.subtitle.buildNode$1(context)], t3), _null));
+      B.JSArray_methods.add$1(children, new A.FlartElementNode(_s3_, _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1", "min-width", "0", "display", "flex", "flex-direction", "column", "justify-content", "center"], t1, t1), textChildren, _null));
+      B.JSArray_methods.add$1(children, new A.FlartElementNode(_s3_, _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "flex", "align-items", "center", "justify-content", "center", "margin-left", "16px", "flex-shrink", "0"], t1, t1), A._setArrayType([_this.trailing.buildNode$1(context)], t3), _null));
       t3 = _this.key;
       t3 = t3 == null ? _null : "ValueKey(" + t3.value + ")";
       t4 = A.LinkedHashMap_LinkedHashMap$_literal(["role", "listitem", "class", "flart-list-tile"], t1, t1);
       t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_JSObject);
       t1.$indexSet(0, "click", new A.FDListTile_buildNode_closure(_this));
-      return new A.FlartElementNode(_s3_, t3, t4, t2, children, t1);
+      return new A.FlartElementNode(_s3_, t3, _null, t4, t2, children, t1);
     }
   };
   A.FDListTile_buildNode_closure.prototype = {
@@ -11242,9 +11938,16 @@
   };
   A.FDMaterialApp.prototype = {
     buildNode$1(context) {
-      var effectiveTheme, t1, prefersDark, body, t2, t3, t4, mainNode, _this = this, _null = null;
+      var effectiveTheme, activePage, prefersDark, body, t2, t3, t4, mainNode, _this = this, _null = null,
+        t1 = $.PageNavigator__stack.length;
+      if (t1 === 0)
+        B.JSArray_methods.add$1($.PageNavigator__stack, _this.home);
       A.PageNavigator_init();
       effectiveTheme = A.ThemeData_ThemeData$light();
+      if ($.PageNavigator__stack.length === 0)
+        activePage = _this.home;
+      else
+        activePage = A.PageNavigator_current();
       t1 = init.G;
       A._asJSObject(t1.document).title = _this.title;
       _this._injectMaterialIcons$0();
@@ -11270,9 +11973,9 @@
         A._asJSObject(body.style).backgroundColor = t1;
         A._asJSObject(body.style).color = t4.toString$0(t3);
       }
-      mainNode = new A.Theme(effectiveTheme, _this.home, _null).buildNode$1(context);
+      mainNode = new A.Theme(effectiveTheme, activePage, _null).buildNode$1(context);
       t1 = type$.String;
-      return new A.FlartElementNode("div", "flart-root-wrapper", _null, A.LinkedHashMap_LinkedHashMap$_literal(["position", "relative", "width", "100vw", "height", "100vh", "overflow", "hidden"], t1, t1), A._setArrayType([mainNode, new A.FlartRawHtmlNode('      <div title="Flart Debug Mode (v1.6.0)" style="\n        position: fixed;\n        top: 0;\n        right: 0;\n        z-index: 10000;\n        pointer-events: none;\n        width: 80px;\n        height: 80px;\n        overflow: hidden;\n      ">\n        <div style="\n          background: #B71C1C;\n          color: white;\n          text-align: center;\n          font-size: 10px;\n          font-weight: bold;\n          font-family: sans-serif;\n          padding: 4px 0;\n          width: 120px;\n          position: absolute;\n          top: 20px;\n          right: -30px;\n          transform: rotate(45deg);\n          box-shadow: 0 2px 4px rgba(0,0,0,0.3);\n          text-transform: uppercase;\n          letter-spacing: 1px;\n        ">Debug</div>\n      </div>\n    ')], type$.JSArray_FlartNode), _null);
+      return new A.FlartElementNode("div", "flart-root-wrapper", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["position", "relative", "width", "100vw", "height", "100vh", "overflow", "hidden"], t1, t1), A._setArrayType([mainNode, new A.FlartRawHtmlNode('      <div title="Flart Debug Mode (v1.6.0)" style="\n        position: fixed;\n        top: 0;\n        right: 0;\n        z-index: 10000;\n        pointer-events: none;\n        width: 80px;\n        height: 80px;\n        overflow: hidden;\n      ">\n        <div style="\n          background: #B71C1C;\n          color: white;\n          text-align: center;\n          font-size: 10px;\n          font-weight: bold;\n          font-family: sans-serif;\n          padding: 4px 0;\n          width: 120px;\n          position: absolute;\n          top: 20px;\n          right: -30px;\n          transform: rotate(45deg);\n          box-shadow: 0 2px 4px rgba(0,0,0,0.3);\n          text-transform: uppercase;\n          letter-spacing: 1px;\n        ">Debug</div>\n      </div>\n    ')], type$.JSArray_FlartNode), _null);
     },
     _injectFavicon$0() {
       var _this,
@@ -11340,12 +12043,36 @@
       t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
       t1.$indexSet(0, "class", "flart-circular-progress");
       t1.$indexSet(0, "role", "progressbar");
-      return new A.FlartElementNode("div", t3, t1, t2, A._setArrayType([new A.FlartRawHtmlNode("      <style>\n        @keyframes flart-spin {\n          to { transform: rotate(360deg); }\n        }\n      </style>\n    ")], type$.JSArray_FlartNode), null);
+      return new A.FlartElementNode("div", t3, null, t1, t2, A._setArrayType([new A.FlartRawHtmlNode("      <style>\n        @keyframes flart-spin {\n          to { transform: rotate(360deg); }\n        }\n      </style>\n    ")], type$.JSArray_FlartNode), null);
     }
+  };
+  A._ensureDrawerGlobalBridge_closure.prototype = {
+    call$0() {
+      var drawer = A._asJSObjectQ(A._asJSObject(init.G.document).getElementById("flart-drawer"));
+      if (drawer != null)
+        if (A._asString(A._asJSObject(drawer.style).transform) === "translateX(0%)")
+          A.closeDrawer();
+        else
+          A.openDrawer();
+      return null;
+    },
+    $signature: 0
+  };
+  A._ensureDrawerGlobalBridge_closure0.prototype = {
+    call$0() {
+      return A.openDrawer();
+    },
+    $signature: 0
+  };
+  A._ensureDrawerGlobalBridge_closure1.prototype = {
+    call$0() {
+      return A.closeDrawer();
+    },
+    $signature: 0
   };
   A.FDScaffold.prototype = {
     buildNode$1(context) {
-      var t3, children, t4, t5, nodes, _null = null,
+      var t3, children, t4, t5, effectiveAppBar, t6, t7, nodes, _null = null, _s3_ = "div",
         t1 = type$.String,
         t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
       t2.$indexSet(0, "width", "100vw");
@@ -11356,19 +12083,32 @@
       t2.$indexSet(0, "position", "relative");
       t3 = type$.JSArray_FlartNode;
       children = A._setArrayType([], t3);
-      B.JSArray_methods.add$1(children, this.appBar.buildNode$1(context));
-      t4 = A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1", "overflow", "auto"], t1, t1);
-      t5 = A._setArrayType([this.body.buildNode$1(context)], t3);
-      B.JSArray_methods.add$1(children, new A.FlartElementNode("div", _null, _null, t4, t5, _null));
+      t4 = this.drawer;
+      t5 = t4 != null;
+      if (t5)
+        A._ensureDrawerGlobalBridge();
+      effectiveAppBar = this.appBar;
+      B.JSArray_methods.add$1(children, (effectiveAppBar.leading == null && t5 ? new A.FDAppBar(effectiveAppBar.title, A.FDGestureDetector$(B.FDIcon_dHV, A.scaffold_FDScaffold_openDrawer$closure()), effectiveAppBar.actions, effectiveAppBar.backgroundColor, effectiveAppBar.elevation, effectiveAppBar.rawCss, effectiveAppBar.key) : effectiveAppBar).buildNode$1(context));
+      t6 = A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1", "overflow", "auto"], t1, t1);
+      t7 = A._setArrayType([this.body.buildNode$1(context)], t3);
+      B.JSArray_methods.add$1(children, new A.FlartElementNode(_s3_, _null, _null, _null, t6, t7, _null));
       nodes = A._setArrayType([], t3);
-      t3 = this.drawer;
-      if (t3 != null)
-        B.JSArray_methods.add$1(nodes, new A.FlartRawHtmlNode('      <div id="flart-drawer" style="\n        position: fixed;\n        top: 0;\n        left: 0;\n        height: 100%;\n        width: 250px;\n        background: white;\n        box-shadow: 2px 0 5px rgba(0,0,0,0.2);\n        transform: translateX(-100%);\n        transition: transform 0.3s ease;\n        z-index: 999;\n      ">\n        ' + t3.render$1(context) + "\n      </div>\n      <script>\n        function toggleDrawer() {\n          const drawer = document.getElementById('flart-drawer');\n          if (drawer.style.transform === 'translateX(0%)') {\n            drawer.style.transform = 'translateX(-100%)';\n          } else {\n            drawer.style.transform = 'translateX(0%)';\n          }\n        }\n      </script>\n      "));
-      B.JSArray_methods.add$1(nodes, new A.FlartElementNode("div", _null, _null, t2, children, _null));
+      if (t5) {
+        B.JSArray_methods.add$1(nodes, new A.FlartElementNode(_s3_, "flart-drawer-backdrop", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["position", "fixed", "top", "0", "left", "0", "width", "100vw", "height", "100vh", "background", "rgba(0,0,0,0.5)", "opacity", "0", "pointer-events", "none", "transition", "opacity 0.3s ease", "z-index", "998"], t1, t1), _null, A.LinkedHashMap_LinkedHashMap$_literal(["click", new A.FDScaffold_buildNode_closure()], t1, type$.void_Function_JSObject)));
+        B.JSArray_methods.add$1(nodes, new A.FlartElementNode(_s3_, "flart-drawer", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["position", "fixed", "top", "0", "left", "0", "height", "100%", "width", "250px", "background", "white", "box-shadow", "2px 0 5px rgba(0,0,0,0.2)", "transform", "translateX(-100%)", "transition", "transform 0.3s ease", "z-index", "999"], t1, t1), A._setArrayType([t4.buildNode$1(context)], t3), _null));
+      }
+      B.JSArray_methods.add$1(nodes, new A.FlartElementNode(_s3_, _null, _null, _null, t2, children, _null));
       if (nodes.length === 1)
         return B.JSArray_methods.get$first(nodes);
-      return new A.FlartElementNode("div", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "contents"], t1, t1), nodes, _null);
+      return new A.FlartElementNode(_s3_, _null, _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["display", "contents"], t1, t1), nodes, _null);
     }
+  };
+  A.FDScaffold_buildNode_closure.prototype = {
+    call$1(e) {
+      A._asJSObject(e);
+      return A.closeDrawer();
+    },
+    $signature: 1
   };
   A.FDSingleChildScrollView.prototype = {
     buildNode$1(context) {
@@ -11377,7 +12117,7 @@
         t2 = this.padding;
       if (t2 != null)
         styles.$indexSet(0, "padding", t2.toCss$0());
-      return new A.FlartElementNode("div", null, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-scroll-view"], t1, t1), styles, A._setArrayType([this.child.buildNode$1(context)], type$.JSArray_FlartNode), null);
+      return new A.FlartElementNode("div", null, null, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-scroll-view"], t1, t1), styles, A._setArrayType([this.child.buildNode$1(context)], type$.JSArray_FlartNode), null);
     }
   };
   A.FDSizedBox.prototype = {
@@ -11391,7 +12131,7 @@
       t1 = this.height;
       if (t1 != null)
         styles.$indexSet(0, "height", A.S(t1) + "px");
-      return new A.FlartElementNode("div", _null, _null, styles, _null, _null);
+      return new A.FlartElementNode("div", _null, _null, _null, styles, _null, _null);
     }
   };
   A.FDSkeleton.prototype = {
@@ -11412,7 +12152,7 @@
       t2.$indexSet(0, "border-radius", "" + t3.topLeft + "px " + t3.topRight + "px " + t3.bottomRight + "px " + t3.bottomLeft + "px");
       t3 = _this.key;
       t3 = t3 == null ? _null : "ValueKey(" + t3.value + ")";
-      return new A.FlartElementNode("div", t3, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-skeleton"], t1, t1), t2, A._setArrayType([new A.FlartRawHtmlNode("      <style>\n        .flart-skeleton .flart-shimmer {\n          position: absolute;\n          top: 0;\n          left: -100%;\n          width: 200%;\n          height: 100%;\n          background: linear-gradient(\n            90deg, \n            transparent 0%, \n            " + highlightColor + " 50%, \n            transparent 100%\n          );\n          animation: flart-shimmer-anim 1.5s infinite;\n        }\n        @keyframes flart-shimmer-anim {\n          0% { transform: translateX(-50%); }\n          100% { transform: translateX(50%); }\n        }\n      </style>\n    "), new A.FlartElementNode("div", _null, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-shimmer"], t1, t1), _null, _null, _null)], type$.JSArray_FlartNode), _null);
+      return new A.FlartElementNode("div", t3, _null, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-skeleton"], t1, t1), t2, A._setArrayType([new A.FlartRawHtmlNode("      <style>\n        .flart-skeleton .flart-shimmer {\n          position: absolute;\n          top: 0;\n          left: -100%;\n          width: 200%;\n          height: 100%;\n          background: linear-gradient(\n            90deg, \n            transparent 0%, \n            " + highlightColor + " 50%, \n            transparent 100%\n          );\n          animation: flart-shimmer-anim 1.5s infinite;\n        }\n        @keyframes flart-shimmer-anim {\n          0% { transform: translateX(-50%); }\n          100% { transform: translateX(50%); }\n        }\n      </style>\n    "), new A.FlartElementNode("div", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-shimmer"], t1, t1), _null, _null, _null)], type$.JSArray_FlartNode), _null);
     }
   };
   A.FDTabBar.prototype = {
@@ -11438,31 +12178,31 @@
         tabEvents.$indexSet(0, "click", new A.FDTabBar_buildNode_closure(_this, i));
         tabChildren = A._setArrayType([tab.buildNode$1(context)], t3);
         if (isSelected)
-          B.JSArray_methods.add$1(tabChildren, new A.FlartElementNode("div", _null, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-tab-indicator"], t1, t1), A.LinkedHashMap_LinkedHashMap$_literal(["position", "absolute", "bottom", "-2px", "left", "0", "right", "0", "height", "2px", "background-color", selected], t1, t1), _null, _null));
+          B.JSArray_methods.add$1(tabChildren, new A.FlartElementNode("div", _null, _null, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-tab-indicator"], t1, t1), A.LinkedHashMap_LinkedHashMap$_literal(["position", "absolute", "bottom", "-2px", "left", "0", "right", "0", "height", "2px", "background-color", selected], t1, t1), _null, _null));
         t7 = "" + i;
         t8 = isSelected ? " selected" : "";
         t9 = isSelected ? "true" : "false";
         t9 = A.LinkedHashMap_LinkedHashMap$_literal(["class", "tab-item" + t8, "data-index", t7, "role", "tab", "aria-selected", t9], t1, t1);
         t8 = isSelected ? selected : unselected;
-        B.JSArray_methods.add$1(children, new A.FlartElementNode("div", "tab-item-" + t7, t9, A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1", "padding", "12px 16px", "text-align", "center", "cursor", "pointer", "color", t8, "font-weight", isSelected ? "bold" : "normal", "position", "relative", "transition", "color 0.3s", "user-select", "none"], t1, t1), tabChildren, tabEvents));
+        B.JSArray_methods.add$1(children, new A.FlartElementNode("div", "tab-item-" + t7, _null, t9, A.LinkedHashMap_LinkedHashMap$_literal(["flex", "1", "padding", "12px 16px", "text-align", "center", "cursor", "pointer", "color", t8, "font-weight", isSelected ? "bold" : "normal", "position", "relative", "transition", "color 0.3s", "user-select", "none"], t1, t1), tabChildren, tabEvents));
       }
       t3 = _this.key;
       t3 = t3 == null ? _null : "ValueKey(" + t3.value + ")";
-      return new A.FlartElementNode("div", t3, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-tab-bar", "role", "tablist"], t1, t1), t2, children, _null);
+      return new A.FlartElementNode("div", t3, _null, A.LinkedHashMap_LinkedHashMap$_literal(["class", "flart-tab-bar", "role", "tablist"], t1, t1), t2, children, _null);
     }
   };
   A.FDTabBar_buildNode_closure.prototype = {
     call$1(e) {
       return this.$this.onTap.call$1(this.i);
     },
-    $signature: 3
+    $signature: 2
   };
   A.FDTabBarView.prototype = {
     buildNode$1(context) {
       var t2, t3, t4, t5, _null = null,
         t1 = this.currentIndex;
       if (t1 >= 3)
-        return new A.FlartElementNode("div", _null, _null, _null, A._setArrayType([new A.FlartTextNode("Invalid tab index")], type$.JSArray_FlartNode), _null);
+        return new A.FlartElementNode("div", _null, _null, _null, _null, A._setArrayType([new A.FlartTextNode("Invalid tab index")], type$.JSArray_FlartNode), _null);
       t2 = type$.String;
       t3 = A.LinkedHashMap_LinkedHashMap$_empty(t2, t2);
       t3.$indexSet(0, "padding", "16px");
@@ -11473,12 +12213,12 @@
       t5 = this.children;
       if (!(t1 < 3))
         return A.ioore(t5, t1);
-      return new A.FlartElementNode("div", t4, t2, t3, A._setArrayType([t5[t1].buildNode$1(context)], type$.JSArray_FlartNode), _null);
+      return new A.FlartElementNode("div", t4, _null, t2, t3, A._setArrayType([t5[t1].buildNode$1(context)], type$.JSArray_FlartNode), _null);
     }
   };
   A.FDEditableText.prototype = {
     createState$0() {
-      return new A._FDEditableTextState();
+      return new A._FDEditableTextState(A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, type$.InheritedWidget));
     }
   };
   A._FDEditableTextState.prototype = {
@@ -11502,6 +12242,12 @@
         B.JSArray_methods.remove$1(t2._listeners, t1);
         B.JSArray_methods.add$1(_this.__State_widget_A.controller._listeners, t1);
       }
+    },
+    dispose$0() {
+      var t1 = this.__State_widget_A;
+      t1 === $ && A.throwLateFieldNI("widget");
+      B.JSArray_methods.remove$1(t1.controller._listeners, type$.void_Function._as(this.get$_handleControllerChanged()));
+      this.super$State$dispose();
     },
     _handleControllerChanged$0() {
       type$.void_Function._as(new A._FDEditableTextState__handleControllerChanged_closure()).call$0();
@@ -11585,7 +12331,7 @@
       t2.addAll$1(0, t3 == null ? A.LinkedHashMap_LinkedHashMap$_empty(t1, t1) : t3);
       t2.$indexSet(0, "user-select", "none");
       t2.addAll$1(0, A.LinkedHashMap_LinkedHashMap$_empty(t1, t1));
-      return new A.FlartElementNode(B.JSArray_methods.get$last(B.TextTag_0._enumToString$0().split(".")), _null, _null, t2, A._setArrayType([new A.FlartTextNode(this.content)], type$.JSArray_FlartNode), _null);
+      return new A.FlartElementNode(B.JSArray_methods.get$last(B.TextTag_0._enumToString$0().split(".")), _null, _null, _null, t2, A._setArrayType([new A.FlartTextNode(this.content)], type$.JSArray_FlartNode), _null);
     }
   };
   A.FDTextButton.prototype = {
@@ -11617,39 +12363,65 @@
       t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
       t1.$indexSet(0, "type", "button");
       t1.$indexSet(0, "class", "flart-text-button");
-      return new A.FlartElementNode("button", t3, t1, t2, children, events);
+      return new A.FlartElementNode("button", t3, null, t1, t2, children, events);
     }
   };
   A.FDTextButton_buildNode_closure.prototype = {
     call$1(_) {
       return this.$this.onPressed.call$0();
     },
-    $signature: 3
+    $signature: 2
   };
+  A.SlotTracker.prototype = {};
   A.BuildContext.prototype = {
-    copyWith$3$inheritedWidgets$states$widget(inheritedWidgets, states, widget) {
-      var t1, t2, _this = this;
+    dependOnInheritedWidgetOfExactType$1$0($T) {
+      var t1, t2, t3, t4,
+        widget = this.inheritedWidgets.$index(0, A.createRuntimeType($T));
+      if ($T._is(widget)) {
+        t1 = this.currentBuildingState;
+        if (t1 != null && widget instanceof A.Theme) {
+          t2 = A.createRuntimeType($T);
+          t1._dependencies.$indexSet(0, t2, widget);
+          t3 = t1.__State_context_A;
+          t3 === $ && A.throwLateFieldNI("context");
+          t4 = A.LinkedHashMap_LinkedHashMap$of(t3.inheritedWidgets, type$.Type, type$.Widget);
+          t4.$indexSet(0, t2, widget);
+          t1.__State_context_A = t3.copyWith$1$inheritedWidgets(t4);
+          A.InheritedRegistry_registerDependency(A.createRuntimeType($T), t1);
+        }
+        return $T._as(widget);
+      }
+      return null;
+    },
+    copyWith$6$currentBuildingState$inheritedWidgets$path$slotTracker$states$widget(currentBuildingState, inheritedWidgets, path, slotTracker, states, widget) {
+      var t1, t2, t3, t4, t5, _this = this;
       type$.nullable_Map_Type_Widget._as(inheritedWidgets);
       type$.nullable_Map_Type_dynamic._as(states);
+      type$.nullable_State_StatefulWidget._as(currentBuildingState);
       t1 = widget == null ? _this.widget : widget;
       t2 = inheritedWidgets == null ? _this.inheritedWidgets : inheritedWidgets;
-      return A.BuildContext$(t2, _this, states == null ? _this._states : states, t1);
+      t3 = states == null ? _this._states : states;
+      t4 = path == null ? _this.path : path;
+      t5 = slotTracker == null ? _this.slotTracker : slotTracker;
+      return A.BuildContext$(currentBuildingState == null ? _this.currentBuildingState : currentBuildingState, t2, _this, t4, t5, t3, t1);
     },
-    copyWith$1$states(states) {
-      return this.copyWith$3$inheritedWidgets$states$widget(null, states, null);
+    copyWith$4$currentBuildingState$path$slotTracker$states(currentBuildingState, path, slotTracker, states) {
+      return this.copyWith$6$currentBuildingState$inheritedWidgets$path$slotTracker$states$widget(currentBuildingState, null, path, slotTracker, states, null);
+    },
+    copyWith$1$inheritedWidgets(inheritedWidgets) {
+      var _null = null;
+      return this.copyWith$6$currentBuildingState$inheritedWidgets$path$slotTracker$states$widget(_null, inheritedWidgets, _null, _null, _null, _null);
     },
     copyWith$2$inheritedWidgets$widget(inheritedWidgets, widget) {
-      return this.copyWith$3$inheritedWidgets$states$widget(inheritedWidgets, null, widget);
+      var _null = null;
+      return this.copyWith$6$currentBuildingState$inheritedWidgets$path$slotTracker$states$widget(_null, inheritedWidgets, _null, _null, _null, widget);
     }
   };
   A.FDElement.prototype = {
     buildNode$1(context) {
       var t2, t3, t4, _this = this,
-        t1 = _this.id;
-      if (t1 == null) {
         t1 = _this.key;
-        t1 = t1 == null ? null : "ValueKey(" + t1.value + ")";
-      }
+      t1 = t1 == null ? null : "ValueKey(" + t1.value + ")";
       t2 = _this.children;
       if (t2 == null)
         t2 = null;
@@ -11658,7 +12430,7 @@
         t4 = t3._eval$1("MappedListIterable<1,FlartNode>");
         t2 = A.List_List$_of(new A.MappedListIterable(t2, t3._eval$1("FlartNode(1)")._as(new A.FDElement_buildNode_closure(context)), t4), t4._eval$1("ListIterable.E"));
       }
-      return new A.FlartElementNode(_this.tag, t1, _this.attributes, _this.styles, t2, _this.events);
+      return new A.FlartElementNode(_this.tag, _this.id, t1, _this.attributes, _this.styles, t2, _this.events);
     }
   };
   A.FDElement_buildNode_closure.prototype = {
@@ -11686,7 +12458,7 @@
   };
   A.AnimationShowcase.prototype = {
     createState$0() {
-      return new A._AnimationShowcaseState();
+      return new A._AnimationShowcaseState(A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, type$.InheritedWidget));
     }
   };
   A._AnimationShowcaseState.prototype = {
@@ -11776,7 +12548,7 @@
   };
   A.InputShowcase.prototype = {
     createState$0() {
-      return new A._InputShowcaseState();
+      return new A._InputShowcaseState(A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, type$.InheritedWidget));
     }
   };
   A._InputShowcaseState.prototype = {
@@ -11802,7 +12574,7 @@
       type$.void_Function._as(new A._InputShowcaseState_build__closure3(t1, val)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 6
+    $signature: 8
   };
   A._InputShowcaseState_build__closure3.prototype = {
     call$0() {
@@ -11836,7 +12608,7 @@
       type$.void_Function._as(new A._InputShowcaseState_build__closure2(t1, val)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 7
+    $signature: 6
   };
   A._InputShowcaseState_build__closure2.prototype = {
     call$0() {
@@ -11850,7 +12622,7 @@
       type$.void_Function._as(new A._InputShowcaseState_build__closure1(t1, val)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 7
+    $signature: 6
   };
   A._InputShowcaseState_build__closure1.prototype = {
     call$0() {
@@ -11864,7 +12636,7 @@
       type$.void_Function._as(new A._InputShowcaseState_build__closure0(t1, val)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 6
+    $signature: 8
   };
   A._InputShowcaseState_build__closure0.prototype = {
     call$0() {
@@ -11878,7 +12650,7 @@
       type$.void_Function._as(new A._InputShowcaseState_build__closure(t1, val)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 6
+    $signature: 8
   };
   A._InputShowcaseState_build__closure.prototype = {
     call$0() {
@@ -11888,7 +12660,7 @@
   };
   A.InteractiveShowcase.prototype = {
     createState$0() {
-      return new A._InteractiveShowcaseState();
+      return new A._InteractiveShowcaseState(A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, type$.InheritedWidget));
     }
   };
   A._InteractiveShowcaseState.prototype = {
@@ -11912,7 +12684,7 @@
       type$.void_Function._as(new A._InteractiveShowcaseState_build__closure0(t1, val)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 7
+    $signature: 6
   };
   A._InteractiveShowcaseState_build__closure0.prototype = {
     call$0() {
@@ -11926,7 +12698,7 @@
       type$.void_Function._as(new A._InteractiveShowcaseState_build__closure(t1, val)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 29
+    $signature: 30
   };
   A._InteractiveShowcaseState_build__closure.prototype = {
     call$0() {
@@ -11965,13 +12737,13 @@
   A.CatalogApp.prototype = {
     createState$0() {
       var _null = null;
-      return new A._CatalogAppState(A._setArrayType(["Basic Widgets", "Layout Widgets", "Input Widgets", "Animation Widgets", "Structure Widgets", "Navigation Widgets", "Media Widgets", "Interactive Widgets", "Scrollable Widgets", "Dialog Widgets"], type$.JSArray_String), A._setArrayType([new A.BasicShowcase(_null), new A.LayoutShowcase(_null), new A.InputShowcase(_null), new A.AnimationShowcase(_null), new A.StructureShowcase(_null), new A.NavigationShowcase(_null), new A.MediaShowcase(_null), new A.InteractiveShowcase(_null), new A.ScrollableShowcase(_null), new A.DialogShowcase(_null)], type$.JSArray_Widget));
+      return new A._CatalogAppState(A._setArrayType(["Basic Widgets", "Layout Widgets", "Input Widgets", "Animation Widgets", "Structure Widgets", "Navigation Widgets", "Media Widgets", "Interactive Widgets", "Scrollable Widgets", "Dialog Widgets"], type$.JSArray_String), A._setArrayType([new A.BasicShowcase(_null), new A.LayoutShowcase(_null), new A.InputShowcase(_null), new A.AnimationShowcase(_null), new A.StructureShowcase(_null), new A.NavigationShowcase(_null), new A.MediaShowcase(_null), new A.InteractiveShowcase(_null), new A.ScrollableShowcase(_null), new A.DialogShowcase(_null)], type$.JSArray_Widget), A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, type$.InheritedWidget));
     }
   };
   A._CatalogAppState.prototype = {
     build$1(context) {
       var t4, t5, _null = null,
-        t1 = A.FDAppBar$(B.FlartMaterialColor_MYO, A.FDText$("FlartDart Widget Catalog \ud83d\ude80", new A.TextStyle(new A.FlartColor("#ffffff"), _null, B.FontWeight_bold))),
+        t1 = A.FDText$("FlartDart Widget Catalog \ud83d\ude80", new A.TextStyle(new A.FlartColor("#ffffff"), _null, B.FontWeight_bold)),
         t2 = A.FDContainer$(A.FDColumn$(A.List_List$generate(10, new A._CatalogAppState_build_closure(this), type$.Widget), B.CrossAxisAlignment_3, B.MainAxisAlignment_0), _null, new A.BoxDecoration(new A.FlartColor("#ffffff"), _null, _null, new A.Border(_null, new A.BorderSide(1, new A.FlartColor("#e2e8f0")), _null, _null)), _null, _null, _null, _null, _null, 250),
         t3 = type$.String;
       t3 = A.LinkedHashMap_LinkedHashMap$_literal(["overflow-y", "auto", "background-color", "#f1f5f9"], t3, t3);
@@ -11979,7 +12751,7 @@
       t5 = this._selectedIndex;
       if (!(t5 < 10))
         return A.ioore(t4, t5);
-      return new A.FDMaterialApp("FlartDart Catalog", A.FDScaffold$(t1, A.FDRow$(A._setArrayType([t2, new A.FDExpanded(A.FDContainer$(t4[t5], t3, _null, _null, _null, _null, _null, new A.EdgeInsets(40, 40, 40, 40), _null), _null)], type$.JSArray_Widget), B.CrossAxisAlignment_3, B.MainAxisAlignment_0), _null), _null);
+      return new A.FDMaterialApp("FlartDart Catalog", A.FDScaffold$(new A.FDAppBar(t1, _null, _null, B.FlartMaterialColor_MYO, 4, _null, _null), A.FDRow$(A._setArrayType([t2, new A.FDExpanded(A.FDContainer$(t4[t5], t3, _null, _null, _null, _null, _null, new A.EdgeInsets(40, 40, 40, 40), _null), _null)], type$.JSArray_Widget), B.CrossAxisAlignment_3, B.MainAxisAlignment_0), _null), _null);
     }
   };
   A._CatalogAppState_build_closure.prototype = {
@@ -11991,7 +12763,7 @@
         return A.ioore(t3, index);
       return new A._SidebarItem(t3[index], t2 === index, new A._CatalogAppState_build__closure(t1, index), null);
     },
-    $signature: 30
+    $signature: 31
   };
   A._CatalogAppState_build__closure.prototype = {
     call$0() {
@@ -12016,7 +12788,7 @@
         t4 = t1 ? B.FontWeight_bold : B.FontWeight_normal;
       t1 = t1 ? "#1d4ed8" : "#475569";
       t5 = type$.String;
-      return new A.FDGestureDetector(A.FDContainer$(A.FDText$(this.title, new A.TextStyle(new A.FlartColor(t1), 16, t4)), A.LinkedHashMap_LinkedHashMap$_literal(["cursor", "pointer", "transition", "all 0.2s ease"], t5, t5), new A.BoxDecoration(new A.FlartColor(t2), _null, _null, new A.Border(_null, _null, _null, new A.BorderSide(4, new A.FlartColor(t3)))), _null, _null, _null, _null, new A.EdgeInsets(16, 20, 16, 20), _null), this.onTap, _null);
+      return A.FDGestureDetector$(A.FDContainer$(A.FDText$(this.title, new A.TextStyle(new A.FlartColor(t1), 16, t4)), A.LinkedHashMap_LinkedHashMap$_literal(["cursor", "pointer", "transition", "all 0.2s ease"], t5, t5), new A.BoxDecoration(new A.FlartColor(t2), _null, _null, new A.Border(_null, _null, _null, new A.BorderSide(4, new A.FlartColor(t3)))), _null, _null, _null, _null, new A.EdgeInsets(16, 20, 16, 20), _null), this.onTap);
     }
   };
   A.MediaShowcase.prototype = {
@@ -12033,7 +12805,7 @@
   };
   A.NavigationShowcase.prototype = {
     createState$0() {
-      return new A._NavigationShowcaseState();
+      return new A._NavigationShowcaseState(A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, type$.InheritedWidget));
     }
   };
   A._NavigationShowcaseState.prototype = {
@@ -12053,9 +12825,9 @@
       t5 = A.FDContainer$(A.FDColumn$(A._setArrayType([new A.FDTabBar(t8, t6, new A._NavigationShowcaseState_build_closure(this), _null), new A.FDTabBarView(A._setArrayType([new A.FDCenter(A.FDText$("Welcome to the Home Tab!", new A.TextStyle(new A.FlartColor(_s7_), _null, _null)), _null), new A.FDCenter(A.FDText$("Settings Configuration goes here.", new A.TextStyle(new A.FlartColor(_s7_), _null, _null)), _null), new A.FDCenter(A.FDText$("User Profile Information.", new A.TextStyle(new A.FlartColor(_s7_), _null, _null)), _null)], t7), t9, _null)], t7), B.CrossAxisAlignment_0, B.MainAxisAlignment_0), _null, new A.BoxDecoration(new A.FlartColor(_s7_0), new A.BorderRadius(8, 8, 8, 8), _null, t5), _null, _null, _null, _null, _null, _null);
       t9 = type$.String;
       t9 = A.LinkedHashMap_LinkedHashMap$_literal(["position", "relative", "overflow", "hidden"], t9, t9);
-      t6 = A.FDAppBar$(B.FlartMaterialColor_MYO, A.FDText$("App with Drawer", new A.TextStyle(new A.FlartColor(_s7_0), _null, _null)));
+      t6 = A.FDText$("App with Drawer", new A.TextStyle(new A.FlartColor(_s7_0), _null, _null));
       t8 = A.FDColumn$(A._setArrayType([A.FDContainer$(new A.FDCenter(A.FDText$("Menu", new A.TextStyle(new A.FlartColor(_s7_0), 24, _null)), _null), _null, new A.BoxDecoration(B.FlartMaterialColor_MYO, _null, _null, _null), 100, _null, _null, _null, _null, _null), A.FDText$("Item 1", _null), A.FDText$("Item 2", _null)], t7), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
-      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDTabBar & FDTabBarView", "A tabbed interface for switching between content.", t5, _null), new A.ShowcaseCard("FDDrawer", "A navigation drawer sliding in from the edge.", A.FDContainer$(A.FDScaffold$(t6, new A.FDCenter(A.FDText$("Click the menu icon to open the drawer.", new A.TextStyle(new A.FlartColor("#475569"), _null, _null)), _null), new A.FDDrawer(t8, _null)), t9, _null, 300, _null, _null, _null, _null, _null), _null)], t7), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
+      return A.FDColumn$(A._setArrayType([t1, t2, t3, t4, new A.ShowcaseCard("FDTabBar & FDTabBarView", "A tabbed interface for switching between content.", t5, _null), new A.ShowcaseCard("FDDrawer", "A navigation drawer sliding in from the edge.", A.FDContainer$(A.FDScaffold$(new A.FDAppBar(t6, _null, _null, B.FlartMaterialColor_MYO, 4, _null, _null), new A.FDCenter(A.FDText$("Click the menu icon to open the drawer.", new A.TextStyle(new A.FlartColor("#475569"), _null, _null)), _null), new A.FDDrawer(t8, _null)), t9, _null, 300, _null, _null, _null, _null, _null), _null)], t7), B.CrossAxisAlignment_3, B.MainAxisAlignment_0);
     }
   };
   A._NavigationShowcaseState_build_closure.prototype = {
@@ -12064,7 +12836,7 @@
       type$.void_Function._as(new A._NavigationShowcaseState_build__closure(t1, index)).call$0();
       t1._performScopedUpdate$0();
     },
-    $signature: 31
+    $signature: 32
   };
   A._NavigationShowcaseState_build__closure.prototype = {
     call$0() {
@@ -12141,15 +12913,17 @@
     _ = A.State.prototype;
     _.super$State$initState = _.initState$0;
     _.super$State$didUpdateWidget = _.didUpdateWidget$1;
+    _.super$State$dispose = _.dispose$0;
   })();
   (function installTearOffs() {
     var _static_1 = hunkHelpers._static_1,
       _static_0 = hunkHelpers._static_0,
       _instance_0_u = hunkHelpers._instance_0u;
-    _static_1(A, "async__AsyncRun__scheduleImmediateJsOverride$closure", "_AsyncRun__scheduleImmediateJsOverride", 8);
-    _static_1(A, "async__AsyncRun__scheduleImmediateWithSetImmediate$closure", "_AsyncRun__scheduleImmediateWithSetImmediate", 8);
-    _static_1(A, "async__AsyncRun__scheduleImmediateWithTimer$closure", "_AsyncRun__scheduleImmediateWithTimer", 8);
+    _static_1(A, "async__AsyncRun__scheduleImmediateJsOverride$closure", "_AsyncRun__scheduleImmediateJsOverride", 7);
+    _static_1(A, "async__AsyncRun__scheduleImmediateWithSetImmediate$closure", "_AsyncRun__scheduleImmediateWithSetImmediate", 7);
+    _static_1(A, "async__AsyncRun__scheduleImmediateWithTimer$closure", "_AsyncRun__scheduleImmediateWithTimer", 7);
     _static_0(A, "async___startMicrotaskLoop$closure", "_startMicrotaskLoop", 0);
+    _static_0(A, "scaffold_FDScaffold_openDrawer$closure", "FDScaffold_openDrawer", 0);
     _instance_0_u(A._FDEditableTextState.prototype, "get$_handleControllerChanged", "_handleControllerChanged$0", 0);
   })();
   (function inheritance() {
@@ -12157,7 +12931,7 @@
       _inherit = hunkHelpers.inherit,
       _inheritMany = hunkHelpers.inheritMany;
     _inherit(A.Object, null);
-    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, A.SafeToStringHook, J.ArrayIterator, A.Error, A.ListBase, A.SentinelValue, A.Iterable, A.ListIterator, A.MappedIterator, A.WhereIterator, A.FixedLengthListMixin, A.UnmodifiableListMixin, A.ConstantMap, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A._StackTrace, A.Closure, A.MapBase, A.LinkedHashMapCell, A.LinkedHashMapKeyIterator, A.LinkedHashMapEntryIterator, A.JSSyntaxRegExp, A._MatchImplementation, A._AllMatchesIterator, A.StringMatch, A._StringAllMatchesIterator, A.Rti, A._FunctionParameters, A._Type, A._TimerImpl, A.AsyncError, A._FutureListener, A._Future, A._AsyncCallbackEntry, A._Zone, A._UnmodifiableMapMixin, A.MapView, A.Codec, A.Converter, A._Utf8Encoder, A._Utf8Decoder, A.DateTime, A.Duration, A._Enum, A.OutOfMemoryError, A.StackOverflowError, A._Exception, A.FormatException, A.MapEntry, A.Null, A._StringStackTrace, A.StringBuffer, A._Uri, A.UriData, A._SimpleUri, A.Expando, A.ChangeNotifier, A.FlartElementNode, A.FlartTextNode, A.FlartRawHtmlNode, A.Key, A.Offset, A.Alignment, A.BoxBorder, A.BorderSide, A.BorderRadius, A.BoxDecoration, A.BoxShadow, A.FlartColor, A.EdgeInsets, A.FontWeight, A.TextStyle, A.ThemeData, A.Widget, A.State, A.DateTimeRange, A.BuildContext]);
+    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, A.SafeToStringHook, J.ArrayIterator, A.Error, A.ListBase, A.SentinelValue, A.Iterable, A.ListIterator, A.MappedIterator, A.WhereIterator, A.FixedLengthListMixin, A.UnmodifiableListMixin, A.ConstantMap, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A._StackTrace, A.Closure, A.MapBase, A.LinkedHashMapCell, A.LinkedHashMapKeyIterator, A.LinkedHashMapValueIterator, A.LinkedHashMapEntryIterator, A.JSSyntaxRegExp, A._MatchImplementation, A._AllMatchesIterator, A.StringMatch, A._StringAllMatchesIterator, A.Rti, A._FunctionParameters, A._Type, A._TimerImpl, A.AsyncError, A._FutureListener, A._Future, A._AsyncCallbackEntry, A._Zone, A.SetBase, A._LinkedHashSetCell, A._LinkedHashSetIterator, A._UnmodifiableMapMixin, A.MapView, A.Codec, A.Converter, A._Utf8Encoder, A._Utf8Decoder, A.DateTime, A.Duration, A._Enum, A.OutOfMemoryError, A.StackOverflowError, A._Exception, A.FormatException, A.MapEntry, A.Null, A._StringStackTrace, A.StringBuffer, A._Uri, A.UriData, A._SimpleUri, A.Expando, A.ChangeNotifier, A.FlartElementNode, A.FlartTextNode, A.FlartRawHtmlNode, A.Key, A.Offset, A.Alignment, A.BoxBorder, A.BorderSide, A.BorderRadius, A.BoxDecoration, A.BoxShadow, A.FlartColor, A.EdgeInsets, A.Widget, A.FontWeight, A.TextStyle, A.ThemeData, A.State, A.DateTimeRange, A.SlotTracker, A.BuildContext]);
     _inheritMany(J.Interceptor, [J.JSBool, J.JSNull, J.JavaScriptObject, J.JavaScriptBigInt, J.JavaScriptSymbol, J.JSNumber, J.JSString]);
     _inheritMany(J.JavaScriptObject, [J.LegacyJavaScriptObject, J.JSArray, A.NativeByteBuffer, A.NativeTypedData]);
     _inheritMany(J.LegacyJavaScriptObject, [J.PlainJavaScriptObject, J.UnknownJavaScriptObject, J.JavaScriptFunction]);
@@ -12168,12 +12942,12 @@
     _inherit(A.UnmodifiableListBase, A.ListBase);
     _inherit(A.CodeUnits, A.UnmodifiableListBase);
     _inheritMany(A.Iterable, [A.EfficientLengthIterable, A.MappedIterable, A.WhereIterable, A._AllMatchesIterable, A._StringAllMatchesIterable]);
-    _inheritMany(A.EfficientLengthIterable, [A.ListIterable, A.LinkedHashMapKeysIterable, A.LinkedHashMapEntriesIterable]);
+    _inheritMany(A.EfficientLengthIterable, [A.ListIterable, A.LinkedHashMapKeysIterable, A.LinkedHashMapValuesIterable, A.LinkedHashMapEntriesIterable]);
     _inheritMany(A.ListIterable, [A.SubListIterable, A.MappedListIterable]);
     _inherit(A.EfficientLengthMappedIterable, A.MappedIterable);
     _inheritMany(A.ConstantMap, [A.ConstantStringMap, A.GeneralConstantMap]);
     _inherit(A.NullError, A.TypeError);
-    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.DateTime_parse_parseIntOrZero, A.DateTime_parse_parseMilliAndMicroseconds, A.FlartElementNode_toHtml_closure, A.VDOMReconciler__patchStyles_closure, A.VDOMReconciler__patchEvents__closure, A._splitPathSegments_closure, A.BoxDecoration_toCss_closure, A.PageNavigator_init_closure, A.FDColumn_buildNode_closure, A.FDRow_buildNode_closure, A.FDStack_buildNode_closure, A.FDWrap_buildNode_closure, A.FDElevatedButton_buildNode_closure, A.FDElevatedButton_buildNode_closure0, A.FDElevatedButton_buildNode_closure1, A.FDElevatedButton_buildNode_closure2, A.FDElevatedButton_buildNode_closure3, A.FDGestureDetector_buildNode_closure, A.FDInkWell_buildNode_closure, A.FDOutlinedButton_buildNode_closure, A.FDCheckbox_buildNode_closure, A.FDRadio_buildNode_closure, A.FDSwitch_buildNode_closure, A._FDDateRangePickerState_build_closure, A._FDDateRangePickerState_build_closure0, A.DateTimePicker_buildNode_closure, A._RangePickerState_build_closure, A._RangePickerState_build_closure0, A.FDDrawer_render_closure, A.FDGridView_buildNode_closure, A.FDListTile_buildNode_closure, A.FDTabBar_buildNode_closure, A._FDEditableTextState_build_closure, A._FDEditableTextState_build_closure0, A.FDTextButton_buildNode_closure, A.FDElement_buildNode_closure, A._InputShowcaseState_build_closure, A._InputShowcaseState_build_closure4, A._InputShowcaseState_build_closure5, A._InputShowcaseState_build_closure6, A._InputShowcaseState_build_closure7, A._InteractiveShowcaseState_build_closure, A._InteractiveShowcaseState_build_closure0, A._CatalogAppState_build_closure, A._NavigationShowcaseState_build_closure]);
+    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.DateTime_parse_parseIntOrZero, A.DateTime_parse_parseMilliAndMicroseconds, A.FlartElementNode_toHtml_closure, A.VDOMReconciler__patchStyles_closure, A.VDOMReconciler__patchEvents__closure, A._splitPathSegments_closure, A.BoxDecoration_toCss_closure, A.PageNavigator_init_closure, A.FDColumn_buildNode_closure, A.FDRow_buildNode_closure, A.FDStack_buildNode_closure, A.FDWrap_buildNode_closure, A.FDElevatedButton_buildNode_closure, A.FDElevatedButton_buildNode_closure0, A.FDElevatedButton_buildNode_closure1, A.FDElevatedButton_buildNode_closure2, A.FDElevatedButton_buildNode_closure3, A.FDGestureDetector_buildNode_closure, A.FDInkWell_buildNode_closure, A.FDOutlinedButton_buildNode_closure, A.FDCheckbox_buildNode_closure, A.FDRadio_buildNode_closure, A.FDSwitch_buildNode_closure, A._FDDateRangePickerState_build_closure, A._FDDateRangePickerState_build_closure0, A.DateTimePicker_buildNode_closure, A._RangePickerState_build_closure, A._RangePickerState_build_closure0, A.FDGridView_buildNode_closure, A.FDListTile_buildNode_closure, A.FDScaffold_buildNode_closure, A.FDTabBar_buildNode_closure, A._FDEditableTextState_build_closure, A._FDEditableTextState_build_closure0, A.FDTextButton_buildNode_closure, A.FDElement_buildNode_closure, A._InputShowcaseState_build_closure, A._InputShowcaseState_build_closure4, A._InputShowcaseState_build_closure5, A._InputShowcaseState_build_closure6, A._InputShowcaseState_build_closure7, A._InteractiveShowcaseState_build_closure, A._InteractiveShowcaseState_build_closure0, A._CatalogAppState_build_closure, A._NavigationShowcaseState_build_closure]);
     _inheritMany(A.TearOffClosure, [A.StaticClosure, A.BoundClosure]);
     _inherit(A.JsLinkedHashMap, A.MapBase);
     _inheritMany(A.Closure2Args, [A.JsLinkedHashMap_addAll_closure, A.initHooks_closure0, A._Future__propagateToListeners_handleWhenCompleteCallback_closure0, A.LinkedHashMap_LinkedHashMap$from_closure, A.MapBase_mapToString_closure, A._Uri__makeQueryFromParameters_closure, A.Uri_splitQueryString_closure, A.Uri_parseIPv6Address_error, A._Uri__makeQueryFromParametersDefault_writeParameter, A._Uri__makeQueryFromParametersDefault_closure, A.VDOMReconciler__patchEvents_closure, A.VDOMReconciler__patchEvents_closure0]);
@@ -12187,8 +12961,10 @@
     _inheritMany(A.NativeTypedArrayOfDouble, [A.NativeFloat32List, A.NativeFloat64List]);
     _inheritMany(A.NativeTypedArrayOfInt, [A.NativeInt16List, A.NativeInt32List, A.NativeInt8List, A.NativeUint16List, A.NativeUint32List, A.NativeUint8ClampedList, A.NativeUint8List]);
     _inherit(A._TypeError, A._Error);
-    _inheritMany(A.Closure0Args, [A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A.Future_Future$delayed_closure, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__asyncCompleteErrorObject_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A._RootZone_bindCallbackGuarded_closure, A._rootHandleError_closure, A._Utf8Decoder__decoder_closure, A._Utf8Decoder__decoderNonfatal_closure, A._HeroState_build_closure, A._FDDateRangePickerState_build__closure0, A._FDDateRangePickerState_build__closure, A._RangePickerState_build__closure0, A._RangePickerState_build__closure, A._FDEditableTextState__handleControllerChanged_closure, A._AnimationShowcaseState_build_closure, A._AnimationShowcaseState_build__closure, A.DialogShowcase_build_closure, A.DialogShowcase_build_closure0, A.DialogShowcase_build_closure1, A._InputShowcaseState_build__closure3, A._InputShowcaseState_build_closure0, A._InputShowcaseState_build_closure1, A._InputShowcaseState_build_closure2, A._InputShowcaseState_build_closure3, A._InputShowcaseState_build__closure2, A._InputShowcaseState_build__closure1, A._InputShowcaseState_build__closure0, A._InputShowcaseState_build__closure, A._InteractiveShowcaseState_build__closure0, A._InteractiveShowcaseState_build__closure, A._CatalogAppState_build__closure, A._CatalogAppState_build___closure, A._NavigationShowcaseState_build__closure, A.StructureShowcase_build_closure, A.StructureShowcase_build_closure0]);
+    _inheritMany(A.Closure0Args, [A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A.Future_Future$delayed_closure, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__asyncCompleteErrorObject_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A._RootZone_bindCallbackGuarded_closure, A._rootHandleError_closure, A._Utf8Decoder__decoder_closure, A._Utf8Decoder__decoderNonfatal_closure, A.VDOMReconciler__patchChildren_closure, A._HeroState_build_closure, A.InheritedRegistry_registerDependency_closure, A._FDDateRangePickerState_build__closure0, A._FDDateRangePickerState_build__closure, A._RangePickerState_build__closure0, A._RangePickerState_build__closure, A._ensureDrawerGlobalBridge_closure, A._ensureDrawerGlobalBridge_closure0, A._ensureDrawerGlobalBridge_closure1, A._FDEditableTextState__handleControllerChanged_closure, A._AnimationShowcaseState_build_closure, A._AnimationShowcaseState_build__closure, A.DialogShowcase_build_closure, A.DialogShowcase_build_closure0, A.DialogShowcase_build_closure1, A._InputShowcaseState_build__closure3, A._InputShowcaseState_build_closure0, A._InputShowcaseState_build_closure1, A._InputShowcaseState_build_closure2, A._InputShowcaseState_build_closure3, A._InputShowcaseState_build__closure2, A._InputShowcaseState_build__closure1, A._InputShowcaseState_build__closure0, A._InputShowcaseState_build__closure, A._InteractiveShowcaseState_build__closure0, A._InteractiveShowcaseState_build__closure, A._CatalogAppState_build__closure, A._CatalogAppState_build___closure, A._NavigationShowcaseState_build__closure, A.StructureShowcase_build_closure, A.StructureShowcase_build_closure0]);
     _inherit(A._RootZone, A._Zone);
+    _inherit(A._SetBase, A.SetBase);
+    _inherit(A._LinkedHashSet, A._SetBase);
     _inherit(A._UnmodifiableMapView_MapView__UnmodifiableMapMixin, A.MapView);
     _inherit(A.UnmodifiableMapView, A._UnmodifiableMapView_MapView__UnmodifiableMapMixin);
     _inheritMany(A.Codec, [A.Base64Codec, A.Encoding]);
@@ -12201,7 +12977,7 @@
     _inherit(A.ValueKey, A.Key);
     _inherit(A.Border, A.BoxBorder);
     _inherit(A.FlartMaterialColor, A.FlartColor);
-    _inheritMany(A.Widget, [A.InheritedWidget, A.StatefulWidget, A.FDCenter, A.FDColumn, A.FDPositioned, A.FDRow, A.FDStack, A.FDWrap, A.FDElevatedButton, A.FDGestureDetector, A.FDInkWell, A.FDOutlinedButton, A.FDCheckbox, A.FDRadio, A.FDSwitch, A.StatelessWidget, A.VideoPlayer, A.YouTubePlayer, A._RawFlartNodeWidget, A.DateTimePicker, A.FDAppBar, A.FDCard, A.FDBadge, A.FDContainer, A.FDDialog, A.FDDivider, A.FDDrawer, A.FDExpanded, A.FDGridView, A.FDIcon, A.FDImage, A.FDListTile, A.FDMaterialApp, A.FDCircularProgressIndicator, A.FDScaffold, A.FDSingleChildScrollView, A.FDSizedBox, A.FDSkeleton, A.FDTabBar, A.FDTabBarView, A.FDText, A.FDTextButton, A.FDElement]);
+    _inheritMany(A.Widget, [A._EmptyWidget, A.InheritedWidget, A.FDAnimate, A.StatefulWidget, A.FDCenter, A.FDColumn, A.FDPositioned, A.FDRow, A.FDStack, A.FDWrap, A.FDElevatedButton, A.FDGestureDetector, A.FDInkWell, A.FDOutlinedButton, A.FDCheckbox, A.FDRadio, A.FDSwitch, A.StatelessWidget, A.VideoPlayer, A.YouTubePlayer, A._RawFlartNodeWidget, A.DateTimePicker, A.FDAppBar, A.FDCard, A.FDBadge, A.FDContainer, A.FDDialog, A.FDDivider, A.FDDrawer, A.FDExpanded, A.FDGridView, A.FDIcon, A.FDImage, A.FDListTile, A.FDMaterialApp, A.FDCircularProgressIndicator, A.FDScaffold, A.FDSingleChildScrollView, A.FDSizedBox, A.FDSkeleton, A.FDTabBar, A.FDTabBarView, A.FDText, A.FDTextButton, A.FDElement]);
     _inherit(A.Theme, A.InheritedWidget);
     _inheritMany(A.StatefulWidget, [A.Hero, A.FDDateRangePicker, A.RangePicker, A.FDEditableText, A.AnimationShowcase, A.InputShowcase, A.InteractiveShowcase, A.CatalogApp, A.NavigationShowcase]);
     _inheritMany(A.State, [A._HeroState, A._FDDateRangePickerState, A._RangePickerState, A._FDEditableTextState, A._AnimationShowcaseState, A._InputShowcaseState, A._InteractiveShowcaseState, A._CatalogAppState, A._NavigationShowcaseState]);
@@ -12218,13 +12994,13 @@
     typeUniverse: {eC: new Map(), tR: {}, eT: {}, tPV: {}, sEA: []},
     mangledGlobalNames: {int: "int", double: "double", num: "num", String: "String", bool: "bool", Null: "Null", List: "List", Object: "Object", Map: "Map", JSObject: "JSObject"},
     mangledNames: {},
-    types: ["~()", "~(JSObject)", "String(MapEntry<String,String>)", "~(@)", "FlartNode(Widget)", "Null()", "~(String)", "~(bool)", "~(~())", "Null(@)", "@()", "~(String,@)", "int(String?)", "Null(JSObject)", "@(@)", "@(@,String)", "@(String)", "Null(~())", "Null(Object,StackTrace)", "~(@,@)", "~(Object?,Object?)", "Map<String,String>(Map<String,String>,String)", "0&(String,int?)", "~(String,String?)", "~(String,JavaScriptFunction)", "~(String,~(JSObject))", "bool(String)", "String(BoxShadow)", "FlartElementNode(Widget)", "~(DateTimeRange)", "_SidebarItem(int)", "~(int)"],
+    types: ["~()", "~(JSObject)", "~(@)", "String(MapEntry<String,String>)", "FlartNode(Widget)", "Null()", "~(bool)", "~(~())", "~(String)", "Null(@)", "Null(JSObject)", "@()", "int(String?)", "~(String,@)", "0&(String,int?)", "~(String,String?)", "@(@)", "~(String,JavaScriptFunction)", "~(String,~(JSObject))", "~(Object?,Object?)", "JSObject()", "~(@,@)", "String(BoxShadow)", "Null(Object,StackTrace)", "Null(~())", "Set<State<StatefulWidget>>()", "@(String)", "FlartElementNode(Widget)", "bool(String)", "@(@,String)", "~(DateTimeRange)", "_SidebarItem(int)", "~(int)", "Map<String,String>(Map<String,String>,String)"],
     interceptorsByTag: null,
     leafTags: null,
     arrayRti: Symbol("$ti")
   };
-  A._Universe_addRules(init.typeUniverse, JSON.parse('{"JavaScriptFunction":"LegacyJavaScriptObject","PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","NativeArrayBuffer":"NativeByteBuffer","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"Null":[],"TrustedGetRuntimeType":[]},"JavaScriptObject":{"JSObject":[]},"LegacyJavaScriptObject":{"JSObject":[]},"JSArray":{"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"JSArraySafeToStringHook":{"SafeToStringHook":[]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"ArrayIterator":{"Iterator":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"Pattern":[],"TrustedGetRuntimeType":[]},"LateError":{"Error":[]},"CodeUnits":{"ListBase":["int"],"UnmodifiableListMixin":["int"],"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"],"ListBase.E":"int","UnmodifiableListMixin.E":"int"},"EfficientLengthIterable":{"Iterable":["1"]},"ListIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"]},"SubListIterable":{"ListIterable":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1","ListIterable.E":"1"},"ListIterator":{"Iterator":["1"]},"MappedIterable":{"Iterable":["2"],"Iterable.E":"2"},"EfficientLengthMappedIterable":{"MappedIterable":["1","2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2"},"MappedIterator":{"Iterator":["2"]},"MappedListIterable":{"ListIterable":["2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2","ListIterable.E":"2"},"WhereIterable":{"Iterable":["1"],"Iterable.E":"1"},"WhereIterator":{"Iterator":["1"]},"UnmodifiableListBase":{"ListBase":["1"],"UnmodifiableListMixin":["1"],"List":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"ConstantMap":{"Map":["1","2"]},"ConstantStringMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"GeneralConstantMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"JsLinkedHashMap":{"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"]},"LinkedHashMapKeysIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"LinkedHashMapKeyIterator":{"Iterator":["1"]},"LinkedHashMapEntriesIterable":{"EfficientLengthIterable":["MapEntry<1,2>"],"Iterable":["MapEntry<1,2>"],"Iterable.E":"MapEntry<1,2>"},"LinkedHashMapEntryIterator":{"Iterator":["MapEntry<1,2>"]},"JsConstantLinkedHashMap":{"JsLinkedHashMap":["1","2"],"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"]},"JSSyntaxRegExp":{"RegExp":[],"Pattern":[]},"_MatchImplementation":{"RegExpMatch":[],"Match":[]},"_AllMatchesIterable":{"Iterable":["RegExpMatch"],"Iterable.E":"RegExpMatch"},"_AllMatchesIterator":{"Iterator":["RegExpMatch"]},"StringMatch":{"Match":[]},"_StringAllMatchesIterable":{"Iterable":["Match"],"Iterable.E":"Match"},"_StringAllMatchesIterator":{"Iterator":["Match"]},"NativeByteBuffer":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedData":{"JSObject":[]},"NativeByteData":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedArray":{"JavaScriptIndexingBehavior":["1"],"JSObject":[]},"NativeTypedArrayOfDouble":{"ListBase":["double"],"NativeTypedArray":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"]},"NativeTypedArrayOfInt":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"]},"NativeFloat32List":{"ListBase":["double"],"NativeTypedArray":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeFloat64List":{"ListBase":["double"],"NativeTypedArray":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeInt16List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt32List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt8List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint16List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint32List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8ClampedList":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8List":{"Uint8List":[],"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"_Type":{"Type":[]},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"AsyncError":{"Error":[]},"_Future":{"Future":["1"]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"ListBase":{"List":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"MapBase":{"Map":["1","2"]},"MapView":{"Map":["1","2"]},"UnmodifiableMapView":{"_UnmodifiableMapView_MapView__UnmodifiableMapMixin":["1","2"],"MapView":["1","2"],"_UnmodifiableMapMixin":["1","2"],"Map":["1","2"]},"Base64Codec":{"Codec":["List<int>","String"]},"Encoding":{"Codec":["String","List<int>"]},"Utf8Codec":{"Codec":["String","List<int>"]},"double":{"num":[]},"int":{"num":[]},"List":{"EfficientLengthIterable":["1"],"Iterable":["1"]},"RegExpMatch":{"Match":[]},"String":{"Pattern":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"OutOfMemoryError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"StringBuffer":{"StringSink":[]},"_Uri":{"Uri":[]},"_SimpleUri":{"Uri":[]},"_DataUri":{"Uri":[]},"FlartElementNode":{"FlartNode":[]},"FlartTextNode":{"FlartNode":[]},"FlartRawHtmlNode":{"FlartNode":[]},"ValueKey":{"Key":[]},"FlartMaterialColor":{"FlartColor":[]},"Theme":{"Widget":[]},"Hero":{"StatefulWidget":[],"Widget":[]},"_HeroState":{"State":["Hero"],"State.T":"Hero"},"FDCenter":{"Widget":[]},"FDColumn":{"Widget":[]},"FDPositioned":{"Widget":[]},"FDRow":{"Widget":[]},"FDStack":{"Widget":[]},"FDWrap":{"Widget":[]},"FDElevatedButton":{"Widget":[]},"FDGestureDetector":{"Widget":[]},"FDInkWell":{"Widget":[]},"FDOutlinedButton":{"Widget":[]},"InheritedWidget":{"Widget":[]},"FDCheckbox":{"Widget":[]},"FDRadio":{"Widget":[]},"FDSwitch":{"Widget":[]},"FDTextField":{"Widget":[]},"VideoPlayer":{"Widget":[]},"YouTubePlayer":{"Widget":[]},"FDDateRangePicker":{"StatefulWidget":[],"Widget":[]},"RangePicker":{"StatefulWidget":[],"Widget":[]},"_FDDateRangePickerState":{"State":["FDDateRangePicker"],"State.T":"FDDateRangePicker"},"_RawFlartNodeWidget":{"Widget":[]},"DateTimePicker":{"Widget":[]},"_RangePickerState":{"State":["RangePicker"],"State.T":"RangePicker"},"StatefulWidget":{"Widget":[]},"StatelessWidget":{"Widget":[]},"FDAppBar":{"Widget":[]},"FDCard":{"Widget":[]},"FDBadge":{"Widget":[]},"FDContainer":{"Widget":[]},"FDDialog":{"Widget":[]},"FDDivider":{"Widget":[]},"FDDrawer":{"Widget":[]},"FDExpanded":{"Widget":[]},"FDGridView":{"Widget":[]},"FDIcon":{"Widget":[]},"FDImage":{"Widget":[]},"FDListTile":{"Widget":[]},"FDMaterialApp":{"Widget":[]},"FDCircularProgressIndicator":{"Widget":[]},"FDScaffold":{"Widget":[]},"FDSingleChildScrollView":{"Widget":[]},"FDSizedBox":{"Widget":[]},"FDSkeleton":{"Widget":[]},"FDTabBar":{"Widget":[]},"FDTabBarView":{"Widget":[]},"FDEditableText":{"StatefulWidget":[],"Widget":[]},"_FDEditableTextState":{"State":["FDEditableText"],"State.T":"FDEditableText"},"FDText":{"Widget":[]},"FDTextButton":{"Widget":[]},"FDElement":{"Widget":[]},"AnimationShowcase":{"StatefulWidget":[],"Widget":[]},"_AnimationShowcaseState":{"State":["AnimationShowcase"],"State.T":"AnimationShowcase"},"BasicShowcase":{"Widget":[]},"DialogShowcase":{"Widget":[]},"InputShowcase":{"StatefulWidget":[],"Widget":[]},"_InputShowcaseState":{"State":["InputShowcase"],"State.T":"InputShowcase"},"InteractiveShowcase":{"StatefulWidget":[],"Widget":[]},"_InteractiveShowcaseState":{"State":["InteractiveShowcase"],"State.T":"InteractiveShowcase"},"LayoutShowcase":{"Widget":[]},"CatalogApp":{"StatefulWidget":[],"Widget":[]},"_SidebarItem":{"Widget":[]},"_CatalogAppState":{"State":["CatalogApp"],"State.T":"CatalogApp"},"MediaShowcase":{"Widget":[]},"NavigationShowcase":{"StatefulWidget":[],"Widget":[]},"_NavigationShowcaseState":{"State":["NavigationShowcase"],"State.T":"NavigationShowcase"},"ScrollableShowcase":{"Widget":[]},"ShowcaseCard":{"Widget":[]},"StructureShowcase":{"Widget":[]},"Int8List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint8List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint8ClampedList":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Int16List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint16List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Int32List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint32List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Float32List":{"List":["double"],"EfficientLengthIterable":["double"],"Iterable":["double"]},"Float64List":{"List":["double"],"EfficientLengthIterable":["double"],"Iterable":["double"]}}'));
-  A._Universe_addErasedTypes(init.typeUniverse, JSON.parse('{"EfficientLengthIterable":1,"UnmodifiableListBase":1,"NativeTypedArray":1,"Converter":2}'));
+  A._Universe_addRules(init.typeUniverse, JSON.parse('{"JavaScriptFunction":"LegacyJavaScriptObject","PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","NativeArrayBuffer":"NativeByteBuffer","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"Null":[],"TrustedGetRuntimeType":[]},"JavaScriptObject":{"JSObject":[]},"LegacyJavaScriptObject":{"JSObject":[]},"JSArray":{"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"JSArraySafeToStringHook":{"SafeToStringHook":[]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"ArrayIterator":{"Iterator":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"Pattern":[],"TrustedGetRuntimeType":[]},"LateError":{"Error":[]},"CodeUnits":{"ListBase":["int"],"UnmodifiableListMixin":["int"],"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"],"ListBase.E":"int","UnmodifiableListMixin.E":"int"},"EfficientLengthIterable":{"Iterable":["1"]},"ListIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"]},"SubListIterable":{"ListIterable":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1","ListIterable.E":"1"},"ListIterator":{"Iterator":["1"]},"MappedIterable":{"Iterable":["2"],"Iterable.E":"2"},"EfficientLengthMappedIterable":{"MappedIterable":["1","2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2"},"MappedIterator":{"Iterator":["2"]},"MappedListIterable":{"ListIterable":["2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2","ListIterable.E":"2"},"WhereIterable":{"Iterable":["1"],"Iterable.E":"1"},"WhereIterator":{"Iterator":["1"]},"UnmodifiableListBase":{"ListBase":["1"],"UnmodifiableListMixin":["1"],"List":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"ConstantMap":{"Map":["1","2"]},"ConstantStringMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"GeneralConstantMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"JsLinkedHashMap":{"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"]},"LinkedHashMapKeysIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"LinkedHashMapKeyIterator":{"Iterator":["1"]},"LinkedHashMapValuesIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"LinkedHashMapValueIterator":{"Iterator":["1"]},"LinkedHashMapEntriesIterable":{"EfficientLengthIterable":["MapEntry<1,2>"],"Iterable":["MapEntry<1,2>"],"Iterable.E":"MapEntry<1,2>"},"LinkedHashMapEntryIterator":{"Iterator":["MapEntry<1,2>"]},"JsConstantLinkedHashMap":{"JsLinkedHashMap":["1","2"],"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"]},"JSSyntaxRegExp":{"RegExp":[],"Pattern":[]},"_MatchImplementation":{"RegExpMatch":[],"Match":[]},"_AllMatchesIterable":{"Iterable":["RegExpMatch"],"Iterable.E":"RegExpMatch"},"_AllMatchesIterator":{"Iterator":["RegExpMatch"]},"StringMatch":{"Match":[]},"_StringAllMatchesIterable":{"Iterable":["Match"],"Iterable.E":"Match"},"_StringAllMatchesIterator":{"Iterator":["Match"]},"NativeByteBuffer":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedData":{"JSObject":[]},"NativeByteData":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedArray":{"JavaScriptIndexingBehavior":["1"],"JSObject":[]},"NativeTypedArrayOfDouble":{"ListBase":["double"],"NativeTypedArray":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"]},"NativeTypedArrayOfInt":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"]},"NativeFloat32List":{"ListBase":["double"],"NativeTypedArray":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeFloat64List":{"ListBase":["double"],"NativeTypedArray":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeInt16List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt32List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt8List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint16List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint32List":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8ClampedList":{"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8List":{"Uint8List":[],"ListBase":["int"],"NativeTypedArray":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"_Type":{"Type":[]},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"AsyncError":{"Error":[]},"_Future":{"Future":["1"]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"_LinkedHashSet":{"SetBase":["1"],"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"_LinkedHashSetIterator":{"Iterator":["1"]},"ListBase":{"List":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"MapBase":{"Map":["1","2"]},"MapView":{"Map":["1","2"]},"UnmodifiableMapView":{"_UnmodifiableMapView_MapView__UnmodifiableMapMixin":["1","2"],"MapView":["1","2"],"_UnmodifiableMapMixin":["1","2"],"Map":["1","2"]},"SetBase":{"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"_SetBase":{"SetBase":["1"],"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"Base64Codec":{"Codec":["List<int>","String"]},"Encoding":{"Codec":["String","List<int>"]},"Utf8Codec":{"Codec":["String","List<int>"]},"double":{"num":[]},"int":{"num":[]},"List":{"EfficientLengthIterable":["1"],"Iterable":["1"]},"RegExpMatch":{"Match":[]},"Set":{"EfficientLengthIterable":["1"],"Iterable":["1"]},"String":{"Pattern":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"OutOfMemoryError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"StringBuffer":{"StringSink":[]},"_Uri":{"Uri":[]},"_SimpleUri":{"Uri":[]},"_DataUri":{"Uri":[]},"FlartElementNode":{"FlartNode":[]},"FlartTextNode":{"FlartNode":[]},"FlartRawHtmlNode":{"FlartNode":[]},"ValueKey":{"Key":[]},"FlartMaterialColor":{"FlartColor":[]},"_EmptyWidget":{"Widget":[]},"Theme":{"InheritedWidget":[],"Widget":[]},"FDAnimate":{"Widget":[]},"Hero":{"StatefulWidget":[],"Widget":[]},"_HeroState":{"State":["Hero"],"State.T":"Hero"},"FDCenter":{"Widget":[]},"FDColumn":{"Widget":[]},"FDPositioned":{"Widget":[]},"FDRow":{"Widget":[]},"FDStack":{"Widget":[]},"FDWrap":{"Widget":[]},"FDElevatedButton":{"Widget":[]},"FDGestureDetector":{"Widget":[]},"FDInkWell":{"Widget":[]},"FDOutlinedButton":{"Widget":[]},"InheritedWidget":{"Widget":[]},"FDCheckbox":{"Widget":[]},"FDRadio":{"Widget":[]},"FDSwitch":{"Widget":[]},"FDTextField":{"Widget":[]},"VideoPlayer":{"Widget":[]},"YouTubePlayer":{"Widget":[]},"FDDateRangePicker":{"StatefulWidget":[],"Widget":[]},"RangePicker":{"StatefulWidget":[],"Widget":[]},"_FDDateRangePickerState":{"State":["FDDateRangePicker"],"State.T":"FDDateRangePicker"},"_RawFlartNodeWidget":{"Widget":[]},"DateTimePicker":{"Widget":[]},"_RangePickerState":{"State":["RangePicker"],"State.T":"RangePicker"},"StatefulWidget":{"Widget":[]},"StatelessWidget":{"Widget":[]},"FDAppBar":{"Widget":[]},"FDCard":{"Widget":[]},"FDBadge":{"Widget":[]},"FDContainer":{"Widget":[]},"FDDialog":{"Widget":[]},"FDDivider":{"Widget":[]},"FDDrawer":{"Widget":[]},"FDExpanded":{"Widget":[]},"FDGridView":{"Widget":[]},"FDIcon":{"Widget":[]},"FDImage":{"Widget":[]},"FDListTile":{"Widget":[]},"FDMaterialApp":{"Widget":[]},"FDCircularProgressIndicator":{"Widget":[]},"FDScaffold":{"Widget":[]},"FDSingleChildScrollView":{"Widget":[]},"FDSizedBox":{"Widget":[]},"FDSkeleton":{"Widget":[]},"FDTabBar":{"Widget":[]},"FDTabBarView":{"Widget":[]},"FDEditableText":{"StatefulWidget":[],"Widget":[]},"_FDEditableTextState":{"State":["FDEditableText"],"State.T":"FDEditableText"},"FDText":{"Widget":[]},"FDTextButton":{"Widget":[]},"FDElement":{"Widget":[]},"AnimationShowcase":{"StatefulWidget":[],"Widget":[]},"_AnimationShowcaseState":{"State":["AnimationShowcase"],"State.T":"AnimationShowcase"},"BasicShowcase":{"Widget":[]},"DialogShowcase":{"Widget":[]},"InputShowcase":{"StatefulWidget":[],"Widget":[]},"_InputShowcaseState":{"State":["InputShowcase"],"State.T":"InputShowcase"},"InteractiveShowcase":{"StatefulWidget":[],"Widget":[]},"_InteractiveShowcaseState":{"State":["InteractiveShowcase"],"State.T":"InteractiveShowcase"},"LayoutShowcase":{"Widget":[]},"CatalogApp":{"StatefulWidget":[],"Widget":[]},"_SidebarItem":{"Widget":[]},"_CatalogAppState":{"State":["CatalogApp"],"State.T":"CatalogApp"},"MediaShowcase":{"Widget":[]},"NavigationShowcase":{"StatefulWidget":[],"Widget":[]},"_NavigationShowcaseState":{"State":["NavigationShowcase"],"State.T":"NavigationShowcase"},"ScrollableShowcase":{"Widget":[]},"ShowcaseCard":{"Widget":[]},"StructureShowcase":{"Widget":[]},"Int8List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint8List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint8ClampedList":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Int16List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint16List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Int32List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint32List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Float32List":{"List":["double"],"EfficientLengthIterable":["double"],"Iterable":["double"]},"Float64List":{"List":["double"],"EfficientLengthIterable":["double"],"Iterable":["double"]}}'));
+  A._Universe_addErasedTypes(init.typeUniverse, JSON.parse('{"EfficientLengthIterable":1,"UnmodifiableListBase":1,"NativeTypedArray":1,"_SetBase":1,"Converter":2}'));
   var string$ = {
     ______: "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\u03f6\x00\u0404\u03f4 \u03f4\u03f6\u01f6\u01f6\u03f6\u03fc\u01f4\u03ff\u03ff\u0584\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u05d4\u01f4\x00\u01f4\x00\u0504\u05c4\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u0400\x00\u0400\u0200\u03f7\u0200\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u03ff\u0200\u0200\u0200\u03f7\x00",
     Error_: "Error handler must accept one Object or one Object and a StackTrace as arguments, and return a value of the returned future's type"
@@ -12239,6 +13015,7 @@
       FDEditableText: findType("FDEditableText"),
       Function: findType("Function"),
       GeneralConstantMap_int_FlartColor: findType("GeneralConstantMap<int,FlartColor>"),
+      InheritedWidget: findType("InheritedWidget"),
       Iterable_dynamic: findType("Iterable<@>"),
       Iterable_int: findType("Iterable<int>"),
       JSArray_BoxShadow: findType("JSArray<BoxShadow>"),
@@ -12262,6 +13039,7 @@
       Record: findType("Record"),
       RegExpMatch: findType("RegExpMatch"),
       StackTrace: findType("StackTrace"),
+      State_StatefulWidget: findType("State<StatefulWidget>"),
       String: findType("String"),
       Theme: findType("Theme"),
       TrustedGetRuntimeType: findType("TrustedGetRuntimeType"),
@@ -12288,8 +13066,10 @@
       nullable_Map_Type_Widget: findType("Map<Type,Widget>?"),
       nullable_Map_Type_dynamic: findType("Map<Type,@>?"),
       nullable_Object: findType("Object?"),
+      nullable_State_StatefulWidget: findType("State<StatefulWidget>?"),
       nullable_String: findType("String?"),
       nullable__FutureListener_dynamic_dynamic: findType("_FutureListener<@,@>?"),
+      nullable__LinkedHashSetCell: findType("_LinkedHashSetCell?"),
       nullable_bool: findType("bool?"),
       nullable_double: findType("double?"),
       nullable_int: findType("int?"),
@@ -12454,10 +13234,12 @@
     B.CrossAxisAlignment_1 = new A.CrossAxisAlignment(1, "center");
     B.CrossAxisAlignment_3 = new A.CrossAxisAlignment(3, "stretch");
     B.Duration_0 = new A.Duration(0);
+    B.Duration_600000 = new A.Duration(600000);
     B.EdgeInsets_0_0_0_0 = new A.EdgeInsets(0, 0, 0, 0);
     B.EdgeInsets_40_40_40_40 = new A.EdgeInsets(40, 40, 40, 40);
-    B.FlartColor_hwE = new A.FlartColor("#000000");
     B.FlartColor_wtx = new A.FlartColor("#FFFFFF");
+    B.FDIcon_dHV = new A.FDIcon("menu", 24, B.FlartColor_wtx, null);
+    B.FlartColor_hwE = new A.FlartColor("#000000");
     B.FlartColor_nOX = new A.FlartColor("#FFCDD2");
     B.FlartColor_oAj = new A.FlartColor("#EF9A9A");
     B.FlartColor_cWR = new A.FlartColor("#F44336");
@@ -12516,6 +13298,7 @@
     B.Type_Uint8ClampedList_04U = A.typeLiteral("Uint8ClampedList");
     B.Type_Uint8List_8Eb = A.typeLiteral("Uint8List");
     B.Utf8Decoder_false = new A.Utf8Decoder(false);
+    B._EmptyWidget_null = new A._EmptyWidget(null);
   })();
   (function staticFields() {
     $._JS_INTEROP_INTERCEPTOR_TAG = null;
@@ -12541,10 +13324,13 @@
     $.PageNavigator__routes = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, A.findType("Widget(Map<String,String>)"));
     $.PageNavigator__isInitialized = false;
     $.PageNavigator__currentTransition = B.RouteTransition_0;
+    $._sharedAnimationSheet = null;
+    $._injectedKeyframes = A.LinkedHashSet_LinkedHashSet$_empty(type$.String);
     $._HeroState__heroRects = A.LinkedHashMap_LinkedHashMap$_empty(type$.Object, type$.JSObject);
-    $._gestureCounter = 0;
-    $._stateRegistry = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, A.findType("State<StatefulWidget>"));
-    $._renderCounter = 0;
+    $.InheritedRegistry__lastInstances = A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, type$.InheritedWidget);
+    $.InheritedRegistry__dependents = A.LinkedHashMap_LinkedHashMap$_empty(type$.Type, A.findType("Set<State<StatefulWidget>>"));
+    $._stateRegistry = A.LinkedHashMap_LinkedHashMap$_empty(type$.String, type$.State_StatefulWidget);
+    $._drawerBridgeInitialized = false;
   })();
   (function lazyInitializers() {
     var _lazyFinal = hunkHelpers.lazyFinal;
@@ -12604,7 +13390,8 @@
     _lazyFinal($, "_Uri__useURLSearchParams", "$get$_Uri__useURLSearchParams", () => typeof URLSearchParams == "function");
     _lazyFinal($, "DateTime__parseFormat", "$get$DateTime__parseFormat", () => A.RegExp_RegExp("^([+-]?\\d{4,6})-?(\\d\\d)-?(\\d\\d)(?:[ T](\\d\\d)(?::?(\\d\\d)(?::?(\\d\\d)(?:[.,](\\d+))?)?)?( ?[zZ]| ?([-+])(\\d\\d)(?::?(\\d\\d))?)?)?$"));
     _lazyFinal($, "_hashSeed", "$get$_hashSeed", () => A.objectHashCode(B.Type_Object_A4p));
-    _lazyFinal($, "VDOMReconciler__elementListeners", "$get$VDOMReconciler__elementListeners", () => new A.Expando(new WeakMap(), A.findType("Expando<Map<String,JavaScriptFunction>>")));
+    _lazyFinal($, "VDOMReconciler__elementListeners", "$get$VDOMReconciler__elementListeners", () => A.Expando$(A.findType("Map<String,JavaScriptFunction>")));
+    _lazyFinal($, "VDOMReconciler__nodeKeys", "$get$VDOMReconciler__nodeKeys", () => A.Expando$(type$.String));
   })();
   (function nativeSupport() {
     !function() {

@@ -25,7 +25,8 @@ class FDElement extends Widget {
   FlartNode buildNode(BuildContext context) {
     return FlartElementNode(
       tag,
-      id: id ?? key?.toString(),
+      id: id,
+      key: key?.toString(),
       attributes: attributes,
       styles: styles,
       events: events,

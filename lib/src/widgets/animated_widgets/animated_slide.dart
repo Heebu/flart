@@ -7,29 +7,35 @@ class AnimatedSlide extends Widget {
   final Duration duration;
   final Curve curve;
 
-  AnimatedSlide({
+  const AnimatedSlide({
     required this.child,
     required this.offset,
     required this.duration,
     this.curve = Curves.linear,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final id = 'animated_slide_${DateTime.now().microsecondsSinceEpoch}';
+  FlartNode buildNode(BuildContext context) {
     final durationMs = duration.inMilliseconds;
-
-    // Convert offset to percentage
     final xPercent = offset.dx * 100;
     final yPercent = offset.dy * 100;
+    final styles = <String, String>{
+      'transform': 'translate($xPercent%, $yPercent%)',
+      'transition': 'transform ${durationMs}ms ${curve.toCss()}',
+    };
 
-    return '''
-      <div id="$id" style="
-        transform: translate($xPercent%, $yPercent%);
-        transition: transform ${durationMs}ms;
-      ">
-        ${child.render(context)}
-      </div>
-    ''';
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      key: key?.toString(),
+      styles: styles,
+      children: [child.buildNode(context)],
+    );
+  }
+
+  @override
+  String render(BuildContext context) {
+    return buildNode(context).toHtml();
   }
 }

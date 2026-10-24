@@ -1,24 +1,49 @@
 import '../widget.dart';
+import '../stateful_widget.dart';
+import '../inherited_widget.dart';
 import '../../styles/media_query.dart';
 import '../../styles/theme.dart';
+
+class SlotTracker {
+  int _counter = 0;
+  int next() => _counter++;
+  void reset() => _counter = 0;
+}
 
 class BuildContext {
   final Widget widget;
   final BuildContext? parent;
   final Map<Type, Widget> inheritedWidgets;
   final Map<Type, dynamic> _states;
+  final String path;
+  final SlotTracker slotTracker;
+  final State? currentBuildingState;
 
   BuildContext({
     required this.widget,
     this.parent,
     Map<Type, Widget>? inheritedWidgets,
     Map<Type, dynamic>? states,
+    String? path,
+    SlotTracker? slotTracker,
+    this.currentBuildingState,
   })  : inheritedWidgets = inheritedWidgets ?? parent?.inheritedWidgets ?? {},
-        _states = states ?? parent?._states ?? {};
+        _states = states ?? parent?._states ?? {},
+        path = path ?? parent?.path ?? 'root',
+        slotTracker = slotTracker ?? parent?.slotTracker ?? SlotTracker();
+
+  int nextSlot() => slotTracker.next();
 
   T? dependOnInheritedWidgetOfExactType<T>() {
     final widget = inheritedWidgets[T];
-    return widget is T ? widget as T : null;
+    if (widget is T) {
+      if (currentBuildingState != null && widget is InheritedWidget) {
+        currentBuildingState!.recordDependency(T, widget);
+        InheritedRegistry.registerDependency(T, currentBuildingState!);
+      }
+      return widget as T;
+    }
+    return null;
   }
 
   T? findAncestorStateOfType<T>() {
@@ -27,7 +52,7 @@ class BuildContext {
     for (final s in _states.values) {
       if (s is T) return s;
     }
-    return null;
+    return parent?.findAncestorStateOfType<T>();
   }
 
   Map<Type, dynamic> get states => _states;
@@ -36,12 +61,18 @@ class BuildContext {
     Widget? widget,
     Map<Type, Widget>? inheritedWidgets,
     Map<Type, dynamic>? states,
+    String? path,
+    SlotTracker? slotTracker,
+    State? currentBuildingState,
   }) {
     return BuildContext(
       widget: widget ?? this.widget,
       parent: this,
       inheritedWidgets: inheritedWidgets ?? this.inheritedWidgets,
       states: states ?? _states,
+      path: path ?? this.path,
+      slotTracker: slotTracker ?? this.slotTracker,
+      currentBuildingState: currentBuildingState ?? this.currentBuildingState,
     );
   }
 

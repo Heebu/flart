@@ -33,3 +33,15 @@ class Curves {
   static const Curve easeOut = _Linear();
   static const Curve easeInOut = _Linear();
 }
+
+extension CurveCss on Curve {
+  String toCss() {
+    if (this == Curves.linear) return 'linear';
+    if (this == Curves.ease) return 'ease';
+    if (this == Curves.easeIn) return 'ease-in';
+    if (this == Curves.easeOut) return 'ease-out';
+    if (this == Curves.easeInOut) return 'ease-in-out';
+    if (this == Curves.decelerate) return 'cubic-bezier(0.0, 0.0, 0.2, 1)';
+    return 'ease';
+  }
+}

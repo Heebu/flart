@@ -223,6 +223,10 @@ class PageNavigator {
       return;
     }
 
+    if ((path == '/' || path.isEmpty) && _stack.isNotEmpty) {
+      return;
+    }
+
     if (path == '/' && _routes.isNotEmpty) {
       final firstRoute = _routes.entries.first;
       final fallbackPage = firstRoute.value(queryParams);
@@ -260,6 +264,29 @@ class PageNavigator {
     }
 
     return null;
+  }
+
+  static bool get isInitialized => _isInitialized;
+  static int get stackLength => _stack.length;
+  static bool get isStackEmpty => _stack.isEmpty;
+
+  static void reset() {
+    _stack.clear();
+    _routes.clear();
+    _guard = null;
+    _unauthorizedRoute = null;
+    _isInitialized = false;
+    _onUnknownRoute = null;
+    _currentTransition = RouteTransition.none;
+    _isPopping = false;
+  }
+
+  static void replaceRoot(Widget page) {
+    if (_stack.isEmpty) {
+      _stack.add(page);
+    } else {
+      _stack[0] = page;
+    }
   }
 
   static void seed(Widget page) {

@@ -1,72 +1,127 @@
 import 'dart:js_interop';
 import 'package:web/web.dart' as web;
 import 'flart_node.dart';
+import '../../widgets/stateful_widget.dart';
 
 /// The VDOM Reconciler handles patching real DOM nodes with new VDOM state.
 class VDOMReconciler {
-  /// We store active event listeners on the real DOM elements using a weak map or expando,
-  /// but in package:web we can just attach/detach directly if we track the references,
-  /// or simply attach a generic delegated event listener per element.
-  /// For simplicity, we will track attached listeners on the JS object via properties
-  /// or we just wipe and re-add them if they change.
-  
   static final _elementListeners = Expando<Map<String, JSFunction>>();
+  static final _nodeKeys = Expando<String>();
 
   /// Mounts or updates a VDOM node onto a real DOM container.
   static void reconcile(web.Element container, FlartNode vnode) {
-    final existingChild = container.firstChild;
+    _patchChildren(container, [vnode]);
+  }
 
-    if (existingChild == null) {
-      // First mount
-      final newNode = _createRealNode(vnode);
-      container.appendChild(newNode);
-    } else {
-      // Patch existing
-      _patchNode(container, existingChild, vnode);
+  /// Disposes state and detaches event listeners when a DOM subtree is removed.
+  static void _cleanUpDomNode(web.Node node) {
+    if (node.nodeType == web.Node.ELEMENT_NODE) {
+      final el = node as web.Element;
+      _elementListeners[el] = null;
+      _nodeKeys[el] = null;
+      if (el.id.isNotEmpty) {
+        StatefulWidget.disposeState(el.id);
+      }
+      final elementsWithId = el.querySelectorAll('[id]');
+      for (var i = 0; i < elementsWithId.length; i++) {
+        final childNode = elementsWithId.item(i);
+        if (childNode is web.Element && childNode.id.isNotEmpty) {
+          _elementListeners[childNode] = null;
+          _nodeKeys[childNode] = null;
+          StatefulWidget.disposeState(childNode.id);
+        }
+      }
     }
   }
 
-  static void _patchNode(web.Node parent, web.Node oldDomNode, FlartNode newVNode) {
+  static String? _getDomKey(web.Node domNode) {
+    if (domNode.nodeType != web.Node.ELEMENT_NODE) return null;
+    final el = domNode as web.Element;
+    final expKey = _nodeKeys[el];
+    if (expKey != null && expKey.isNotEmpty) return expKey;
+    final dataKey = el.getAttribute('data-key');
+    if (dataKey != null && dataKey.isNotEmpty) return dataKey;
+    if (el.id.isNotEmpty) return el.id;
+    return null;
+  }
+
+  static String? _getVNodeKey(FlartNode vnode) {
+    if (vnode is FlartElementNode) {
+      if (vnode.key != null && vnode.key!.isNotEmpty) return vnode.key;
+      if (vnode.id != null && vnode.id!.isNotEmpty) return vnode.id;
+    }
+    return null;
+  }
+
+  static web.Node _patchNode(web.Node parent, web.Node oldDomNode, FlartNode newVNode) {
     if (newVNode is FlartTextNode) {
       if (oldDomNode.nodeType != web.Node.TEXT_NODE) {
+        _cleanUpDomNode(oldDomNode);
         final newNode = web.document.createTextNode(newVNode.text);
         parent.replaceChild(newNode, oldDomNode);
+        return newNode;
       } else {
         if (oldDomNode.textContent != newVNode.text) {
           oldDomNode.textContent = newVNode.text;
         }
+        return oldDomNode;
       }
     } else if (newVNode is FlartRawHtmlNode) {
-      // Raw HTML nodes are a migration step. We create a span/div and set innerHTML.
-      // We'll just replace it fully to be safe if it's Raw HTML
+      _cleanUpDomNode(oldDomNode);
       final template = web.document.createElement('div');
       template.setHTMLUnsafe(newVNode.html.toJS);
-      if (template.childNodes.length == 1) {
-        parent.replaceChild(template.firstChild!, oldDomNode);
-      } else {
-        // If multiple children, wrap them in a fragment or span
-        parent.replaceChild(template, oldDomNode);
-      }
+      final newNode = template.childNodes.length == 1 ? template.firstChild! : template;
+      parent.replaceChild(newNode, oldDomNode);
+      return newNode;
     } else if (newVNode is FlartElementNode) {
       if (oldDomNode.nodeType != web.Node.ELEMENT_NODE) {
+        _cleanUpDomNode(oldDomNode);
         final newNode = _createRealNode(newVNode);
         parent.replaceChild(newNode, oldDomNode);
+        return newNode;
       } else {
         final oldEl = oldDomNode as web.Element;
-        if (oldEl.tagName.toLowerCase() != newVNode.tag.toLowerCase() || 
-            (newVNode.id != null && oldEl.id != newVNode.id)) {
+        final isDifferentTag =
+            oldEl.tagName.toLowerCase() != newVNode.tag.toLowerCase();
+        final oldKey = _getDomKey(oldEl);
+        final newKey = _getVNodeKey(newVNode);
+        final isDifferentKey =
+            newKey != null && oldKey != null && newKey != oldKey;
+        final isDifferentId =
+            newVNode.id != null && oldEl.id.isNotEmpty && oldEl.id != newVNode.id;
+
+        if (isDifferentTag || isDifferentKey || isDifferentId) {
           // Hard replace
+          _cleanUpDomNode(oldDomNode);
           final newNode = _createRealNode(newVNode);
           parent.replaceChild(newNode, oldDomNode);
+          return newNode;
         } else {
           // Soft patch
+          if (newVNode.id != null && oldEl.id != newVNode.id) {
+            oldEl.id = newVNode.id!;
+          } else if (newVNode.id == null && oldEl.id.isNotEmpty) {
+            oldEl.removeAttribute('id');
+          }
+
+          final k = newVNode.key ?? (newVNode.id?.isNotEmpty == true ? newVNode.id : null);
+          if (k != null) {
+            _nodeKeys[oldEl] = k;
+            oldEl.setAttribute('data-key', k);
+          } else {
+            _nodeKeys[oldEl] = null;
+            oldEl.removeAttribute('data-key');
+          }
+
           _patchAttributes(oldEl, newVNode);
           _patchStyles(oldEl, newVNode);
           _patchEvents(oldEl, newVNode);
           _patchChildren(oldEl, newVNode.children);
+          return oldEl;
         }
       }
     }
+    throw Exception('Unknown VDOM node type');
   }
 
   static web.Node _createRealNode(FlartNode vnode) {
@@ -79,6 +134,12 @@ class VDOMReconciler {
     } else if (vnode is FlartElementNode) {
       final el = web.document.createElement(vnode.tag);
       if (vnode.id != null) el.id = vnode.id!;
+
+      final k = vnode.key ?? (vnode.id?.isNotEmpty == true ? vnode.id : null);
+      if (k != null) {
+        _nodeKeys[el] = k;
+        el.setAttribute('data-key', k);
+      }
       
       _patchAttributes(el, vnode);
       _patchStyles(el, vnode);
@@ -101,7 +162,7 @@ class VDOMReconciler {
     final oldAttrNames = <String>[];
     for (var i = 0; i < el.attributes.length; i++) {
       final attr = el.attributes.item(i);
-      if (attr != null && attr.name != 'style' && attr.name != 'id') {
+      if (attr != null && attr.name != 'style' && attr.name != 'id' && attr.name != 'data-key') {
         oldAttrNames.add(attr.name);
       }
     }
@@ -132,10 +193,8 @@ class VDOMReconciler {
           input.checked = shouldBeChecked;
         }
       } else {
-        // If not in attributes, maybe it should be false?
-        // Wait, if it's a checkbox, and no checked attribute, it should be false.
         if (input.type == 'checkbox' || input.type == 'radio') {
-            input.checked = false;
+          input.checked = false;
         }
       }
     }
@@ -177,7 +236,6 @@ class VDOMReconciler {
         el.removeEventListener(type, currentListeners[type]);
       }
       
-      // We must wrap the Dart handler to JS
       final jsFunc = (web.Event e) {
         handler(e);
       }.toJS;
@@ -187,7 +245,7 @@ class VDOMReconciler {
     });
 
     if (currentListeners.isEmpty) {
-      _elementListeners[el] = null; // Clear expando entry
+      _elementListeners[el] = null;
     } else {
       _elementListeners[el] = currentListeners;
     }
@@ -196,21 +254,106 @@ class VDOMReconciler {
   static void _patchChildren(web.Element parent, List<FlartNode>? newChildren) {
     newChildren ??= [];
     final domChildren = _childNodesToList(parent);
-    
-    int i = 0;
-    while (i < newChildren.length) {
-      if (i < domChildren.length) {
-        _patchNode(parent, domChildren[i], newChildren[i]);
-      } else {
-        parent.appendChild(_createRealNode(newChildren[i]));
+
+    bool hasKeys = false;
+    for (final v in newChildren) {
+      if (_getVNodeKey(v) != null) {
+        hasKeys = true;
+        break;
       }
-      i++;
+    }
+    if (!hasKeys) {
+      for (final d in domChildren) {
+        if (_getDomKey(d) != null) {
+          hasKeys = true;
+          break;
+        }
+      }
     }
 
-    // Remove excess children
-    while (i < domChildren.length) {
-      parent.removeChild(domChildren[i]);
-      i++;
+    if (!hasKeys) {
+      // Unkeyed linear matching
+      int i = 0;
+      while (i < newChildren.length) {
+        if (i < domChildren.length) {
+          _patchNode(parent, domChildren[i], newChildren[i]);
+        } else {
+          parent.appendChild(_createRealNode(newChildren[i]));
+        }
+        i++;
+      }
+
+      while (i < domChildren.length) {
+        _cleanUpDomNode(domChildren[i]);
+        if (domChildren[i].parentNode == parent) {
+          parent.removeChild(domChildren[i]);
+        }
+        i++;
+      }
+      return;
+    }
+
+    // Key-aware diffing
+    final oldKeyToNode = <String, web.Node>{};
+    for (final node in domChildren) {
+      final key = _getDomKey(node);
+      if (key != null) {
+        oldKeyToNode.putIfAbsent(key, () => node);
+      }
+    }
+
+    final matchedOldNodes = <web.Node>{};
+    final unkeyedOldNodes = <web.Node>[];
+    for (final node in domChildren) {
+      if (_getDomKey(node) == null) {
+        unkeyedOldNodes.add(node);
+      }
+    }
+    int unkeyedCursor = 0;
+
+    for (var newIndex = 0; newIndex < newChildren.length; newIndex++) {
+      final newVNode = newChildren[newIndex];
+      final newKey = _getVNodeKey(newVNode);
+      web.Node? matchedNode;
+
+      if (newKey != null) {
+        matchedNode = oldKeyToNode.remove(newKey);
+      } else {
+        while (unkeyedCursor < unkeyedOldNodes.length) {
+          final candidate = unkeyedOldNodes[unkeyedCursor++];
+          if (!matchedOldNodes.contains(candidate)) {
+            matchedNode = candidate;
+            break;
+          }
+        }
+      }
+
+      if (matchedNode != null) {
+        matchedOldNodes.add(matchedNode);
+        final activeNode = _patchNode(parent, matchedNode, newVNode);
+        if (activeNode != matchedNode) {
+          matchedOldNodes.remove(matchedNode);
+          matchedOldNodes.add(activeNode);
+        }
+
+        final currentNodeAtIndex = parent.childNodes.item(newIndex);
+        if (currentNodeAtIndex != activeNode) {
+          parent.insertBefore(activeNode, currentNodeAtIndex);
+        }
+      } else {
+        final newRealNode = _createRealNode(newVNode);
+        final currentNodeAtIndex = parent.childNodes.item(newIndex);
+        parent.insertBefore(newRealNode, currentNodeAtIndex);
+      }
+    }
+
+    for (final oldNode in domChildren) {
+      if (!matchedOldNodes.contains(oldNode)) {
+        _cleanUpDomNode(oldNode);
+        if (oldNode.parentNode == parent) {
+          parent.removeChild(oldNode);
+        }
+      }
     }
   }
 

@@ -12,7 +12,7 @@ class AnimatedPositioned extends Widget {
   final Duration duration;
   final Curve curve;
 
-  AnimatedPositioned({
+  const AnimatedPositioned({
     required this.child,
     this.left,
     this.top,
@@ -22,16 +22,15 @@ class AnimatedPositioned extends Widget {
     this.height,
     required this.duration,
     this.curve = Curves.linear,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final id = 'animated_positioned_${DateTime.now().microsecondsSinceEpoch}';
+  FlartNode buildNode(BuildContext context) {
     final durationMs = duration.inMilliseconds;
-
     final styles = <String, String>{
       'position': 'absolute',
-      'transition': 'all ${durationMs}ms',
+      'transition': 'all ${durationMs}ms ${curve.toCss()}',
       if (left != null) 'left': '${left}px',
       if (top != null) 'top': '${top}px',
       if (right != null) 'right': '${right}px',
@@ -40,13 +39,17 @@ class AnimatedPositioned extends Widget {
       if (height != null) 'height': '${height}px',
     };
 
-    final styleString =
-        styles.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      key: key?.toString(),
+      styles: styles,
+      children: [child.buildNode(context)],
+    );
+  }
 
-    return '''
-      <div id="$id" style="$styleString">
-        ${child.render(context)}
-      </div>
-    ''';
+  @override
+  String render(BuildContext context) {
+    return buildNode(context).toHtml();
   }
 }

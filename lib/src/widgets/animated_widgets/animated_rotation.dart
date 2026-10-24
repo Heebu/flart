@@ -1,4 +1,4 @@
-﻿import '../../../flartdart.dart';
+import '../../../flartdart.dart';
 
 /// A widget that rotates its child
 class AnimatedRotation extends Widget {
@@ -8,28 +8,36 @@ class AnimatedRotation extends Widget {
   final Curve curve;
   final Alignment alignment;
 
-  AnimatedRotation({
+  const AnimatedRotation({
     required this.child,
     required this.turns,
     required this.duration,
     this.curve = Curves.linear,
     this.alignment = Alignment.center,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final id = 'animated_rotation_${DateTime.now().microsecondsSinceEpoch}';
+  FlartNode buildNode(BuildContext context) {
     final durationMs = duration.inMilliseconds;
     final degrees = turns * 360;
+    final styles = <String, String>{
+      'transform': 'rotate(${degrees}deg)',
+      'transform-origin': 'center',
+      'transition': 'transform ${durationMs}ms ${curve.toCss()}',
+    };
 
-    return '''
-      <div id="$id" style="
-        transform: rotate(${degrees}deg);
-        transform-origin: center;
-        transition: transform ${durationMs}ms;
-      ">
-        ${child.render(context)}
-      </div>
-    ''';
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      key: key?.toString(),
+      styles: styles,
+      children: [child.buildNode(context)],
+    );
+  }
+
+  @override
+  String render(BuildContext context) {
+    return buildNode(context).toHtml();
   }
 }

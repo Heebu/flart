@@ -7,39 +7,27 @@ class FadeIn extends Widget {
   final Duration? delay;
   final Curve curve;
 
-  FadeIn({
+  const FadeIn({
     required this.child,
     this.duration = const Duration(milliseconds: 500),
     this.delay,
     this.curve = Curves.ease,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final id = 'fade_in_${DateTime.now().microsecondsSinceEpoch}';
-    final durationMs = duration.inMilliseconds;
-    final delayMs = delay?.inMilliseconds ?? 0;
+  FlartNode buildNode(BuildContext context) {
+    return FDAnimate(
+      key: key,
+      fadeIn: true,
+      duration: duration,
+      delay: delay ?? Duration.zero,
+      child: child,
+    ).buildNode(context);
+  }
 
-    return '''
-      <div id="$id" style="
-        opacity: 0;
-        transition: opacity ${durationMs}ms ${delayMs}ms;
-      ">
-        ${child.render(context)}
-      </div>
-      <script>
-        (function() {
-          const el = document.getElementById('$id');
-          if (el) {
-            // Trigger animation on next frame
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                el.style.opacity = '1';
-              });
-            });
-          }
-        })();
-      </script>
-    ''';
+  @override
+  String render(BuildContext context) {
+    return buildNode(context).toHtml();
   }
 }

@@ -4,6 +4,9 @@ import 'package:web/web.dart' as web;
 abstract class FlartNode {
   /// Whether this node is a text node.
   bool get isText;
+
+  /// Optional key for reconciler diffing.
+  String? get key => null;
   
   /// Converts the node back to an HTML string (for legacy string-renderer fallback)
   String toHtml();
@@ -13,6 +16,8 @@ abstract class FlartNode {
 class FlartElementNode implements FlartNode {
   final String tag;
   final String? id;
+  @override
+  final String? key;
   final Map<String, String>? attributes;
   final Map<String, String>? styles;
   final List<FlartNode>? children;
@@ -23,6 +28,7 @@ class FlartElementNode implements FlartNode {
   FlartElementNode(
     this.tag, {
     this.id,
+    this.key,
     this.attributes,
     this.styles,
     this.events,
@@ -79,6 +85,9 @@ class FlartTextNode implements FlartNode {
   bool get isText => true;
 
   @override
+  String? get key => null;
+
+  @override
   String toHtml() {
     // Simple HTML escaping could be done here, but text is usually safe enough in this context
     return text.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -95,6 +104,9 @@ class FlartRawHtmlNode implements FlartNode {
 
   @override
   bool get isText => false; // Handled specially by reconciler
+
+  @override
+  String? get key => null;
 
   @override
   String toHtml() => html;

@@ -1,8 +1,6 @@
 import '../../../flartdart.dart';
 import '../../helper/callback_manager.dart';
 
-/// Global counter for unique gesture detector IDs (avoids microsecond collisions).
-int _gestureCounter = 0;
 
 /// Detects various user interactions (tap, double-tap, hover, swipe, etc.).
 ///
@@ -80,17 +78,30 @@ class FDGestureDetector extends Widget {
     if (onTap != null) events['click'] = (e) => onTap!();
     if (onDoubleTap != null) events['dblclick'] = (e) => onDoubleTap!();
 
-    if (onTapDown != null || onMouseDown != null) {
+    bool isLongPressCanceled = false;
+
+    if (onTapDown != null || onMouseDown != null || onLongPress != null) {
       events['mousedown'] = (e) {
         onTapDown?.call();
         onMouseDown?.call();
+        if (onLongPress != null) {
+          isLongPressCanceled = false;
+          Future.delayed(const Duration(milliseconds: 700), () {
+            if (!isLongPressCanceled) {
+              onLongPress!();
+            }
+          });
+        }
       };
     }
 
-    if (onTapUp != null || onMouseUp != null) {
+    if (onTapUp != null || onMouseUp != null || onLongPress != null) {
       events['mouseup'] = (e) {
         onTapUp?.call();
         onMouseUp?.call();
+        if (onLongPress != null) {
+          isLongPressCanceled = true;
+        }
       };
     }
 
@@ -101,16 +112,21 @@ class FDGestureDetector extends Widget {
       };
     }
 
-    if (onHoverExit != null) events['mouseleave'] = (e) => onHoverExit!();
+    if (onHoverExit != null || onLongPress != null) {
+      events['mouseleave'] = (e) {
+        onHoverExit?.call();
+        if (onLongPress != null) {
+          isLongPressCanceled = true;
+        }
+      };
+    }
+
     if (onMouseMove != null) events['mousemove'] = (e) => onMouseMove!();
     
     if (onContextMenu != null) {
       events['contextmenu'] = (e) {
-        // e.preventDefault() in JS
         final target = e;
         try {
-          // Dynamic call for preventDefault
-          // package:web Event has preventDefault
           (target as dynamic).preventDefault();
         } catch (_) {}
         onContextMenu!();
@@ -126,11 +142,6 @@ class FDGestureDetector extends Widget {
         onSwipeRight != null ||
         onSwipeUp != null ||
         onSwipeDown != null) {
-      // For VDOM, we can attach touchstart and touchend
-      // Since Dart JS interop limits closure state, we can use an Expando or global map
-      // Or just assume the user will handle complex gestures with a proper gesture arena later.
-      // We will map simple touchstart/touchend.
-      // Wait, we can hold state in the closure! Dart closures capture variables perfectly.
       double sx = 0, sy = 0;
       
       events['touchstart'] = (e) {
@@ -165,23 +176,6 @@ class FDGestureDetector extends Widget {
       };
     }
 
-    // Long press
-    if (onLongPress != null) {
-      // Capture timeout ID or future
-      // Wait, setTimeout returns an ID in JS, in Dart we can use Future
-      bool isLongPressCanceled = false;
-      events['mousedown'] = (e) {
-        isLongPressCanceled = false;
-        Future.delayed(const Duration(milliseconds: 700), () {
-          if (!isLongPressCanceled) {
-            onLongPress!();
-          }
-        });
-      };
-      events['mouseup'] = (e) => isLongPressCanceled = true;
-      events['mouseleave'] = (e) => isLongPressCanceled = true;
-    }
-
     final styleMap = <String, String>{
       'outline': 'none',
       'display': 'inline-block',
@@ -201,7 +195,8 @@ class FDGestureDetector extends Widget {
 
     return FDElement(
       tag: 'div',
-      id: key?.toString() ?? 'gesture_${_gestureCounter++}',
+      key: key,
+      id: key?.toString(),
       attributes: {'tabindex': '0'},
       styles: styleMap,
       events: events,

@@ -9,11 +9,12 @@ class FDDrawer extends Widget {
     required this.child,
     this.cssStyle,
     this.rawCss,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final styleMap = {
+  FlartNode buildNode(BuildContext context) {
+    final styleMap = <String, String>{
       'width': '250px',
       'height': '100%',
       'background-color': 'white',
@@ -21,18 +22,28 @@ class FDDrawer extends Widget {
       ...?cssStyle,
     };
 
-    final style =
-        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styleMap[parts[0].trim()] = parts.sublist(1).join(':').trim();
+        }
+      }
+    }
 
-    return '''
-      <div style="$style ${rawCss ?? ''}">
-        ${child.render(context)}
-      </div>
-    ''';
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      key: key?.toString(),
+      styles: styleMap,
+      children: [child.buildNode(context)],
+    );
+  }
+
+  @override
+  String render(BuildContext context) {
+    return buildNode(context).toHtml();
   }
 }
-
-//FDGestureDetector(
-//   onTap: () => "toggleDrawer();",
-//   child: FDIcon(FDIcons.menu),
-// )

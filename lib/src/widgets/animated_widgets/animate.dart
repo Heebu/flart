@@ -2,9 +2,6 @@ import 'package:web/web.dart' as web;
 
 import '../../../flartdart.dart';
 
-/// Global counter for unique animation IDs (avoids microsecond collisions).
-int _animateCounter = 0;
-
 /// Shared stylesheet element for all FDAnimate keyframes.
 web.CSSStyleSheet? _sharedAnimationSheet;
 
@@ -18,6 +15,31 @@ void _ensureSharedSheet() {
   final style = web.HTMLStyleElement()..id = 'flart-animation-sheet';
   web.document.head?.append(style);
   _sharedAnimationSheet = style.sheet;
+
+  _injectDefaultKeyframes();
+}
+
+void _injectDefaultKeyframes() {
+  if (_sharedAnimationSheet == null) return;
+  if (!_injectedKeyframes.contains('flart-entrance-anim')) {
+    const entranceRule = '''
+@keyframes flart-entrance-anim {
+  0% {
+    opacity: var(--flart-anim-opacity, 1);
+    transform: translate(var(--flart-anim-x, 0px), var(--flart-anim-y, 0px)) scale(var(--flart-anim-scale, 1));
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+''';
+    try {
+      _sharedAnimationSheet!.insertRule(
+          entranceRule, _sharedAnimationSheet!.cssRules.length);
+      _injectedKeyframes.add('flart-entrance-anim');
+    } catch (_) {}
+  }
 }
 
 /// A powerful entry animation wrapper.
@@ -50,50 +72,46 @@ class FDAnimate extends Widget {
   });
 
   @override
-  String render(BuildContext context) {
-    final id = 'animate_${_animateCounter++}';
+  FlartNode buildNode(BuildContext context) {
+    _ensureSharedSheet();
 
     final initialOpacity = fadeIn ? '0' : '1';
-    final currentScale = scale ?? startScale;
-    final initialScale = currentScale != null ? 'scale($currentScale)' : '';
-    final initialTranslate = (slideX != null || slideY != null)
-        ? 'translate(${slideX ?? 0}px, ${slideY ?? 0}px)'
-        : '';
+    final currentScale = scale ?? startScale ?? 1.0;
+    final initialX = slideX ?? 0.0;
+    final initialY = slideY ?? 0.0;
 
-    final initialTransform = '$initialScale $initialTranslate'.trim();
+    final styles = <String, String>{
+      '--flart-anim-opacity': initialOpacity,
+      '--flart-anim-x': '${initialX}px',
+      '--flart-anim-y': '${initialY}px',
+      '--flart-anim-scale': currentScale.toString(),
+      'animation':
+          'flart-entrance-anim ${duration.inMilliseconds}ms ease-out ${delay.inMilliseconds}ms both',
+      'will-change': 'opacity, transform',
+    };
 
-    // Inject the keyframe rule into the shared stylesheet (once per unique animation).
-    if (!_injectedKeyframes.contains(id)) {
-      _ensureSharedSheet();
-      final rule = '''
-        @keyframes anim_$id {
-          0% {
-            opacity: $initialOpacity;
-            ${initialTransform.isNotEmpty ? 'transform: $initialTransform;' : ''}
-          }
-          100% {
-            opacity: 1;
-            transform: none;
-          }
+    if (rawCss != null && rawCss!.isNotEmpty) {
+      final pairs = rawCss!.split(';');
+      for (var pair in pairs) {
+        if (pair.trim().isEmpty) continue;
+        final parts = pair.split(':');
+        if (parts.length >= 2) {
+          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
         }
-      ''';
-      try {
-        _sharedAnimationSheet?.insertRule(
-            rule, _sharedAnimationSheet!.cssRules.length);
-      } catch (_) {
-        // Fallback: if insertRule fails, the animation simply won't play.
       }
-      _injectedKeyframes.add(id);
     }
 
-    return '''
-      <div id="$id" style="
-        animation: anim_$id ${duration.inMilliseconds}ms ease-out ${delay.inMilliseconds}ms both;
-        will-change: opacity, transform;
-        ${rawCss ?? ''}
-      ">
-        ${child.render(context)}
-      </div>
-    ''';
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      key: key?.toString(),
+      styles: styles,
+      children: [child.buildNode(context)],
+    );
+  }
+
+  @override
+  String render(BuildContext context) {
+    return buildNode(context).toHtml();
   }
 }

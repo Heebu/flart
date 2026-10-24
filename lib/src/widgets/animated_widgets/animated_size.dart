@@ -7,25 +7,34 @@ class AnimatedSize extends Widget {
   final Curve curve;
   final Alignment alignment;
 
-  AnimatedSize({
+  const AnimatedSize({
     required this.child,
     required this.duration,
     this.curve = Curves.linear,
     this.alignment = Alignment.center,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final id = 'animated_size_${DateTime.now().microsecondsSinceEpoch}';
+  FlartNode buildNode(BuildContext context) {
     final durationMs = duration.inMilliseconds;
+    final styles = <String, String>{
+      'transition':
+          'width ${durationMs}ms ${curve.toCss()}, height ${durationMs}ms ${curve.toCss()}',
+      'overflow': 'hidden',
+    };
 
-    return '''
-      <div id="$id" style="
-        transition: width ${durationMs}ms, height ${durationMs}ms;
-        overflow: hidden;
-      ">
-        ${child.render(context)}
-      </div>
-    ''';
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      key: key?.toString(),
+      styles: styles,
+      children: [child.buildNode(context)],
+    );
+  }
+
+  @override
+  String render(BuildContext context) {
+    return buildNode(context).toHtml();
   }
 }

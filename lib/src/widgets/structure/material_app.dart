@@ -10,6 +10,8 @@ class FDMaterialApp extends Widget {
   final ThemeData? theme;
   final bool darkMode;
 
+  final Map<String, Widget>? routes;
+  final String? initialRoute;
   final String? favicon;
   final BuildContext? context; // Optional context parameter
   final String? rawCss;
@@ -19,6 +21,8 @@ class FDMaterialApp extends Widget {
   const FDMaterialApp({
     required this.title,
     this.home,
+    this.routes,
+    this.initialRoute,
     this.theme,
     this.backgroundColor,
     this.fontFamily,
@@ -31,13 +35,25 @@ class FDMaterialApp extends Widget {
 
   @override
   FlartNode buildNode(BuildContext context) {
+    if (routes != null && routes!.isNotEmpty) {
+      PageNavigator.registerRoutes(routes!);
+    }
+    if (home != null && PageNavigator.isStackEmpty) {
+      PageNavigator.seed(home!);
+    }
+    if (initialRoute != null && PageNavigator.isStackEmpty) {
+      PageNavigator.pushNamed(initialRoute!);
+    }
     PageNavigator.init();
 
     final effectiveTheme =
         theme ?? (darkMode ? ThemeData.dark() : ThemeData.light());
+    final activePage = PageNavigator.isStackEmpty
+        ? (home ?? const _EmptyRouteWidget())
+        : PageNavigator.current;
     final homeWidget = Theme(
       data: effectiveTheme,
-      child: home ?? PageNavigator.current,
+      child: activePage,
     );
 
     web.document.title = title;
@@ -206,4 +222,11 @@ class FDMaterialApp extends Widget {
       ..content = 'width=device-width, initial-scale=1.0';
     web.document.head?.append(metaViewport);
   }
+}
+
+class _EmptyRouteWidget extends Widget {
+  const _EmptyRouteWidget();
+
+  @override
+  FlartNode buildNode(BuildContext context) => FlartElementNode('div');
 }
