@@ -135,7 +135,6 @@ export 'src/widgets/inputs/advanced_inputs.dart';
 // Texts
 export 'src/widgets/texts/text.dart';
 export 'src/widgets/texts/rich_text.dart';
-export 'src/widgets/texts/richtext.dart';
 export 'src/widgets/texts/text_span.dart';
 export 'src/widgets/texts/selectable_text.dart';
 export 'src/widgets/texts/link_text.dart';

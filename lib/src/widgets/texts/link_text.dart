@@ -1,73 +1,67 @@
-import '../../helper/callback_manager.dart';
 import '../../../flartdart.dart';
+
+typedef LinkText = FDLinkText;
 
 class FDLinkText extends Widget {
   final String label;
   final String? href;
+  final String target;
   final VoidCallback? onPressed;
-  final VoidCallback? onLongPress;
   final TextStyle? style;
-  final Map<String, String>? cssStyle;
-  final String? rawCss;
 
-  FDLinkText({
-    required this.label,
-    this.href,
+  const FDLinkText({
+    String? label,
+    String? text,
+    String? href,
+    String? url,
+    this.target = '_blank',
     this.onPressed,
-    this.onLongPress,
     this.style,
-    this.cssStyle,
-    this.rawCss,
-  });
+    super.key,
+  })  : label = label ?? text ?? '',
+        href = href ?? url;
 
   @override
-  String render(BuildContext context) {
-    final idClick =
-        onPressed != null ? FlartCallbackManager.register(onPressed!) : null;
-    final idLongPress = onLongPress != null
-        ? FlartCallbackManager.register(onLongPress!)
-        : null;
+  FlartNode buildNode(BuildContext context) {
+    final theme = context.theme;
 
-    final styleMap = {
-      'color': style?.color?.toString() ?? '#1a0dab',
-      'font-size': style?.fontSize?.toString() ?? '16px',
-      'FDText-decoration': 'underline',
+    final styleMap = <String, String>{
+      'box-sizing': 'border-box',
+      'color': style?.color?.toString() ?? theme.primaryColor.toString(),
+      'font-size': style?.fontSize != null ? '${style!.fontSize}px' : '16px',
+      'text-decoration': 'underline',
       'cursor': 'pointer',
       'transition': 'opacity 0.2s ease',
-      ...?cssStyle,
+      'display': 'inline',
+      ...(style?.toCss() ?? {}),
     };
-    final styleString =
-        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
 
-    final eventHandlers = [
-      if (idClick != null) 'onclick="__flartHandleClick(\'$idClick\')"',
-      if (idLongPress != null)
-        '''
-        onmousedown="this._pressTimer = setTimeout(() => __flartHandleClick('$idLongPress'), 600)"
-        onmouseup="clearTimeout(this._pressTimer)"
-        onmouseleave="clearTimeout(this._pressTimer)"
-      '''
-    ].join(' ');
+    final events = <String, void Function(dynamic)>{};
+    if (onPressed != null) {
+      events['click'] = (e) => onPressed!();
+    }
 
     if (href != null) {
-      return '''
-        <a href="$href" style="$styleString ${rawCss ?? ''}" target="_blank" $eventHandlers>$label</a>
-      ''';
-    } else {
-      return '''
-        <span style="$styleString ${rawCss ?? ''}" $eventHandlers>$label</span>
-      ''';
+      return FlartElementNode(
+        'a',
+        id: key?.toString(),
+        attributes: {
+          'href': href!,
+          'target': target,
+          'rel': 'noopener noreferrer',
+        },
+        styles: styleMap,
+        events: events.isNotEmpty ? events : null,
+        children: [FlartTextNode(label)],
+      );
     }
+
+    return FlartElementNode(
+      'span',
+      id: key?.toString(),
+      styles: styleMap,
+      events: events.isNotEmpty ? events : null,
+      children: [FlartTextNode(label)],
+    );
   }
 }
-
-//FDLinkText(
-//   label: 'Click to visit Flart',
-//   href: 'https://flart.dev', // Opens in new tab
-//   onPressed: () => print('Link clicked!'),
-//   onLongPress: () => print('Long press on link!'),
-//   style: TextStyle(
-//     fontSize: 16,
-//     color: FlartColor('#0057ff'),
-//   ),
-// )

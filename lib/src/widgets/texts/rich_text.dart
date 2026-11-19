@@ -4,33 +4,44 @@ typedef RichText = FDRichText;
 
 class FDRichText extends Widget {
   final TextSpan textSpan;
-  final Map<String, String>? cssStyle;
-  final String? rawCss;
+  final TextAlign? textAlign;
+  final int? maxLines;
+  final TextOverflow? overflow;
+  final bool? softWrap;
 
   FDRichText({
     TextSpan? textSpan,
     TextSpan? text,
-    this.cssStyle,
-    this.rawCss,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.softWrap,
     super.key,
   }) : textSpan = textSpan ?? text ?? const TextSpan();
 
   @override
   FlartNode buildNode(BuildContext context) {
     final styles = <String, String>{
-      'display': 'inline',
-      ...?cssStyle,
+      'box-sizing': 'border-box',
+      'display': 'block',
+      if (textAlign != null) 'text-align': textAlign.toString().split('.').last,
+      if (softWrap == false) 'white-space': 'nowrap',
     };
 
-    if (rawCss != null && rawCss!.isNotEmpty) {
-      final pairs = rawCss!.split(';');
-      for (var pair in pairs) {
-        if (pair.trim().isEmpty) continue;
-        final parts = pair.split(':');
-        if (parts.length >= 2) {
-          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
-        }
+    if (overflow == TextOverflow.ellipsis && maxLines == null) {
+      styles['white-space'] = 'nowrap';
+      styles['overflow'] = 'hidden';
+      styles['text-overflow'] = 'ellipsis';
+    } else if (maxLines != null) {
+      styles['display'] = '-webkit-box';
+      styles['-webkit-line-clamp'] = maxLines.toString();
+      styles['-webkit-box-orient'] = 'vertical';
+      styles['overflow'] = 'hidden';
+      if (overflow == TextOverflow.ellipsis || overflow == null) {
+        styles['text-overflow'] = 'ellipsis';
       }
+    } else if (overflow == TextOverflow.clip) {
+      styles['overflow'] = 'hidden';
     }
 
     return FlartElementNode(
@@ -46,6 +57,9 @@ class FDRichText extends Widget {
     if (span.style != null) {
       spanStyles.addAll(span.style!.toCss());
     }
+    if (span.onTap != null) {
+      spanStyles['cursor'] = 'pointer';
+    }
 
     final children = <FlartNode>[];
     if (span.text != null && span.text!.isNotEmpty) {
@@ -60,6 +74,7 @@ class FDRichText extends Widget {
     return FlartElementNode(
       'span',
       styles: spanStyles,
+      events: span.onTap != null ? {'click': (_) => span.onTap!()} : null,
       children: children,
     );
   }

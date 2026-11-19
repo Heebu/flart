@@ -1,36 +1,51 @@
 import '../../../flartdart.dart';
 
+typedef SelectableText = FDSelectableText;
+
 class FDSelectableText extends Widget {
   final String content;
   final TextStyle? style;
-  final Map<String, String>? cssStyle;
-  final String? rawCss;
+  final TextAlign? textAlign;
+  final int? maxLines;
+  final VoidCallback? onTap;
 
-  FDSelectableText(
+  const FDSelectableText(
     this.content, {
     this.style,
-    this.cssStyle,
-    this.rawCss,
+    this.textAlign,
+    this.maxLines,
+    this.onTap,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final styleMap = {
+  FlartNode buildNode(BuildContext context) {
+    final themeStyle = Theme.of(context).textStyle;
+
+    final styleMap = <String, String>{
+      'box-sizing': 'border-box',
       'user-select': 'text',
+      '-webkit-user-select': 'text',
+      'cursor': 'text',
+      'display': 'block',
+      ...themeStyle.toCss(),
       ...(style?.toCss() ?? {}),
-      ...?cssStyle,
+      if (textAlign != null) 'text-align': textAlign.toString().split('.').last,
     };
-    final styleString =
-        styleMap.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    return '<span style="$styleString ${rawCss ?? ''}">$content</span>';
+
+    if (maxLines != null) {
+      styleMap['display'] = '-webkit-box';
+      styleMap['-webkit-line-clamp'] = maxLines.toString();
+      styleMap['-webkit-box-orient'] = 'vertical';
+      styleMap['overflow'] = 'hidden';
+    }
+
+    return FlartElementNode(
+      'span',
+      id: key?.toString(),
+      styles: styleMap,
+      events: onTap != null ? {'click': (_) => onTap!()} : null,
+      children: [FlartTextNode(content)],
+    );
   }
 }
-
-//FDSelectableText(
-//   'You can copy this.text.',
-//   style: TextStyle(
-//     fontSize: 16,
-//     color: FlartColor('#333333'),
-//   ),
-//   textAlign: TextAlign.center,
-// )

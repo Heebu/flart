@@ -1,6 +1,7 @@
 import 'package:flartdart/flartdart.dart';
 import 'pages/basic_showcase.dart';
 import 'pages/layout_showcase.dart';
+import 'pages/text_showcase.dart';
 import 'pages/input_showcase.dart';
 import 'pages/animation_showcase.dart';
 import 'pages/structure_showcase.dart';
@@ -32,8 +33,8 @@ class CatalogApp extends StatefulWidget {
 }
 
 class _CatalogAppState extends State<CatalogApp> {
-  // Default to Category 3 (Display & Leaf Primitives)
-  int _selectedIndex = 2;
+  // Default to Category 4 (Text Widgets)
+  int _selectedIndex = 3;
 
   final List<_CategoryEntry> _categories = [
     _CategoryEntry(
@@ -57,13 +58,13 @@ class _CatalogAppState extends State<CatalogApp> {
     _CategoryEntry(
       number: '4',
       title: 'Text Widgets',
-      status: 'Next',
-      page: InteractiveShowcase(),
+      status: 'Fixed',
+      page: TextShowcase(),
     ),
     _CategoryEntry(
       number: '5',
       title: 'Button & Interaction',
-      status: 'Pending',
+      status: 'Next',
       page: InteractiveShowcase(),
     ),
     _CategoryEntry(

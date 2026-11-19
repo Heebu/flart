@@ -4,5 +4,8 @@ enum TextInputType {
   email,
   phone,
   url,
-  multiline,
+  multiline;
+
+  /// Flutter compatibility alias
+  static const TextInputType emailAddress = email;
 }

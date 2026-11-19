@@ -66,8 +66,6 @@ class FDTextField extends StatelessWidget {
         controller ?? TextEditingController(text: initialValue ?? '');
 
     final radius = borderRadius ?? 4.0;
-    final pad =
-        padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 8);
     final hasError = errorText != null;
 
     return FDContainer(
@@ -111,14 +109,13 @@ class FDTextField extends StatelessWidget {
                   onSubmitted: onSubmitted,
                   style: style ?? theme.textStyle,
                   textAlign: TextAlign.start,
-                  padding: pad,
-                  rawCss: '''
-                    ${prefixIcon != null ? 'padding-left: 40px;' : ''}
-                    ${suffixIcon != null ? 'padding-right: 40px;' : ''}
-                    border: none !important;
-                    background: transparent !important;
-                    ${rawCss ?? ''}
-                  ''',
+                  padding: EdgeInsets.only(
+                    left: prefixIcon != null ? 40 : 12,
+                    right: suffixIcon != null ? 40 : 12,
+                    top: 10,
+                    bottom: 10,
+                  ),
+                  showBorder: false,
                 ),
                 if (prefixIcon != null)
                   FDPositioned(

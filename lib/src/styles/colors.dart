@@ -48,6 +48,14 @@ class FlartColor {
   }
 
   @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is FlartColor && runtimeType == other.runtimeType && hex == other.hex;
+
+  @override
+  int get hashCode => hex.hashCode;
+
+  @override
   String toString() => hex;
 }
 

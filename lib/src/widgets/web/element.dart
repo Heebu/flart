@@ -10,6 +10,7 @@ class FDElement extends Widget {
   final Map<String, String>? styles;
   final Map<String, void Function(web.Event)>? events;
   final List<Widget>? children;
+  final String? textContent;
 
   const FDElement({
     required this.tag,
@@ -18,11 +19,18 @@ class FDElement extends Widget {
     this.styles,
     this.events,
     this.children,
+    this.textContent,
     super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
+    List<FlartNode>? nodes;
+    if (textContent != null) {
+      nodes = [FlartTextNode(textContent!)];
+    } else if (children != null) {
+      nodes = children!.map((child) => child.buildNode(context)).toList();
+    }
     return FlartElementNode(
       tag,
       id: id,
@@ -30,7 +38,7 @@ class FDElement extends Widget {
       attributes: attributes,
       styles: styles,
       events: events,
-      children: children?.map((child) => child.buildNode(context)).toList(),
+      children: nodes,
     );
   }
 }
