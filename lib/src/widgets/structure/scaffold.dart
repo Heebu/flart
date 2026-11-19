@@ -80,6 +80,7 @@ class FDScaffold extends Widget {
   @override
   FlartNode buildNode(BuildContext context) {
     final style = <String, String>{
+      'box-sizing': 'border-box',
       'width': '100vw',
       'height': '100vh',
       'overflow': 'hidden',

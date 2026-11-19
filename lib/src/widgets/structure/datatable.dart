@@ -29,6 +29,7 @@ class FDDataTable<T> extends Widget {
     final theme = Theme.of(context);
 
     final containerStyles = <String, String>{
+      'box-sizing': 'border-box',
       'width': '100%',
       'overflow-x': 'auto',
       'background-color': theme.cardColor.toString(),

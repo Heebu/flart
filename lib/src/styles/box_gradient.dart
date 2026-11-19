@@ -1,5 +1,7 @@
 import '../../flartdart.dart';
 
+typedef LinearGradient = Gradient;
+
 class Gradient {
   final List<FlartColor> colors;
   final String direction; // e.g., 'to right', 'to bottom', etc.

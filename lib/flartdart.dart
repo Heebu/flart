@@ -97,6 +97,7 @@ export 'src/widgets/structure/display_widgets.dart';
 export 'src/widgets/structure/scroll_view.dart';
 export 'src/widgets/structure/padding.dart';
 export 'src/widgets/structure/constrained_box.dart';
+export 'src/widgets/structure/decorated_box.dart';
 export 'src/widgets/structure/overlay.dart';
 export 'src/widgets/utils/value_listenable_builder.dart';
 

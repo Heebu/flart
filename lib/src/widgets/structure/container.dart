@@ -5,9 +5,11 @@ class FDContainer extends Widget {
   final String? id;
   final double? width;
   final double? height;
+  final BoxConstraints? constraints;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
   final BoxDecoration? decoration;
+  final BoxDecoration? foregroundDecoration;
   final FlartColor? color;
   final Alignment? alignment;
   final Clip? clipBehavior;
@@ -20,9 +22,11 @@ class FDContainer extends Widget {
     this.id,
     this.width,
     this.height,
+    this.constraints,
     this.padding,
     this.margin,
     this.decoration,
+    this.foregroundDecoration,
     this.color,
     this.alignment,
     this.clipBehavior,
@@ -38,16 +42,22 @@ class FDContainer extends Widget {
 
   @override
   FlartNode buildNode(BuildContext context) {
-    final effectiveDecoration = decoration ?? (color != null ? BoxDecoration(color: color) : null);
+    final effectiveDecoration =
+        decoration ?? (color != null ? BoxDecoration(color: color) : null);
+
+    // Merge constraints with width/height
+    final effectiveConstraints = (width != null || height != null)
+        ? (constraints?.tighten(width: width, height: height) ??
+            BoxConstraints.tightFor(width: width, height: height))
+        : constraints;
 
     final styleMap = <String, String>{
-      if (width != null)
-        'width': width == double.infinity ? '100%' : '${width}px',
-      if (height != null)
-        'height': height == double.infinity ? '100%' : '${height}px',
+      'box-sizing': 'border-box',
+      if (effectiveConstraints != null) ...effectiveConstraints.toCssMap(),
       if (padding != null) 'padding': padding!.toCss(),
       if (margin != null) 'margin': margin!.toCss(),
-      if (clipBehavior != null && clipBehavior != Clip.none) 'overflow': 'hidden',
+      if (clipBehavior != null && clipBehavior != Clip.none)
+        'overflow': 'hidden',
       if (onClick != null) 'cursor': 'pointer',
       ...?effectiveDecoration?.toCss(),
       ...?alignment?.toCss(),

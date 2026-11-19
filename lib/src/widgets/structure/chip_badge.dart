@@ -34,6 +34,7 @@ class FDChip extends Widget {
         padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 6);
 
     final styles = <String, String>{
+      'box-sizing': 'border-box',
       'display': 'inline-flex',
       'align-items': 'center',
       'background-color': bgColor,
@@ -150,6 +151,7 @@ class FDBadge extends Widget {
     final color = textColor?.toString() ?? '#ffffff';
 
     final styles = <String, String>{
+      'box-sizing': 'border-box',
       'position': 'relative',
       'display': 'inline-block',
       ...?cssStyle,

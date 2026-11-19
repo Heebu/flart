@@ -26,10 +26,22 @@ class Border extends BoxBorder {
   Map<String, String> toCss() {
     final css = <String, String>{};
 
-    if (top != null) css['border-top'] = top!.toCss();
-    if (right != null) css['border-right'] = right!.toCss();
-    if (bottom != null) css['border-bottom'] = bottom!.toCss();
-    if (left != null) css['border-left'] = left!.toCss();
+    final isUniform = top != null &&
+        right != null &&
+        bottom != null &&
+        left != null &&
+        top == right &&
+        right == bottom &&
+        bottom == left;
+
+    if (isUniform) {
+      css['border'] = top!.toCss();
+    } else {
+      if (top != null) css['border-top'] = top!.toCss();
+      if (right != null) css['border-right'] = right!.toCss();
+      if (bottom != null) css['border-bottom'] = bottom!.toCss();
+      if (left != null) css['border-left'] = left!.toCss();
+    }
 
     return css;
   }
@@ -45,6 +57,17 @@ class BorderSide {
   });
 
   String toCss() => '${width}px solid ${color.toString()}';
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BorderSide &&
+          runtimeType == other.runtimeType &&
+          width == other.width &&
+          color.toString() == other.color.toString();
+
+  @override
+  int get hashCode => width.hashCode ^ color.toString().hashCode;
 }
 
 abstract class BoxBorder {

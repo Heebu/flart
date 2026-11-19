@@ -1,5 +1,7 @@
 import '../../../flartdart.dart';
 
+typedef Padding = FDPadding;
+
 /// A widget that insets its child by the given padding.
 class FDPadding extends Widget {
   final EdgeInsets padding;

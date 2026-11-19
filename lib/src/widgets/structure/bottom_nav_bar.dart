@@ -20,6 +20,7 @@ class FDBottomNavigationBar extends Widget {
   FlartNode buildNode(BuildContext context) {
     final theme = Theme.of(context);
     final styles = <String, String>{
+      'box-sizing': 'border-box',
       'display': 'flex',
       'justify-content': 'space-around',
       'align-items': 'center',

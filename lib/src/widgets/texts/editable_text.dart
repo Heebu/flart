@@ -112,7 +112,8 @@ class _FDEditableTextState extends State<FDEditableText> {
         },
         'keydown': (web.Event e) {
           final target = e.target as web.HTMLInputElement?;
-          if (e is web.KeyboardEvent && e.key == 'Enter' && target != null) {
+          final kbEvent = e as web.KeyboardEvent;
+          if (kbEvent.key == 'Enter' && target != null) {
             final value = target.value;
             widget.onSubmitted?.call(value);
             target.blur();

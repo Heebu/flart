@@ -286,5 +286,28 @@ void main() {
       expect(chosen, isNotNull);
       expect(chosen!.hex, equals('#00ff00'));
     });
+
+    test('FDEditableText triggers onSubmitted on Enter keydown', () {
+      final controller = TextEditingController(text: 'Hello World');
+      String? submittedText;
+
+      final widget = FDEditableText(
+        controller: controller,
+        onSubmitted: (val) {
+          submittedText = val;
+        },
+      );
+
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      final input = root.tagName.toLowerCase() == 'input'
+          ? root as web.HTMLInputElement
+          : root.querySelector('input') as web.HTMLInputElement;
+
+      final keyboardEvent =
+          web.KeyboardEvent('keydown', web.KeyboardEventInit(key: 'Enter'));
+      input.dispatchEvent(keyboardEvent);
+
+      expect(submittedText, equals('Hello World'));
+    });
   });
 }

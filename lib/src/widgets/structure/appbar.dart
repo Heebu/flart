@@ -24,6 +24,7 @@ class FDAppBar extends Widget {
     final bg = backgroundColor ?? theme.primaryColor;
 
     final styles = <String, String>{
+      'box-sizing': 'border-box',
       'display': 'flex',
       'align-items': 'center',
       'justify-content': 'space-between',

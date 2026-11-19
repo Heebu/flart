@@ -57,6 +57,7 @@ class FDTooltip extends Widget {
       'div',
       attributes: {'class': 'flart-tooltip-text', 'role': 'tooltip'},
       styles: {
+        'box-sizing': 'border-box',
         'background-color': bgColor,
         'color': textStyle?.color?.toString() ?? 'white',
         'font-size': textStyle?.fontSize != null ? '${textStyle!.fontSize}px' : '12px',
@@ -107,6 +108,7 @@ class FDSnackBar extends Widget {
     final bgColor = backgroundColor?.toString() ?? '#323232';
 
     final styles = <String, String>{
+      'box-sizing': 'border-box',
       'position': 'fixed',
       'bottom': '20px',
       'left': '50%',

@@ -38,8 +38,12 @@ class FDMaterialApp extends Widget {
     if (routes != null && routes!.isNotEmpty) {
       PageNavigator.registerRoutes(routes!);
     }
-    if (home != null && PageNavigator.isStackEmpty) {
-      PageNavigator.seed(home!);
+    if (home != null) {
+      if (PageNavigator.isStackEmpty) {
+        PageNavigator.seed(home!);
+      } else if (PageNavigator.stackLength <= 1) {
+        PageNavigator.replaceRoot(home!);
+      }
     }
     if (initialRoute != null && PageNavigator.isStackEmpty) {
       PageNavigator.pushNamed(initialRoute!);
@@ -48,9 +52,11 @@ class FDMaterialApp extends Widget {
 
     final effectiveTheme =
         theme ?? (darkMode ? ThemeData.dark() : ThemeData.light());
-    final activePage = PageNavigator.isStackEmpty
-        ? (home ?? const _EmptyRouteWidget())
-        : PageNavigator.current;
+    final activePage = (home != null && PageNavigator.stackLength <= 1)
+        ? home!
+        : (PageNavigator.isStackEmpty
+            ? (home ?? const _EmptyRouteWidget())
+            : PageNavigator.current);
     final homeWidget = Theme(
       data: effectiveTheme,
       child: activePage,
@@ -93,32 +99,7 @@ class FDMaterialApp extends Widget {
       body.style.color = effectiveTheme.textStyle.color.toString();
     }
 
-    if (rawCss != null) {
-      var styleElement = web.document.head?.querySelector('#flart-raw-css')
-          as web.HTMLStyleElement?;
-      if (styleElement == null) {
-        styleElement = web.HTMLStyleElement()..id = 'flart-raw-css';
-        web.document.head?.append(styleElement);
-      }
-      styleElement.textContent = '''
-        /* Global Reset */
-        *, *::before, *::after {
-          box-sizing: border-box;
-          margin: 0;
-          padding: 0;
-        }
-
-        body {
-          margin: 0;
-          padding: 0;
-          width: 100vw;
-          height: 100vh;
-          overflow: hidden;
-        }
-
-        $rawCss
-      ''';
-    }
+    _injectGlobalStyles(rawCss);
 
     final mainNode = homeWidget.buildNode(context);
 
@@ -221,6 +202,25 @@ class FDMaterialApp extends Widget {
       ..name = 'viewport'
       ..content = 'width=device-width, initial-scale=1.0';
     web.document.head?.append(metaViewport);
+  }
+
+  void _injectGlobalStyles(String? customCss) {
+    var styleElement = web.document.head?.querySelector('#flart-global-styles')
+        as web.HTMLStyleElement?;
+    if (styleElement == null) {
+      styleElement = web.HTMLStyleElement()..id = 'flart-global-styles';
+      web.document.head?.append(styleElement);
+    }
+    styleElement.textContent = '''
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      ${customCss ?? ''}
+    ''';
   }
 }
 

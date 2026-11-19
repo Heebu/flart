@@ -20,6 +20,7 @@ class FDSingleChildScrollView extends Widget {
   FlartNode buildNode(BuildContext context) {
     final isVertical = scrollDirection == Axis.vertical;
     final styles = <String, String>{
+      'box-sizing': 'border-box',
       'overflow-x': isVertical ? 'hidden' : 'auto',
       'overflow-y': isVertical ? 'auto' : 'hidden',
       'display': 'block',

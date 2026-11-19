@@ -1,7 +1,10 @@
 import '../../../flartdart.dart';
 
+typedef Divider = FDDivider;
+
 class FDDivider extends Widget {
   final double thickness;
+  final double? height;
   final double? indent;
   final double? endIndent;
   final FlartColor? color;
@@ -11,6 +14,7 @@ class FDDivider extends Widget {
 
   const FDDivider({
     this.thickness = 1.0,
+    this.height,
     this.indent,
     this.endIndent,
     this.color,
@@ -23,14 +27,20 @@ class FDDivider extends Widget {
   @override
   FlartNode buildNode(BuildContext context) {
     final theme = Theme.of(context);
+    final totalHeight = height ?? thickness;
+    final topBottomMargin = (totalHeight - thickness).clamp(0.0, double.infinity) / 2;
+
     final styleMap = <String, String>{
+      'box-sizing': 'border-box',
       'height': '${thickness}px',
-      'width': '100%',
+      'width': 'auto',
       'background-color': color?.toString() ?? theme.dividerColor.toString(),
       'border': 'none',
       'display': 'block',
       'margin-left': '${indent ?? 0}px',
       'margin-right': '${endIndent ?? 0}px',
+      'margin-top': '${topBottomMargin}px',
+      'margin-bottom': '${topBottomMargin}px',
       if (margin != null) 'margin': margin!.toCss(),
       ...?cssStyle,
     };

@@ -68,6 +68,29 @@ class FDDialog extends Widget {
   }
 }
 
+class _DialogEntry {
+  final web.HTMLElement overlay;
+  final void Function([dynamic result]) close;
+
+  _DialogEntry({required this.overlay, required this.close});
+}
+
+final List<_DialogEntry> _activeDialogs = <_DialogEntry>[];
+
+/// Closes the topmost active dialog overlay.
+void closeDialog<T>([T? result]) {
+  if (_activeDialogs.isNotEmpty) {
+    final entry = _activeDialogs.removeLast();
+    entry.close(result);
+  }
+}
+
+class Navigator {
+  static void pop([BuildContext? context, dynamic result]) {
+    closeDialog(result);
+  }
+}
+
 Future<T?> showDialog<T>({
   required Widget builder,
   bool barrierDismissible = true,
@@ -75,6 +98,7 @@ Future<T?> showDialog<T>({
   final completer = Completer<T?>();
 
   final overlay = web.document.createElement('div') as web.HTMLElement;
+  overlay.className = 'flart-dialog-overlay';
   overlay.style.position = 'fixed';
   overlay.style.top = '0';
   overlay.style.left = '0';
@@ -86,12 +110,15 @@ Future<T?> showDialog<T>({
   overlay.style.justifyContent = 'center';
   overlay.style.zIndex = '9999';
 
-  void close([T? result]) {
+  void close([dynamic result]) {
     overlay.remove();
+    _activeDialogs.removeWhere((entry) => entry.overlay == overlay);
     if (!completer.isCompleted) {
-      completer.complete(result);
+      completer.complete(result as T?);
     }
   }
+
+  _activeDialogs.add(_DialogEntry(overlay: overlay, close: close));
 
   if (barrierDismissible) {
     overlay.addEventListener(

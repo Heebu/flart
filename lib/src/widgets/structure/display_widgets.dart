@@ -26,8 +26,10 @@ class FDAspectRatio extends Widget {
       id: key?.toString(),
       attributes: {'class': 'flart-aspect-ratio'},
       styles: {
+        'box-sizing': 'border-box',
         'aspect-ratio': aspectRatio.toString(),
         'width': '100%',
+        'max-width': '100%',
         'display': 'flex',
         'position': 'relative',
       },
@@ -56,9 +58,10 @@ class FDClipRRect extends Widget {
       id: key?.toString(),
       attributes: {'class': 'flart-clip-rrect'},
       styles: {
+        'box-sizing': 'border-box',
         'border-radius': borderRadius.toCss(),
         'overflow': 'hidden',
-        'display': 'inline-block',
+        'display': 'block',
       },
       children: child != null ? [child!.buildNode(context)] : null,
     );
@@ -83,9 +86,10 @@ class FDClipOval extends Widget {
       id: key?.toString(),
       attributes: {'class': 'flart-clip-oval'},
       styles: {
+        'box-sizing': 'border-box',
         'border-radius': '50%',
         'overflow': 'hidden',
-        'display': 'inline-block',
+        'display': 'block',
       },
       children: child != null ? [child!.buildNode(context)] : null,
     );
@@ -110,6 +114,7 @@ class FDOpacity extends Widget {
       id: key?.toString(),
       attributes: {'class': 'flart-opacity'},
       styles: {
+        'box-sizing': 'border-box',
         'opacity': opacity.toString(),
         'transition': 'opacity 0.2s',
       },
@@ -138,6 +143,7 @@ class FDFittedBox extends Widget {
       id: key?.toString(),
       attributes: {'class': 'flart-fitted-box'},
       styles: {
+        'box-sizing': 'border-box',
         'display': 'flex',
         'justify-content': alignment.justifyContent,
         'align-items': alignment.alignItems,
@@ -170,6 +176,7 @@ class FDRotatedBox extends Widget {
       id: key?.toString(),
       attributes: {'class': 'flart-rotated-box'},
       styles: {
+        'box-sizing': 'border-box',
         'display': 'inline-block',
         'transform': 'rotate(${degrees}deg)',
         'transform-origin': 'center center',
@@ -211,10 +218,10 @@ class FDPlaceholder extends Widget {
       id: key?.toString(),
       attributes: {'class': 'flart-placeholder'},
       styles: {
+        'box-sizing': 'border-box',
         'width': '${fallbackWidth}px',
         'height': '${fallbackHeight}px',
         'background-color': 'rgba(0, 0, 0, 0.05)',
-        'box-sizing': 'border-box',
       },
       children: [FlartRawHtmlNode(svg)],
     );

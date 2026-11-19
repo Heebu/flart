@@ -74,6 +74,7 @@ class FDGridView extends Widget {
     }
 
     final styles = <String, String>{
+      'box-sizing': 'border-box',
       'display': 'grid',
       'grid-template-columns': type == GridViewType.extent
           ? 'repeat(auto-fit, minmax(${maxCrossAxisExtent!.toInt()}px, 1fr))'
@@ -96,15 +97,23 @@ class FDGridView extends Widget {
       }
     }
 
+    final itemStyles = <String, String>{
+      'box-sizing': 'border-box',
+      if (childAspectRatio != null && childAspectRatio! > 0)
+        'aspect-ratio': childAspectRatio.toString(),
+    };
+
     final childrenNodes = builtChildren
         .map((child) => FlartElementNode(
               'div',
+              styles: itemStyles.isNotEmpty ? itemStyles : null,
               children: [child.buildNode(context)],
             ))
         .toList();
 
     return FlartElementNode(
       'div',
+      id: key?.toString(),
       styles: styles,
       children: childrenNodes,
     );

@@ -1,12 +1,20 @@
 import '../../../flartdart.dart';
 
+typedef Drawer = FDDrawer;
+
 class FDDrawer extends Widget {
   final Widget child;
+  final double? width;
+  final FlartColor? backgroundColor;
+  final double elevation;
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
   const FDDrawer({
     required this.child,
+    this.width,
+    this.backgroundColor,
+    this.elevation = 16.0,
     this.cssStyle,
     this.rawCss,
     super.key,
@@ -14,11 +22,17 @@ class FDDrawer extends Widget {
 
   @override
   FlartNode buildNode(BuildContext context) {
+    final theme = Theme.of(context);
+    final bg = backgroundColor ?? theme.cardColor;
+    final w = width ?? 304.0;
+
     final styleMap = <String, String>{
-      'width': '250px',
+      'box-sizing': 'border-box',
+      'width': '${w}px',
       'height': '100%',
-      'background-color': 'white',
+      'background-color': bg.toString(),
       'overflow-y': 'auto',
+      'box-shadow': '0 8px 10px -5px rgba(0,0,0,0.2), 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12)',
       ...?cssStyle,
     };
 

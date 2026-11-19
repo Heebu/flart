@@ -1,7 +1,14 @@
 import 'package:flartdart/flartdart.dart';
 import '../widgets/showcase_card.dart';
 
-class DialogShowcase extends StatelessWidget {
+class DialogShowcase extends StatefulWidget {
+  @override
+  State<DialogShowcase> createState() => _DialogShowcaseState();
+}
+
+class _DialogShowcaseState extends State<DialogShowcase> {
+  String _status = 'No dialog action yet';
+
   @override
   Widget build(BuildContext context) {
     return FDColumn(
@@ -23,15 +30,71 @@ class DialogShowcase extends StatelessWidget {
         ShowcaseCard(
           title: 'FDDialog',
           description: 'A material design dialog.',
-          child: FDElevatedButton(
-            child: FDText('Show Dialog',
-                style: TextStyle(color: FlartColor('#ffffff'))),
-            onPressed: () {
-              // Normally this is triggered by user interaction handled natively in HTML
-              // Here we simulate the JS alert for showcase simplicity until DOM event system handles complex multi-roots
-              print(
-                  'Dialog button clicked! In a full DOM environment, this would call showDialog()');
-            },
+          child: FDColumn(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FDElevatedButton(
+                child: FDText('Show Dialog',
+                    style: TextStyle(color: FlartColor('#ffffff'))),
+                cssStyle: {
+                  'background-color': '#3b82f6',
+                  'padding': '12px 24px',
+                  'border-radius': '8px',
+                  'border': 'none',
+                  'cursor': 'pointer',
+                },
+                onPressed: () async {
+                  final result = await showDialog<String>(
+                    builder: FDAlertDialog(
+                      title: FDText('Interactive Alert Dialog'),
+                      content: FDText(
+                          'This is an interactive alert dialog. Click Cancel or Confirm to close the overlay.'),
+                      actions: [
+                        FDTextButton(
+                          child: FDText('Cancel',
+                              style: TextStyle(color: FlartColor('#64748b'))),
+                          onPressed: () {
+                            closeDialog('Cancelled');
+                          },
+                        ),
+                        FDElevatedButton(
+                          child: FDText('Confirm',
+                              style: TextStyle(color: FlartColor('#ffffff'))),
+                          cssStyle: {
+                            'background-color': '#3b82f6',
+                            'padding': '8px 16px',
+                            'border-radius': '6px',
+                            'border': 'none',
+                            'cursor': 'pointer',
+                          },
+                          onPressed: () {
+                            closeDialog('Confirmed');
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                  if (result != null) {
+                    setState(() {
+                      _status = 'Dialog closed with: $result';
+                    });
+                  } else {
+                    setState(() {
+                      _status = 'Dialog dismissed (barrier clicked)';
+                    });
+                  }
+                },
+              ),
+              FDSizedBox(height: 12),
+              FDText(
+                'Status: $_status',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: FlartColor('#3b82f6'),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
         ),
         FDContainer(

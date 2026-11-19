@@ -37,6 +37,7 @@ class FDTabBar extends Widget {
             : FlartColors.grey.toString());
 
     final styles = <String, String>{
+      'box-sizing': 'border-box',
       'display': 'flex',
       'border-bottom': '2px solid ${theme.dividerColor}',
       'transition': 'border-color 0.3s',
@@ -146,6 +147,7 @@ class FDTabBarView extends Widget {
     }
 
     final styles = <String, String>{
+      'box-sizing': 'border-box',
       'padding': '16px',
       'width': '100%',
       ...?cssStyle,

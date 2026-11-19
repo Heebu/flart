@@ -17,7 +17,10 @@ class FDExpanded extends Widget {
   @override
   FlartNode buildNode(BuildContext context) {
     final styles = <String, String>{
-      'flex': flex.toString(),
+      'box-sizing': 'border-box',
+      'flex': '$flex $flex 0px',
+      'min-width': '0',
+      'min-height': '0',
     };
 
     if (rawCss != null && rawCss!.isNotEmpty) {
@@ -33,6 +36,7 @@ class FDExpanded extends Widget {
 
     return FlartElementNode(
       'div',
+      id: key?.toString(),
       styles: styles,
       children: [child.buildNode(context)],
     );

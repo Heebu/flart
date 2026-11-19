@@ -49,6 +49,7 @@ class FDSkeleton extends Widget {
         theme.isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.5)';
 
     final styles = <String, String>{
+      'box-sizing': 'border-box',
       'display': 'inline-block',
       if (width != null) 'width': '${width}px' else 'width': '100%',
       if (height != null) 'height': '${height}px' else 'height': '1em',
