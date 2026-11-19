@@ -1,5 +1,8 @@
 import '../../../flartdart.dart';
 
+/// Flutter compatibility typedefs
+typedef FDShader = ShaderWidget;
+
 /// Base shader widget with customizable shader code
 class ShaderWidget extends Widget {
   final Widget? child;
@@ -8,7 +11,6 @@ class ShaderWidget extends Widget {
   final double? height;
   final Map<String, dynamic>? uniforms;
   final bool animate;
-  final String? rawCss;
 
   ShaderWidget({
     this.child,
@@ -17,7 +19,6 @@ class ShaderWidget extends Widget {
     this.height,
     this.uniforms,
     this.animate = false,
-    this.rawCss,
   });
 
   @override
@@ -27,7 +28,7 @@ class ShaderWidget extends Widget {
     final h = height ?? 300;
 
     return '''
-      <div id="$id" style="position: relative; width: ${w}px; height: ${h}px; ${rawCss ?? ''}">
+      <div id="$id" style="position: relative; width: ${w}px; height: ${h}px;">
         <canvas id="${id}_canvas" width="$w" height="$h" style="position: absolute; top: 0; left: 0;"></canvas>
         ${child != null ? '<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">${child!.render(context)}</div>' : ''}
       </div>
@@ -135,7 +136,6 @@ class GradientShader extends Widget {
   final double? height;
   final String direction;
   final bool animate;
-  final String? rawCss;
 
   GradientShader({
     this.child,
@@ -145,7 +145,6 @@ class GradientShader extends Widget {
     this.direction =
         'diagonal', // 'horizontal', 'vertical', 'diagonal', 'radial'
     this.animate = false,
-    this.rawCss,
   });
 
   @override
@@ -221,7 +220,6 @@ class WaveShader extends Widget {
   final double? height;
   final double speed;
   final double amplitude;
-  final String? rawCss;
 
   WaveShader({
     this.child,
@@ -230,7 +228,6 @@ class WaveShader extends Widget {
     this.height,
     this.speed = 1.0,
     this.amplitude = 0.1,
-    this.rawCss,
   });
 
   @override
@@ -271,7 +268,6 @@ class RippleShader extends Widget {
   final double? width;
   final double? height;
   final double speed;
-  final String? rawCss;
 
   RippleShader({
     this.child,
@@ -279,7 +275,6 @@ class RippleShader extends Widget {
     this.width,
     this.height,
     this.speed = 1.0,
-    this.rawCss,
   });
 
   @override
@@ -319,14 +314,12 @@ class PlasmaShader extends Widget {
   final double? width;
   final double? height;
   final double speed;
-  final String? rawCss;
 
   PlasmaShader({
     this.child,
     this.width,
     this.height,
     this.speed = 1.0,
-    this.rawCss,
   });
 
   @override
@@ -353,7 +346,6 @@ class PlasmaShader extends Widget {
       width: width,
       height: height,
       animate: true,
-      rawCss: rawCss,
     ).render(context);
   }
 }
@@ -366,7 +358,6 @@ class GlowShader extends Widget {
   final double? height;
   final double intensity;
   final bool pulse;
-  final String? rawCss;
 
   GlowShader({
     this.child,
@@ -375,7 +366,6 @@ class GlowShader extends Widget {
     this.height,
     this.intensity = 1.0,
     this.pulse = false,
-    this.rawCss,
   });
 
   @override
@@ -398,7 +388,6 @@ class GlowShader extends Widget {
       width: width,
       height: height,
       animate: pulse,
-      rawCss: rawCss,
     ).render(context);
   }
 
@@ -418,7 +407,6 @@ class NoiseShader extends Widget {
   final double? height;
   final double intensity;
   final bool animate;
-  final String? rawCss;
 
   NoiseShader({
     this.child,
@@ -426,7 +414,6 @@ class NoiseShader extends Widget {
     this.height,
     this.intensity = 0.5,
     this.animate = false,
-    this.rawCss,
   });
 
   @override
@@ -449,7 +436,6 @@ class NoiseShader extends Widget {
       width: width,
       height: height,
       animate: animate,
-      rawCss: rawCss,
     ).render(context);
   }
 }

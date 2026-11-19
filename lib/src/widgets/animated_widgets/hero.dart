@@ -1,6 +1,11 @@
 import 'package:web/web.dart';
 import '../../../flartdart.dart';
 
+/// Flutter compatibility typedef
+typedef FDHero = Hero;
+
+/// A widget that marks its child as being eligible for hero animations.
+/// Follows Flutter's [Hero] specification.
 class Hero extends StatefulWidget {
   final Object tag;
   final Widget child;
@@ -10,6 +15,8 @@ class Hero extends StatefulWidget {
     required this.child,
     super.key,
   });
+
+  static DOMRect? getRect(Object tag) => _HeroState._heroRects[tag];
 
   @override
   State<Hero> createState() => _HeroState();
@@ -33,7 +40,6 @@ class _HeroState extends State<Hero> {
     return FDContainer(
       id: heroId,
       key: ValueKey(heroId),
-      cssStyle: {'display': 'inline-block'},
       child: widget.child,
     );
   }

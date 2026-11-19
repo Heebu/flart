@@ -1,7 +1,11 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// A widget that animates its opacity over time
+/// Flutter compatibility typedefs
+typedef FDAnimatedOpacity = AnimatedOpacity;
+
+/// A widget that animates its opacity over time.
+/// Follows Flutter's [AnimatedOpacity] specification.
 class AnimatedOpacity extends Widget {
   final Widget child;
   final double opacity;

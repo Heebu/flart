@@ -1,68 +1,95 @@
+import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
-class AnimatedContainer extends Widget {
-  final AnimationController controller;
-  final FlartColor beginColor;
-  final FlartColor endColor;
-  final double beginWidth;
-  final double endWidth;
-  final double beginHeight;
-  final double endHeight;
-  final Widget? child;
-  final Map<String, String>? cssStyle;
 
-  AnimatedContainer({
-    required this.controller,
-    required this.beginColor,
-    required this.endColor,
-    required this.beginWidth,
-    required this.endWidth,
-    required this.beginHeight,
-    required this.endHeight,
+/// Flutter compatibility typedefs
+typedef AnimatedContainer = FDAnimatedContainer;
+
+/// A container that gradually changes its values over a period of time.
+/// Follows Flutter's [AnimatedContainer] implicit animation specification.
+class FDAnimatedContainer extends Widget {
+  final Widget? child;
+  final double? width;
+  final double? height;
+  final FlartColor? color;
+  final BoxDecoration? decoration;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+  final Alignment? alignment;
+  final Curve curve;
+  final Duration duration;
+  final VoidCallback? onEnd;
+  final Clip clipBehavior;
+
+  const FDAnimatedContainer({
     this.child,
-    this.cssStyle,
+    this.width,
+    this.height,
+    this.color,
+    this.decoration,
+    this.padding,
+    this.margin,
+    this.alignment,
+    this.curve = Curves.linear,
+    required this.duration,
+    this.onEnd,
+    this.clipBehavior = Clip.none,
+    super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, _) {
-        final progress = controller.value;
-        final interpolatedColor = beginColor.lerp(endColor, progress);
-        final currentWidth = beginWidth + (endWidth - beginWidth) * progress;
-        final currentHeight = beginHeight + (endHeight - beginHeight) * progress;
+    final durationMs = duration.inMilliseconds;
+    final curveCss = curve.toCss();
 
-        final mergedStyles = {
-          'transition': 'none', // Managed by AnimationController
-          'background-color': interpolatedColor.toString(),
-          ...?cssStyle,
-        };
+    final styles = <String, String>{
+      'box-sizing': 'border-box',
+      'transition':
+          'width ${durationMs}ms $curveCss, height ${durationMs}ms $curveCss, background-color ${durationMs}ms $curveCss, border ${durationMs}ms $curveCss, border-radius ${durationMs}ms $curveCss, box-shadow ${durationMs}ms $curveCss, padding ${durationMs}ms $curveCss, margin ${durationMs}ms $curveCss, transform ${durationMs}ms $curveCss',
+    };
 
-        return FDContainer(
-          width: currentWidth,
-          height: currentHeight,
-          cssStyle: mergedStyles,
-          child: child,
-        );
-      },
-    ).buildNode(context);
+    if (width != null) styles['width'] = '${width}px';
+    if (height != null) styles['height'] = '${height}px';
+
+    if (padding != null) styles['padding'] = padding!.toCss();
+    if (margin != null) styles['margin'] = margin!.toCss();
+
+    // Decoration & Color
+    final effectiveColor = decoration?.color ?? color;
+    if (effectiveColor != null) {
+      styles['background-color'] = effectiveColor.toString();
+    }
+
+    if (decoration != null) {
+      final decStyles = decoration!.toCss();
+      styles.addAll(decStyles);
+    }
+
+    if (alignment != null) {
+      styles['display'] = 'flex';
+      styles.addAll(alignment!.toCss());
+    }
+
+    if (clipBehavior == Clip.hardEdge || clipBehavior == Clip.antiAlias) {
+      styles['overflow'] = 'hidden';
+    }
+
+    final events = <String, void Function(web.Event)>{};
+    if (onEnd != null) {
+      events['transitionend'] = (e) => onEnd!();
+    }
+
+    return FlartElementNode(
+      'div',
+      id: key?.toString(),
+      key: key?.toString(),
+      styles: styles,
+      events: events.isNotEmpty ? events : null,
+      children: child != null ? [child!.buildNode(context)] : const [],
+    );
+  }
+
+  @override
+  String render(BuildContext context) {
+    return buildNode(context).toHtml();
   }
 }
-
-//final controller = AnimationController(
-//   duration: Duration(seconds: 2),
-//   onUpdate: (_) {},
-// );
-//
-// final animatedBox = AnimatedContainer(
-//   controller: controller,
-//   beginColor: FlartColor.hex('#42A5F5'),
-//   endColor: FlartColor.hex('#AB47BC'),
-//   beginWidth: 100,
-//   endWidth: 300,
-//   beginHeight: 100,
-//   endHeight: 150,
-// );
-//
-// // then call this when needed
-// controller.forward();

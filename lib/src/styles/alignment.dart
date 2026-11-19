@@ -23,4 +23,16 @@
       'align-items': alignItems,
     };
   }
+
+  String toTransformOrigin() {
+    String xOrigin = 'center';
+    if (justifyContent == 'flex-start') xOrigin = 'left';
+    if (justifyContent == 'flex-end') xOrigin = 'right';
+
+    String yOrigin = 'center';
+    if (alignItems == 'flex-start') yOrigin = 'top';
+    if (alignItems == 'flex-end') yOrigin = 'bottom';
+
+    return '$xOrigin $yOrigin';
+  }
 }

@@ -1,5 +1,4 @@
 import 'package:web/web.dart' as web;
-
 import '../../../flartdart.dart';
 
 /// Shared stylesheet element for all FDAnimate keyframes.
@@ -45,8 +44,7 @@ void _injectDefaultKeyframes() {
 /// A powerful entry animation wrapper.
 ///
 /// Wraps a widget and applies entrance animations (fade, scale, slide)
-/// when it first appears in the DOM. All keyframes are injected into a
-/// single shared `<style>` element to prevent style tag accumulation.
+/// when it first appears in the DOM.
 class FDAnimate extends Widget {
   final Widget child;
   final Duration duration;
@@ -56,7 +54,6 @@ class FDAnimate extends Widget {
   final double? startScale;
   final double? scale; // Alias for startScale
   final bool fadeIn;
-  final String? rawCss;
 
   const FDAnimate({
     required this.child,
@@ -67,7 +64,6 @@ class FDAnimate extends Widget {
     this.startScale,
     this.scale,
     this.fadeIn = true,
-    this.rawCss,
     super.key,
   });
 
@@ -90,17 +86,6 @@ class FDAnimate extends Widget {
       'will-change': 'opacity, transform',
     };
 
-    if (rawCss != null && rawCss!.isNotEmpty) {
-      final pairs = rawCss!.split(';');
-      for (var pair in pairs) {
-        if (pair.trim().isEmpty) continue;
-        final parts = pair.split(':');
-        if (parts.length >= 2) {
-          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
-        }
-      }
-    }
-
     return FlartElementNode(
       'div',
       id: key?.toString(),
@@ -113,5 +98,64 @@ class FDAnimate extends Widget {
   @override
   String render(BuildContext context) {
     return buildNode(context).toHtml();
+  }
+}
+
+/// Convenience slide-in entrance widget.
+class SlideIn extends Widget {
+  final Widget child;
+  final Duration duration;
+  final Duration delay;
+  final double offsetX;
+  final double offsetY;
+
+  const SlideIn({
+    required this.child,
+    this.duration = const Duration(milliseconds: 500),
+    this.delay = Duration.zero,
+    this.offsetX = 0.0,
+    this.offsetY = 20.0,
+    super.key,
+  });
+
+  @override
+  FlartNode buildNode(BuildContext context) {
+    return FDAnimate(
+      key: key,
+      fadeIn: true,
+      duration: duration,
+      delay: delay,
+      slideX: offsetX,
+      slideY: offsetY,
+      child: child,
+    ).buildNode(context);
+  }
+}
+
+/// Convenience scale-in entrance widget.
+class ScaleIn extends Widget {
+  final Widget child;
+  final Duration duration;
+  final Duration delay;
+  final double startScale;
+
+  const ScaleIn({
+    required this.child,
+    this.duration = const Duration(milliseconds: 500),
+    this.delay = Duration.zero,
+    this.startScale = 0.8,
+    super.key,
+  });
+
+  @override
+  FlartNode buildNode(BuildContext context) {
+    return FDAnimate(
+      key: key,
+      fadeIn: true,
+      duration: duration,
+      delay: delay,
+      startScale: startScale,
+      child: child,
+    ).buildNode(context);
   }
 }
