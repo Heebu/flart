@@ -34,8 +34,8 @@ class CatalogApp extends StatefulWidget {
 }
 
 class _CatalogAppState extends State<CatalogApp> {
-  // Default to Category 5 (Button & Interaction)
-  int _selectedIndex = 4;
+  // Default to Category 6 (Input & Form)
+  int _selectedIndex = 5;
 
   final List<_CategoryEntry> _categories = [
     _CategoryEntry(
@@ -71,13 +71,13 @@ class _CatalogAppState extends State<CatalogApp> {
     _CategoryEntry(
       number: '6',
       title: 'Input & Form',
-      status: 'Next',
-      page: InputShowcase(),
+      status: 'Fixed',
+      page: const InputShowcasePage(),
     ),
     _CategoryEntry(
       number: '7',
       title: 'Animation & Effect',
-      status: 'Pending',
+      status: 'Next',
       page: AnimationShowcase(),
     ),
     _CategoryEntry(

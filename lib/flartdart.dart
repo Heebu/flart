@@ -55,6 +55,7 @@ export 'src/helper/route_utils.dart';
 export 'src/styles/text_style.dart';
 export 'src/styles/shape.dart';
 export 'src/styles/button_style.dart';
+export 'src/styles/input_decoration.dart';
 export 'src/styles/theme.dart';
 export 'src/styles/custom_painting.dart' hide CustomPainter, FDCustomPaint;
 export 'src/styles/decoration_image.dart';

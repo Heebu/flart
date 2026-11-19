@@ -144,7 +144,7 @@ void main() {
       final widget = FDCheckbox(
         value: checked,
         onChanged: (val) {
-          checked = val;
+          checked = val ?? false;
         },
       );
 
@@ -308,6 +308,60 @@ void main() {
       input.dispatchEvent(keyboardEvent);
 
       expect(submittedText, equals('Hello World'));
+    });
+
+    test('TextField with InputDecoration renders labels and OutlineInputBorder', () {
+      final widget = TextField(
+        decoration: const InputDecoration(
+          labelText: 'Email Address',
+          hintText: 'Enter your email',
+          border: OutlineInputBorder(),
+        ),
+      );
+
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.textContent, contains('Email Address'));
+      final input = root.querySelector('input') as web.HTMLInputElement?;
+      expect(input, isNotNull);
+      expect(input!.placeholder, equals('Enter your email'));
+    });
+
+    test('Form and TextFormField validate correctly', () {
+      final formKey = GlobalKey<FormState>();
+      String? savedVal;
+
+      final form = Form(
+        key: formKey,
+        child: TextFormField(
+          initialValue: 'ab',
+          validator: (val) {
+            if (val == null || val.length < 4) {
+              return 'Min 4 characters';
+            }
+            return null;
+          },
+          onSaved: (val) {
+            savedVal = val;
+          },
+        ),
+      );
+
+      final root = TestUtils.mountWidget(form) as web.HTMLElement;
+      expect(root.textContent, isNot(contains('Min 4 characters')));
+
+      // First validation fails (length 2 < 4)
+      final isValid1 = formKey.currentState!.validate();
+      expect(isValid1, isFalse);
+
+      // Now set to valid text
+      final input = root.querySelector('input') as web.HTMLInputElement;
+      TestUtils.enterText(input, 'ValidUsername');
+
+      final isValid2 = formKey.currentState!.validate();
+      expect(isValid2, isTrue);
+
+      formKey.currentState!.save();
+      expect(savedVal, equals('ValidUsername'));
     });
   });
 }

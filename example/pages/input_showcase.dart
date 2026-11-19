@@ -1,315 +1,496 @@
 import 'package:flartdart/flartdart.dart';
 import '../widgets/showcase_card.dart';
 
-class InputShowcase extends StatefulWidget {
+class InputShowcasePage extends StatefulWidget {
+  const InputShowcasePage({super.key});
+
   @override
-  State<InputShowcase> createState() => _InputShowcaseState();
+  State<InputShowcasePage> createState() => _InputShowcasePageState();
 }
 
-class _InputShowcaseState extends State<InputShowcase> {
-  String _textFieldValue = '';
-  bool _isChecked1 = false;
-  bool _isChecked2 = true;
-  String _radioGroupValue = 'option1';
-  String _lastButtonPressed = 'None';
-  int _buttonClickCount = 0;
-  String _dropdownValue = 'Dart';
-  double _sliderValue = 50.0;
+class _InputShowcasePageState extends State<InputShowcasePage> {
+  // Text Fields
+  String _typedText = '';
+  final TextEditingController _textController =
+      TextEditingController(text: 'Hello Flart!');
+
+  // Form State
+  final GlobalKey<FDFormState> _formKey = GlobalKey<FDFormState>();
+  String _formUsername = '';
+  String _formStatus = 'Form not submitted';
+  bool _formValid = false;
+
+  // Selection Controls
+  bool _checkboxVal1 = false;
+  bool _checkboxVal2 = true;
+  String _radioVal = 'standard';
+  bool _switchVal = true;
+
+  // Dropdown & Sliders
+  String _dropdownVal = 'Flutter';
+  double _sliderVal = 45.0;
+  RangeValues _rangeVal = const RangeValues(20.0, 80.0);
+
+  // Pickers
+  DateTime? _selectedDate;
+  String _selectedTime = '12:00';
+
+  // Advanced Inputs
+  String _textAreaVal = '';
+  FlartColor _chosenColor = FlartColors.indigo;
+  String _uploadedFiles = 'None';
 
   @override
   Widget build(BuildContext context) {
     return FDColumn(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FDText(
-          'Input Widgets',
-          style: TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: FlartColor('#0f172a'),
+        // Category Header
+        FDContainer(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: FlartColors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const FlartColor('#e2e8f0')),
+          ),
+          child: FDColumn(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FDRow(
+                children: [
+                  FDContainer(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: FlartColors.teal,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: const FDText(
+                      'CATEGORY 6',
+                      style: TextStyle(
+                        color: FlartColors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  const FDText(
+                    'Input & Form Widgets',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: FlartColor('#0f172a'),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              const FDText(
+                'Comprehensive audit and refactor of input fields, form controllers, selection toggles, pickers, and advanced data-entry widgets following Flutter material specs without raw CSS.',
+                style: TextStyle(fontSize: 14, color: FlartColor('#64748b')),
+              ),
+            ],
           ),
         ),
-        FDSizedBox(height: 8),
-        FDText(
-          'Widgets to collect user input, like text fields, checkboxes, and buttons.',
-          style: TextStyle(
-            fontSize: 16,
-            color: FlartColor('#64748b'),
-          ),
-        ),
-        FDSizedBox(height: 32),
+        const SizedBox(height: 24),
 
-        // TextField Showcase
+        // Card 1: Text Fields with InputDecoration
         ShowcaseCard(
-          title: 'FDTextField',
+          title: 'Text Fields & InputDecoration',
           description:
-              'A text input field for collecting short or long strings.',
+              'Material-style FDTextField with OutlineInputBorder, prefix/suffix icons, helper and error text styling.',
           child: FDColumn(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FDTextField(
-                placeholder: 'Enter some text...',
-                initialValue: _textFieldValue,
+                controller: _textController,
+                decoration: const InputDecoration(
+                  labelText: 'User Email Address',
+                  hintText: 'name@example.com',
+                  helperText: 'We will never share your email.',
+                  prefixIcon: FDIcon(icon: FDIcons.email, size: 20),
+                  border: OutlineInputBorder(),
+                ),
                 onChanged: (val) {
-                  setState(() {
-                    _textFieldValue = val;
-                  });
+                  setState(() => _typedText = val);
                 },
-                cssStyle: {
-                  'border': '1px solid #cbd5e1',
-                  'border-radius': '8px',
-                  'background-color': '#ffffff',
-                },
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               ),
-              FDSizedBox(height: 16),
-              FDText(
-                'You typed: $_textFieldValue',
-                style: TextStyle(
-                    color: FlartColor('#3b82f6'), fontWeight: FontWeight.bold),
+              const SizedBox(height: 16),
+              FDTextField(
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Secure Password',
+                  hintText: 'Enter at least 8 characters',
+                  prefixIcon: FDIcon(icon: FDIcons.lock, size: 20),
+                  suffixIcon: FDIcon(icon: FDIcons.visibility, size: 20),
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ],
-          ),
-        ),
-
-        // Buttons Showcase
-        ShowcaseCard(
-          title: 'Buttons',
-          description: 'Various clickable buttons to trigger actions.',
-          child: FDColumn(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FDWrap(
-                spacing: 16,
-                runSpacing: 16,
-                children: [
-                  FDElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _lastButtonPressed = 'Elevated Button';
-                        _buttonClickCount++;
-                      });
-                    },
-                    child: FDText('Elevated Button',
-                        style: TextStyle(color: FlartColor('#ffffff'))),
-                    style: FDElevatedButton.styleFrom(
-                      backgroundColor: FlartColor('#3b82f6'),
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                      shape: BorderRadius.circular(8),
-                      elevation: 4,
-                    ),
-                  ),
-                  FDOutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        _lastButtonPressed = 'Outlined Button';
-                        _buttonClickCount++;
-                      });
-                    },
-                    style: FDOutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                      shape: BorderRadius.circular(8),
-                    ),
-                    child: FDText('Outlined Button',
-                        style: TextStyle(color: FlartColor('#3b82f6'))),
-                  ),
-                  FDTextButton(
-                    onPressed: () {
-                      setState(() {
-                        _lastButtonPressed = 'Text Button';
-                        _buttonClickCount++;
-                      });
-                    },
-                    child: FDText('Text Button',
-                        style: TextStyle(color: FlartColor('#3b82f6'))),
-                    style: FDTextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                    ),
-                  ),
-                  FDInkWell(
-                    onTap: () {
-                      setState(() {
-                        _lastButtonPressed = 'InkWell Touch Area';
-                        _buttonClickCount++;
-                      });
-                    },
-                    borderRadius: BorderRadius.circular(8),
-                    child: FDContainer(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: FlartColor('#eff6ff'),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: FDText('InkWell Touch Area',
-                          style: TextStyle(color: FlartColor('#1d4ed8'))),
-                    ),
-                  ),
-                ],
-              ),
-              FDSizedBox(height: 16),
+              const SizedBox(height: 12),
               FDContainer(
-                padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  color: FlartColor('#f1f5f9'),
+                  color: const FlartColor('#f1f5f9'),
                   borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: FlartColor('#e2e8f0')),
                 ),
                 child: FDText(
-                  'Last pressed: $_lastButtonPressed ($_buttonClickCount clicks)',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: FlartColor('#3b82f6'),
-                    fontWeight: FontWeight.bold,
-                  ),
+                  'Live Controller Text: "${_textController.text}" (Typed: "$_typedText")',
+                  style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: FlartColors.indigo),
                 ),
               ),
             ],
           ),
         ),
+        const SizedBox(height: 24),
 
-        // Checkbox Showcase
+        // Card 2: Form & FormField Validation
         ShowcaseCard(
-          title: 'FDCheckbox',
-          description: 'A checkbox for boolean state selection.',
-          child: FDColumn(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FDRow(
-                children: [
-                  FDCheckbox(
-                    value: _isChecked1,
-                    onChanged: (val) {
-                      setState(() {
-                        _isChecked1 = val;
-                      });
-                    },
-                  ),
-                  FDSizedBox(width: 8),
-                  FDText('Unchecked by default'),
-                ],
-              ),
-              FDSizedBox(height: 12),
-              FDRow(
-                children: [
-                  FDCheckbox(
-                    value: _isChecked2,
-                    onChanged: (val) {
-                      setState(() {
-                        _isChecked2 = val;
-                      });
-                    },
-                  ),
-                  FDSizedBox(width: 8),
-                  FDText('Checked by default'),
-                ],
-              ),
-            ],
-          ),
-        ),
-
-        // Radio Showcase
-        ShowcaseCard(
-          title: 'FDRadio',
+          title: 'Form & TextFormField Validation',
           description:
-              'Radio buttons for selecting a single option from a group.',
-          child: FDColumn(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FDRow(
-                children: [
-                  FDRadio<String>(
-                    value: 'option1',
-                    groupValue: _radioGroupValue,
-                    onChanged: (val) {
-                      setState(() => _radioGroupValue = val);
-                    },
-                  ),
-                  FDSizedBox(width: 8),
-                  FDText('Option 1'),
-                ],
-              ),
-              FDSizedBox(height: 12),
-              FDRow(
-                children: [
-                  FDRadio<String>(
-                    value: 'option2',
-                    groupValue: _radioGroupValue,
-                    onChanged: (val) {
-                      setState(() => _radioGroupValue = val);
-                    },
-                  ),
-                  FDSizedBox(width: 8),
-                  FDText('Option 2'),
-                ],
-              ),
-            ],
-          ),
-        ),
-
-        // Dropdown Showcase
-        ShowcaseCard(
-          title: 'FDDropdownButton',
-          description: 'A dropdown menu to select an option from a list.',
-          child: FDColumn(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FDDropdownButton<String>(
-                value: _dropdownValue,
-                items: const [
-                  FDDropdownMenuItem(value: 'Dart', child: FDText('Dart')),
-                  FDDropdownMenuItem(value: 'Flutter', child: FDText('Flutter')),
-                  FDDropdownMenuItem(value: 'Flart', child: FDText('Flart')),
-                  FDDropdownMenuItem(
-                      value: 'Web', child: FDText('WebAssembly / JS')),
-                ],
-                onChanged: (val) {
-                  if (val != null) {
-                    setState(() {
-                      _dropdownValue = val;
-                    });
-                  }
-                },
-              ),
-              FDSizedBox(height: 12),
-              FDText(
-                'Selected: $_dropdownValue',
-                style: TextStyle(
-                  color: FlartColor('#3b82f6'),
-                  fontWeight: FontWeight.bold,
+              'FDForm and FDTextFormField integration with validator callbacks, form-level validation, and reset.',
+          child: FDForm(
+            key: _formKey,
+            child: FDColumn(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FDTextFormField(
+                  label: 'Account Username (Required, min 4 chars)',
+                  placeholder: 'e.g. dev_flutter',
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Username cannot be empty';
+                    }
+                    if (value.trim().length < 4) {
+                      return 'Username must be at least 4 characters';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _formUsername = value ?? '';
+                  },
                 ),
+                const SizedBox(height: 16),
+                FDRow(
+                  children: [
+                    FDElevatedButton(
+                      style: FDElevatedButton.styleFrom(
+                        backgroundColor: FlartColors.teal,
+                        foregroundColor: FlartColors.white,
+                      ),
+                      onPressed: () {
+                        final isValid = _formKey.currentState?.validate() ?? false;
+                        if (isValid) {
+                          _formKey.currentState?.save();
+                        }
+                        setState(() {
+                          _formValid = isValid;
+                          _formStatus = isValid
+                              ? 'Validated & Saved: $_formUsername'
+                              : 'Validation Failed: Please fix errors above';
+                        });
+                      },
+                      child: const FDText('Validate & Submit'),
+                    ),
+                    const SizedBox(width: 12),
+                    FDOutlinedButton(
+                      onPressed: () {
+                        _formKey.currentState?.reset();
+                        setState(() {
+                          _formStatus = 'Form Reset';
+                          _formValid = false;
+                        });
+                      },
+                      child: const FDText('Reset Form'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                FDContainer(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: _formValid
+                        ? const FlartColor('#dcfce7')
+                        : const FlartColor('#fef2f2'),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: _formValid
+                          ? const FlartColor('#86efac')
+                          : const FlartColor('#fca5a5'),
+                    ),
+                  ),
+                  child: FDText(
+                    _formStatus,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: _formValid
+                          ? const FlartColor('#166534')
+                          : const FlartColor('#991b1b'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 24),
+
+        // Card 3: Checkbox, Radio, and Switch
+        ShowcaseCard(
+          title: 'Selection Controls (Checkbox, Radio, Switch)',
+          description:
+              'Material toggles with active colors, disabled state support, and interactive event handling.',
+          child: FDColumn(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FDRow(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  FDCheckbox(
+                    value: _checkboxVal1,
+                    onChanged: (val) {
+                      setState(() => _checkboxVal1 = val ?? false);
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  const FDText('Receive Developer Newsletter'),
+                  const SizedBox(width: 24),
+                  FDCheckbox(
+                    value: _checkboxVal2,
+                    activeColor: FlartColors.teal,
+                    onChanged: (val) {
+                      setState(() => _checkboxVal2 = val ?? false);
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  const FDText('Accept Terms (Teal Active)'),
+                ],
+              ),
+              const SizedBox(height: 16),
+              FDRow(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const FDText('Tier: ',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
+                  FDRadio<String>(
+                    value: 'standard',
+                    groupValue: _radioVal,
+                    onChanged: (val) {
+                      if (val != null) setState(() => _radioVal = val);
+                    },
+                  ),
+                  const SizedBox(width: 6),
+                  const FDText('Standard'),
+                  const SizedBox(width: 16),
+                  FDRadio<String>(
+                    value: 'pro',
+                    groupValue: _radioVal,
+                    activeColor: FlartColors.purple,
+                    onChanged: (val) {
+                      if (val != null) setState(() => _radioVal = val);
+                    },
+                  ),
+                  const SizedBox(width: 6),
+                  const FDText('Pro (Purple)'),
+                ],
+              ),
+              const SizedBox(height: 16),
+              FDRow(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  FDSwitch(
+                    value: _switchVal,
+                    activeColor: FlartColors.indigo,
+                    onChanged: (val) {
+                      setState(() => _switchVal = val);
+                    },
+                  ),
+                  const SizedBox(width: 12),
+                  FDText('Realtime Push Notifications: ${_switchVal ? "ENABLED" : "DISABLED"}'),
+                ],
               ),
             ],
           ),
         ),
+        const SizedBox(height: 24),
 
-        // Slider Showcase
+        // Card 4: Dropdown & Sliders
         ShowcaseCard(
-          title: 'FDSlider',
-          description: 'A slider to select a value from a continuous range.',
+          title: 'Dropdowns & Sliders',
+          description:
+              'FDDropdownButton selection menu and FDSlider range sliders with continuous/discrete adjustments.',
           child: FDColumn(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              FDRow(
+                children: [
+                  const FDText('Target Framework: ',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
+                  const SizedBox(width: 12),
+                  FDDropdownButton<String>(
+                    value: _dropdownVal,
+                    items: const [
+                      FDDropdownMenuItem(
+                          value: 'Flutter', child: FDText('Flutter Web')),
+                      FDDropdownMenuItem(
+                          value: 'Flart', child: FDText('Flart Pure Dart')),
+                      FDDropdownMenuItem(
+                          value: 'React', child: FDText('React / Next.js')),
+                    ],
+                    onChanged: (val) {
+                      if (val != null) setState(() => _dropdownVal = val);
+                    },
+                  ),
+                  const SizedBox(width: 16),
+                  FDText('Selected: $_dropdownVal',
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
+              const SizedBox(height: 16),
+              FDText('Volume / Scale: ${_sliderVal.toStringAsFixed(1)}%'),
               FDSlider(
-                value: _sliderValue,
-                min: 0.0,
-                max: 100.0,
-                divisions: 100,
-                activeColor: FlartColor('#3b82f6'),
+                value: _sliderVal,
+                min: 0,
+                max: 100,
+                divisions: 20,
+                activeColor: FlartColors.teal,
                 onChanged: (val) {
-                  setState(() {
-                    _sliderValue = val;
-                  });
+                  setState(() => _sliderVal = val);
                 },
               ),
-              FDSizedBox(height: 12),
-              FDText(
-                'Slider Value: ${_sliderValue.toStringAsFixed(1)}%',
-                style: TextStyle(
-                  color: FlartColor('#3b82f6'),
-                  fontWeight: FontWeight.bold,
-                ),
+              const SizedBox(height: 12),
+              const FDText('Range Values Slider (Double Handle):'),
+              RangePicker(
+                min: 0,
+                max: 100,
+                startValue: _rangeVal.start,
+                endValue: _rangeVal.end,
+                onChanged: (vals) {
+                  setState(() => _rangeVal = vals);
+                },
               ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 24),
+
+        // Card 5: Date & Time Pickers
+        ShowcaseCard(
+          title: 'Date & Time Pickers',
+          description:
+              'FDDatePicker and FDTimePicker inputs with ISO date/time conversions and callback triggers.',
+          child: FDColumn(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FDRow(
+                children: [
+                  FDColumn(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const FDText('Pick a Date:',
+                          style: TextStyle(fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 6),
+                      FDDatePicker(
+                        initialDate: '2026-11-19',
+                        onDateSelected: (date) {
+                          setState(() => _selectedDate = date);
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 32),
+                  FDColumn(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const FDText('Pick a Time:',
+                          style: TextStyle(fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 6),
+                      FDTimePicker(
+                        initialTime: _selectedTime,
+                        onTimeSelected: (time) {
+                          setState(() => _selectedTime = time);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              FDText(
+                'Selected Schedule: ${_selectedDate != null ? "${_selectedDate!.year}-${_selectedDate!.month}-${_selectedDate!.day}" : "2026-11-19"} at $_selectedTime',
+                style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: FlartColors.indigo),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 24),
+
+        // Card 6: Advanced Inputs (TextArea, ColorPicker, FileUpload)
+        ShowcaseCard(
+          title: 'Advanced Inputs (TextArea, Color, File)',
+          description:
+              'Multi-line text area with character counts, native HTML color picker, and file upload selector.',
+          child: FDColumn(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextArea(
+                label: 'Project Release Notes',
+                placeholder: 'Type changelog notes here...',
+                rows: 3,
+                maxLength: 200,
+                onChanged: (val) {
+                  setState(() => _textAreaVal = val);
+                },
+              ),
+              if (_textAreaVal.isNotEmpty) ...[
+                const SizedBox(height: 6),
+                FDText('Preview (${_textAreaVal.length} chars): $_textAreaVal',
+                    style: const TextStyle(fontSize: 12, color: FlartColors.grey)),
+              ],
+              const SizedBox(height: 16),
+              FDRow(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ColorPicker(
+                    label: 'Theme Accent Color',
+                    initialColor: _chosenColor,
+                    onChanged: (col) {
+                      setState(() => _chosenColor = col);
+                    },
+                  ),
+                  const SizedBox(width: 16),
+                  FDContainer(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: _chosenColor,
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(color: FlartColors.grey),
+                    ),
+                  ),
+                  const SizedBox(width: 32),
+                  FileUpload(
+                    label: 'Attach Project Files',
+                    buttonText: 'Upload Document',
+                    onChanged: (files) {
+                      setState(() => _uploadedFiles = files.join(', '));
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              if (_uploadedFiles != 'None')
+                FDText('Selected: $_uploadedFiles',
+                    style: const TextStyle(
+                        fontSize: 12, color: FlartColors.green)),
             ],
           ),
         ),

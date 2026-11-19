@@ -1,6 +1,9 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
+/// Flutter compatibility typedef
+typedef RangeSlider = RangePicker;
+
 /// Date time range class
 class DateTimeRange {
   final DateTime start;
@@ -14,23 +17,25 @@ class RangeValues {
   final double start;
   final double end;
 
-  RangeValues(this.start, this.end);
+  const RangeValues(this.start, this.end);
 }
 
-/// A date range picker
+/// A date range picker widget.
 class FDDateRangePicker extends StatefulWidget {
   final DateTime? startDate;
   final DateTime? endDate;
   final ValueChanged<DateTimeRange>? onChanged;
   final String? label;
-  final Map<String, String>? cssStyle;
+  final BorderRadius? borderRadius;
+  final FlartColor? borderColor;
 
   const FDDateRangePicker({
     this.startDate,
     this.endDate,
     this.onChanged,
     this.label,
-    this.cssStyle,
+    this.borderRadius,
+    this.borderColor,
     super.key,
   });
 
@@ -61,15 +66,22 @@ class _FDDateRangePickerState extends State<FDDateRangePicker> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
     final startValue = _start != null ? _formatDate(_start!) : '';
     final endValue = _end != null ? _formatDate(_end!) : '';
+    final radius = widget.borderRadius?.topLeft ?? 4.0;
+    final border = widget.borderColor?.toString() ?? theme.dividerColor.toString();
 
     final inputStyles = <String, String>{
       'padding': '8px 12px',
-      'border': '1px solid #cccccc',
-      'border-radius': '4px',
+      'border': '1px solid $border',
+      'border-radius': '${radius}px',
       'font-size': '14px',
-      ...?widget.cssStyle,
+      'font-family': 'inherit',
+      'background-color': theme.cardColor.toString(),
+      'color': theme.textStyle.color?.toString() ?? '#333333',
+      'outline': 'none',
+      'box-sizing': 'border-box',
     };
 
     final children = <FlartNode>[
@@ -79,7 +91,7 @@ class _FDDateRangePickerState extends State<FDDateRangePicker> {
           styles: {
             'font-size': '14px',
             'font-weight': '500',
-            'color': '#333',
+            'color': theme.textStyle.color?.toString() ?? '#333',
           },
           children: [FlartTextNode(widget.label!)],
         ),
@@ -161,7 +173,6 @@ class _FDDateRangePickerState extends State<FDDateRangePicker> {
   }
 }
 
-/// Internal helper to embed a raw FlartNode from a State widget
 class _RawFlartNodeWidget extends Widget {
   final FlartNode node;
   const _RawFlartNodeWidget(this.node);
@@ -170,24 +181,31 @@ class _RawFlartNodeWidget extends Widget {
   FlartNode buildNode(BuildContext context) => node;
 }
 
-/// A month picker
+/// A month picker widget.
 class FDMonthPicker extends Widget {
   final DateTime? initialDate;
   final ValueChanged<DateTime>? onChanged;
   final String? label;
+  final BorderRadius? borderRadius;
+  final FlartColor? borderColor;
 
   const FDMonthPicker({
     this.initialDate,
     this.onChanged,
     this.label,
+    this.borderRadius,
+    this.borderColor,
     super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
+    final theme = Theme.of(context);
     final value = initialDate != null
         ? '${initialDate!.year}-${initialDate!.month.toString().padLeft(2, '0')}'
         : '';
+    final radius = borderRadius?.topLeft ?? 4.0;
+    final border = borderColor?.toString() ?? theme.dividerColor.toString();
 
     final children = <FlartNode>[
       if (label != null)
@@ -196,7 +214,7 @@ class FDMonthPicker extends Widget {
           styles: {
             'font-size': '14px',
             'font-weight': '500',
-            'color': '#333',
+            'color': theme.textStyle.color?.toString() ?? '#333',
           },
           children: [FlartTextNode(label!)],
         ),
@@ -208,9 +226,14 @@ class FDMonthPicker extends Widget {
         },
         styles: {
           'padding': '8px 12px',
-          'border': '1px solid #cccccc',
-          'border-radius': '4px',
+          'border': '1px solid $border',
+          'border-radius': '${radius}px',
           'font-size': '14px',
+          'font-family': 'inherit',
+          'background-color': theme.cardColor.toString(),
+          'color': theme.textStyle.color?.toString() ?? '#333333',
+          'outline': 'none',
+          'box-sizing': 'border-box',
         },
         events: {
           'change': (e) {
@@ -239,21 +262,29 @@ class FDMonthPicker extends Widget {
   }
 }
 
-/// A week picker
+/// A week picker widget.
 class FDWeekPicker extends Widget {
   final String? initialWeek;
   final ValueChanged<String>? onChanged;
   final String? label;
+  final BorderRadius? borderRadius;
+  final FlartColor? borderColor;
 
   const FDWeekPicker({
     this.initialWeek,
     this.onChanged,
     this.label,
+    this.borderRadius,
+    this.borderColor,
     super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
+    final theme = Theme.of(context);
+    final radius = borderRadius?.topLeft ?? 4.0;
+    final border = borderColor?.toString() ?? theme.dividerColor.toString();
+
     final children = <FlartNode>[
       if (label != null)
         FlartElementNode(
@@ -261,7 +292,7 @@ class FDWeekPicker extends Widget {
           styles: {
             'font-size': '14px',
             'font-weight': '500',
-            'color': '#333',
+            'color': theme.textStyle.color?.toString() ?? '#333',
           },
           children: [FlartTextNode(label!)],
         ),
@@ -269,13 +300,19 @@ class FDWeekPicker extends Widget {
         'input',
         attributes: {
           'type': 'week',
-          if (initialWeek != null && initialWeek!.isNotEmpty) 'value': initialWeek!,
+          if (initialWeek != null && initialWeek!.isNotEmpty)
+            'value': initialWeek!,
         },
         styles: {
           'padding': '8px 12px',
-          'border': '1px solid #cccccc',
-          'border-radius': '4px',
+          'border': '1px solid $border',
+          'border-radius': '${radius}px',
           'font-size': '14px',
+          'font-family': 'inherit',
+          'background-color': theme.cardColor.toString(),
+          'color': theme.textStyle.color?.toString() ?? '#333333',
+          'outline': 'none',
+          'box-sizing': 'border-box',
         },
         events: {
           'change': (e) {
@@ -301,18 +338,22 @@ class FDWeekPicker extends Widget {
   }
 }
 
-/// A datetime-local picker
+/// A datetime-local picker widget.
 class DateTimePicker extends Widget {
   final DateTime? initialDateTime;
   final ValueChanged<DateTime>? onChanged;
   final String? label;
   final String? helperText;
+  final BorderRadius? borderRadius;
+  final FlartColor? borderColor;
 
   const DateTimePicker({
     this.initialDateTime,
     this.onChanged,
     this.label,
     this.helperText,
+    this.borderRadius,
+    this.borderColor,
     super.key,
   });
 
@@ -322,7 +363,11 @@ class DateTimePicker extends Widget {
 
   @override
   FlartNode buildNode(BuildContext context) {
-    final value = initialDateTime != null ? _formatDateTime(initialDateTime!) : '';
+    final theme = Theme.of(context);
+    final value =
+        initialDateTime != null ? _formatDateTime(initialDateTime!) : '';
+    final radius = borderRadius?.topLeft ?? 4.0;
+    final border = borderColor?.toString() ?? theme.dividerColor.toString();
 
     final children = <FlartNode>[
       if (label != null)
@@ -331,7 +376,7 @@ class DateTimePicker extends Widget {
           styles: {
             'font-size': '14px',
             'font-weight': '500',
-            'color': '#333',
+            'color': theme.textStyle.color?.toString() ?? '#333',
           },
           children: [FlartTextNode(label!)],
         ),
@@ -343,9 +388,14 @@ class DateTimePicker extends Widget {
         },
         styles: {
           'padding': '8px 12px',
-          'border': '1px solid #cccccc',
-          'border-radius': '4px',
+          'border': '1px solid $border',
+          'border-radius': '${radius}px',
           'font-size': '14px',
+          'font-family': 'inherit',
+          'background-color': theme.cardColor.toString(),
+          'color': theme.textStyle.color?.toString() ?? '#333333',
+          'outline': 'none',
+          'box-sizing': 'border-box',
         },
         events: {
           'change': (e) {
@@ -380,7 +430,7 @@ class DateTimePicker extends Widget {
   }
 }
 
-/// A number range picker
+/// A number range picker following Flutter's [RangeSlider] specification.
 class RangePicker extends StatefulWidget {
   final double min;
   final double max;
@@ -388,6 +438,7 @@ class RangePicker extends StatefulWidget {
   final double? endValue;
   final ValueChanged<RangeValues>? onChanged;
   final String? label;
+  final FlartColor? activeColor;
 
   const RangePicker({
     required this.min,
@@ -396,6 +447,7 @@ class RangePicker extends StatefulWidget {
     this.endValue,
     this.onChanged,
     this.label,
+    this.activeColor,
     super.key,
   });
 
@@ -420,6 +472,9 @@ class _RangePickerState extends State<RangePicker> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+    final active = widget.activeColor?.toString() ?? theme.primaryColor.toString();
+
     final children = <FlartNode>[
       if (widget.label != null)
         FlartElementNode(
@@ -427,7 +482,7 @@ class _RangePickerState extends State<RangePicker> {
           styles: {
             'font-size': '14px',
             'font-weight': '500',
-            'color': '#333',
+            'color': theme.textStyle.color?.toString() ?? '#333',
           },
           children: [FlartTextNode(widget.label!)],
         ),
@@ -447,7 +502,10 @@ class _RangePickerState extends State<RangePicker> {
               'max': widget.max.toString(),
               'value': _start.toString(),
             },
-            styles: {'flex': '1'},
+            styles: {
+              'flex': '1',
+              'accent-color': active,
+            },
             events: {
               'input': (e) {
                 final target = e.target as web.HTMLInputElement?;
@@ -471,7 +529,10 @@ class _RangePickerState extends State<RangePicker> {
               'max': widget.max.toString(),
               'value': _end.toString(),
             },
-            styles: {'flex': '1'},
+            styles: {
+              'flex': '1',
+              'accent-color': active,
+            },
             events: {
               'input': (e) {
                 final target = e.target as web.HTMLInputElement?;
@@ -497,7 +558,8 @@ class _RangePickerState extends State<RangePicker> {
           'text-align': 'center',
         },
         children: [
-          FlartTextNode('${_start.toStringAsFixed(0)} - ${_end.toStringAsFixed(0)}'),
+          FlartTextNode(
+              '${_start.toStringAsFixed(0)} - ${_end.toStringAsFixed(0)}'),
         ],
       ),
     ];

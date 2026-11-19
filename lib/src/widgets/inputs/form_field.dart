@@ -1,6 +1,15 @@
 import '../../../flartdart.dart';
 
-/// A container for grouping form fields.
+/// Flutter compatibility typedefs
+typedef Form = FDForm;
+typedef FormState = FDFormState;
+typedef FormField<T> = FDFormField<T>;
+typedef FormFieldState<T> = FDFormFieldState<T, FDFormField<T>>;
+typedef TextFormField = FDTextFormField;
+typedef FormFieldValidator<T> = String? Function(T? value);
+typedef FormFieldSetter<T> = void Function(T? value);
+
+/// A container for grouping and validating form fields.
 class FDForm extends StatefulWidget {
   final Widget child;
 
@@ -60,8 +69,8 @@ class FDFormState extends State<FDForm> {
 /// A single form field.
 abstract class FDFormField<T> extends StatefulWidget {
   final T? initialValue;
-  final String? Function(T? value)? validator;
-  final void Function(T? value)? onSaved;
+  final FormFieldValidator<T>? validator;
+  final FormFieldSetter<T>? onSaved;
   final Widget Function(FDFormFieldState<T, FDFormField<T>> state) builder;
 
   const FDFormField({
@@ -131,9 +140,10 @@ class FDFormFieldState<T, W extends FDFormField<T>> extends State<W> {
   Widget build(BuildContext context) => widget.builder(this);
 }
 
-/// A FDText form field with built-in validation
+/// A text form field with built-in validation following Flutter's [TextFormField].
 class FDTextFormField extends FDFormField<String> {
   final TextEditingController? controller;
+  final InputDecoration? decoration;
   final String? placeholder;
   final String? label;
   final TextInputType? keyboardType;
@@ -144,12 +154,14 @@ class FDTextFormField extends FDFormField<String> {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final EdgeInsets? padding;
+  final ValueChanged<String>? onChanged;
 
   FDTextFormField({
     super.initialValue,
     super.validator,
     super.onSaved,
     this.controller,
+    this.decoration,
     this.placeholder,
     this.label,
     this.keyboardType,
@@ -160,27 +172,34 @@ class FDTextFormField extends FDFormField<String> {
     this.prefixIcon,
     this.suffixIcon,
     this.padding,
+    this.onChanged,
     super.key,
   }) : super(
           builder: (state) {
             final field = state.widget as FDTextFormField;
+            final effectiveDecoration = (field.decoration ??
+                    InputDecoration(
+                      labelText: field.label,
+                      hintText: field.placeholder,
+                      prefixIcon: field.prefixIcon,
+                      suffixIcon: field.suffixIcon,
+                      contentPadding: field.padding,
+                    ))
+                .copyWith(errorText: state.errorText);
+
             return FDTextField(
               controller: field.controller,
               initialValue: state.value,
-              placeholder: field.placeholder,
-              label: field.label,
-              errorText: state.errorText,
+              decoration: effectiveDecoration,
               onChanged: (v) {
                 state.didChange(v);
+                field.onChanged?.call(v);
               },
               keyboardType: field.keyboardType,
               obscureText: field.obscureText,
               enabled: field.enabled,
               maxLines: field.maxLines,
               maxLength: field.maxLength,
-              prefixIcon: field.prefixIcon,
-              suffixIcon: field.suffixIcon,
-              padding: field.padding,
             );
           },
         );

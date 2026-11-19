@@ -1,52 +1,57 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// A dropdown/select widget
+/// Flutter compatibility typedefs
+typedef DropdownButton<T> = FDDropdownButton<T>;
+typedef DropdownMenuItem<T> = FDDropdownMenuItem<T>;
+typedef Slider = FDSlider;
+
+/// A dropdown / select widget following Flutter's [DropdownButton] specification.
 class FDDropdownButton<T> extends Widget {
   final T? value;
   final List<FDDropdownMenuItem<T>> items;
   final ValueChanged<T?>? onChanged;
   final Widget? hint;
+  final Widget? disabledHint;
   final double? width;
-  final Map<String, String>? cssStyle;
-  final String? rawCss;
+  final FlartColor? dropdownColor;
+  final BorderRadius? borderRadius;
+  final TextStyle? style;
+  final bool isExpanded;
 
   const FDDropdownButton({
     this.value,
     required this.items,
     this.onChanged,
     this.hint,
+    this.disabledHint,
     this.width,
-    this.cssStyle,
-    this.rawCss,
+    this.dropdownColor,
+    this.borderRadius,
+    this.style,
+    this.isExpanded = false,
     super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
+    final theme = Theme.of(context);
     final disabled = onChanged == null;
+    final radius = borderRadius?.topLeft ?? 4.0;
 
     final styles = <String, String>{
       'padding': '8px 12px',
-      'border': '1px solid #ccc',
-      'border-radius': '4px',
-      'background-color': 'white',
+      'border': '1px solid ${theme.dividerColor}',
+      'border-radius': '${radius}px',
+      'background-color': dropdownColor?.toString() ?? theme.cardColor.toString(),
+      'color': style?.color?.toString() ?? theme.textStyle.color?.toString() ?? '#333333',
       'cursor': disabled ? 'not-allowed' : 'pointer',
-      'font-size': '14px',
-      if (width != null) 'width': '${width}px',
-      ...?cssStyle,
+      'font-size': '${style?.fontSize ?? 14}px',
+      'font-family': 'inherit',
+      'outline': 'none',
+      if (isExpanded) 'width': '100%' else if (width != null) 'width': '${width}px',
+      'box-sizing': 'border-box',
     };
-
-    if (rawCss != null && rawCss!.isNotEmpty) {
-      final pairs = rawCss!.split(';');
-      for (var pair in pairs) {
-        if (pair.trim().isEmpty) continue;
-        final parts = pair.split(':');
-        if (parts.length >= 2) {
-          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
-        }
-      }
-    }
 
     final options = <FlartNode>[];
 
@@ -55,6 +60,12 @@ class FDDropdownButton<T> extends Widget {
         'option',
         attributes: {'value': '', 'disabled': 'true', 'selected': 'true'},
         children: [hint!.buildNode(context)],
+      ));
+    } else if (disabledHint != null && disabled) {
+      options.add(FlartElementNode(
+        'option',
+        attributes: {'value': '', 'disabled': 'true', 'selected': 'true'},
+        children: [disabledHint!.buildNode(context)],
       ));
     }
 
@@ -78,7 +89,9 @@ class FDDropdownButton<T> extends Widget {
         final target = e.target as web.HTMLSelectElement?;
         if (target != null) {
           final selectedIdx = int.tryParse(target.value);
-          if (selectedIdx != null && selectedIdx >= 0 && selectedIdx < items.length) {
+          if (selectedIdx != null &&
+              selectedIdx >= 0 &&
+              selectedIdx < items.length) {
             onChanged!(items[selectedIdx].value);
           }
         }
@@ -99,8 +112,7 @@ class FDDropdownButton<T> extends Widget {
   }
 }
 
-typedef DropdownButton<T> = FDDropdownButton<T>;
-
+/// An item in a [FDDropdownButton] menu.
 class FDDropdownMenuItem<T> extends Widget {
   final T value;
   final Widget child;
@@ -115,36 +127,37 @@ class FDDropdownMenuItem<T> extends Widget {
   FlartNode buildNode(BuildContext context) => child.buildNode(context);
 }
 
-typedef DropdownMenuItem<T> = FDDropdownMenuItem<T>;
-
-/// A Slider widget
+/// A slider input widget following Flutter's [Slider] specification.
 class FDSlider extends Widget {
   final double value;
   final double min;
   final double max;
   final int? divisions;
+  final String? label;
   final ValueChanged<double>? onChanged;
+  final ValueChanged<double>? onChangeStart;
+  final ValueChanged<double>? onChangeEnd;
   final FlartColor? activeColor;
   final FlartColor? inactiveColor;
-  final Map<String, String>? cssStyle;
-  final String? rawCss;
 
   const FDSlider({
     required this.value,
     this.min = 0.0,
     this.max = 1.0,
     this.divisions,
+    this.label,
     this.onChanged,
+    this.onChangeStart,
+    this.onChangeEnd,
     this.activeColor,
     this.inactiveColor,
-    this.cssStyle,
-    this.rawCss,
     super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
-    final active = activeColor?.toString() ?? '#6200ea';
+    final theme = Theme.of(context);
+    final active = activeColor?.toString() ?? theme.primaryColor.toString();
     final disabled = onChanged == null;
     final step = divisions != null ? '${(max - min) / divisions!}' : 'any';
 
@@ -155,19 +168,9 @@ class FDSlider extends Widget {
       'outline': 'none',
       'cursor': disabled ? 'not-allowed' : 'pointer',
       'accent-color': active,
-      ...?cssStyle,
+      'margin': '8px 0',
+      'vertical-align': 'middle',
     };
-
-    if (rawCss != null && rawCss!.isNotEmpty) {
-      final pairs = rawCss!.split(';');
-      for (var pair in pairs) {
-        if (pair.trim().isEmpty) continue;
-        final parts = pair.split(':');
-        if (parts.length >= 2) {
-          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
-        }
-      }
-    }
 
     final events = <String, void Function(web.Event)>{};
     if (onChanged != null) {
@@ -185,7 +188,7 @@ class FDSlider extends Widget {
         if (target != null) {
           final val = double.tryParse(target.value);
           if (val != null) {
-            onChanged!(val);
+            onChangeEnd?.call(val);
           }
         }
       };
@@ -200,7 +203,12 @@ class FDSlider extends Widget {
         'max': '$max',
         'value': '$value',
         'step': step,
+        if (label != null) 'title': label!,
         if (disabled) 'disabled': 'true',
+        'role': 'slider',
+        'aria-valuenow': '$value',
+        'aria-valuemin': '$min',
+        'aria-valuemax': '$max',
       },
       styles: styles,
       events: events,

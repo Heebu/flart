@@ -6,44 +6,44 @@ typedef ImagePickCallback = void Function(List<web.File> files);
 class FDImagePicker extends Widget {
   final bool multiple;
   final ImagePickCallback onImageSelected;
-  final Map<String, String>? cssStyle;
   final String buttonLabel;
-  final String? rawCss;
+  final FlartColor? buttonColor;
+  final FlartColor? textColor;
+  final BorderRadius? borderRadius;
+  final EdgeInsets? padding;
 
   const FDImagePicker({
     required this.onImageSelected,
     this.multiple = false,
-    this.cssStyle,
     this.buttonLabel = 'Pick Image',
-    this.rawCss,
+    this.buttonColor,
+    this.textColor,
+    this.borderRadius,
+    this.padding,
     super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
+    final theme = Theme.of(context);
     final inputId = 'file_input_${key?.toString() ?? hashCode}';
+    final bgColor = buttonColor?.toString() ?? theme.primaryColor.toString();
+    final fgColor = textColor?.toString() ?? '#ffffff';
+    final radius = borderRadius?.topLeft ?? 4.0;
+    final pad = padding?.toCss() ?? '10px 20px';
 
     final buttonStyles = <String, String>{
-      'padding': '10px 20px',
-      'background-color': '#4caf50',
-      'color': '#ffffff',
-      'border-radius': '4px',
+      'padding': pad,
+      'background-color': bgColor,
+      'color': fgColor,
+      'border-radius': '${radius}px',
       'border': 'none',
       'cursor': 'pointer',
       'font-size': '14px',
-      ...?cssStyle,
+      'font-weight': '500',
+      'font-family': 'inherit',
+      'transition': 'opacity 0.2s',
     };
-
-    if (rawCss != null && rawCss!.isNotEmpty) {
-      final pairs = rawCss!.split(';');
-      for (var pair in pairs) {
-        if (pair.trim().isEmpty) continue;
-        final parts = pair.split(':');
-        if (parts.length >= 2) {
-          buttonStyles[parts[0].trim()] = parts.sublist(1).join(':').trim();
-        }
-      }
-    }
 
     final inputEvents = <String, void Function(web.Event)>{
       'change': (web.Event e) {
@@ -64,7 +64,8 @@ class FDImagePicker extends Widget {
 
     final buttonEvents = <String, void Function(dynamic)>{
       'click': (e) {
-        final inputEl = web.document.getElementById(inputId) as web.HTMLInputElement?;
+        final inputEl =
+            web.document.getElementById(inputId) as web.HTMLInputElement?;
         inputEl?.click();
       },
     };

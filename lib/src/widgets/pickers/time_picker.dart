@@ -1,56 +1,56 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
+/// Flutter compatibility typedefs
+typedef TimePicker = FDTimePicker;
 typedef TimeCallback = void Function(String time);
 
+/// A time picker input widget.
 class FDTimePicker extends Widget {
   final TimeCallback onTimeSelected;
   final String? initialTime;
-  final Map<String, String>? cssStyle;
-  final String? rawCss;
+  final FlartColor? borderColor;
+  final BorderRadius? borderRadius;
+  final EdgeInsets? padding;
 
   const FDTimePicker({
     required this.onTimeSelected,
     this.initialTime,
-    this.cssStyle,
-    this.rawCss,
+    this.borderColor,
+    this.borderRadius,
+    this.padding,
     super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
+    final theme = Theme.of(context);
+    final border = borderColor?.toString() ?? theme.dividerColor.toString();
+    final radius = borderRadius?.topLeft ?? 4.0;
+    final pad = padding?.toCss() ?? '8px 12px';
+
     final styles = <String, String>{
-      'padding': '8px 12px',
-      'border': '1px solid #ccc',
-      'border-radius': '4px',
+      'padding': pad,
+      'border': '1px solid $border',
+      'border-radius': '${radius}px',
       'font-size': '14px',
-      ...?cssStyle,
+      'font-family': 'inherit',
+      'background-color': theme.cardColor.toString(),
+      'color': theme.textStyle.color?.toString() ?? '#333333',
+      'outline': 'none',
+      'box-sizing': 'border-box',
     };
 
-    if (rawCss != null && rawCss!.isNotEmpty) {
-      final pairs = rawCss!.split(';');
-      for (var pair in pairs) {
-        if (pair.trim().isEmpty) continue;
-        final parts = pair.split(':');
-        if (parts.length >= 2) {
-          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
-        }
+    void handleTime(web.Event e) {
+      final target = e.target as web.HTMLInputElement?;
+      if (target != null && target.value.isNotEmpty) {
+        onTimeSelected(target.value);
       }
     }
 
     final events = <String, void Function(web.Event)>{
-      'change': (web.Event e) {
-        final target = e.target as web.HTMLInputElement?;
-        if (target != null && target.value.isNotEmpty) {
-          onTimeSelected(target.value);
-        }
-      },
-      'input': (web.Event e) {
-        final target = e.target as web.HTMLInputElement?;
-        if (target != null && target.value.isNotEmpty) {
-          onTimeSelected(target.value);
-        }
-      },
+      'change': handleTime,
+      'input': handleTime,
     };
 
     return FlartElementNode(

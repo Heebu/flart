@@ -1,7 +1,7 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// A multi-line FDText input widget
+/// A multi-line text input widget.
 class TextArea extends StatefulWidget {
   final TextEditingController? controller;
   final String? placeholder;
@@ -18,8 +18,6 @@ class TextArea extends StatefulWidget {
   final double? borderRadius;
   final String? errorText;
   final String? helperText;
-  final Map<String, String>? cssStyle;
-  final String? rawCss;
 
   const TextArea({
     this.controller,
@@ -37,8 +35,6 @@ class TextArea extends StatefulWidget {
     this.borderRadius,
     this.errorText,
     this.helperText,
-    this.cssStyle,
-    this.rawCss,
     super.key,
   });
 
@@ -72,8 +68,9 @@ class _TextAreaState extends State<TextArea> {
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = widget.backgroundColor?.toString() ?? '#ffffff';
-    final border = widget.borderColor?.toString() ?? '#cccccc';
+    final theme = context.theme;
+    final bgColor = widget.backgroundColor?.toString() ?? theme.cardColor.toString();
+    final border = widget.borderColor?.toString() ?? theme.dividerColor.toString();
     final radius = widget.borderRadius ?? 4.0;
     final pad = widget.padding ?? const EdgeInsets.all(12);
     final hasError = widget.errorText != null;
@@ -82,7 +79,8 @@ class _TextAreaState extends State<TextArea> {
       'width': '100%',
       'padding': pad.toCss(),
       'background-color': widget.readOnly ? '#f5f5f5' : bgColor,
-      'border': '1px solid ${hasError ? '#dc3545' : border}',
+      'color': theme.textStyle.color?.toString() ?? '#333333',
+      'border': '1px solid ${hasError ? theme.errorColor : border}',
       'border-radius': '${radius}px',
       'font-size': '14px',
       'font-family': 'inherit',
@@ -93,19 +91,7 @@ class _TextAreaState extends State<TextArea> {
         'opacity': '0.6',
         'cursor': 'not-allowed',
       },
-      ...?widget.cssStyle,
     };
-
-    if (widget.rawCss != null && widget.rawCss!.isNotEmpty) {
-      final pairs = widget.rawCss!.split(';');
-      for (var pair in pairs) {
-        if (pair.trim().isEmpty) continue;
-        final parts = pair.split(':');
-        if (parts.length >= 2) {
-          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
-        }
-      }
-    }
 
     final children = <FlartNode>[
       if (widget.label != null)
@@ -114,7 +100,7 @@ class _TextAreaState extends State<TextArea> {
           styles: {
             'font-size': '14px',
             'font-weight': '500',
-            'color': '#333',
+            'color': theme.textStyle.color?.toString() ?? '#333',
           },
           children: [FlartTextNode(widget.label!)],
         ),
@@ -133,7 +119,8 @@ class _TextAreaState extends State<TextArea> {
             final target = e.target as web.HTMLTextAreaElement?;
             if (target != null) {
               _currentValue = target.value;
-              if (widget.controller != null && widget.controller!.text != target.value) {
+              if (widget.controller != null &&
+                  widget.controller!.text != target.value) {
                 widget.controller!.text = target.value;
               }
               widget.onChanged?.call(target.value);
@@ -145,7 +132,7 @@ class _TextAreaState extends State<TextArea> {
       if (widget.errorText != null)
         FlartElementNode(
           'span',
-          styles: {'font-size': '12px', 'color': '#dc3545'},
+          styles: {'font-size': '12px', 'color': theme.errorColor.toString()},
           children: [FlartTextNode(widget.errorText!)],
         ),
       if (widget.helperText != null && widget.errorText == null)
@@ -189,7 +176,7 @@ class _RawFlartNodeWidget extends Widget {
   FlartNode buildNode(BuildContext context) => node;
 }
 
-/// An autocomplete/search input widget
+/// An autocomplete/search input widget.
 class AutocompleteField extends Widget {
   final String? placeholder;
   final String? label;
@@ -197,8 +184,8 @@ class AutocompleteField extends Widget {
   final ValueChanged<String>? onSelected;
   final ValueChanged<String>? onChanged;
   final Widget? prefixIcon;
-  final Map<String, String>? cssStyle;
-  final String? rawCss;
+  final BorderRadius? borderRadius;
+  final FlartColor? borderColor;
 
   const AutocompleteField({
     this.placeholder,
@@ -207,38 +194,31 @@ class AutocompleteField extends Widget {
     this.onSelected,
     this.onChanged,
     this.prefixIcon,
-    this.cssStyle,
-    this.rawCss,
+    this.borderRadius,
+    this.borderColor,
     super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
+    final theme = Theme.of(context);
     final listId = 'autocomplete_list_${key?.toString() ?? hashCode}';
+    final radius = borderRadius?.topLeft ?? 4.0;
+    final border = borderColor?.toString() ?? theme.dividerColor.toString();
 
     final styles = <String, String>{
       'width': '100%',
       'padding': '8px 12px',
       if (prefixIcon != null) 'padding-left': '40px',
-      'background-color': '#ffffff',
-      'border': '1px solid #cccccc',
-      'border-radius': '4px',
+      'background-color': theme.cardColor.toString(),
+      'color': theme.textStyle.color?.toString() ?? '#333333',
+      'border': '1px solid $border',
+      'border-radius': '${radius}px',
       'font-size': '14px',
+      'font-family': 'inherit',
       'outline': 'none',
       'box-sizing': 'border-box',
-      ...?cssStyle,
     };
-
-    if (rawCss != null && rawCss!.isNotEmpty) {
-      final pairs = rawCss!.split(';');
-      for (var pair in pairs) {
-        if (pair.trim().isEmpty) continue;
-        final parts = pair.split(':');
-        if (parts.length >= 2) {
-          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
-        }
-      }
-    }
 
     final inputChildren = <FlartNode>[
       if (prefixIcon != null)
@@ -280,7 +260,9 @@ class AutocompleteField extends Widget {
       FlartElementNode(
         'datalist',
         id: listId,
-        children: suggestions.map((s) => FlartElementNode('option', attributes: {'value': s})).toList(),
+        children: suggestions
+            .map((s) => FlartElementNode('option', attributes: {'value': s}))
+            .toList(),
       ),
     ];
 
@@ -291,7 +273,7 @@ class AutocompleteField extends Widget {
           styles: {
             'font-size': '14px',
             'font-weight': '500',
-            'color': '#333',
+            'color': theme.textStyle.color?.toString() ?? '#333',
           },
           children: [FlartTextNode(label!)],
         ),
@@ -316,43 +298,34 @@ class AutocompleteField extends Widget {
   }
 }
 
-/// A color picker input
+/// A color picker input.
 class ColorPicker extends Widget {
   final FlartColor? initialColor;
   final ValueChanged<FlartColor>? onChanged;
   final String? label;
-  final String? rawCss;
+  final BorderRadius? borderRadius;
 
   const ColorPicker({
     this.initialColor,
     this.onChanged,
     this.label,
-    this.rawCss,
+    this.borderRadius,
     super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
     final colorHex = initialColor?.toString() ?? '#000000';
+    final radius = borderRadius?.topLeft ?? 4.0;
 
     final styles = <String, String>{
       'width': '60px',
       'height': '40px',
       'border': '1px solid #cccccc',
-      'border-radius': '4px',
+      'border-radius': '${radius}px',
       'cursor': 'pointer',
+      'background-color': 'transparent',
     };
-
-    if (rawCss != null && rawCss!.isNotEmpty) {
-      final pairs = rawCss!.split(';');
-      for (var pair in pairs) {
-        if (pair.trim().isEmpty) continue;
-        final parts = pair.split(':');
-        if (parts.length >= 2) {
-          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
-        }
-      }
-    }
 
     final children = <FlartNode>[
       if (label != null)
@@ -396,14 +369,14 @@ class ColorPicker extends Widget {
   }
 }
 
-/// A file upload input
+/// A file upload input.
 class FileUpload extends StatefulWidget {
   final String? label;
   final bool multiple;
   final String? accept;
   final ValueChanged<List<String>>? onChanged;
   final String buttonText;
-  final String? rawCss;
+  final BorderRadius? borderRadius;
 
   const FileUpload({
     this.label,
@@ -411,7 +384,7 @@ class FileUpload extends StatefulWidget {
     this.accept,
     this.onChanged,
     this.buttonText = 'Choose File',
-    this.rawCss,
+    this.borderRadius,
     super.key,
   });
 
@@ -424,7 +397,9 @@ class _FileUploadState extends State<FileUpload> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
     final inputId = 'fileupload_${widget.key?.toString() ?? hashCode}';
+    final radius = widget.borderRadius?.topLeft ?? 4.0;
 
     final children = <FlartNode>[
       if (widget.label != null)
@@ -433,7 +408,7 @@ class _FileUploadState extends State<FileUpload> {
           styles: {
             'font-size': '14px',
             'font-weight': '500',
-            'color': '#333',
+            'color': theme.textStyle.color?.toString() ?? '#333',
           },
           children: [FlartTextNode(widget.label!)],
         ),
@@ -477,16 +452,18 @@ class _FileUploadState extends State<FileUpload> {
             attributes: {'type': 'button'},
             styles: {
               'padding': '8px 16px',
-              'background-color': '#007bff',
+              'background-color': theme.primaryColor.toString(),
               'color': 'white',
               'border': 'none',
-              'border-radius': '4px',
+              'border-radius': '${radius}px',
               'cursor': 'pointer',
               'font-size': '14px',
+              'font-family': 'inherit',
             },
             events: {
               'click': (e) {
-                final fileInput = web.document.getElementById(inputId) as web.HTMLInputElement?;
+                final fileInput = web.document.getElementById(inputId)
+                    as web.HTMLInputElement?;
                 fileInput?.click();
               },
             },
