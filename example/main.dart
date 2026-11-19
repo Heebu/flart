@@ -1,12 +1,13 @@
+// Flart 9 Categories Widget Catalog
 import 'package:flartdart/flartdart.dart';
 import 'pages/basic_showcase.dart';
 import 'pages/layout_showcase.dart';
 import 'pages/text_showcase.dart';
+import 'pages/button_showcase.dart';
 import 'pages/input_showcase.dart';
 import 'pages/animation_showcase.dart';
 import 'pages/structure_showcase.dart';
 import 'pages/media_showcase.dart';
-import 'pages/interactive_showcase.dart';
 import 'pages/scrollable_showcase.dart';
 
 void main() {
@@ -33,8 +34,8 @@ class CatalogApp extends StatefulWidget {
 }
 
 class _CatalogAppState extends State<CatalogApp> {
-  // Default to Category 4 (Text Widgets)
-  int _selectedIndex = 3;
+  // Default to Category 5 (Button & Interaction)
+  int _selectedIndex = 4;
 
   final List<_CategoryEntry> _categories = [
     _CategoryEntry(
@@ -64,13 +65,13 @@ class _CatalogAppState extends State<CatalogApp> {
     _CategoryEntry(
       number: '5',
       title: 'Button & Interaction',
-      status: 'Next',
-      page: InteractiveShowcase(),
+      status: 'Fixed',
+      page: ButtonShowcase(),
     ),
     _CategoryEntry(
       number: '6',
       title: 'Input & Form',
-      status: 'Pending',
+      status: 'Next',
       page: InputShowcase(),
     ),
     _CategoryEntry(

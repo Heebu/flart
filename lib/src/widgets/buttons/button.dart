@@ -1,6 +1,7 @@
 import 'dart:async';
 import '../../../flartdart.dart';
 
+/// Generic button primitive in Flart without raw CSS.
 class FDButton extends Widget {
   final String? text;
   final String? label;
@@ -29,11 +30,11 @@ class FDButton extends Widget {
   // Right click
   final VoidCallback? onContextMenu;
 
-  final Map<String, String>? cssStyle;
-  final String? rawCss;
+  final ButtonStyle? style;
   final bool draggable;
+  final bool autofocus;
 
-  FDButton({
+  const FDButton({
     this.text,
     this.label,
     this.child,
@@ -50,33 +51,53 @@ class FDButton extends Widget {
     this.onFocus,
     this.onBlur,
     this.onContextMenu,
-    this.cssStyle,
+    this.style,
     this.draggable = false,
-    this.rawCss,
+    this.autofocus = false,
+    super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
-    final id = 'btn_${key?.toString() ?? DateTime.now().microsecondsSinceEpoch}';
+    final theme = context.theme;
+    final tapHandler = onPressed ?? onClick;
+    final isEnabled = tapHandler != null;
+
+    final primary = theme.primaryColor;
+    final bgColor = isEnabled
+        ? (style?.backgroundColor?.toString() ?? primary.toString())
+        : '#e2e8f0';
+
+    final fgColor = isEnabled
+        ? (style?.foregroundColor?.toString() ?? '#ffffff')
+        : '#94a3b8';
+
+    final pad = style?.padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 10);
+    final radius = style?.shape ?? BorderRadius.circular(6);
+    final borderStr = style?.side?.toCss() ?? 'none';
 
     final styles = <String, String>{
-      ...?cssStyle,
+      'display': 'inline-flex',
+      'align-items': 'center',
+      'justify-content': 'center',
+      'box-sizing': 'border-box',
+      'padding': pad.toCss(),
+      'font-size': style?.textStyle?.fontSize != null ? '${style!.textStyle!.fontSize}px' : '14px',
+      'font-weight': style?.textStyle?.fontWeight?.value ?? '500',
+      'font-family': style?.textStyle?.fontFamily ?? 'inherit',
+      'background-color': bgColor,
+      'color': fgColor,
+      'border': borderStr,
+      'border-radius': radius.toCss(),
+      'cursor': isEnabled ? 'pointer' : 'not-allowed',
+      'outline': 'none',
+      'user-select': 'none',
+      'transition': 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+      if (!isEnabled) 'opacity': '0.7',
     };
-
-    if (rawCss != null && rawCss!.isNotEmpty) {
-      final pairs = rawCss!.split(';');
-      for (var pair in pairs) {
-        if (pair.trim().isEmpty) continue;
-        final parts = pair.split(':');
-        if (parts.length >= 2) {
-          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
-        }
-      }
-    }
 
     final events = <String, void Function(dynamic)>{};
 
-    final tapHandler = onPressed ?? onClick;
     if (tapHandler != null) events['click'] = (e) => tapHandler();
     if (onDoubleClick != null) events['dblclick'] = (e) => onDoubleClick!();
 
@@ -119,8 +140,12 @@ class FDButton extends Widget {
       };
     }
 
-    final attributes = <String, String>{};
-    if (draggable) attributes['draggable'] = 'true';
+    final attributes = <String, String>{
+      'type': 'button',
+      if (draggable) 'draggable': 'true',
+      if (!isEnabled) 'disabled': '',
+      if (autofocus) 'autofocus': '',
+    };
 
     final FlartNode contentNode;
     if (child != null) {
@@ -131,10 +156,10 @@ class FDButton extends Widget {
 
     return FlartElementNode(
       'button',
-      id: id,
+      id: key?.toString(),
       attributes: attributes,
       styles: styles,
-      events: events,
+      events: events.isNotEmpty ? events : null,
       children: [contentNode],
     );
   }

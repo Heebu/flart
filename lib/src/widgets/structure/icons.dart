@@ -111,6 +111,8 @@ class FDIcons {
   static const String comment = 'comment';
   static const String email = 'email';
   static const String send = 'send';
+  static const String download = 'download';
+  static const String touch_app = 'touch_app';
   static const String notifications = 'notifications';
   static const String account_circle = 'account_circle';
 

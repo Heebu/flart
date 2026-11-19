@@ -21,6 +21,9 @@ class EdgeInsets {
         bottom = vertical,
         left = horizontal;
 
+  double get horizontal => left + right;
+  double get vertical => top + bottom;
+
   String toCss() {
     return '${top}px ${right}px ${bottom}px ${left}px';
   }

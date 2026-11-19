@@ -70,13 +70,11 @@ class _AnimationShowcaseState extends State<AnimationShowcase> {
                     icon: FDIcons.favorite,
                     color: FlartColor('#ffffff'),
                     size: 40),
-                cssStyle: {
-                  'background-color': '#0f172a',
-                  'padding': '10px 20px',
-                  'border-radius': '6px',
-                  'border': 'none',
-                  'cursor': 'pointer',
-                },
+                style: FDElevatedButton.styleFrom(
+                  backgroundColor: FlartColor('#0f172a'),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  shape: BorderRadius.circular(6),
+                ),
               ),
             ],
           ),

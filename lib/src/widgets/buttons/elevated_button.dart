@@ -1,133 +1,165 @@
+import 'dart:async';
 import '../../../flartdart.dart';
+
+typedef ElevatedButton = FDElevatedButton;
+
 class FDElevatedButton extends Widget {
   final Widget child;
   final VoidCallback? onPressed;
   final VoidCallback? onLongPress;
-  final VoidCallback? onHover;
-  final Map<String, String>? cssStyle;
-  final Map<String, String>? hoverStyle;
-  final Map<String, String>? activeStyle;
-  final Map<String, String>? disabledStyle;
-  final String? rawCss;
+  final ValueChanged<bool>? onHover;
+  final ButtonStyle? style;
+  final bool autofocus;
 
-  FDElevatedButton({
+  const FDElevatedButton({
     required this.child,
     this.onPressed,
     this.onLongPress,
     this.onHover,
-    this.cssStyle,
-    this.hoverStyle,
-    this.activeStyle,
-    this.disabledStyle,
-    this.rawCss,
+    this.style,
+    this.autofocus = false,
+    super.key,
   });
+
+  factory FDElevatedButton.icon({
+    required VoidCallback? onPressed,
+    required Widget icon,
+    required Widget label,
+    VoidCallback? onLongPress,
+    ValueChanged<bool>? onHover,
+    ButtonStyle? style,
+    bool autofocus = false,
+    Key? key,
+  }) {
+    return FDElevatedButton(
+      onPressed: onPressed,
+      onLongPress: onLongPress,
+      onHover: onHover,
+      style: style,
+      autofocus: autofocus,
+      key: key,
+      child: FDRow(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          icon,
+          const FDSizedBox(width: 8),
+          label,
+        ],
+      ),
+    );
+  }
+
+  static ButtonStyle styleFrom({
+    TextStyle? textStyle,
+    FlartColor? backgroundColor,
+    FlartColor? foregroundColor,
+    FlartColor? overlayColor,
+    FlartColor? shadowColor,
+    double? elevation,
+    EdgeInsets? padding,
+    Size? minimumSize,
+    Size? fixedSize,
+    Size? maximumSize,
+    BorderSide? side,
+    BorderRadius? shape,
+    Alignment? alignment,
+  }) {
+    return ButtonStyle.styleFrom(
+      textStyle: textStyle,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      overlayColor: overlayColor,
+      shadowColor: shadowColor,
+      elevation: elevation,
+      padding: padding,
+      minimumSize: minimumSize,
+      fixedSize: fixedSize,
+      maximumSize: maximumSize,
+      side: side,
+      shape: shape,
+      alignment: alignment,
+    );
+  }
 
   @override
   FlartNode buildNode(BuildContext context) {
-    final id = 'elevated_btn_${key?.toString() ?? DateTime.now().millisecondsSinceEpoch}';
-    final classId = 'btn-$id';
+    final theme = context.theme;
+    final isEnabled = onPressed != null;
 
-    final theme = Theme.of(context);
+    final bgColor = isEnabled
+        ? (style?.backgroundColor?.toString() ?? theme.primaryColor.toString())
+        : '#e2e8f0';
 
-    final baseStyle = {
-      'padding': '10px 16px',
-      'font-size': '14px',
-      'background-color': theme.primaryColor.toString(),
-      'color': '#ffffff',
-      'border': 'none',
-      'border-radius': '4px',
-      'cursor': onPressed != null ? 'pointer' : 'default',
-      'transition': 'all 0.2s ease-in-out',
-      ...?cssStyle,
+    final fgColor = isEnabled
+        ? (style?.foregroundColor?.toString() ?? '#ffffff')
+        : '#94a3b8';
+
+    final elevation = style?.elevation ?? (isEnabled ? 2.0 : 0.0);
+    final shadowStr = elevation > 0
+        ? '0 ${elevation}px ${elevation * 2}px ${style?.shadowColor?.toString() ?? "rgba(0,0,0,0.18)"}'
+        : 'none';
+
+    final radius = style?.shape ?? BorderRadius.circular(6);
+    final pad = style?.padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 10);
+    final borderStr = style?.side?.toCss() ?? 'none';
+
+    final styles = <String, String>{
+      'display': 'inline-flex',
+      'align-items': 'center',
+      'justify-content': 'center',
+      'box-sizing': 'border-box',
+      'padding': pad.toCss(),
+      'font-size': style?.textStyle?.fontSize != null ? '${style!.textStyle!.fontSize}px' : '14px',
+      'font-weight': style?.textStyle?.fontWeight?.value ?? '500',
+      'font-family': style?.textStyle?.fontFamily ?? 'inherit',
+      'background-color': bgColor,
+      'color': fgColor,
+      'border': borderStr,
+      'border-radius': radius.toCss(),
+      'box-shadow': shadowStr,
+      'cursor': isEnabled ? 'pointer' : 'not-allowed',
+      'outline': 'none',
+      'user-select': 'none',
+      'transition': 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+      if (!isEnabled) 'opacity': '0.7',
+      if (style?.minimumSize != null) 'min-width': '${style!.minimumSize!.width}px',
+      if (style?.minimumSize != null) 'min-height': '${style!.minimumSize!.height}px',
+      if (style?.fixedSize != null) 'width': '${style!.fixedSize!.width}px',
+      if (style?.fixedSize != null) 'height': '${style!.fixedSize!.height}px',
     };
-
-    final hoverCss = {
-      'background-color':
-          theme.primaryColor.lerp(FlartColors.white, 0.2).toString(),
-      'box-shadow': '0 6px 12px rgba(0,0,0,0.2)',
-      'transform': 'translateY(-1px) scale(1.02)',
-      ...?hoverStyle,
-    };
-
-    final activeCss = {
-      'background-color':
-          theme.primaryColor.lerp(FlartColors.black, 0.1).toString(),
-      'transform': 'translateY(1px) scale(0.98)',
-      'box-shadow': '0 2px 4px rgba(0,0,0,0.1)',
-      ...?activeStyle,
-    };
-
-    final disabledCss = {
-      ...?disabledStyle,
-    };
-
-    final String baseStyleStr =
-        baseStyle.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    final String hoverStyleStr =
-        hoverCss.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    final String activeStyleStr =
-        activeCss.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-    final String disabledStyleStr =
-        disabledCss.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-
-    final styleBlock = '''
-      <style>
-        .$classId {
-          $baseStyleStr
-          ${rawCss ?? ''}
-        }
-        .$classId:hover {
-          $hoverStyleStr
-        }
-        .$classId:active {
-          $activeStyleStr
-        }
-        .$classId:disabled {
-          $disabledStyleStr
-        }
-      </style>
-    ''';
 
     final events = <String, void Function(dynamic)>{};
-
-    if (onPressed != null) {
+    if (isEnabled) {
       events['click'] = (e) => onPressed!();
+      if (onHover != null) {
+        events['mouseenter'] = (_) => onHover!(true);
+        events['mouseleave'] = (_) => onHover!(false);
+      }
+      if (onLongPress != null) {
+        bool isCanceled = false;
+        events['mousedown'] = (_) {
+          isCanceled = false;
+          Future.delayed(const Duration(milliseconds: 600), () {
+            if (!isCanceled) onLongPress!();
+          });
+        };
+        events['mouseup'] = (_) => isCanceled = true;
+        events['mouseleave'] = (_) => isCanceled = true;
+      }
     }
-    if (onHover != null) {
-      events['mouseenter'] = (e) => onHover!();
-    }
-    if (onLongPress != null) {
-      // Basic VDOM long press logic
-      // To track timeout across events, we would need state.
-      // But we can attach it to the DOM node dynamically if needed, 
-      // though pure dart is better.
-      // For now, we'll just bind mousedown.
-      // Note: Full gesture detection should be its own widget (GestureDetector)
-      events['mousedown'] = (e) {
-        // We'll skip long press timeout in this quick migration,
-        // or we can use dart async Future.delayed.
-        Future.delayed(const Duration(milliseconds: 600), () {
-          // If mouse is still down, trigger it
-          onLongPress!();
-        });
-      };
-    }
-
-    final buttonNode = FlartElementNode(
-      'button',
-      id: id,
-      attributes: {'class': classId},
-      events: events,
-      children: [child.buildNode(context)],
-    );
 
     return FlartElementNode(
-      'div',
-      styles: {'display': 'contents'},
-      children: [
-        FlartRawHtmlNode(styleBlock),
-        buttonNode,
-      ],
+      'button',
+      id: key?.toString(),
+      attributes: {
+        'type': 'button',
+        if (!isEnabled) 'disabled': '',
+        if (autofocus) 'autofocus': '',
+      },
+      styles: styles,
+      events: events.isNotEmpty ? events : null,
+      children: [child.buildNode(context)],
     );
   }
 }

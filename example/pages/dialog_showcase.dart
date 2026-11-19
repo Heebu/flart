@@ -36,13 +36,11 @@ class _DialogShowcaseState extends State<DialogShowcase> {
               FDElevatedButton(
                 child: FDText('Show Dialog',
                     style: TextStyle(color: FlartColor('#ffffff'))),
-                cssStyle: {
-                  'background-color': '#3b82f6',
-                  'padding': '12px 24px',
-                  'border-radius': '8px',
-                  'border': 'none',
-                  'cursor': 'pointer',
-                },
+                style: FDElevatedButton.styleFrom(
+                  backgroundColor: FlartColor('#3b82f6'),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: BorderRadius.circular(8),
+                ),
                 onPressed: () async {
                   final result = await showDialog<String>(
                     builder: FDAlertDialog(
@@ -60,13 +58,11 @@ class _DialogShowcaseState extends State<DialogShowcase> {
                         FDElevatedButton(
                           child: FDText('Confirm',
                               style: TextStyle(color: FlartColor('#ffffff'))),
-                          cssStyle: {
-                            'background-color': '#3b82f6',
-                            'padding': '8px 16px',
-                            'border-radius': '6px',
-                            'border': 'none',
-                            'cursor': 'pointer',
-                          },
+                          style: FDElevatedButton.styleFrom(
+                            backgroundColor: FlartColor('#3b82f6'),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            shape: BorderRadius.circular(6),
+                          ),
                           onPressed: () {
                             closeDialog('Confirmed');
                           },

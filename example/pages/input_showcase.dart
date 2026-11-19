@@ -92,15 +92,12 @@ class _InputShowcaseState extends State<InputShowcase> {
                     },
                     child: FDText('Elevated Button',
                         style: TextStyle(color: FlartColor('#ffffff'))),
-                    cssStyle: {
-                      'background-color': '#3b82f6',
-                      'padding': '12px 24px',
-                      'border-radius': '8px',
-                      'border': 'none',
-                      'cursor': 'pointer',
-                      'box-shadow':
-                          '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                    },
+                    style: FDElevatedButton.styleFrom(
+                      backgroundColor: FlartColor('#3b82f6'),
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      shape: BorderRadius.circular(8),
+                      elevation: 4,
+                    ),
                   ),
                   FDOutlinedButton(
                     onPressed: () {
@@ -109,10 +106,10 @@ class _InputShowcaseState extends State<InputShowcase> {
                         _buttonClickCount++;
                       });
                     },
-                    cssStyle: {
-                      'padding': '12px 24px',
-                      'border-radius': '8px',
-                    },
+                    style: FDOutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      shape: BorderRadius.circular(8),
+                    ),
                     child: FDText('Outlined Button',
                         style: TextStyle(color: FlartColor('#3b82f6'))),
                   ),
@@ -125,12 +122,9 @@ class _InputShowcaseState extends State<InputShowcase> {
                     },
                     child: FDText('Text Button',
                         style: TextStyle(color: FlartColor('#3b82f6'))),
-                    cssStyle: {
-                      'background-color': 'transparent',
-                      'padding': '12px 24px',
-                      'border': 'none',
-                      'cursor': 'pointer',
-                    },
+                    style: FDTextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    ),
                   ),
                   FDInkWell(
                     onTap: () {

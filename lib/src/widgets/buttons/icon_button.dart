@@ -1,82 +1,92 @@
 import '../../../flartdart.dart';
+
+typedef IconButton = FDIconButton;
+
 class FDIconButton extends Widget {
-  final FDIcon icon;
+  final Widget icon;
   final VoidCallback? onPressed;
-  final Map<String, String>? cssStyle;
-  final String? rawCss;
+  final double? iconSize;
+  final EdgeInsets? padding;
+  final Alignment? alignment;
+  final FlartColor? color;
+  final FlartColor? hoverColor;
+  final FlartColor? disabledColor;
+  final String? tooltip;
+  final bool autofocus;
+  final ButtonStyle? style;
 
   const FDIconButton({
     required this.icon,
     this.onPressed,
-    this.cssStyle,
-    this.rawCss,
+    this.iconSize = 24.0,
+    this.padding,
+    this.alignment = Alignment.center,
+    this.color,
+    this.hoverColor,
+    this.disabledColor,
+    this.tooltip,
+    this.autofocus = false,
+    this.style,
     super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
-    final id =
-        'icon_btn_${key?.toString() ?? hashCode}_${DateTime.now().millisecondsSinceEpoch}';
-    final theme = Theme.of(context);
+    final theme = context.theme;
+    final isEnabled = onPressed != null;
+
+    final effectiveColor = isEnabled
+        ? (color ?? style?.foregroundColor ?? theme.primaryColor)
+        : (disabledColor ?? FlartColor('#94a3b8'));
+
+    final effectiveBg = isEnabled
+        ? (style?.backgroundColor?.toString() ?? 'transparent')
+        : 'transparent';
+
+    final pad = padding ?? style?.padding ?? const EdgeInsets.all(8);
+    final size = iconSize ?? 24.0;
 
     final styles = <String, String>{
       'display': 'inline-flex',
       'align-items': 'center',
       'justify-content': 'center',
-      'padding': '8px',
-      'border': 'none',
-      'background': 'transparent',
-      'border-radius': '50%',
-      'cursor': onPressed != null ? 'pointer' : 'default',
+      'box-sizing': 'border-box',
+      'padding': pad.toCss(),
+      'width': '${size + (pad.horizontal)}px',
+      'height': '${size + (pad.vertical)}px',
+      'font-size': '${size}px',
+      'border': style?.side?.toCss() ?? 'none',
+      'background-color': effectiveBg,
+      'color': effectiveColor.toString(),
+      'border-radius': style?.shape?.toCss() ?? '50%',
+      'cursor': isEnabled ? 'pointer' : 'not-allowed',
       'outline': 'none',
-      'transition': 'background-color 0.2s, transform 0.1s',
-      ...?cssStyle,
+      'user-select': 'none',
+      'transition': 'all 0.15s ease-in-out',
+      if (!isEnabled) 'opacity': '0.5',
     };
 
-    if (rawCss != null && rawCss!.isNotEmpty) {
-      final pairs = rawCss!.split(';');
-      for (var pair in pairs) {
-        if (pair.trim().isEmpty) continue;
-        final parts = pair.split(':');
-        if (parts.length >= 2) {
-          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
-        }
-      }
-    }
+    final attributes = <String, String>{
+      'type': 'button',
+      if (!isEnabled) 'disabled': '',
+      if (autofocus) 'autofocus': '',
+      if (tooltip != null) 'title': tooltip!,
+      if (tooltip != null) 'aria-label': tooltip!,
+      'class': 'flart-icon-button',
+    };
 
     final events = <String, void Function(dynamic)>{};
-    if (onPressed != null) {
+    if (isEnabled) {
       events['click'] = (e) => onPressed!();
     }
 
-    final buttonNode = FDElement(
-      tag: 'button',
-      id: id,
-      attributes: {'class': 'fd-icon-button'},
-      styles: styles,
-      events: events,
-      children: [icon],
-    ).buildNode(context);
-
-    final styleBlock = '''
-      <style>
-        .fd-icon-button:hover {
-          background-color: ${theme.primaryColor.toString()}1A !important;
-        }
-        .fd-icon-button:active {
-          transform: scale(0.92);
-          background-color: ${theme.primaryColor.toString()}33 !important;
-        }
-      </style>
-    ''';
-
     return FlartElementNode(
-      'div',
-      styles: {'display': 'contents'},
-      children: [
-        FlartRawHtmlNode(styleBlock),
-        buttonNode,
-      ],
+      'button',
+      id: key?.toString(),
+      attributes: attributes,
+      styles: styles,
+      events: events.isNotEmpty ? events : null,
+      children: [icon.buildNode(context)],
     );
   }
 }

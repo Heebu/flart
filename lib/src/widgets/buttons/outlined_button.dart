@@ -1,3 +1,4 @@
+import 'dart:async';
 import '../../../flartdart.dart';
 
 typedef OutlinedButton = FDOutlinedButton;
@@ -6,69 +7,142 @@ class FDOutlinedButton extends Widget {
   final Widget child;
   final VoidCallback? onPressed;
   final VoidCallback? onLongPress;
-  final VoidCallback? onHover;
-  final Map<String, String>? cssStyle;
-  final Map<String, String>? hoverStyle;
-  final Map<String, String>? activeStyle;
-  final Map<String, String>? disabledStyle;
-  final String? rawCss;
+  final ValueChanged<bool>? onHover;
+  final ButtonStyle? style;
+  final bool autofocus;
 
   const FDOutlinedButton({
     required this.child,
     this.onPressed,
     this.onLongPress,
     this.onHover,
-    this.cssStyle,
-    this.hoverStyle,
-    this.activeStyle,
-    this.disabledStyle,
-    this.rawCss,
+    this.style,
+    this.autofocus = false,
     super.key,
   });
 
+  factory FDOutlinedButton.icon({
+    required VoidCallback? onPressed,
+    required Widget icon,
+    required Widget label,
+    VoidCallback? onLongPress,
+    ValueChanged<bool>? onHover,
+    ButtonStyle? style,
+    bool autofocus = false,
+    Key? key,
+  }) {
+    return FDOutlinedButton(
+      onPressed: onPressed,
+      onLongPress: onLongPress,
+      onHover: onHover,
+      style: style,
+      autofocus: autofocus,
+      key: key,
+      child: FDRow(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          icon,
+          const FDSizedBox(width: 8),
+          label,
+        ],
+      ),
+    );
+  }
+
+  static ButtonStyle styleFrom({
+    TextStyle? textStyle,
+    FlartColor? backgroundColor,
+    FlartColor? foregroundColor,
+    FlartColor? overlayColor,
+    FlartColor? shadowColor,
+    double? elevation,
+    EdgeInsets? padding,
+    Size? minimumSize,
+    Size? fixedSize,
+    Size? maximumSize,
+    BorderSide? side,
+    BorderRadius? shape,
+    Alignment? alignment,
+  }) {
+    return ButtonStyle.styleFrom(
+      textStyle: textStyle,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      overlayColor: overlayColor,
+      shadowColor: shadowColor,
+      elevation: elevation,
+      padding: padding,
+      minimumSize: minimumSize,
+      fixedSize: fixedSize,
+      maximumSize: maximumSize,
+      side: side,
+      shape: shape,
+      alignment: alignment,
+    );
+  }
+
   @override
   FlartNode buildNode(BuildContext context) {
-    final theme = Theme.of(context);
-    final primary = theme.primaryColor.toString();
-
+    final theme = context.theme;
     final isEnabled = onPressed != null;
+
+    final primary = theme.primaryColor;
+    final fgColor = isEnabled
+        ? (style?.foregroundColor?.toString() ?? primary.toString())
+        : '#94a3b8';
+
+    final bgColor = isEnabled
+        ? (style?.backgroundColor?.toString() ?? 'transparent')
+        : 'transparent';
+
+    final borderStr = style?.side?.toCss() ??
+        '1px solid ${isEnabled ? primary.toString() : "#cbd5e1"}';
+
+    final radius = style?.shape ?? BorderRadius.circular(6);
+    final pad = style?.padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 10);
 
     final styles = <String, String>{
       'display': 'inline-flex',
       'align-items': 'center',
       'justify-content': 'center',
-      'padding': '10px 16px',
-      'font-size': '14px',
-      'font-weight': '500',
-      'background-color': 'transparent',
-      'color': isEnabled ? primary : '#999999',
-      'border': '1px solid ${isEnabled ? primary : "#cccccc"}',
-      'border-radius': '4px',
+      'box-sizing': 'border-box',
+      'padding': pad.toCss(),
+      'font-size': style?.textStyle?.fontSize != null ? '${style!.textStyle!.fontSize}px' : '14px',
+      'font-weight': style?.textStyle?.fontWeight?.value ?? '500',
+      'font-family': style?.textStyle?.fontFamily ?? 'inherit',
+      'background-color': bgColor,
+      'color': fgColor,
+      'border': borderStr,
+      'border-radius': radius.toCss(),
       'cursor': isEnabled ? 'pointer' : 'not-allowed',
       'outline': 'none',
       'user-select': 'none',
-      'transition': 'all 0.2s ease-in-out',
-      'box-sizing': 'border-box',
+      'transition': 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
       if (!isEnabled) 'opacity': '0.6',
-      ...?cssStyle,
+      if (style?.minimumSize != null) 'min-width': '${style!.minimumSize!.width}px',
+      if (style?.minimumSize != null) 'min-height': '${style!.minimumSize!.height}px',
+      if (style?.fixedSize != null) 'width': '${style!.fixedSize!.width}px',
+      if (style?.fixedSize != null) 'height': '${style!.fixedSize!.height}px',
     };
-
-    if (rawCss != null && rawCss!.isNotEmpty) {
-      final pairs = rawCss!.split(';');
-      for (var pair in pairs) {
-        if (pair.trim().isEmpty) continue;
-        final parts = pair.split(':');
-        if (parts.length >= 2) {
-          styles[parts[0].trim()] = parts.sublist(1).join(':').trim();
-        }
-      }
-    }
 
     final events = <String, void Function(dynamic)>{};
     if (isEnabled) {
       events['click'] = (e) => onPressed!();
       if (onHover != null) {
-        events['mouseenter'] = (e) => onHover!();
+        events['mouseenter'] = (_) => onHover!(true);
+        events['mouseleave'] = (_) => onHover!(false);
+      }
+      if (onLongPress != null) {
+        bool isCanceled = false;
+        events['mousedown'] = (_) {
+          isCanceled = false;
+          Future.delayed(const Duration(milliseconds: 600), () {
+            if (!isCanceled) onLongPress!();
+          });
+        };
+        events['mouseup'] = (_) => isCanceled = true;
+        events['mouseleave'] = (_) => isCanceled = true;
       }
     }
 
@@ -77,11 +151,12 @@ class FDOutlinedButton extends Widget {
       id: key?.toString(),
       attributes: {
         'type': 'button',
-        if (!isEnabled) 'disabled': 'true',
+        if (!isEnabled) 'disabled': '',
+        if (autofocus) 'autofocus': '',
         'class': 'flart-outlined-button',
       },
       styles: styles,
-      events: events,
+      events: events.isNotEmpty ? events : null,
       children: [child.buildNode(context)],
     );
   }

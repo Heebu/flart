@@ -1,12 +1,15 @@
+import 'dart:async';
 import '../../../flartdart.dart';
-import '../../helper/callback_manager.dart';
 
+typedef GestureDetector = FDGestureDetector;
 
-/// Detects various user interactions (tap, double-tap, hover, swipe, etc.).
-///
-/// Uses the unified [FlartCallbackManager] callback bridge for all event
-/// handling, ensuring a single consistent event architecture across the
-/// framework.
+enum HitTestBehavior {
+  deferToChild,
+  opaque,
+  translucent,
+}
+
+/// Detects gestures and touch/mouse interactions in pure DOM.
 class FDGestureDetector extends Widget {
   final Widget child;
 
@@ -40,7 +43,7 @@ class FDGestureDetector extends Widget {
   final VoidCallback? onMouseMove;
 
   final VoidCallback? onScroll;
-  final String? rawCss;
+  final HitTestBehavior behavior;
 
   const FDGestureDetector({
     required this.child,
@@ -67,7 +70,7 @@ class FDGestureDetector extends Widget {
     this.onMouseUp,
     this.onMouseMove,
     this.onScroll,
-    this.rawCss,
+    this.behavior = HitTestBehavior.deferToChild,
     super.key,
   });
 
@@ -86,7 +89,7 @@ class FDGestureDetector extends Widget {
         onMouseDown?.call();
         if (onLongPress != null) {
           isLongPressCanceled = false;
-          Future.delayed(const Duration(milliseconds: 700), () {
+          Future.delayed(const Duration(milliseconds: 600), () {
             if (!isLongPressCanceled) {
               onLongPress!();
             }
@@ -103,6 +106,10 @@ class FDGestureDetector extends Widget {
           isLongPressCanceled = true;
         }
       };
+    }
+
+    if (onTapCancel != null) {
+      events['touchcancel'] = (e) => onTapCancel!();
     }
 
     if (onHover != null || onHoverEnter != null) {
@@ -122,12 +129,11 @@ class FDGestureDetector extends Widget {
     }
 
     if (onMouseMove != null) events['mousemove'] = (e) => onMouseMove!();
-    
+
     if (onContextMenu != null) {
       events['contextmenu'] = (e) {
-        final target = e;
         try {
-          (target as dynamic).preventDefault();
+          (e as dynamic).preventDefault();
         } catch (_) {}
         onContextMenu!();
       };
@@ -137,13 +143,13 @@ class FDGestureDetector extends Widget {
     if (onBlur != null) events['blur'] = (e) => onBlur!();
     if (onScroll != null) events['wheel'] = (e) => onScroll!();
 
-    // Swipe detection (basic touch event mapping)
+    // Swipe detection via touch events
     if (onSwipeLeft != null ||
         onSwipeRight != null ||
         onSwipeUp != null ||
         onSwipeDown != null) {
       double sx = 0, sy = 0;
-      
+
       events['touchstart'] = (e) {
         try {
           final touches = (e as dynamic).touches;
@@ -153,7 +159,7 @@ class FDGestureDetector extends Widget {
           }
         } catch (_) {}
       };
-      
+
       events['touchend'] = (e) {
         try {
           final changedTouches = (e as dynamic).changedTouches;
@@ -176,31 +182,26 @@ class FDGestureDetector extends Widget {
       };
     }
 
+    // Pointer events based on behavior
+    final pointerEvents = behavior == HitTestBehavior.translucent
+        ? 'auto'
+        : (behavior == HitTestBehavior.opaque ? 'all' : 'auto');
+
     final styleMap = <String, String>{
+      'box-sizing': 'border-box',
       'outline': 'none',
       'display': 'inline-block',
+      'pointer-events': pointerEvents,
       if (onTap != null) 'cursor': 'pointer',
     };
 
-    if (rawCss != null && rawCss!.isNotEmpty) {
-      final pairs = rawCss!.split(';');
-      for (var pair in pairs) {
-        if (pair.trim().isEmpty) continue;
-        final parts = pair.split(':');
-        if (parts.length >= 2) {
-          styleMap[parts[0].trim()] = parts.sublist(1).join(':').trim();
-        }
-      }
-    }
-
-    return FDElement(
-      tag: 'div',
-      key: key,
+    return FlartElementNode(
+      'div',
       id: key?.toString(),
-      attributes: {'tabindex': '0'},
+      attributes: const {'tabindex': '0', 'class': 'flart-gesture-detector'},
       styles: styleMap,
-      events: events,
-      children: [child],
-    ).buildNode(context);
+      events: events.isNotEmpty ? events : null,
+      children: [child.buildNode(context)],
+    );
   }
 }
