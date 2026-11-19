@@ -1,6 +1,15 @@
 import '../../../flartdart.dart';
 
-/// A video player widget
+/// Flutter compatibility typedefs
+typedef FDVideoPlayer = VideoPlayer;
+typedef Video = VideoPlayer;
+typedef FDAudioPlayer = AudioPlayer;
+typedef Audio = AudioPlayer;
+typedef FDIframe = IFrame;
+typedef FDYouTubePlayer = YouTubePlayer;
+typedef FDMapEmbed = MapEmbed;
+
+/// A video player widget.
 class VideoPlayer extends Widget {
   final String src;
   final double? width;
@@ -10,6 +19,7 @@ class VideoPlayer extends Widget {
   final bool loop;
   final bool muted;
   final String? poster;
+  final BorderRadius? borderRadius;
   final VoidCallback? onPlay;
   final VoidCallback? onPause;
   final VoidCallback? onEnded;
@@ -23,6 +33,7 @@ class VideoPlayer extends Widget {
     this.loop = false,
     this.muted = false,
     this.poster,
+    this.borderRadius,
     this.onPlay,
     this.onPause,
     this.onEnded,
@@ -31,10 +42,14 @@ class VideoPlayer extends Widget {
 
   @override
   FlartNode buildNode(BuildContext context) {
+    final radius = borderRadius?.topLeft ?? 8.0;
+
     final styles = <String, String>{
       'max-width': '100%',
-      'border-radius': '8px',
-      'background-color': '#000',
+      'border-radius': '${radius}px',
+      'background-color': '#000000',
+      if (width != null) 'width': '${width}px',
+      if (height != null) 'height': '${height}px',
     };
 
     final attributes = <String, String>{
@@ -62,7 +77,7 @@ class VideoPlayer extends Widget {
   }
 }
 
-/// An audio player widget
+/// An audio player widget.
 class AudioPlayer extends Widget {
   final String src;
   final bool autoplay;
@@ -109,7 +124,7 @@ class AudioPlayer extends Widget {
   }
 }
 
-/// An iframe widget for embedding external content
+/// An iframe widget for embedding external web content.
 class IFrame extends Widget {
   final String src;
   final double? width;
@@ -117,7 +132,8 @@ class IFrame extends Widget {
   final String? title;
   final bool allowFullscreen;
   final String? sandbox;
-  final Map<String, String>? cssStyle;
+  final BorderRadius? borderRadius;
+  final Border? border;
 
   const IFrame({
     required this.src,
@@ -126,18 +142,21 @@ class IFrame extends Widget {
     this.title,
     this.allowFullscreen = true,
     this.sandbox,
-    this.cssStyle,
+    this.borderRadius,
+    this.border,
     super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
+    final radius = borderRadius?.topLeft ?? 8.0;
+
     final styles = <String, String>{
-      'border': 'none',
-      'border-radius': '8px',
-      if (width != null) 'width': '${width}px',
+      'border': border != null ? border!.toCss()['border'] ?? 'none' : 'none',
+      'border-radius': '${radius}px',
+      'width': width != null ? '${width}px' : '100%',
       if (height != null) 'height': '${height}px',
-      ...?cssStyle,
+      'box-sizing': 'border-box',
     };
 
     final attributes = <String, String>{
@@ -156,7 +175,7 @@ class IFrame extends Widget {
   }
 }
 
-/// A YouTube video embed widget
+/// A YouTube video embed widget.
 class YouTubePlayer extends Widget {
   final String videoId;
   final double? width;
@@ -165,6 +184,7 @@ class YouTubePlayer extends Widget {
   final bool controls;
   final bool loop;
   final bool muted;
+  final BorderRadius? borderRadius;
 
   const YouTubePlayer({
     required this.videoId,
@@ -174,6 +194,7 @@ class YouTubePlayer extends Widget {
     this.controls = true,
     this.loop = false,
     this.muted = false,
+    this.borderRadius,
     super.key,
   });
 
@@ -181,6 +202,7 @@ class YouTubePlayer extends Widget {
   FlartNode buildNode(BuildContext context) {
     final w = width ?? 560;
     final h = height ?? 315;
+    final radius = borderRadius?.topLeft ?? 8.0;
 
     final params = <String>[];
     if (autoplay) params.add('autoplay=1');
@@ -199,26 +221,32 @@ class YouTubePlayer extends Widget {
         'src': 'https://www.youtube.com/embed/$videoId$paramString',
         'title': 'YouTube video player',
         'frameborder': '0',
-        'allow': 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+        'allow':
+            'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
         'allowfullscreen': 'true',
       },
-      styles: {'border-radius': '8px'},
+      styles: {
+        'border-radius': '${radius}px',
+        'border': 'none',
+      },
     );
   }
 }
 
-/// A widget to embed maps
+/// A widget to embed interactive maps.
 class MapEmbed extends Widget {
   final String location;
   final double? width;
   final double? height;
   final int zoom;
+  final BorderRadius? borderRadius;
 
   const MapEmbed({
     required this.location,
     this.width,
     this.height,
     this.zoom = 15,
+    this.borderRadius,
     super.key,
   });
 
@@ -226,6 +254,7 @@ class MapEmbed extends Widget {
   FlartNode buildNode(BuildContext context) {
     final w = width ?? 600;
     final h = height ?? 450;
+    final radius = borderRadius?.topLeft ?? 8.0;
     final encodedLocation = Uri.encodeComponent(location);
 
     return FlartElementNode(
@@ -236,11 +265,12 @@ class MapEmbed extends Widget {
         'height': h.toString(),
         'loading': 'lazy',
         'allowfullscreen': 'true',
-        'src': 'https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=$encodedLocation&zoom=$zoom',
+        'src':
+            'https://maps.google.com/maps?q=$encodedLocation&z=$zoom&output=embed',
       },
       styles: {
         'border': '0',
-        'border-radius': '8px',
+        'border-radius': '${radius}px',
       },
     );
   }

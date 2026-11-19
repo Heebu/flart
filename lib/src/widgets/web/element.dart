@@ -1,8 +1,11 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// A generic widget that renders directly to a VDOM FlartElementNode.
-/// Useful for creating native HTML elements like <input>, <video>, etc.
+/// Flutter / Web compatibility typedef
+typedef HtmlElement = FDElement;
+
+/// A generic widget that renders directly to a VDOM [FlartElementNode].
+/// Useful for creating custom or native HTML elements like `<canvas>`, `<section>`, etc.
 class FDElement extends Widget {
   final String tag;
   final String? id;
@@ -40,5 +43,10 @@ class FDElement extends Widget {
       events: events,
       children: nodes,
     );
+  }
+
+  @override
+  String render(BuildContext context) {
+    return buildNode(context).toHtml();
   }
 }

@@ -97,5 +97,95 @@ void main() {
       root.dispatchEvent(web.Event('pause'));
       expect(paused, isTrue);
     });
+
+    test('IFrame mounts iframe element with attributes', () {
+      final widget = const IFrame(
+        src: 'https://example.com/embed',
+        title: 'Embedded Page',
+        width: 400,
+        height: 300,
+        allowFullscreen: true,
+      );
+
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.tagName.toLowerCase(), equals('iframe'));
+      expect(root.getAttribute('src'), equals('https://example.com/embed'));
+      expect(root.getAttribute('title'), equals('Embedded Page'));
+      expect(root.getAttribute('allowfullscreen'), equals('true'));
+      expect(root.style.width, equals('400px'));
+      expect(root.style.height, equals('300px'));
+    });
+
+    test('YouTubePlayer formats embed URL with autoplay and loop params', () {
+      final widget = const YouTubePlayer(
+        videoId: 'dQw4w9WgXcQ',
+        autoplay: true,
+        muted: true,
+      );
+
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.tagName.toLowerCase(), equals('iframe'));
+      final src = root.getAttribute('src') ?? '';
+      expect(src, contains('https://www.youtube.com/embed/dQw4w9WgXcQ'));
+      expect(src, contains('autoplay=1'));
+      expect(src, contains('mute=1'));
+    });
+
+    test('FDLink renders anchor tag with target, rel, and tap handler', () {
+      bool tapped = false;
+      final widget = FDLink(
+        url: 'https://flutter.dev',
+        openInNewTab: true,
+        onTap: () {
+          tapped = true;
+        },
+        child: const FDText('Flutter Official Site'),
+      );
+
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.tagName.toLowerCase(), equals('a'));
+      expect(root.getAttribute('href'), equals('https://flutter.dev'));
+      expect(root.getAttribute('target'), equals('_blank'));
+      expect(root.getAttribute('rel'), equals('noopener noreferrer'));
+      expect(root.textContent, contains('Flutter Official Site'));
+
+      TestUtils.click(root);
+      expect(tapped, isTrue);
+    });
+
+    test('FDElement renders custom native HTML tags and handles events', () {
+      bool clicked = false;
+      final widget = FDElement(
+        tag: 'button',
+        attributes: {'aria-label': 'Custom Native Button'},
+        styles: {'padding': '8px 16px', 'background-color': '#10b981'},
+        textContent: 'Custom Action',
+        events: {
+          'click': (e) {
+            clicked = true;
+          },
+        },
+      );
+
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.tagName.toLowerCase(), equals('button'));
+      expect(root.getAttribute('aria-label'), equals('Custom Native Button'));
+      expect(root.textContent, equals('Custom Action'));
+
+      TestUtils.click(root);
+      expect(clicked, isTrue);
+    });
+
+    test('FDRawHTML injects raw HTML into the VDOM hierarchy', () {
+      final widget = const FDRawHTML(
+        '<div class="raw-badge" style="color: purple;"><strong>Bold Content</strong></div>',
+      );
+
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.textContent, contains('Bold Content'));
+      final strong = root.querySelector('strong');
+      expect(strong, isNotNull);
+      expect(strong!.textContent, equals('Bold Content'));
+    });
   });
 }

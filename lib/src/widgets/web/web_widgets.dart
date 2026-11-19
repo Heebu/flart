@@ -1,80 +1,59 @@
+import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// A widget that embeds an iframe
-class FDIframe extends Widget {
-  final String src;
-  final double? width;
-  final double? height;
-  final String? title;
-  final Map<String, String>? cssStyle;
-  final String? rawCss;
+/// Flutter / Web compatibility typedef
+typedef Link = FDLink;
 
-  FDIframe({
-    required this.src,
-    this.width,
-    this.height,
-    this.title,
-    this.cssStyle,
-    this.rawCss,
-  });
-
-  @override
-  String render(BuildContext context) {
-    final style = {
-      'border': 'none',
-      if (width != null) 'width': '${width}px',
-      if (height != null) 'height': '${height}px',
-      if (width == null) 'width': '100%',
-      if (height == null) 'height': '100%',
-      ...?cssStyle,
-    }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
-
-    return '''
-      <iframe 
-        src="$src" 
-        title="${title ?? ''}" 
-        style="$style ${rawCss ?? ''}"
-        allowfullscreen
-      ></iframe>
-    ''';
-  }
-}
-
-/// A wrapper for standard HTML anchor tags
+/// An interactive hyperlink widget wrapping any child in an anchor tag.
 class FDLink extends Widget {
   final String url;
   final Widget child;
   final bool openInNewTab;
-  final Map<String, String>? cssStyle;
-  final String? rawCss;
+  final TextStyle? style;
+  final VoidCallback? onTap;
 
-  FDLink({
+  const FDLink({
     required this.url,
     required this.child,
     this.openInNewTab = true,
-    this.cssStyle,
-    this.rawCss,
+    this.style,
+    this.onTap,
+    super.key,
   });
 
   @override
-  String render(BuildContext context) {
-    final style = {
+  FlartNode buildNode(BuildContext context) {
+    final styles = <String, String>{
       'text-decoration': 'none',
-      'color': 'inherit',
+      'color': style?.color?.toString() ?? 'inherit',
       'cursor': 'pointer',
-      ...?cssStyle,
-    }.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+      if (style != null) ...style!.toCss(),
+    };
 
-    return '''
-      <a 
-        href="$url" 
-        target="${openInNewTab ? '_blank' : '_self'}" 
-        rel="${openInNewTab ? 'noopener noreferrer' : ''}"
-        style="$style ${rawCss ?? ''}"
-        allowfullscreen
-      >
-        ${child.render(context)}
-      </a>
-    ''';
+    final attributes = <String, String>{
+      'href': url,
+      'target': openInNewTab ? '_blank' : '_self',
+      if (openInNewTab) 'rel': 'noopener noreferrer',
+    };
+
+    final events = <String, void Function(web.Event)>{};
+    if (onTap != null) {
+      events['click'] = (e) => onTap!();
+    }
+
+    return FlartElementNode(
+      'a',
+      id: key?.toString(),
+      key: key?.toString(),
+      attributes: attributes,
+      styles: styles,
+      events: events.isNotEmpty ? events : null,
+      children: [child.buildNode(context)],
+    );
+  }
+
+  @override
+  String render(BuildContext context) {
+    return buildNode(context).toHtml();
   }
 }
