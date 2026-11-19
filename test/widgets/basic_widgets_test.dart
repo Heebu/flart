@@ -209,5 +209,73 @@ void main() {
       expect(root.style.height, equals('150px'));
       expect(root.getElementsByTagName('svg').length, equals(1));
     });
+
+    test('FDCircleAvatar renders circular dimensions and background', () {
+      final widget = FDCircleAvatar(
+        radius: 28,
+        backgroundColor: const FlartColor('#3b82f6'),
+        child: const FDText('AB'),
+      );
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.style.width, equals('56px'));
+      expect(root.style.height, equals('56px'));
+      expect(root.style.borderRadius, equals('50%'));
+      expect(root.textContent, contains('AB'));
+    });
+
+    test('FDImage enforces box-sizing, borderRadius, and object-fit', () {
+      final widget = FDImage.network(
+        'https://example.com/photo.png',
+        width: 120,
+        height: 120,
+        fit: BoxFit.cover,
+        borderRadius: BorderRadius.circular(16),
+      );
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.style.boxSizing, equals('border-box'));
+      expect(root.style.width, equals('120px'));
+      expect(root.style.height, equals('120px'));
+      expect(root.style.objectFit, equals('cover'));
+      expect(root.style.borderRadius, contains('16px'));
+    });
+
+    test('FDIcon sets size, width, height, and supports IconData', () {
+      const data = IconData('star');
+      final widget = FDIcon(
+        icon: data,
+        size: 32,
+        color: const FlartColor('#f59e0b'),
+      );
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.style.boxSizing, equals('border-box'));
+      expect(root.style.fontSize, equals('32px'));
+      expect(root.style.width, equals('32px'));
+      expect(root.style.height, equals('32px'));
+      expect(root.textContent, contains('star'));
+    });
+
+    test('FDFittedBox applies alignment and clipBehavior', () {
+      final widget = FDFittedBox(
+        fit: BoxFit.contain,
+        alignment: Alignment.topRight,
+        clipBehavior: Clip.antiAlias,
+        child: const FDText('Fitted'),
+      );
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.style.boxSizing, equals('border-box'));
+      expect(root.style.overflow, equals('hidden'));
+      expect(root.style.justifyContent, equals('flex-end'));
+      expect(root.style.alignItems, equals('flex-start'));
+    });
+
+    test('FDOpacity disables pointer-events when opacity is zero', () {
+      final widget = const FDOpacity(
+        opacity: 0.0,
+        child: FDText('Hidden'),
+      );
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.style.opacity, equals('0'));
+      expect(root.style.pointerEvents, equals('none'));
+    });
   });
 }

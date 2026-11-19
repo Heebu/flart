@@ -32,8 +32,8 @@ class CatalogApp extends StatefulWidget {
 }
 
 class _CatalogAppState extends State<CatalogApp> {
-  // Default to Category 2 (Arrangement & Positioning) which we just updated
-  int _selectedIndex = 1;
+  // Default to Category 3 (Display & Leaf Primitives)
+  int _selectedIndex = 2;
 
   final List<_CategoryEntry> _categories = [
     _CategoryEntry(
@@ -51,13 +51,13 @@ class _CatalogAppState extends State<CatalogApp> {
     _CategoryEntry(
       number: '3',
       title: 'Display & Leaf Primitives',
-      status: 'Next',
+      status: 'Fixed',
       page: BasicShowcase(),
     ),
     _CategoryEntry(
       number: '4',
       title: 'Text Widgets',
-      status: 'Pending',
+      status: 'Next',
       page: InteractiveShowcase(),
     ),
     _CategoryEntry(

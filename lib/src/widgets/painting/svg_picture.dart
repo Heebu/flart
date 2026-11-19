@@ -1,8 +1,11 @@
 import '../../../flartdart.dart';
 
+typedef SvgPicture = FDSvgPicture;
+
 class FDSvgPicture extends Widget {
   final String? assetName;
   final String? string;
+  final String? networkUrl;
   final double? width;
   final double? height;
   final FlartColor? color;
@@ -17,7 +20,8 @@ class FDSvgPicture extends Widget {
     this.fit = BoxFit.contain,
     this.rawCss,
     super.key,
-  }) : string = null;
+  })  : string = null,
+        networkUrl = null;
 
   const FDSvgPicture.string(
     this.string, {
@@ -27,11 +31,24 @@ class FDSvgPicture extends Widget {
     this.fit = BoxFit.contain,
     this.rawCss,
     super.key,
-  }) : assetName = null;
+  })  : assetName = null,
+        networkUrl = null;
+
+  const FDSvgPicture.network(
+    this.networkUrl, {
+    this.width,
+    this.height,
+    this.color,
+    this.fit = BoxFit.contain,
+    this.rawCss,
+    super.key,
+  })  : assetName = null,
+        string = null;
 
   @override
   FlartNode buildNode(BuildContext context) {
     final styles = <String, String>{
+      'box-sizing': 'border-box',
       'display': 'inline-block',
       if (width != null) 'width': '${width}px',
       if (height != null) 'height': '${height}px',
@@ -58,6 +75,17 @@ class FDSvgPicture extends Widget {
         id: key?.toString(),
         styles: styles,
         children: [FlartRawHtmlNode(string!)],
+      );
+    } else if (networkUrl != null) {
+      styles['object-fit'] = _boxFitToCss(fit);
+      return FlartElementNode(
+        'img',
+        id: key?.toString(),
+        attributes: {
+          'src': networkUrl!,
+          'alt': 'svg',
+        },
+        styles: styles,
       );
     } else if (assetName != null) {
       if (color != null) {
@@ -104,6 +132,10 @@ class FDSvgPicture extends Widget {
         return 'contain';
       case BoxFit.cover:
         return 'cover';
+      case BoxFit.fitWidth:
+        return '100% auto';
+      case BoxFit.fitHeight:
+        return 'auto 100%';
       case BoxFit.none:
         return 'auto';
       case BoxFit.scaleDown:

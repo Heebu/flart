@@ -1,40 +1,72 @@
 import '../../../flartdart.dart';
 
+class IconData {
+  final String codePoint;
+  final String? fontFamily;
+  const IconData(this.codePoint, {this.fontFamily});
+
+  @override
+  String toString() => codePoint;
+}
+
 class FDIcon extends Widget {
-  final String icon;
+  final dynamic icon;
   final double size;
   final FlartColor color;
-  final String? FDTooltip;
+  final String? tooltip;
+  final String? semanticLabel;
 
   const FDIcon({
-    required this.icon,
+    dynamic icon,
     this.size = 24.0,
     this.color = FlartColors.black,
-    this.FDTooltip,
+    String? tooltip,
+    this.semanticLabel,
+    String? FDTooltip,
+    super.key,
+  })  : icon = icon ?? FDIcons.help,
+        tooltip = tooltip ?? FDTooltip;
+
+  const FDIcon.fromIcon(
+    this.icon, {
+    this.size = 24.0,
+    this.color = FlartColors.black,
+    this.tooltip,
+    this.semanticLabel,
     super.key,
   });
 
   @override
   FlartNode buildNode(BuildContext context) {
+    final glyph = icon is IconData ? (icon as IconData).codePoint : icon.toString();
+    final effectiveTooltip = tooltip;
+
     return FlartElementNode(
       'i',
       id: key?.toString(),
       attributes: {
         'class': 'material-icons',
-        if (FDTooltip != null) 'title': FDTooltip!,
+        if (effectiveTooltip != null) 'title': effectiveTooltip,
+        if (semanticLabel != null) 'aria-label': semanticLabel!,
       },
       styles: {
+        'box-sizing': 'border-box',
         'font-size': '${size}px',
+        'width': '${size}px',
+        'height': '${size}px',
+        'line-height': '${size}px',
         'color': color.toString(),
         'user-select': 'none',
         'display': 'inline-flex',
         'align-items': 'center',
         'justify-content': 'center',
       },
-      children: [FlartTextNode(icon)],
+      children: [FlartTextNode(glyph)],
     );
   }
 }
+
+typedef Icon = FDIcon;
 
 class FDIcons {
   static const String add = 'add';
@@ -98,6 +130,7 @@ class FDIcons {
   static const String dashboard = 'dashboard';
   static const String insert_chart = 'insert_chart';
   static const String monetization_on = 'monetization_on';
+
   static const String assignment = 'assignment';
   static const String layers = 'layers';
   static const String brush = 'brush';
