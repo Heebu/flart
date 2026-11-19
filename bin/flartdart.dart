@@ -216,12 +216,35 @@ Future<void> _runDonate() async {
   print('\nThank you for being part of the community! ❤️\n');
 }
 
+Future<int> _resolveAvailablePort(String requestedPort) async {
+  final initialPort = int.tryParse(requestedPort) ?? 8080;
+  for (var p = initialPort; p < initialPort + 50; p++) {
+    try {
+      final socket = await ServerSocket.bind('127.0.0.1', p);
+      await socket.close();
+      return p;
+    } catch (_) {
+      // Port in use, try next
+    }
+  }
+  return initialPort;
+}
+
 Future<void> _runApp(bool release, String port) async {
+  var effectivePort = port;
+  final parsedPort = int.tryParse(port) ?? 8080;
+  final availablePort = await _resolveAvailablePort(port);
+  if (availablePort != parsedPort) {
+    print('⚠️ Port $port is already in use by another process (e.g. system service).');
+    print('🔄 Automatically switched to available port: $availablePort');
+    effectivePort = availablePort.toString();
+  }
+
   print('=========================================');
   print('🔥 FLARTDART CLI v$cliVersion - STARTING APP 🔥');
   print('=========================================');
   print('🚀 Mode: ${release ? 'PRODUCTION' : 'DEVELOPMENT'}');
-  print('🌐 Port: $port');
+  print('🌐 URL: http://localhost:$effectivePort');
 
   // Check if pubspec.yaml exists
   if (!File('pubspec.yaml').existsSync()) {
@@ -265,7 +288,7 @@ Future<void> _runApp(bool release, String port) async {
     'run',
     'build_runner',
     'serve',
-    '$targetDir:$port',
+    '$targetDir:$effectivePort',
     '--delete-conflicting-outputs',
   ];
   if (release) {
