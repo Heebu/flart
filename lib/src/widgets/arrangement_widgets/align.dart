@@ -1,5 +1,7 @@
 import '../../../flartdart.dart';
 
+typedef Align = FDAlign;
+
 class FDAlign extends Widget {
   final Widget child;
   final dynamic alignment;
@@ -30,10 +32,17 @@ class FDAlign extends Widget {
     }
 
     final combinedStyle = <String, String>{
+      'box-sizing': 'border-box',
       'display': 'flex',
       ...alignStyle,
-      if (widthFactor != null) 'width': '${widthFactor! * 100}%' else 'width': '100%',
-      if (heightFactor != null) 'height': '${heightFactor! * 100}%' else 'height': '100%',
+      if (widthFactor != null)
+        'width': '${widthFactor! * 100}%'
+      else
+        'width': '100%',
+      if (heightFactor != null)
+        'height': '${heightFactor! * 100}%'
+      else
+        'height': '100%',
       ...?cssStyle,
     };
 

@@ -7,7 +7,8 @@
   static const center = Alignment('center', 'center');
   static const topLeft = Alignment('flex-start', 'flex-start');
   static const topRight = Alignment('flex-end', 'flex-start');
-  static const bottomcenter = Alignment('center', 'flex-end');
+  static const bottomCenter = Alignment('center', 'flex-end');
+  static const bottomcenter = bottomCenter;
   static const spaceBetween = Alignment('space-between', 'center');
   static const centerLeft = Alignment('flex-start', 'center');
   static const centerRight = Alignment('flex-end', 'center');

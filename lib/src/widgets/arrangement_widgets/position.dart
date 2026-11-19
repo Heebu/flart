@@ -1,5 +1,7 @@
 import '../../../flartdart.dart';
 
+typedef Positioned = FDPositioned;
+
 class FDPositioned extends Widget {
   final Widget child;
   final double? top;
@@ -40,6 +42,7 @@ class FDPositioned extends Widget {
   @override
   FlartNode buildNode(BuildContext context) {
     final styleMap = <String, String>{
+      'box-sizing': 'border-box',
       'position': 'absolute',
       if (top != null) 'top': '${top}px',
       if (left != null) 'left': '${left}px',

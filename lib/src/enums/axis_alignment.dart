@@ -12,4 +12,22 @@ enum CrossAxisAlignment {
   center,
   end,
   stretch,
+  baseline,
+}
+
+enum MainAxisSize {
+  min,
+  max,
+}
+
+enum StackFit {
+  loose,
+  expand,
+  passthrough,
+}
+
+enum WrapCrossAlignment {
+  start,
+  end,
+  center,
 }

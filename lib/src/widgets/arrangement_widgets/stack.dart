@@ -1,14 +1,20 @@
 import '../../../flartdart.dart';
 
+typedef Stack = FDStack;
+
 class FDStack extends Widget {
   final List<Widget> children;
   final Alignment alignment;
+  final StackFit fit;
+  final Clip clipBehavior;
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
   const FDStack({
     required this.children,
     this.alignment = Alignment.topLeft,
+    this.fit = StackFit.loose,
+    this.clipBehavior = Clip.hardEdge,
     this.cssStyle,
     this.rawCss,
     super.key,
@@ -17,9 +23,15 @@ class FDStack extends Widget {
   @override
   FlartNode buildNode(BuildContext context) {
     final styles = <String, String>{
+      'box-sizing': 'border-box',
       'position': 'relative',
-      'width': '100%',
-      'height': '100%',
+      if (fit == StackFit.expand) ...{
+        'width': '100%',
+        'height': '100%',
+      } else ...{
+        'width': '100%',
+      },
+      if (clipBehavior != Clip.none) 'overflow': 'hidden',
       ...?cssStyle,
     };
 

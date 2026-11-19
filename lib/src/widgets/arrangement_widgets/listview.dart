@@ -4,41 +4,58 @@ typedef ItemWidgetBuilder = Widget Function(BuildContext context, int index);
 typedef SeparatorWidgetBuilder = Widget Function(
     BuildContext context, int index);
 
+typedef ListView = FDListView;
+
 enum ListViewType { static, builder, separated }
 
 class FDListView extends Widget {
   final Axis scrollDirection;
   final EdgeInsets? padding;
+  final bool shrinkWrap;
+  final bool reverse;
   final List<Widget>? children;
   final int? itemCount;
   final ItemWidgetBuilder? itemBuilder;
   final SeparatorWidgetBuilder? separatorBuilder;
   final ListViewType type;
+  final Map<String, String>? cssStyle;
   final String? rawCss;
 
   FDListView._({
     this.scrollDirection = Axis.vertical,
     this.padding,
+    this.shrinkWrap = false,
+    this.reverse = false,
     this.children,
     this.itemCount,
     this.itemBuilder,
     this.separatorBuilder,
     required this.type,
+    this.cssStyle,
     this.rawCss,
+    super.key,
   });
 
   /// Regular children list
   factory FDListView({
     Axis scrollDirection = Axis.vertical,
     EdgeInsets? padding,
+    bool shrinkWrap = false,
+    bool reverse = false,
     required List<Widget> children,
+    Map<String, String>? cssStyle,
     String? rawCss,
+    Key? key,
   }) {
     return FDListView._(
+      key: key,
       scrollDirection: scrollDirection,
       padding: padding,
+      shrinkWrap: shrinkWrap,
+      reverse: reverse,
       children: children,
       type: ListViewType.static,
+      cssStyle: cssStyle,
       rawCss: rawCss,
     );
   }
@@ -47,16 +64,24 @@ class FDListView extends Widget {
   factory FDListView.builder({
     Axis scrollDirection = Axis.vertical,
     EdgeInsets? padding,
+    bool shrinkWrap = false,
+    bool reverse = false,
     required int itemCount,
     required ItemWidgetBuilder itemBuilder,
+    Map<String, String>? cssStyle,
     String? rawCss,
+    Key? key,
   }) {
     return FDListView._(
+      key: key,
       scrollDirection: scrollDirection,
       padding: padding,
+      shrinkWrap: shrinkWrap,
+      reverse: reverse,
       itemCount: itemCount,
       itemBuilder: itemBuilder,
       type: ListViewType.builder,
+      cssStyle: cssStyle,
       rawCss: rawCss,
     );
   }
@@ -65,33 +90,53 @@ class FDListView extends Widget {
   factory FDListView.separated({
     Axis scrollDirection = Axis.vertical,
     EdgeInsets? padding,
+    bool shrinkWrap = false,
+    bool reverse = false,
     required int itemCount,
     required ItemWidgetBuilder itemBuilder,
     required SeparatorWidgetBuilder separatorBuilder,
+    Map<String, String>? cssStyle,
     String? rawCss,
+    Key? key,
   }) {
     return FDListView._(
+      key: key,
       scrollDirection: scrollDirection,
       padding: padding,
+      shrinkWrap: shrinkWrap,
+      reverse: reverse,
       itemCount: itemCount,
       itemBuilder: itemBuilder,
       separatorBuilder: separatorBuilder,
       type: ListViewType.separated,
+      cssStyle: cssStyle,
       rawCss: rawCss,
     );
   }
 
   @override
   FlartNode buildNode(BuildContext context) {
-    final styles = <String, String>{
-      'display': 'flex',
-      'flex-direction': scrollDirection == Axis.vertical ? 'column' : 'row',
-      'overflow': scrollDirection == Axis.vertical ? 'auto' : 'auto hidden',
-    };
+    final isVertical = scrollDirection == Axis.vertical;
 
-    if (padding != null) {
-      styles['padding'] = padding!.toCss();
-    }
+    final flexDir = isVertical
+        ? (reverse ? 'column-reverse' : 'column')
+        : (reverse ? 'row-reverse' : 'row');
+
+    final styles = <String, String>{
+      'box-sizing': 'border-box',
+      'display': 'flex',
+      'flex-direction': flexDir,
+      if (shrinkWrap) ...{
+        'height': 'auto',
+        'overflow': 'visible',
+      } else ...{
+        'height': '100%',
+        'overflow-y': isVertical ? 'auto' : 'hidden',
+        'overflow-x': isVertical ? 'hidden' : 'auto',
+      },
+      if (padding != null) 'padding': padding!.toCss(),
+      ...?cssStyle,
+    };
 
     if (rawCss != null && rawCss!.isNotEmpty) {
       final pairs = rawCss!.split(';');
@@ -135,6 +180,7 @@ class FDListView extends Widget {
 
     return FlartElementNode(
       'div',
+      id: key?.toString(),
       styles: styles,
       children: childrenNodes,
     );

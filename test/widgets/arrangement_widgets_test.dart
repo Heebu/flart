@@ -161,5 +161,94 @@ void main() {
       expect(child1.style.flex, contains('2'));
       expect(child2.style.flex, contains('1'));
     });
+
+    test('FDRow and FDColumn support MainAxisSize.min and MainAxisSize.max', () {
+      final rowMin = const FDRow(
+        mainAxisSize: MainAxisSize.min,
+        children: [FDText('A'), FDText('B')],
+      );
+      final rootRowMin = TestUtils.mountWidget(rowMin) as web.HTMLElement;
+      expect(rootRowMin.style.width, equals('fit-content'));
+
+      final rowMax = const FDRow(
+        mainAxisSize: MainAxisSize.max,
+        children: [FDText('A'), FDText('B')],
+      );
+      final rootRowMax = TestUtils.mountWidget(rowMax) as web.HTMLElement;
+      expect(rootRowMax.style.width, equals('100%'));
+
+      final colMin = const FDColumn(
+        mainAxisSize: MainAxisSize.min,
+        children: [FDText('1'), FDText('2')],
+      );
+      final rootColMin = TestUtils.mountWidget(colMin) as web.HTMLElement;
+      expect(rootColMin.style.height, equals('fit-content'));
+    });
+
+    test('FDCenter and FDAlign support widthFactor and heightFactor', () {
+      final centerWithFactors = const FDCenter(
+        widthFactor: 0.5,
+        heightFactor: 0.5,
+        child: FDText('Half Centered'),
+      );
+      final rootCenter = TestUtils.mountWidget(centerWithFactors) as web.HTMLElement;
+      expect(rootCenter.style.width, equals('50%'));
+      expect(rootCenter.style.height, equals('50%'));
+      expect(rootCenter.style.boxSizing, equals('border-box'));
+
+      final alignWithFactors = const FDAlign(
+        alignment: Alignment.bottomRight,
+        widthFactor: 0.8,
+        heightFactor: 0.6,
+        child: FDText('Aligned'),
+      );
+      final rootAlign = TestUtils.mountWidget(alignWithFactors) as web.HTMLElement;
+      expect(rootAlign.style.width, equals('80%'));
+      expect(rootAlign.style.height, equals('60%'));
+    });
+
+    test('FDStack supports fit and clipBehavior', () {
+      final stack = const FDStack(
+        fit: StackFit.expand,
+        clipBehavior: Clip.antiAlias,
+        children: [
+          FDText('Layer 1'),
+          FDPositioned(top: 0, left: 0, child: FDText('Layer 2')),
+        ],
+      );
+      final rootStack = TestUtils.mountWidget(stack) as web.HTMLElement;
+      expect(rootStack.style.width, equals('100%'));
+      expect(rootStack.style.height, equals('100%'));
+      expect(rootStack.style.overflow, equals('hidden'));
+      expect(rootStack.style.boxSizing, equals('border-box'));
+    });
+
+    test('FDListView supports shrinkWrap and reverse', () {
+      final listShrink = FDListView(
+        shrinkWrap: true,
+        children: const [FDText('Item 1'), FDText('Item 2')],
+      );
+      final rootShrink = TestUtils.mountWidget(listShrink) as web.HTMLElement;
+      expect(rootShrink.style.height, equals('auto'));
+      expect(rootShrink.style.overflow, equals('visible'));
+
+      final listReverse = FDListView(
+        reverse: true,
+        children: const [FDText('1'), FDText('2')],
+      );
+      final rootReverse = TestUtils.mountWidget(listReverse) as web.HTMLElement;
+      expect(rootReverse.style.flexDirection, equals('column-reverse'));
+    });
+
+    test('FDListView.separated generates separators between items', () {
+      final separated = FDListView.separated(
+        itemCount: 3,
+        itemBuilder: (context, i) => FDText('Item $i'),
+        separatorBuilder: (context, i) => const FDDivider(),
+      );
+      final root = TestUtils.mountWidget(separated) as web.HTMLElement;
+      // 3 items + 2 dividers = 5 elements
+      expect(root.children.length, equals(5));
+    });
   });
 }

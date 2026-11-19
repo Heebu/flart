@@ -1,10 +1,13 @@
 import '../../../flartdart.dart';
 
-/// A widget that displays its children in multiple horizontal or vertical runs
+typedef Wrap = FDWrap;
+
+/// A widget that displays its children in multiple horizontal or vertical runs.
 class FDWrap extends Widget {
   final List<Widget> children;
   final Axis direction;
   final MainAxisAlignment alignment;
+  final WrapCrossAlignment crossAxisAlignment;
   final double spacing;
   final double runSpacing;
   final Map<String, String>? cssStyle;
@@ -14,6 +17,7 @@ class FDWrap extends Widget {
     required this.children,
     this.direction = Axis.horizontal,
     this.alignment = MainAxisAlignment.start,
+    this.crossAxisAlignment = WrapCrossAlignment.start,
     this.spacing = 0.0,
     this.runSpacing = 0.0,
     this.cssStyle,
@@ -24,12 +28,15 @@ class FDWrap extends Widget {
   @override
   FlartNode buildNode(BuildContext context) {
     final justify = _mapAlignment(alignment);
+    final align = _mapCrossAlignment(crossAxisAlignment);
 
     final styles = <String, String>{
+      'box-sizing': 'border-box',
       'display': 'flex',
       'flex-wrap': 'wrap',
       'flex-direction': direction == Axis.horizontal ? 'row' : 'column',
       'justify-content': justify,
+      'align-items': align,
       'gap': '${runSpacing}px ${spacing}px',
       ...?cssStyle,
     };
@@ -68,6 +75,17 @@ class FDWrap extends Widget {
         return 'space-around';
       case MainAxisAlignment.spaceEvenly:
         return 'space-evenly';
+    }
+  }
+
+  String _mapCrossAlignment(WrapCrossAlignment align) {
+    switch (align) {
+      case WrapCrossAlignment.start:
+        return 'flex-start';
+      case WrapCrossAlignment.end:
+        return 'flex-end';
+      case WrapCrossAlignment.center:
+        return 'center';
     }
   }
 }

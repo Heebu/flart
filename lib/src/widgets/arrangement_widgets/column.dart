@@ -1,9 +1,13 @@
 import '../../../flartdart.dart';
 
+typedef Column = FDColumn;
+
 class FDColumn extends Widget {
   final List<Widget> children;
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
+  final MainAxisSize mainAxisSize;
+  final double? spacing;
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
@@ -11,21 +15,22 @@ class FDColumn extends Widget {
     required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.start,
+    this.mainAxisSize = MainAxisSize.max,
     this.spacing,
     this.cssStyle,
     this.rawCss,
     super.key,
   });
 
-  final double? spacing;
-
   @override
   FlartNode buildNode(BuildContext context) {
     final styleMap = <String, String>{
+      'box-sizing': 'border-box',
       'display': 'flex',
       'flex-direction': 'column',
       'justify-content': _mapMainAxis(mainAxisAlignment),
       'align-items': _mapCrossAxis(crossAxisAlignment),
+      if (mainAxisSize == MainAxisSize.min) 'height': 'fit-content',
       if (spacing != null) 'gap': '${spacing}px',
       ...?cssStyle,
     };
@@ -74,6 +79,8 @@ class FDColumn extends Widget {
         return 'flex-end';
       case CrossAxisAlignment.stretch:
         return 'stretch';
+      case CrossAxisAlignment.baseline:
+        return 'baseline';
       case CrossAxisAlignment.start:
         return 'flex-start';
     }
