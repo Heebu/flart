@@ -74,7 +74,7 @@ class _NavigationShowcaseState extends State<NavigationShowcase> {
           description: 'A navigation drawer sliding in from the edge.',
           child: FDContainer(
             height: 300,
-            cssStyle: {'position': 'relative', 'overflow': 'hidden'},
+            clipBehavior: Clip.hardEdge,
             child: FDScaffold(
               appBar: FDAppBar(
                 title: FDText('App with Drawer',

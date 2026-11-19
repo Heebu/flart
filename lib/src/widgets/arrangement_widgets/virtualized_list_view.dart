@@ -72,44 +72,30 @@ class _FDVirtualizedListViewState extends State<FDVirtualizedListView> {
     final visibleItems = <Widget>[];
     for (int i = firstVisibleIndex; i <= lastVisibleIndex; i++) {
       final item = widget.itemBuilder(context, i);
-      visibleItems.add(FDContainer(
-        cssStyle: {
-          'position': 'absolute',
-          if (isVertical)
-            'top': '${i * widget.itemHeight}px'
-          else
-            'left': '${i * widget.itemHeight}px',
-          if (isVertical) 'left': '0' else 'top': '0',
-          if (isVertical) 'right': '0' else 'bottom': '0',
-          if (isVertical)
-            'height': '${widget.itemHeight}px'
-          else
-            'width': '${widget.itemHeight}px',
-        },
+      visibleItems.add(FDPositioned(
+        top: isVertical ? (i * widget.itemHeight).toDouble() : 0,
+        left: isVertical ? 0 : (i * widget.itemHeight).toDouble(),
+        right: isVertical ? 0 : null,
+        bottom: isVertical ? null : 0,
+        height: isVertical ? widget.itemHeight.toDouble() : null,
+        width: isVertical ? null : widget.itemHeight.toDouble(),
         child: item,
       ));
     }
 
     return FDContainer(
+      id: _containerId,
       key: ValueKey(_containerId),
       padding: widget.padding,
-      cssStyle: {
-        'position': 'relative',
-        'height': '100%',
-        'width': '100%',
-        'overflow-y': isVertical ? 'auto' : 'hidden',
-        'overflow-x': isVertical ? 'hidden' : 'auto',
-      },
-      rawCss: 'id="$_containerId"',
+      clipBehavior: Clip.hardEdge,
       child: FDStack(
-        cssStyle: {
-          if (isVertical)
-            'height': '${totalSize}px'
-          else
-            'width': '${totalSize}px',
-          if (isVertical) 'width': '100%' else 'height': '100%',
-        },
-        children: visibleItems,
+        children: [
+          FDSizedBox(
+            height: isVertical ? totalSize.toDouble() : null,
+            width: isVertical ? null : totalSize.toDouble(),
+          ),
+          ...visibleItems,
+        ],
       ),
     );
   }

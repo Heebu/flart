@@ -62,7 +62,7 @@ class ScrollableShowcase extends StatelessWidget {
                 crossAxisCount: 3,
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
-                cssStyle: {'padding': '16px'},
+                padding: const EdgeInsets.all(16),
                 children: List.generate(
                     12,
                     (index) => FDContainer(

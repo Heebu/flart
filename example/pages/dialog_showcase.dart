@@ -109,11 +109,8 @@ class _DialogShowcaseState extends State<DialogShowcase> {
               // Render the dialog inline for preview purposes
               FDContainer(
                 height: 300,
-                cssStyle: {
-                  'position': 'relative',
-                  'overflow': 'hidden',
-                  'background-color': '#cbd5e1'
-                },
+                color: FlartColor('#cbd5e1'),
+                clipBehavior: Clip.hardEdge,
                 child: FDCenter(
                   child: FDDialog(
                     child: FDColumn(

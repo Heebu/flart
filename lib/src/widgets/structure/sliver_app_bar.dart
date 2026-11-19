@@ -114,8 +114,8 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
               left: 0,
               right: 0,
               bottom: 0,
-              child: FDContainer(
-                cssStyle: {'opacity': flexibleOpacity.toString()},
+              child: FDOpacity(
+                opacity: flexibleOpacity.clamp(0.0, 1.0),
                 child: widget.flexibleSpace!,
               ),
             ),
@@ -127,31 +127,23 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
             right: 0,
             child: FDContainer(
               height: 56,
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              cssStyle: {
-                'display': 'flex',
-                'align-items': 'center',
-                'justify-content': 'space-between',
-              },
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: FDRow(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // Leading
                   if (widget.leading != null)
                     FDPadding(
-                      padding: EdgeInsets.only(right: 16),
+                      padding: const EdgeInsets.only(right: 16),
                       child: widget.leading!,
                     ),
 
                   // Title (fades in)
                   FDExpanded(
-                    child: FDContainer(
-                      cssStyle: {
-                        'opacity': titleOpacity.toString(),
-                        'font-size': '20px',
-                        'font-weight': '500',
-                        'color': 'white',
-                      },
-                      child: widget.title ?? FDSizedBox(),
+                    child: FDOpacity(
+                      opacity: titleOpacity.clamp(0.0, 1.0),
+                      child: widget.title ?? const FDSizedBox(),
                     ),
                   ),
 

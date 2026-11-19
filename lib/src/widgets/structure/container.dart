@@ -1,5 +1,8 @@
 import '../../../flartdart.dart';
 
+/// Flutter compatibility typedef
+typedef Container = FDContainer;
+
 class FDContainer extends Widget {
   final Widget? child;
   final String? id;

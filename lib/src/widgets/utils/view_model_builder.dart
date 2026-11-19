@@ -1,5 +1,8 @@
 import '../../../flartdart.dart';
 
+/// Flutter / MVVM compatibility typedef
+typedef ViewModelBuilder<T extends ViewModel> = FDViewModelBuilder<T>;
+
 abstract class ViewModel extends ChangeNotifier {
   void init() {}
   void onModelReady() {}

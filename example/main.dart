@@ -8,7 +8,7 @@ import 'pages/input_showcase.dart';
 import 'pages/animation_showcase.dart';
 import 'pages/structure_showcase.dart';
 import 'pages/media_showcase.dart';
-import 'pages/scrollable_showcase.dart';
+import 'pages/utility_showcase.dart';
 
 void main() {
   runApp(CatalogApp());
@@ -34,8 +34,8 @@ class CatalogApp extends StatefulWidget {
 }
 
 class _CatalogAppState extends State<CatalogApp> {
-  // Default to Category 8 (Media & Web)
-  int _selectedIndex = 7;
+  // Default to Category 9 (Utility & Reactive Builders)
+  int _selectedIndex = 8;
 
   final List<_CategoryEntry> _categories = [
     _CategoryEntry(
@@ -89,8 +89,8 @@ class _CatalogAppState extends State<CatalogApp> {
     _CategoryEntry(
       number: '9',
       title: 'Utility & Builders',
-      status: 'Next',
-      page: ScrollableShowcase(),
+      status: 'Fixed',
+      page: const UtilityShowcasePage(),
     ),
   ];
 

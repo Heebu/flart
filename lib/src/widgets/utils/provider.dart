@@ -1,6 +1,12 @@
 import '../../../flartdart.dart';
 
-/// A simplified state management provider.
+/// Flutter compatibility typedefs
+typedef Provider<T> = FDProvider<T>;
+typedef ChangeNotifierProvider<T extends ChangeNotifier>
+    = FDChangeNotifierProvider<T>;
+typedef Consumer<T extends ChangeNotifier> = FDConsumer<T>;
+
+/// A simplified dependency injection and state provider based on [InheritedWidget].
 class FDProvider<T> extends InheritedWidget {
   final T value;
 
@@ -23,7 +29,7 @@ class FDProvider<T> extends InheritedWidget {
   bool updateShouldNotify(FDProvider<T> oldWidget) => value != oldWidget.value;
 }
 
-/// A provider that manages a [ChangeNotifier].
+/// A provider that creates, manages, and disposes a [ChangeNotifier].
 class FDChangeNotifierProvider<T extends ChangeNotifier>
     extends StatefulWidget {
   final T Function(BuildContext context) create;
@@ -65,7 +71,7 @@ class _FDChangeNotifierProviderState<T extends ChangeNotifier>
   }
 }
 
-/// A widget that rebuilds when a [ChangeNotifier] changes.
+/// A widget that rebuilds when the ancestor [ChangeNotifier] of type [T] emits a change.
 class FDConsumer<T extends ChangeNotifier> extends StatefulWidget {
   final Widget Function(BuildContext context, T value, Widget? child) builder;
   final Widget? child;
@@ -81,43 +87,32 @@ class FDConsumer<T extends ChangeNotifier> extends StatefulWidget {
 }
 
 class _FDConsumerState<T extends ChangeNotifier> extends State<FDConsumer<T>> {
-  late T _notifier;
+  T? _notifier;
 
   void _listener() {
     setState(() {});
   }
 
   @override
-  void didUpdateWidget(FDConsumer<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     final newNotifier = FDProvider.of<T>(context);
     if (newNotifier != _notifier) {
-      _notifier.removeListener(_listener);
+      _notifier?.removeListener(_listener);
       _notifier = newNotifier;
-      _notifier.addListener(_listener);
+      _notifier!.addListener(_listener);
     }
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final newNotifier = FDProvider.of<T>(context);
-    // Explicitly check if notifier is already late initialized
-    // (Note: in Dart 'late' check is hard without try-catch or flag)
-    // We'll just assign it.
-    _notifier = newNotifier;
-    _notifier.removeListener(_listener);
-    _notifier.addListener(_listener);
-  }
-
-  @override
   void dispose() {
-    _notifier.removeListener(_listener);
+    _notifier?.removeListener(_listener);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, _notifier, widget.child);
+    final notifier = _notifier ?? FDProvider.of<T>(context);
+    return widget.builder(context, notifier, widget.child);
   }
 }

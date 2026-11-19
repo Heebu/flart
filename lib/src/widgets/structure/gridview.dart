@@ -1,5 +1,8 @@
 import '../../../flartdart.dart';
 
+/// Flutter compatibility typedef
+typedef GridView = FDGridView;
+
 enum GridViewType { count, extent, builder }
 
 class FDGridView extends Widget {
@@ -12,6 +15,7 @@ class FDGridView extends Widget {
   final IndexedWidgetBuilder? itemBuilder; // builder
   final int? itemCount; // builder
   final double? childAspectRatio;
+  final EdgeInsets? padding;
   final Map<String, String>? cssStyle;
   final String? rawCss;
 
@@ -21,8 +25,10 @@ class FDGridView extends Widget {
     this.crossAxisSpacing = 0,
     this.mainAxisSpacing = 0,
     this.childAspectRatio,
+    this.padding,
     this.cssStyle,
     this.rawCss,
+    super.key,
   })  : type = GridViewType.count,
         itemBuilder = null,
         itemCount = null,
@@ -34,8 +40,10 @@ class FDGridView extends Widget {
     this.crossAxisSpacing = 0,
     this.mainAxisSpacing = 0,
     this.childAspectRatio,
+    this.padding,
     this.cssStyle,
     this.rawCss,
+    super.key,
   })  : type = GridViewType.extent,
         itemBuilder = null,
         itemCount = null,
@@ -48,8 +56,10 @@ class FDGridView extends Widget {
     this.crossAxisSpacing = 0,
     this.mainAxisSpacing = 0,
     this.childAspectRatio,
+    this.padding,
     this.cssStyle,
     this.rawCss,
+    super.key,
   })  : type = GridViewType.builder,
         children = null,
         maxCrossAxisExtent = null;
@@ -80,6 +90,7 @@ class FDGridView extends Widget {
           ? 'repeat(auto-fit, minmax(${maxCrossAxisExtent!.toInt()}px, 1fr))'
           : 'repeat($resolvedCount, 1fr)',
       'gap': '${mainAxisSpacing}px ${crossAxisSpacing}px',
+      if (padding != null) 'padding': padding!.toCss(),
     };
 
     if (cssStyle != null) {

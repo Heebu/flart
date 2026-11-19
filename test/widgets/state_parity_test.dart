@@ -132,5 +132,75 @@ void main() {
       final root = TestUtils.mountWidget(widget) as web.HTMLElement;
       expect(root.textContent, contains('Hello, FlartMaster!'));
     });
+
+    test('FutureBuilder transitions from waiting to withData', () async {
+      final widget = FutureBuilder<String>(
+        future: Future.delayed(const Duration(milliseconds: 20), () => 'Loaded Data!'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const FDText('Loading...');
+          }
+          if (snapshot.hasData) {
+            return FDText('Result: ${snapshot.data}');
+          }
+          return const FDText('No Data');
+        },
+      );
+
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.textContent, contains('Loading...'));
+
+      await Future<void>.delayed(const Duration(milliseconds: 60));
+      expect(root.textContent, contains('Result: Loaded Data!'));
+    });
+
+    test('StreamBuilder updates when stream emits events', () async {
+      final stream = Stream.fromIterable(['Event 1', 'Event 2', 'Event 3']);
+
+      final widget = StreamBuilder<String>(
+        stream: stream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return FDText('Latest: ${snapshot.data}');
+          }
+          return const FDText('Connecting...');
+        },
+      );
+
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      await Future<void>.delayed(const Duration(milliseconds: 60));
+      expect(root.textContent, contains('Latest: Event 3'));
+    });
+
+    test('Provider and Consumer propagate state changes', () async {
+      final model = ValueNotifier<int>(10);
+
+      final widget = ChangeNotifierProvider<ValueNotifier<int>>(
+        create: (_) => model,
+        child: Consumer<ValueNotifier<int>>(
+          builder: (context, val, _) {
+            return FDText('Current Val: ${val.value}');
+          },
+        ),
+      );
+
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.textContent, contains('Current Val: 10'));
+
+      model.value = 42;
+      await TestUtils.pump(30);
+      expect(root.textContent, contains('Current Val: 42'));
+    });
+
+    test('Builder passes valid BuildContext', () {
+      final widget = Builder(
+        builder: (context) {
+          return const FDText('Built with context!');
+        },
+      );
+
+      final root = TestUtils.mountWidget(widget) as web.HTMLElement;
+      expect(root.textContent, contains('Built with context!'));
+    });
   });
 }

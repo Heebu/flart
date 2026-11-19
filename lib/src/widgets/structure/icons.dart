@@ -66,7 +66,16 @@ class FDIcon extends Widget {
   }
 }
 
-typedef Icon = FDIcon;
+class Icon extends FDIcon {
+  const Icon(
+    super.icon, {
+    super.size = 24.0,
+    super.color = FlartColors.black,
+    super.tooltip,
+    super.semanticLabel,
+    super.key,
+  }) : super.fromIcon();
+}
 
 class FDIcons {
   static const String add = 'add';
@@ -77,6 +86,7 @@ class FDIcons {
   static const String close = 'close';
   static const String favorite = 'favorite';
   static const String person = 'person';
+  static const String user = 'person';
   static const String camera = 'camera';
   static const String edit = 'edit';
 
@@ -85,10 +95,12 @@ class FDIcons {
   static const String done = 'done';
   static const String check = 'check'; // Alias for done usually
   static const String check_circle = 'check_circle';
+  static const String checkCircle = 'check_circle';
   static const String info = 'info';
   static const String warning = 'warning';
   static const String error = 'error';
   static const String help = 'help';
+  static const String hourglass = 'hourglass_empty';
 
   static const String arrow_back = 'arrow_back';
   static const String arrow_forward = 'arrow_forward';

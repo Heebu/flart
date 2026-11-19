@@ -1,5 +1,10 @@
 import '../../../flartdart.dart';
 
+/// Flutter compatibility typedefs
+typedef StreamBuilder<T> = FDStreamBuilder<T>;
+typedef FutureBuilder<T> = FDFutureBuilder<T>;
+typedef Builder = FDBuilder;
+
 /// The state of an asynchronous computation.
 enum ConnectionState {
   /// Not currently connected to any asynchronous computation.
