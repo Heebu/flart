@@ -145,9 +145,8 @@ class FDMaterialApp extends Widget {
       id: 'flart-root-wrapper',
       styles: {
         'position': 'relative',
-        'width': '100vw',
-        'height': '100vh',
-        'overflow': 'hidden',
+        'width': '100%',
+        'min-height': '100vh',
       },
       children: [
         mainNode,
