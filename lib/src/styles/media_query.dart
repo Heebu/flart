@@ -1,4 +1,16 @@
 import 'package:web/web.dart' as web;
+import '../../flartdart.dart';
+
+enum ScreenSize {
+  small,
+  medium,
+  large,
+}
+
+enum Orientation {
+  portrait,
+  landscape,
+}
 
 class MediaQuery {
   final num width;
@@ -6,7 +18,7 @@ class MediaQuery {
 
   MediaQuery._(this.width, this.height);
 
-  static MediaQuery of() {
+  static MediaQuery of([BuildContext? context]) {
     final width = web.window.innerWidth;
     final height = web.window.innerHeight;
     return MediaQuery._(width, height);
@@ -15,6 +27,14 @@ class MediaQuery {
   bool get isSmall => width < 600;
   bool get isMedium => width >= 600 && width < 1024;
   bool get isLarge => width >= 1024;
+
+  ScreenSize get screenSize {
+    if (isSmall) return ScreenSize.small;
+    if (isMedium) return ScreenSize.medium;
+    return ScreenSize.large;
+  }
+
+  Size get size => Size(width.toDouble(), height.toDouble());
 
   String get sizeLabel {
     if (isSmall) {
@@ -30,6 +50,8 @@ class MediaQuery {
   bool get isLandscape => width > height;
 
   String get orientation => isPortrait ? 'portrait' : 'landscape';
+  Orientation get orientationEnum =>
+      isPortrait ? Orientation.portrait : Orientation.landscape;
 
   String get platform {
     final userAgent = web.window.navigator.userAgent.toLowerCase();

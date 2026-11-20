@@ -11,6 +11,7 @@ export 'src/widgets/inherited_widget.dart';
 export 'src/widgets/utils/async_widgets.dart';
 export 'src/widgets/utils/raw_html.dart';
 export 'src/widgets/utils/reconciler.dart';
+export 'src/widgets/utils/layout_builder.dart';
 export 'src/core/vdom/flart_node.dart';
 export 'src/core/vdom/vdom_reconciler.dart';
 export 'run_app.dart';

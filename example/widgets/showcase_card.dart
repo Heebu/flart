@@ -5,55 +5,73 @@ class ShowcaseCard extends StatelessWidget {
   final String description;
   final Widget child;
 
-  ShowcaseCard({
+  const ShowcaseCard({
     required this.title,
     required this.description,
     required this.child,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return FDContainer(
-      margin: EdgeInsets.only(bottom: 32),
+    final mq = MediaQuery.of(context);
+    final isSmall = mq.isSmall;
+    final isMedium = mq.isMedium;
+
+    final headerPadding = isSmall
+        ? const EdgeInsets.symmetric(horizontal: 14, vertical: 12)
+        : isMedium
+            ? const EdgeInsets.all(16)
+            : const EdgeInsets.all(20);
+
+    final contentPadding = isSmall
+        ? const EdgeInsets.all(12)
+        : isMedium
+            ? const EdgeInsets.all(20)
+            : const EdgeInsets.all(28);
+
+    return Container(
+      margin: EdgeInsets.only(bottom: isSmall ? 16 : 28),
       decoration: BoxDecoration(
-        color: FlartColor('#ffffff'),
+        color: const FlartColor('#ffffff'),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: FlartColor('#e2e8f0'), width: 1),
+        border: Border.all(color: const FlartColor('#e2e8f0'), width: 1),
         boxShadow: [
           BoxShadow(
-            color: FlartColor('#000000').withOpacity(0.05),
-            blurRadius: 10,
-            offset: Offset(0, 4),
+            color: const FlartColor('#000000').withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
-      child: FDColumn(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Header section
-          FDContainer(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
+          Container(
+            padding: headerPadding,
+            decoration: const BoxDecoration(
               border: Border(
-                  bottom: BorderSide(color: FlartColor('#e2e8f0'), width: 1)),
+                bottom: BorderSide(color: FlartColor('#e2e8f0'), width: 1),
+              ),
             ),
-            child: FDColumn(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FDText(
+                Text(
                   title,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: isSmall ? 17 : 20,
                     fontWeight: FontWeight.bold,
-                    color: FlartColor('#1e293b'),
+                    color: const FlartColor('#1e293b'),
                   ),
                 ),
-                FDSizedBox(height: 8),
-                FDText(
+                const SizedBox(height: 4),
+                Text(
                   description,
                   style: TextStyle(
-                    fontSize: 14,
-                    color: FlartColor('#64748b'),
+                    fontSize: isSmall ? 13 : 14,
+                    color: const FlartColor('#64748b'),
                   ),
                 ),
               ],
@@ -61,16 +79,16 @@ class ShowcaseCard extends StatelessWidget {
           ),
 
           // Widget showcase section
-          FDContainer(
-            padding: EdgeInsets.all(32),
-            decoration: BoxDecoration(
+          Container(
+            padding: contentPadding,
+            decoration: const BoxDecoration(
               color: FlartColor('#f8fafc'),
               borderRadius: BorderRadius.only(
                 bottomLeft: 12,
                 bottomRight: 12,
               ),
             ),
-            child: FDCenter(child: child),
+            child: Center(child: child),
           ),
         ],
       ),

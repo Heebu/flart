@@ -165,6 +165,7 @@ class FDScaffold extends Widget {
       );
       nodes.add(backdropNode);
 
+      final drawerWidth = drawer!.width ?? 304.0;
       final drawerNode = FlartElementNode(
         'div',
         id: 'flart-drawer',
@@ -173,7 +174,8 @@ class FDScaffold extends Widget {
           'top': '0',
           'left': '0',
           'height': '100%',
-          'width': '250px',
+          'width': '${drawerWidth}px',
+          'overflow': 'hidden',
           'background': 'white',
           'box-shadow': '2px 0 5px rgba(0,0,0,0.2)',
           'transform': 'translateX(-100%)',
