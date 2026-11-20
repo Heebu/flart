@@ -1,6 +1,7 @@
 import '../../../flartdart.dart';
 
 typedef Wrap = FDWrap;
+typedef WrapAlignment = MainAxisAlignment;
 
 /// A widget that displays its children in multiple horizontal or vertical runs.
 class FDWrap extends Widget {

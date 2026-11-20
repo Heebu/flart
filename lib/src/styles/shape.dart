@@ -17,3 +17,8 @@ enum Clip {
   antiAlias,
   antiAliasWithSaveLayer,
 }
+
+enum BoxShape {
+  rectangle,
+  circle,
+}

@@ -163,6 +163,21 @@ class FDIcons {
   static const String memory = 'memory';
   static const String security = 'security';
   static const String inbox = 'inbox';
+
+  static const String terminal = 'terminal';
+  static const String cloud = 'cloud';
+  static const String devices = 'devices';
+  static const String palette = 'palette';
+  static const String view_stream = 'view_stream';
+  static const String view_quilt = 'view_quilt';
+  static const String image = 'image';
+  static const String verified = 'verified';
+  static const String compress = 'compress';
+  static const String info_outline = 'info_outline';
+  static const String phone_android = 'phone_android';
+  static const String laptop = 'laptop';
+  static const String grid_view = 'grid_view';
+  static const String alt_route = 'alt_route';
 }
 
 typedef Icons = FDIcons;

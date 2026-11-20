@@ -310,3 +310,27 @@ class FDCircleAvatar extends Widget {
     );
   }
 }
+
+/// A widget that conditionally shows or hides its child.
+class FDVisibility extends Widget {
+  final Widget child;
+  final bool visible;
+  final Widget replacement;
+
+  const FDVisibility({
+    required this.child,
+    this.visible = true,
+    this.replacement = const FDSizedBox.shrink(),
+    super.key,
+  });
+
+  @override
+  FlartNode buildNode(BuildContext context) {
+    if (visible) {
+      return child.buildNode(context);
+    }
+    return replacement.buildNode(context);
+  }
+}
+
+typedef Visibility = FDVisibility;

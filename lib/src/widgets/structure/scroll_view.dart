@@ -1,5 +1,7 @@
 import '../../../flartdart.dart';
 
+typedef SingleChildScrollView = FDSingleChildScrollView;
+
 /// A widget that makes its child scrollable
 class FDSingleChildScrollView extends Widget {
   final Widget child;

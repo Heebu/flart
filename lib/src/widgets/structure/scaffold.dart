@@ -58,6 +58,8 @@ void toggleDrawer() {
   }
 }
 
+typedef Scaffold = FDScaffold;
+
 class FDScaffold extends Widget {
   final FDAppBar? appBar;
   final Widget? body;

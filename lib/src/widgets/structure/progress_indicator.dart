@@ -1,5 +1,8 @@
 import '../../../flartdart.dart';
 
+typedef CircularProgressIndicator = FDCircularProgressIndicator;
+typedef LinearProgressIndicator = FDLinearProgressIndicator;
+
 /// A circular progress indicator
 class FDCircularProgressIndicator extends Widget {
   final double size;

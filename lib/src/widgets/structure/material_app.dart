@@ -2,6 +2,8 @@ import 'package:web/web.dart' as web;
 
 import '../../../flartdart.dart';
 
+typedef MaterialApp = FDMaterialApp;
+
 class FDMaterialApp extends Widget {
   final String title;
   final FlartColor? backgroundColor;

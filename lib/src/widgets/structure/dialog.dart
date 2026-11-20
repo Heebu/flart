@@ -3,6 +3,8 @@ import 'dart:js_interop';
 import 'dart:async';
 import '../../../flartdart.dart';
 
+typedef Dialog = FDDialog;
+
 class FDDialog extends Widget {
   final Widget? child;
   final FlartColor? backgroundColor;

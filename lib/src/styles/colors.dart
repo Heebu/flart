@@ -1,13 +1,40 @@
 class FlartColor {
   final String hex;
-  const FlartColor(this.hex);
-  const FlartColor.fromHex(this.hex);
+  final int? value;
+
+  const FlartColor(this.hex) : value = null;
+  const FlartColor.fromHex(this.hex) : value = null;
+  const FlartColor.fromValue(this.value, [this.hex = '']);
+
+  String get _effectiveHex {
+    if (value != null) {
+      return _intToHex(value!);
+    }
+    return hex;
+  }
+
+  static String _intToHex(int val) {
+    final hexStr = val.toRadixString(16).padLeft(8, '0');
+    final a = hexStr.substring(0, 2);
+    final r = hexStr.substring(2, 4);
+    final g = hexStr.substring(4, 6);
+    final b = hexStr.substring(6, 8);
+    final alpha = int.parse(a, radix: 16) / 255.0;
+    if (alpha >= 0.999) {
+      return '#$r$g$b';
+    }
+    final red = int.parse(r, radix: 16);
+    final green = int.parse(g, radix: 16);
+    final blue = int.parse(b, radix: 16);
+    return 'rgba($red, $green, $blue, ${alpha.toStringAsFixed(2)})';
+  }
 
   Map<String, int> _hexToRgb() {
-    if (!hex.startsWith('#') || hex.length < 7) {
+    final effective = _effectiveHex;
+    if (!effective.startsWith('#') || effective.length < 7) {
       return {'r': 0, 'g': 0, 'b': 0};
     }
-    final hexWithoutHash = hex.replaceFirst('#', '');
+    final hexWithoutHash = effective.replaceFirst('#', '');
     try {
       final r = int.parse(hexWithoutHash.substring(0, 2), radix: 16);
       final g = int.parse(hexWithoutHash.substring(2, 4), radix: 16);
@@ -39,10 +66,18 @@ class FlartColor {
   }
 
   FlartColor withOpacity(double opacity) {
-    if (hex.startsWith('#')) {
+    final effective = _effectiveHex;
+    if (effective.startsWith('#')) {
       final rgb = _hexToRgb();
       return FlartColor(
           'rgba(${rgb['r']}, ${rgb['g']}, ${rgb['b']}, $opacity)');
+    }
+    return this;
+  }
+
+  FlartColor withValues({double? alpha}) {
+    if (alpha != null) {
+      return withOpacity(alpha);
     }
     return this;
   }
@@ -52,13 +87,13 @@ class FlartColor {
       identical(this, other) ||
       other is FlartColor &&
           runtimeType == other.runtimeType &&
-          hex == other.hex;
+          _effectiveHex == other._effectiveHex;
 
   @override
-  int get hashCode => hex.hashCode;
+  int get hashCode => _effectiveHex.hashCode;
 
   @override
-  String toString() => hex;
+  String toString() => _effectiveHex;
 }
 
 class FlartMaterialColor extends FlartColor {
@@ -119,15 +154,6 @@ class FlartColors {
     700: FlartColor('#616161'),
   });
 
-  static const pink = FlartMaterialColor('#E91E63', {
-    50: FlartColor('#FCE4EC'),
-    100: FlartColor('#F8BBD0'),
-    500: FlartColor('#E91E63'),
-    900: FlartColor('#880E4F'),
-  });
-
-  static const lightGrey = FlartColor('#F9F9F9');
-
   static const purple = FlartMaterialColor('#9C27B0', {
     50: FlartColor('#F3E5F5'),
     100: FlartColor('#E1BEE7'),
@@ -141,37 +167,18 @@ class FlartColors {
     900: FlartColor('#4A148C'),
   });
 
-  static const deepPurple = FlartMaterialColor('#673AB7', {
-    50: FlartColor('#EDE7F6'),
-    100: FlartColor('#D1C4E9'),
-    200: FlartColor('#B39DDB'),
-    300: FlartColor('#9575CD'),
-    400: FlartColor('#7E57C2'),
-    500: FlartColor('#673AB7'),
-    600: FlartColor('#5E35B1'),
-    700: FlartColor('#512DA8'),
-    800: FlartColor('#4527A0'),
-    900: FlartColor('#311B92'),
+  static const pink = FlartMaterialColor('#E91E63', {
+    50: FlartColor('#FCE4EC'),
+    100: FlartColor('#F8BBD0'),
+    500: FlartColor('#E91E63'),
+    900: FlartColor('#880E4F'),
   });
 
   static const indigo = FlartMaterialColor('#3F51B5', {
     50: FlartColor('#E8EAF6'),
     100: FlartColor('#C5CAE9'),
-    200: FlartColor('#9FA8DA'),
-    300: FlartColor('#7986CB'),
-    400: FlartColor('#5C6BC0'),
     500: FlartColor('#3F51B5'),
-    600: FlartColor('#3949AB'),
-    700: FlartColor('#303F9F'),
-    800: FlartColor('#283593'),
     900: FlartColor('#1A237E'),
-  });
-
-  static const lightBlue = FlartMaterialColor('#03A9F4', {
-    50: FlartColor('#E1F5FE'),
-    100: FlartColor('#B3E5FC'),
-    500: FlartColor('#03A9F4'),
-    900: FlartColor('#01579B'),
   });
 
   static const cyan = FlartMaterialColor('#00BCD4', {
@@ -244,3 +251,14 @@ class FlartColors {
     900: FlartColor('#263238'),
   });
 }
+
+class Color extends FlartColor {
+  const Color(super.value) : super.fromValue();
+  const Color.fromHex(super.hex) : super.fromHex();
+  const Color.fromRGBO(int r, int g, int b, double opacity)
+      : super('rgba($r, $g, $b, $opacity)');
+  const Color.fromARGB(int a, int r, int g, int b)
+      : super('rgba($r, $g, $b, ${a / 255.0})');
+}
+
+typedef Colors = FlartColors;

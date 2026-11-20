@@ -28,6 +28,7 @@ class FDTextField extends StatelessWidget {
   final String? helperText;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final bool autofocus;
 
   const FDTextField({
     this.controller,
@@ -42,6 +43,7 @@ class FDTextField extends StatelessWidget {
     this.obscureText = false,
     this.enabled = true,
     this.readOnly = false,
+    this.autofocus = false,
     this.maxLines = 1,
     this.maxLength,
     this.style,
@@ -152,6 +154,7 @@ class FDTextField extends StatelessWidget {
                 controller: effectiveController,
                 placeholder: effectiveHintText,
                 obscureText: obscureText,
+                autofocus: autofocus,
                 maxLength: maxLength,
                 onChanged: onChanged,
                 onSubmitted: onSubmitted,

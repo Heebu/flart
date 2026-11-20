@@ -1,3 +1,16 @@
+class Radius {
+  final double x;
+  final double y;
+
+  const Radius.circular(double radius)
+      : x = radius,
+        y = radius;
+
+  const Radius.elliptical(this.x, this.y);
+
+  static const Radius zero = Radius.circular(0);
+}
+
 class BorderRadius {
   final double topLeft;
   final double topRight;
@@ -35,7 +48,7 @@ class BorderRadius {
         topRight = right,
         bottomRight = right;
 
-  static const BorderRadius zero = BorderRadius.all(0);
+  static const BorderRadius zero = BorderRadius.circular(0);
 
   String toCss() {
     if (topLeft == topRight &&

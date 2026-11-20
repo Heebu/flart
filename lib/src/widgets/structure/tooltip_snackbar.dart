@@ -1,5 +1,8 @@
 import '../../../flartdart.dart';
 
+typedef Tooltip = FDTooltip;
+typedef SnackBar = FDSnackBar;
+
 /// A Tooltip widget that reveals a text label on hover
 class FDTooltip extends Widget {
   final Widget child;

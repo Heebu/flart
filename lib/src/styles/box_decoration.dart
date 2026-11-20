@@ -7,6 +7,7 @@ class BoxDecoration {
   final Border? border;
   final String? FDImage;
   final Gradient? gradient;
+  final BoxShape? shape;
 
   const BoxDecoration({
     this.color,
@@ -15,6 +16,7 @@ class BoxDecoration {
     this.border,
     this.FDImage,
     this.gradient,
+    this.shape,
   });
 
   Map<String, String> toCss() {
@@ -22,7 +24,9 @@ class BoxDecoration {
 
     if (color != null) style['background-color'] = color!.toString();
 
-    if (borderRadius != null) {
+    if (shape == BoxShape.circle) {
+      style['border-radius'] = '50%';
+    } else if (borderRadius != null) {
       style.addAll({
         'border-radius':
             '${borderRadius!.topLeft}px ${borderRadius!.topRight}px ${borderRadius!.bottomRight}px ${borderRadius!.bottomLeft}px',

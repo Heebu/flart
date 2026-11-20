@@ -117,8 +117,12 @@ class BoxConstraints {
   Map<String, String> toCssMap() {
     final style = <String, String>{};
 
-    if (minWidth == maxWidth && minWidth != double.infinity) {
-      style['width'] = '${minWidth}px';
+    if (minWidth == maxWidth) {
+      if (minWidth == double.infinity) {
+        style['width'] = '100%';
+      } else {
+        style['width'] = '${minWidth}px';
+      }
     } else {
       if (minWidth > 0 && minWidth != double.infinity) {
         style['min-width'] = '${minWidth}px';
@@ -131,8 +135,12 @@ class BoxConstraints {
       }
     }
 
-    if (minHeight == maxHeight && minHeight != double.infinity) {
-      style['height'] = '${minHeight}px';
+    if (minHeight == maxHeight) {
+      if (minHeight == double.infinity) {
+        style['height'] = '100%';
+      } else {
+        style['height'] = '${minHeight}px';
+      }
     } else {
       if (minHeight > 0 && minHeight != double.infinity) {
         style['min-height'] = '${minHeight}px';

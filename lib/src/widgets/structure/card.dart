@@ -1,5 +1,7 @@
 import '../../../flartdart.dart';
 
+typedef Card = FDCard;
+
 /// A Material Design card with elevation and rounded corners.
 class FDCard extends Widget {
   final Widget? child;
