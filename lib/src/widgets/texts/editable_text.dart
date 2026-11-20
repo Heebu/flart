@@ -107,8 +107,9 @@ class _FDEditableTextState extends State<FDEditableText> {
     };
 
     if (isMultiline) {
-      if (widget.maxLines != null)
+      if (widget.maxLines != null) {
         attributes['rows'] = widget.maxLines!.toString();
+      }
       return FDElement(
         tag: 'textarea',
         attributes: attributes,

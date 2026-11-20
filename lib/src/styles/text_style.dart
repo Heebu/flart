@@ -151,29 +151,50 @@ class TextStyle {
 
   Map<String, String> toCss() {
     final styles = <String, String>{};
-    if (color != null) styles['color'] = color.toString();
-    if (backgroundColor != null)
+    if (color != null) {
+      styles['color'] = color.toString();
+    }
+    if (backgroundColor != null) {
       styles['background-color'] = backgroundColor.toString();
-    if (fontSize != null) styles['font-size'] = '${fontSize}px';
-    if (fontWeight != null) styles['font-weight'] = fontWeight!.value;
-    if (fontStyle != null)
+    }
+    if (fontSize != null) {
+      styles['font-size'] = '${fontSize}px';
+    }
+    if (fontWeight != null) {
+      styles['font-weight'] = fontWeight!.value;
+    }
+    if (fontStyle != null) {
       styles['font-style'] =
           fontStyle == FontStyle.italic ? 'italic' : 'normal';
-    if (fontFamily != null) styles['font-family'] = fontFamily!;
-    if (letterSpacing != null) styles['letter-spacing'] = '${letterSpacing}px';
-    if (wordSpacing != null) styles['word-spacing'] = '${wordSpacing}px';
-    if (height != null) styles['line-height'] = height.toString();
+    }
+    if (fontFamily != null) {
+      styles['font-family'] = fontFamily!;
+    }
+    if (letterSpacing != null) {
+      styles['letter-spacing'] = '${letterSpacing}px';
+    }
+    if (wordSpacing != null) {
+      styles['word-spacing'] = '${wordSpacing}px';
+    }
+    if (height != null) {
+      styles['line-height'] = height.toString();
+    }
     if (decoration != null) {
       styles['text-decoration'] = decoration.toString();
       styles['text-decoration-line'] = decoration.toString();
     }
-    if (decorationColor != null)
+    if (decorationColor != null) {
       styles['text-decoration-color'] = decorationColor.toString();
-    if (decorationStyle != null)
+    }
+    if (decorationStyle != null) {
       styles['text-decoration-style'] = decorationStyle!.name;
-    if (decorationThickness != null)
+    }
+    if (decorationThickness != null) {
       styles['text-decoration-thickness'] = '${decorationThickness}px';
-    if (overflow == TextOverflow.ellipsis) styles['text-overflow'] = 'ellipsis';
+    }
+    if (overflow == TextOverflow.ellipsis) {
+      styles['text-overflow'] = 'ellipsis';
+    }
     return styles;
   }
 }

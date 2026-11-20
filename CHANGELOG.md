@@ -5,17 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2026-11-20
+## [2.1.0] - 2026-11-20
 
-### 🚀 Major Architectural Shift: Virtual DOM Engine & Flutter Parity
+### 🚀 Flutter API Parity & Responsive Multi-View Engine
 
-- **Flart Virtual DOM (VDOM)**: Completely overhauled the underlying rendering architecture. The framework builds an intermediate Virtual DOM (`FlartNode`) instead of concatenating raw HTML strings, enabling significantly higher performance, true state persistence, and fine-grained DOM patching.
-- **Granular VDOM Reconciler**: Replaced naive `innerHTML` patching in `StatefulWidget` with a granular `VDOMReconciler` that efficiently diffs and patches node attributes, styles, events, and text content independently, keeping UI state completely intact across updates.
 - **100% Flutter API Parity**: Added full Flutter compatibility typedefs across all 9 widget categories (`Container`, `Row`, `Column`, `Stack`, `Positioned`, `ListView`, `TextField`, `TextFormField`, `ElevatedButton`, `OutlinedButton`, `TextButton`, `IconButton`, `AnimatedContainer`, `AnimatedOpacity`, `AnimatedCrossFade`, `AnimatedRotation`, `AnimatedScale`, `AnimatedSlide`, `Hero`, `FutureBuilder`, `StreamBuilder`, `ValueListenableBuilder`, `ChangeNotifierProvider`, `Consumer`, etc.).
 - **Zero Raw CSS Dependency**: Refactored all widgets across the 9 categories to use standard Flutter-like styling APIs (`BoxDecoration`, `LinearGradient`, `BoxConstraints`, `InputDecoration`, `ButtonStyle`, `TextStyle`, `Clip`) instead of requiring `rawCss` or `cssStyle` escape hatches.
 - **Responsive & Adaptive Layouts**: Introduced reactive `LayoutBuilder`, `OrientationBuilder`, `ResponsiveLayout`, and responsive screen classification via `MediaQuery` (`isSmall` <600px, `isMedium` 600–1023px, `isLarge` ≥1024px).
-- **SEO & Performance Driven Animations**: Rebuilt the animation engine (`AnimatedWidget`, `AnimatedBuilder`, `AnimationController`, `Ticker`) to synchronize directly with the VDOM architecture, patching inline styles without thrashing the DOM.
-- **Production-Grade Quality**: 0 static analysis issues (`dart analyze`), 0 documentation warnings (`dart doc`), and 100% test pass rate in headless Chrome.
+- **Chrome Test Suite**: Added automated tests for responsive layouts and reactive state management running in headless Chrome.
+- **Production-Grade Quality**: 0 static analysis issues (`dart analyze`), 0 documentation warnings (`dart doc`), and clean package validation.
+
+---
+
+## [2.0.0] - 2026-08-23
+
+### 🚀 Major Architectural Shift: Virtual DOM Engine
+
+- **Flart Virtual DOM (VDOM)**: Completely overhauled the underlying rendering architecture. The framework now builds an intermediate Virtual DOM (`FlartNode`) instead of concatenating raw HTML strings, enabling significantly higher performance, true state persistence, and fine-grained DOM patching.
+- **Progressive Migration Bridge**: Introduced a robust bridging system (`FlartRawHtmlNode` and `Widget.render` fallback) that allows seamlessly mixing newly-migrated VDOM widgets with older string-based widgets. All core layout and structure widgets have been migrated to the new `buildNode(context)` architecture.
+- **SEO & Performance Driven Animations**: Rebuilt the animation engine (`AnimatedWidget`, `AnimatedBuilder`, `AnimationController`, `Ticker`) to synchronize directly with the new VDOM architecture. Animations now efficiently patch inline styles without unnecessarily thrashing the DOM or losing input focus.
+- **DOM Reconciler**: Replaced the naive `innerHTML` patching in `StatefulWidget` with a granular `VDOMReconciler` that efficiently diffs and patches node attributes, styles, events, and text content independently, keeping UI state completely intact across updates.
 
 ---
 
