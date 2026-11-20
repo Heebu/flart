@@ -50,8 +50,11 @@ class Path {
     _ops.add((ctx) => ctx.closePath());
   }
 
-  void arc(double x, double y, double radius, double startAngle, double endAngle, [bool counterclockwise = false]) {
-    _ops.add((ctx) => ctx.arc(x, y, radius, startAngle, endAngle, counterclockwise));
+  void arc(
+      double x, double y, double radius, double startAngle, double endAngle,
+      [bool counterclockwise = false]) {
+    _ops.add(
+        (ctx) => ctx.arc(x, y, radius, startAngle, endAngle, counterclockwise));
   }
 
   void addRect(double x, double y, double w, double h) {
@@ -140,10 +143,14 @@ abstract class Canvas {
   void drawCircle(double x, double y, double radius, Paint paint);
   void drawLine(double x1, double y1, double x2, double y2, Paint paint);
   void drawPath(Path path, Paint paint);
-  void drawOval(double x, double y, double radiusX, double radiusY, Paint paint);
-  void drawArc(double x, double y, double radius, double startAngle, double sweepAngle, bool useCenter, Paint paint);
-  void drawRRect(double x, double y, double w, double h, double radius, Paint paint);
-  void drawText(String text, double x, double y, {String? font, FlartColor? color, String? textAlign});
+  void drawOval(
+      double x, double y, double radiusX, double radiusY, Paint paint);
+  void drawArc(double x, double y, double radius, double startAngle,
+      double sweepAngle, bool useCenter, Paint paint);
+  void drawRRect(
+      double x, double y, double w, double h, double radius, Paint paint);
+  void drawText(String text, double x, double y,
+      {String? font, FlartColor? color, String? textAlign});
   void clearRect(double x, double y, double w, double h);
   void save();
   void restore();
@@ -203,7 +210,8 @@ class _WebCanvas implements Canvas {
   }
 
   @override
-  void drawOval(double x, double y, double radiusX, double radiusY, Paint paint) {
+  void drawOval(
+      double x, double y, double radiusX, double radiusY, Paint paint) {
     paint.apply(_ctx);
     _ctx.beginPath();
     _ctx.ellipse(x, y, radiusX, radiusY, 0, 0, 2 * math.pi);
@@ -215,7 +223,8 @@ class _WebCanvas implements Canvas {
   }
 
   @override
-  void drawArc(double x, double y, double radius, double startAngle, double sweepAngle, bool useCenter, Paint paint) {
+  void drawArc(double x, double y, double radius, double startAngle,
+      double sweepAngle, bool useCenter, Paint paint) {
     paint.apply(_ctx);
     _ctx.beginPath();
     if (useCenter) {
@@ -233,7 +242,8 @@ class _WebCanvas implements Canvas {
   }
 
   @override
-  void drawRRect(double x, double y, double w, double h, double radius, Paint paint) {
+  void drawRRect(
+      double x, double y, double w, double h, double radius, Paint paint) {
     paint.apply(_ctx);
     _ctx.beginPath();
     _ctx.roundRect(x, y, w, h, radius.toJS);
@@ -245,7 +255,8 @@ class _WebCanvas implements Canvas {
   }
 
   @override
-  void drawText(String text, double x, double y, {String? font, FlartColor? color, String? textAlign}) {
+  void drawText(String text, double x, double y,
+      {String? font, FlartColor? color, String? textAlign}) {
     if (font != null) _ctx.font = font;
     if (color != null) _ctx.fillStyle = color.toString().toJS;
     if (textAlign != null) _ctx.textAlign = textAlign;
@@ -299,7 +310,8 @@ class _WebCanvas implements Canvas {
   @override
   void drawColor(FlartColor color) {
     _ctx.fillStyle = color.toString().toJS;
-    _ctx.fillRect(0, 0, _ctx.canvas.width.toDouble(), _ctx.canvas.height.toDouble());
+    _ctx.fillRect(
+        0, 0, _ctx.canvas.width.toDouble(), _ctx.canvas.height.toDouble());
   }
 }
 
@@ -327,11 +339,13 @@ class FDCustomPaint extends Widget {
 
   @override
   FlartNode buildNode(BuildContext context) {
-    final canvasId = 'custom_paint_${DateTime.now().microsecondsSinceEpoch}_${(math.Random().nextDouble() * 10000).toInt()}';
+    final canvasId =
+        'custom_paint_${DateTime.now().microsecondsSinceEpoch}_${(math.Random().nextDouble() * 10000).toInt()}';
 
     // Trigger painting after mount
     scheduleMicrotask(() {
-      final canvas = web.document.getElementById(canvasId) as web.HTMLCanvasElement?;
+      final canvas =
+          web.document.getElementById(canvasId) as web.HTMLCanvasElement?;
       if (canvas != null) {
         final ctx = canvas.context2D;
         final webCanvas = _WebCanvas(ctx);

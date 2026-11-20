@@ -1,3 +1,4 @@
+/// A comprehensive Flutter-inspired reactive UI framework for pure Dart web applications.
 library flartdart;
 
 // Core

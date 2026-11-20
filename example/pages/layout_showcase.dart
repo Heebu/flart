@@ -21,15 +21,16 @@ class LayoutShowcase extends StatelessWidget {
           style: TextStyle(fontSize: 16, color: FlartColor('#64748b')),
         ),
         const FDSizedBox(height: 32),
-
         ShowcaseCard(
-          title: '1. FDRow (MainAxisAlignment, CrossAxisAlignment & MainAxisSize)',
+          title:
+              '1. FDRow (MainAxisAlignment, CrossAxisAlignment & MainAxisSize)',
           description:
               'Arranges children horizontally. Demonstrates MainAxisSize.min (content-tight width) vs MainAxisSize.max (full width), spacing, and alignment options.',
           child: FDColumn(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _buildSectionLabel('MainAxisSize.max with MainAxisAlignment.spaceBetween:'),
+              _buildSectionLabel(
+                  'MainAxisSize.max with MainAxisAlignment.spaceBetween:'),
               FDSizedBox(height: 8),
               FDContainer(
                 padding: const EdgeInsets.all(12),
@@ -49,7 +50,6 @@ class LayoutShowcase extends StatelessWidget {
                 ),
               ),
               FDSizedBox(height: 16),
-
               _buildSectionLabel('MainAxisSize.min (fit-content width):'),
               FDSizedBox(height: 8),
               FDContainer(
@@ -73,8 +73,8 @@ class LayoutShowcase extends StatelessWidget {
                 ),
               ),
               FDSizedBox(height: 16),
-
-              _buildSectionLabel('CrossAxisAlignment.center with varying heights & spacing:'),
+              _buildSectionLabel(
+                  'CrossAxisAlignment.center with varying heights & spacing:'),
               FDSizedBox(height: 8),
               FDContainer(
                 padding: const EdgeInsets.all(12),
@@ -96,7 +96,6 @@ class LayoutShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '2. FDColumn (MainAxisAlignment & CrossAxisAlignment)',
           description:
@@ -131,7 +130,6 @@ class LayoutShowcase extends StatelessWidget {
                   ],
                 ),
               ),
-
               FDExpanded(
                 child: FDColumn(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,7 +159,6 @@ class LayoutShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '3. FDStack & FDPositioned (Multi-layer Composition)',
           description:
@@ -207,7 +204,8 @@ class LayoutShowcase extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: FlartColor('#10b981'),
                           borderRadius: BorderRadius.circular(28),
-                          border: Border.all(color: FlartColors.white, width: 3),
+                          border:
+                              Border.all(color: FlartColors.white, width: 3),
                         ),
                         alignment: Alignment.center,
                         child: const FDText(
@@ -224,14 +222,16 @@ class LayoutShowcase extends StatelessWidget {
                       top: 12,
                       right: 12,
                       child: FDContainer(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                           color: FlartColor('#000000').withOpacity(0.3),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const FDText(
                           'Active',
-                          style: TextStyle(color: FlartColors.white, fontSize: 11),
+                          style:
+                              TextStyle(color: FlartColors.white, fontSize: 11),
                         ),
                       ),
                     ),
@@ -244,11 +244,13 @@ class LayoutShowcase extends StatelessWidget {
                         children: [
                           const FDText(
                             'Flart Stack Engine',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 14),
                           ),
                           const FDText(
                             'Pure Dart CSS Positioned',
-                            style: TextStyle(color: FlartColor('#64748b'), fontSize: 12),
+                            style: TextStyle(
+                                color: FlartColor('#64748b'), fontSize: 12),
                           ),
                         ],
                       ),
@@ -256,7 +258,6 @@ class LayoutShowcase extends StatelessWidget {
                   ],
                 ),
               ),
-
               FDContainer(
                 width: 240,
                 height: 180,
@@ -275,7 +276,8 @@ class LayoutShowcase extends StatelessWidget {
                         alignment: Alignment.center,
                         child: const FDText(
                           'Background Layer',
-                          style: TextStyle(color: FlartColor('#475569'), fontSize: 13),
+                          style: TextStyle(
+                              color: FlartColor('#475569'), fontSize: 13),
                         ),
                       ),
                     ),
@@ -292,7 +294,10 @@ class LayoutShowcase extends StatelessWidget {
                         alignment: Alignment.center,
                         child: const FDText(
                           'Centered Glass Layer',
-                          style: TextStyle(color: FlartColors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                          style: TextStyle(
+                              color: FlartColors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -303,7 +308,6 @@ class LayoutShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '4. FDAlign (Alignment Anchors & Factor Sizing)',
           description:
@@ -311,7 +315,8 @@ class LayoutShowcase extends StatelessWidget {
           child: FDColumn(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSectionLabel('9-point Alignment Matrix inside a bounded box:'),
+              _buildSectionLabel(
+                  '9-point Alignment Matrix inside a bounded box:'),
               FDSizedBox(height: 8),
               FDContainer(
                 width: 480,
@@ -323,21 +328,39 @@ class LayoutShowcase extends StatelessWidget {
                 ),
                 child: FDStack(
                   children: [
-                    FDAlign(alignment: Alignment.topLeft, child: _buildMiniAnchor('Top-Left')),
-                    FDAlign(alignment: Alignment.topCenter, child: _buildMiniAnchor('Top-Center')),
-                    FDAlign(alignment: Alignment.topRight, child: _buildMiniAnchor('Top-Right')),
-                    FDAlign(alignment: Alignment.centerLeft, child: _buildMiniAnchor('Center-Left')),
-                    FDAlign(alignment: Alignment.center, child: _buildMiniAnchor('Center', highlight: true)),
-                    FDAlign(alignment: Alignment.centerRight, child: _buildMiniAnchor('Center-Right')),
-                    FDAlign(alignment: Alignment.bottomLeft, child: _buildMiniAnchor('Bottom-Left')),
-                    FDAlign(alignment: Alignment.bottomCenter, child: _buildMiniAnchor('Bottom-Center')),
-                    FDAlign(alignment: Alignment.bottomRight, child: _buildMiniAnchor('Bottom-Right')),
+                    FDAlign(
+                        alignment: Alignment.topLeft,
+                        child: _buildMiniAnchor('Top-Left')),
+                    FDAlign(
+                        alignment: Alignment.topCenter,
+                        child: _buildMiniAnchor('Top-Center')),
+                    FDAlign(
+                        alignment: Alignment.topRight,
+                        child: _buildMiniAnchor('Top-Right')),
+                    FDAlign(
+                        alignment: Alignment.centerLeft,
+                        child: _buildMiniAnchor('Center-Left')),
+                    FDAlign(
+                        alignment: Alignment.center,
+                        child: _buildMiniAnchor('Center', highlight: true)),
+                    FDAlign(
+                        alignment: Alignment.centerRight,
+                        child: _buildMiniAnchor('Center-Right')),
+                    FDAlign(
+                        alignment: Alignment.bottomLeft,
+                        child: _buildMiniAnchor('Bottom-Left')),
+                    FDAlign(
+                        alignment: Alignment.bottomCenter,
+                        child: _buildMiniAnchor('Bottom-Center')),
+                    FDAlign(
+                        alignment: Alignment.bottomRight,
+                        child: _buildMiniAnchor('Bottom-Right')),
                   ],
                 ),
               ),
               FDSizedBox(height: 16),
-
-              _buildSectionLabel('FDAlign with widthFactor (2.0) and heightFactor (1.5):'),
+              _buildSectionLabel(
+                  'FDAlign with widthFactor (2.0) and heightFactor (1.5):'),
               FDSizedBox(height: 8),
               FDContainer(
                 decoration: BoxDecoration(
@@ -368,7 +391,6 @@ class LayoutShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '5. FDCenter (Dedicated Center Primitive)',
           description:
@@ -397,13 +419,13 @@ class LayoutShowcase extends StatelessWidget {
                 child: FDCenter(
                   widthFactor: 1.8,
                   heightFactor: 2.0,
-                  child: _buildPill('widthFactor: 1.8, heightFactor: 2.0', '#2563eb'),
+                  child: _buildPill(
+                      'widthFactor: 1.8, heightFactor: 2.0', '#2563eb'),
                 ),
               ),
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '6. FDWrap (Responsive Tag Cloud & Flow Runs)',
           description:
@@ -411,7 +433,8 @@ class LayoutShowcase extends StatelessWidget {
           child: FDColumn(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSectionLabel('Flowing Tags with spacing: 10, runSpacing: 10:'),
+              _buildSectionLabel(
+                  'Flowing Tags with spacing: 10, runSpacing: 10:'),
               FDSizedBox(height: 8),
               FDWrap(
                 spacing: 10,
@@ -433,7 +456,6 @@ class LayoutShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '7. FDListView (Standard, Builder, Separated & Horizontal)',
           description:
@@ -455,13 +477,15 @@ class LayoutShowcase extends StatelessWidget {
                   itemCount: 4,
                   itemBuilder: (context, index) {
                     return FDContainer(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
                       child: FDRow(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           FDText(
                             'Item #${index + 1}: Category 2 Feature',
-                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 13),
                           ),
                           _buildPill('Status: Fixed', '#10b981'),
                         ],
@@ -469,13 +493,14 @@ class LayoutShowcase extends StatelessWidget {
                     );
                   },
                   separatorBuilder: (context, index) {
-                    return const FDDivider(color: FlartColor('#e2e8f0'), height: 1);
+                    return const FDDivider(
+                        color: FlartColor('#e2e8f0'), height: 1);
                   },
                 ),
               ),
               FDSizedBox(height: 16),
-
-              _buildSectionLabel('FDListView (scrollDirection: Axis.horizontal, shrinkWrap: true):'),
+              _buildSectionLabel(
+                  'FDListView (scrollDirection: Axis.horizontal, shrinkWrap: true):'),
               FDSizedBox(height: 8),
               FDContainer(
                 height: 100,
@@ -493,11 +518,14 @@ class LayoutShowcase extends StatelessWidget {
                       width: 140,
                       margin: const EdgeInsets.only(right: 12),
                       decoration: BoxDecoration(
-                        color: index.isEven ? const FlartColor('#3b82f6') : const FlartColor('#6366f1'),
+                        color: index.isEven
+                            ? const FlartColor('#3b82f6')
+                            : const FlartColor('#6366f1'),
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(
-                            color: const FlartColor('#000000').withOpacity(0.08),
+                            color:
+                                const FlartColor('#000000').withOpacity(0.08),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -552,7 +580,8 @@ class LayoutShowcase extends StatelessWidget {
     );
   }
 
-  Widget _buildBlock(String text, String hexColor, {required double width, required double height}) {
+  Widget _buildBlock(String text, String hexColor,
+      {required double width, required double height}) {
     return FDContainer(
       width: width,
       height: height,
@@ -577,7 +606,9 @@ class LayoutShowcase extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: highlight ? const FlartColor('#ef4444') : const FlartColor('#334155'),
+        color: highlight
+            ? const FlartColor('#ef4444')
+            : const FlartColor('#334155'),
         borderRadius: BorderRadius.circular(4),
       ),
       child: FDText(

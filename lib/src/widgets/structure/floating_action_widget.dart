@@ -85,7 +85,8 @@ class FDFloatingActionButton extends Widget {
       'align-items': 'center',
       'justify-content': 'center',
       'padding': mini ? '0 8px' : '0 16px',
-      'box-shadow': '0 ${elevation}px ${shadowBlur}px rgba(0,0,0,0.2), 0 ${shadowSpread}px ${elevation * 1.5}px rgba(0,0,0,0.14)',
+      'box-shadow':
+          '0 ${elevation}px ${shadowBlur}px rgba(0,0,0,0.2), 0 ${shadowSpread}px ${elevation * 1.5}px rgba(0,0,0,0.14)',
       'cursor': onPressed != null ? 'pointer' : 'default',
       'user-select': 'none',
       'transition': 'all 0.2s ease-in-out',

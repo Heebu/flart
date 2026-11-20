@@ -1,6 +1,7 @@
 .idea/
 .dart_tool/
 build/
+doc/api/
 my_apps/
 idris_project/
 tmp/

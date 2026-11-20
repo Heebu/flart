@@ -70,7 +70,8 @@ class FDCheckbox extends Widget {
         if (isChecked) 'checked': 'true',
         if (disabled) 'disabled': 'true',
         'role': 'checkbox',
-        'aria-checked': value == null ? 'mixed' : (isChecked ? 'true' : 'false'),
+        'aria-checked':
+            value == null ? 'mixed' : (isChecked ? 'true' : 'false'),
       },
       styles: styles,
       events: events,
@@ -159,8 +160,10 @@ class FDSwitch extends Widget {
   @override
   FlartNode buildNode(BuildContext context) {
     final theme = Theme.of(context);
-    final activeThumb = activeColor?.toString() ?? theme.primaryColor.toString();
-    final activeTrack = activeTrackColor?.toString() ?? theme.primaryColor.withOpacity(0.5).toString();
+    final activeThumb =
+        activeColor?.toString() ?? theme.primaryColor.toString();
+    final activeTrack = activeTrackColor?.toString() ??
+        theme.primaryColor.withOpacity(0.5).toString();
     final inactiveThumb = inactiveThumbColor?.toString() ?? '#fafafa';
     final inactiveTrack = inactiveTrackColor?.toString() ?? '#bdbdbd';
     final disabled = onChanged == null;

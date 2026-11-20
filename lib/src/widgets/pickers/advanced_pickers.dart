@@ -69,7 +69,8 @@ class _FDDateRangePickerState extends State<FDDateRangePicker> {
     final startValue = _start != null ? _formatDate(_start!) : '';
     final endValue = _end != null ? _formatDate(_end!) : '';
     final radius = widget.borderRadius?.topLeft ?? 4.0;
-    final border = widget.borderColor?.toString() ?? theme.dividerColor.toString();
+    final border =
+        widget.borderColor?.toString() ?? theme.dividerColor.toString();
 
     final inputStyles = <String, String>{
       'padding': '8px 12px',
@@ -472,7 +473,8 @@ class _RangePickerState extends State<RangePicker> {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
-    final active = widget.activeColor?.toString() ?? theme.primaryColor.toString();
+    final active =
+        widget.activeColor?.toString() ?? theme.primaryColor.toString();
 
     final children = <FlartNode>[
       if (widget.label != null)

@@ -86,7 +86,11 @@ class FDChip extends Widget {
 
       children.add(FlartElementNode(
         'div',
-        attributes: {'class': 'flart-chip-delete', 'role': 'button', 'aria-label': 'Delete'},
+        attributes: {
+          'class': 'flart-chip-delete',
+          'role': 'button',
+          'aria-label': 'Delete'
+        },
         styles: {
           'cursor': 'pointer',
           'display': 'flex',

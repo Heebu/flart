@@ -8,7 +8,7 @@ enum DecorationPosition {
 typedef DecoratedBox = FDDecoratedBox;
 typedef ColoredBox = FDColoredBox;
 
-/// A widget that paints a [Decoration] either before or after its child paints.
+/// A widget that paints a [BoxDecoration] either before or after its child paints.
 class FDDecoratedBox extends Widget {
   final BoxDecoration decoration;
   final DecorationPosition position;

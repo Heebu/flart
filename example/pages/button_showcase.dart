@@ -15,7 +15,8 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
   void _recordAction(String action) {
     setState(() {
       _clickCount++;
-      _lastAction = '$action (at ${DateTime.now().toIso8601String().substring(11, 19)})';
+      _lastAction =
+          '$action (at ${DateTime.now().toIso8601String().substring(11, 19)})';
     });
   }
 
@@ -42,7 +43,6 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
           ),
         ),
         FDSizedBox(height: 20),
-
         FDContainer(
           padding: EdgeInsets.symmetric(horizontal: 18, vertical: 14),
           margin: EdgeInsets.only(bottom: 24),
@@ -73,10 +73,10 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '1. Elevated Buttons (FDElevatedButton)',
-          description: 'Solid filled buttons with depth shadow, custom ButtonStyle, icon variants, and disabled states.',
+          description:
+              'Solid filled buttons with depth shadow, custom ButtonStyle, icon variants, and disabled states.',
           child: FDWrap(
             spacing: 16,
             runSpacing: 14,
@@ -87,7 +87,8 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
               ),
               FDElevatedButton.icon(
                 onPressed: () => _recordAction('ElevatedButton.icon (Send)'),
-                icon: FDIcon(icon: FDIcons.send, size: 16, color: FlartColors.white),
+                icon: FDIcon(
+                    icon: FDIcons.send, size: 16, color: FlartColors.white),
                 label: FDText('Send Message'),
               ),
               FDElevatedButton(
@@ -117,10 +118,10 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '2. Outlined Buttons (FDOutlinedButton)',
-          description: 'Border-framed buttons with transparent background, custom BorderSide, and hover states.',
+          description:
+              'Border-framed buttons with transparent background, custom BorderSide, and hover states.',
           child: FDWrap(
             spacing: 16,
             runSpacing: 14,
@@ -130,8 +131,12 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
                 child: FDText('Standard Outline'),
               ),
               FDOutlinedButton.icon(
-                onPressed: () => _recordAction('OutlinedButton.icon (Download)'),
-                icon: FDIcon(icon: FDIcons.download, size: 16, color: FlartColor('#2563eb')),
+                onPressed: () =>
+                    _recordAction('OutlinedButton.icon (Download)'),
+                icon: FDIcon(
+                    icon: FDIcons.download,
+                    size: 16,
+                    color: FlartColor('#2563eb')),
                 label: FDText('Download Asset'),
               ),
               FDOutlinedButton(
@@ -160,10 +165,10 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '3. Text Buttons (FDTextButton)',
-          description: 'Minimal borderless action buttons suitable for dialog actions, tables, and low-emphasis actions.',
+          description:
+              'Minimal borderless action buttons suitable for dialog actions, tables, and low-emphasis actions.',
           child: FDWrap(
             spacing: 16,
             runSpacing: 14,
@@ -174,7 +179,10 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
               ),
               FDTextButton.icon(
                 onPressed: () => _recordAction('TextButton.icon (Bookmark)'),
-                icon: FDIcon(icon: FDIcons.favorite, size: 16, color: FlartColor('#2563eb')),
+                icon: FDIcon(
+                    icon: FDIcons.favorite,
+                    size: 16,
+                    color: FlartColor('#2563eb')),
                 label: FDText('Bookmark Item'),
               ),
               FDTextButton(
@@ -192,37 +200,52 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '4. Icon Buttons (FDIconButton)',
-          description: 'Circular touch targets for icons with built-in tooltips, customizable size, color, and padding.',
+          description:
+              'Circular touch targets for icons with built-in tooltips, customizable size, color, and padding.',
           child: FDWrap(
             spacing: 20,
             runSpacing: 14,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               FDIconButton(
-                icon: FDIcon(icon: FDIcons.settings, size: 22, color: FlartColor('#475569')),
+                icon: FDIcon(
+                    icon: FDIcons.settings,
+                    size: 22,
+                    color: FlartColor('#475569')),
                 tooltip: 'Settings',
                 onPressed: () => _recordAction('IconButton: Settings'),
               ),
               FDIconButton(
-                icon: FDIcon(icon: FDIcons.favorite, size: 24, color: FlartColor('#ef4444')),
+                icon: FDIcon(
+                    icon: FDIcons.favorite,
+                    size: 24,
+                    color: FlartColor('#ef4444')),
                 tooltip: 'Add to Favorites',
                 onPressed: () => _recordAction('IconButton: Favorite'),
               ),
               FDIconButton(
-                icon: FDIcon(icon: FDIcons.search, size: 20, color: FlartColor('#2563eb')),
+                icon: FDIcon(
+                    icon: FDIcons.search,
+                    size: 20,
+                    color: FlartColor('#2563eb')),
                 tooltip: 'Search Catalog',
                 onPressed: () => _recordAction('IconButton: Search'),
               ),
               FDIconButton(
-                icon: FDIcon(icon: FDIcons.notifications, size: 26, color: FlartColor('#f59e0b')),
+                icon: FDIcon(
+                    icon: FDIcons.notifications,
+                    size: 26,
+                    color: FlartColor('#f59e0b')),
                 tooltip: 'Notifications',
                 onPressed: () => _recordAction('IconButton: Notifications'),
               ),
               FDIconButton(
-                icon: FDIcon(icon: FDIcons.share, size: 22, color: FlartColor('#059669')),
+                icon: FDIcon(
+                    icon: FDIcons.share,
+                    size: 22,
+                    color: FlartColor('#059669')),
                 tooltip: 'Share Link',
                 onPressed: () => _recordAction('IconButton: Share'),
               ),
@@ -234,17 +257,18 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '5. Interactive Tiles & Ink Response (FDInkWell)',
-          description: 'Touch-responsive rectangular or rounded surfaces with hover background transitions and click/double-click recognizers.',
+          description:
+              'Touch-responsive rectangular or rounded surfaces with hover background transitions and click/double-click recognizers.',
           child: FDRow(
             spacing: 20,
             children: [
               Expanded(
                 child: FDInkWell(
                   onTap: () => _recordAction('InkWell Tile 1 Clicked'),
-                  onDoubleTap: () => _recordAction('InkWell Tile 1 Double-Clicked!'),
+                  onDoubleTap: () =>
+                      _recordAction('InkWell Tile 1 Double-Clicked!'),
                   onHover: (hovered) {
                     setState(() => _isHoveringInkWell = hovered);
                   },
@@ -255,7 +279,9 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: _isHoveringInkWell ? FlartColor('#3b82f6') : FlartColor('#e2e8f0'),
+                        color: _isHoveringInkWell
+                            ? FlartColor('#3b82f6')
+                            : FlartColor('#e2e8f0'),
                         width: 1.5,
                       ),
                       borderRadius: BorderRadius.circular(12),
@@ -268,23 +294,34 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
                           children: [
                             FDText(
                               'Interactive Tile A',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FlartColor('#1e293b')),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: FlartColor('#1e293b')),
                             ),
-                            FDIcon(icon: FDIcons.star, size: 20, color: FlartColor('#f59e0b')),
+                            FDIcon(
+                                icon: FDIcons.star,
+                                size: 20,
+                                color: FlartColor('#f59e0b')),
                           ],
                         ),
                         FDSizedBox(height: 6),
                         FDText(
                           'Hover over me or click/double-click. State transitions to dynamic blue tint.',
-                          style: TextStyle(fontSize: 13, color: FlartColor('#64748b')),
+                          style: TextStyle(
+                              fontSize: 13, color: FlartColor('#64748b')),
                         ),
                         FDSizedBox(height: 8),
                         FDText(
-                          _isHoveringInkWell ? '• Status: Currently Hovering' : '• Status: Idle',
+                          _isHoveringInkWell
+                              ? '• Status: Currently Hovering'
+                              : '• Status: Idle',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: _isHoveringInkWell ? FlartColor('#2563eb') : FlartColor('#94a3b8'),
+                            color: _isHoveringInkWell
+                                ? FlartColor('#2563eb')
+                                : FlartColor('#94a3b8'),
                           ),
                         ),
                       ],
@@ -294,15 +331,18 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
               ),
               Expanded(
                 child: FDInkWell(
-                  onTap: () => _recordAction('InkWell Tile 2 (Emerald) Clicked'),
-                  onLongPress: () => _recordAction('InkWell Tile 2 Long-Pressed!'),
+                  onTap: () =>
+                      _recordAction('InkWell Tile 2 (Emerald) Clicked'),
+                  onLongPress: () =>
+                      _recordAction('InkWell Tile 2 Long-Pressed!'),
                   borderRadius: BorderRadius.circular(12),
                   hoverColor: FlartColor('#d1fae5'),
                   splashColor: FlartColor('#a7f3d0'),
                   child: FDContainer(
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      border: Border.all(color: FlartColor('#e2e8f0'), width: 1.5),
+                      border:
+                          Border.all(color: FlartColor('#e2e8f0'), width: 1.5),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: FDColumn(
@@ -313,15 +353,22 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
                           children: [
                             FDText(
                               'Interactive Tile B (Long Press)',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: FlartColor('#1e293b')),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: FlartColor('#1e293b')),
                             ),
-                            FDIcon(icon: FDIcons.favorite, size: 20, color: FlartColor('#10b981')),
+                            FDIcon(
+                                icon: FDIcons.favorite,
+                                size: 20,
+                                color: FlartColor('#10b981')),
                           ],
                         ),
                         FDSizedBox(height: 6),
                         FDText(
                           'Supports tap and 600ms long-press detection with emerald splash ripple.',
-                          style: TextStyle(fontSize: 13, color: FlartColor('#64748b')),
+                          style: TextStyle(
+                              fontSize: 13, color: FlartColor('#64748b')),
                         ),
                       ],
                     ),
@@ -331,10 +378,10 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '6. Gesture Recognition Surface (FDGestureDetector)',
-          description: 'Detects Tap, Double Tap, Long Press, Context Menu (Right-Click), and Hover interactions.',
+          description:
+              'Detects Tap, Double Tap, Long Press, Context Menu (Right-Click), and Hover interactions.',
           child: FDColumn(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -349,18 +396,22 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
                   _recordAction('GestureDetector: Double Tap');
                 },
                 onLongPress: () {
-                  setState(() => _gestureLog = 'Long Press (600ms hold) Triggered! ⏳');
+                  setState(() =>
+                      _gestureLog = 'Long Press (600ms hold) Triggered! ⏳');
                   _recordAction('GestureDetector: Long Press');
                 },
                 onContextMenu: () {
-                  setState(() => _gestureLog = 'Context Menu (Right Click) Intercepted! 📋');
+                  setState(() => _gestureLog =
+                      'Context Menu (Right Click) Intercepted! 📋');
                   _recordAction('GestureDetector: Right Click');
                 },
                 onHoverEnter: () {
-                  setState(() => _gestureLog = 'Pointer Entered Gesture Surface 👆');
+                  setState(
+                      () => _gestureLog = 'Pointer Entered Gesture Surface 👆');
                 },
                 onHoverExit: () {
-                  setState(() => _gestureLog = 'Pointer Exited Gesture Surface 👋');
+                  setState(
+                      () => _gestureLog = 'Pointer Exited Gesture Surface 👋');
                 },
                 child: FDContainer(
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
@@ -371,7 +422,10 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
                   ),
                   child: FDColumn(
                     children: [
-                      FDIcon(icon: FDIcons.touch_app, size: 44, color: FlartColor('#38bdf8')),
+                      FDIcon(
+                          icon: FDIcons.touch_app,
+                          size: 44,
+                          color: FlartColor('#38bdf8')),
                       FDSizedBox(height: 12),
                       FDText(
                         'Gesture Recognition Target Pad',
@@ -384,7 +438,8 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
                       FDSizedBox(height: 6),
                       FDText(
                         'Click, Double-Click, Hold (Long Press), or Right-Click anywhere in this box',
-                        style: TextStyle(fontSize: 14, color: FlartColor('#94a3b8')),
+                        style: TextStyle(
+                            fontSize: 14, color: FlartColor('#94a3b8')),
                       ),
                     ],
                   ),
@@ -400,8 +455,16 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
                 ),
                 child: FDRow(
                   children: [
-                    FDText('Live Recognition Log: ', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: FlartColor('#065f46'))),
-                    FDText(_gestureLog, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: FlartColor('#047857'))),
+                    FDText('Live Recognition Log: ',
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: FlartColor('#065f46'))),
+                    FDText(_gestureLog,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: FlartColor('#047857'))),
                   ],
                 ),
               ),

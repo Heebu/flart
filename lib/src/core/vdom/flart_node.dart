@@ -7,7 +7,7 @@ abstract class FlartNode {
 
   /// Optional key for reconciler diffing.
   String? get key => null;
-  
+
   /// Converts the node back to an HTML string (for legacy string-renderer fallback)
   String toHtml();
 }
@@ -21,7 +21,7 @@ class FlartElementNode implements FlartNode {
   final Map<String, String>? attributes;
   final Map<String, String>? styles;
   final List<FlartNode>? children;
-  
+
   /// Event listeners mapped by event type (e.g., 'click', 'input')
   final Map<String, void Function(web.Event)>? events;
 
@@ -45,7 +45,7 @@ class FlartElementNode implements FlartNode {
     if (id != null) {
       buffer.write(' id="$id"');
     }
-    
+
     if (attributes != null) {
       for (final entry in attributes!.entries) {
         if (entry.key != 'id' && entry.key != 'style') {
@@ -53,12 +53,13 @@ class FlartElementNode implements FlartNode {
         }
       }
     }
-    
+
     if (styles != null && styles!.isNotEmpty) {
-      final styleStr = styles!.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+      final styleStr =
+          styles!.entries.map((e) => '${e.key}: ${e.value};').join(' ');
       buffer.write(' style="$styleStr"');
     }
-    
+
     if (children == null || children!.isEmpty) {
       buffer.write('></$tag>');
     } else {
@@ -68,7 +69,7 @@ class FlartElementNode implements FlartNode {
       }
       buffer.write('</$tag>');
     }
-    
+
     return buffer.toString();
   }
 }
@@ -91,7 +92,7 @@ class FlartTextNode implements FlartNode {
   }
 }
 
-/// A Virtual DOM raw HTML block. 
+/// A Virtual DOM raw HTML block.
 /// Used for injecting raw HTML strings directly.
 class FlartRawHtmlNode implements FlartNode {
   final String html;

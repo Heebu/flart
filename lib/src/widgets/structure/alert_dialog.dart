@@ -31,8 +31,10 @@ class FDAlertDialog extends Widget {
     final theme = Theme.of(context);
     final bg = backgroundColor?.toString() ?? '#ffffff';
     final radius = borderRadius ?? const BorderRadius.all(8.0);
-    final cPad = contentPadding ?? const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0);
-    final aPad = actionsPadding ?? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0);
+    final cPad =
+        contentPadding ?? const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0);
+    final aPad = actionsPadding ??
+        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0);
 
     final dialogChildren = <FlartNode>[];
 
@@ -103,7 +105,8 @@ class FDAlertDialog extends Widget {
     final styles = <String, String>{
       'background-color': bg,
       'border-radius': radius.toCss(),
-      'box-shadow': '0 11px 15px -7px rgba(0,0,0,0.2), 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12)',
+      'box-shadow':
+          '0 11px 15px -7px rgba(0,0,0,0.2), 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12)',
       'min-width': '280px',
       'max-width': '560px',
       'display': 'flex',

@@ -38,7 +38,10 @@ void main() {
           children: [
             TextSpan(
               text: 'World',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FlartColor('#ff0000')),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: FlartColor('#ff0000')),
             ),
           ],
         ),
@@ -110,7 +113,8 @@ void main() {
 
       TestUtils.unmountWidget();
 
-      final vDivider = FDVerticalDivider(width: 10.0, thickness: 2.0, color: FlartColor('#cccccc'));
+      final vDivider = FDVerticalDivider(
+          width: 10.0, thickness: 2.0, color: FlartColor('#cccccc'));
       final rootV = TestUtils.mountWidget(vDivider) as web.HTMLElement;
       expect(rootV.style.width, equals('2px'));
       expect(rootV.style.display, equals('inline-block'));
@@ -128,7 +132,8 @@ void main() {
       final rootChip = TestUtils.mountWidget(chip) as web.HTMLElement;
       expect(rootChip.textContent, contains('Filter'));
 
-      final deleteBtn = rootChip.querySelector('.flart-chip-delete') as web.HTMLElement?;
+      final deleteBtn =
+          rootChip.querySelector('.flart-chip-delete') as web.HTMLElement?;
       expect(deleteBtn, isNotNull);
       TestUtils.click(deleteBtn!);
       expect(deleted, isTrue);
@@ -143,7 +148,8 @@ void main() {
       expect(rootBadge.textContent, contains('3'));
     });
 
-    test('FDCircularProgressIndicator and FDLinearProgressIndicator render', () {
+    test('FDCircularProgressIndicator and FDLinearProgressIndicator render',
+        () {
       final circular = FDCircularProgressIndicator(value: 0.75);
       final rootCirc = TestUtils.mountWidget(circular) as web.HTMLElement;
       expect(rootCirc.getAttribute('role'), equals('progressbar'));
@@ -152,7 +158,8 @@ void main() {
 
       final linear = FDLinearProgressIndicator(value: 0.5);
       final rootLin = TestUtils.mountWidget(linear) as web.HTMLElement;
-      expect(rootLin.getElementsByTagName('div').length, greaterThanOrEqualTo(1));
+      expect(
+          rootLin.getElementsByTagName('div').length, greaterThanOrEqualTo(1));
     });
 
     test('FDAspectRatio sets correct aspect ratio CSS', () {
@@ -164,7 +171,8 @@ void main() {
       expect(root.style.aspectRatio, contains('1.777'));
     });
 
-    test('FDClipRRect and FDClipOval apply overflow hidden and border radius', () {
+    test('FDClipRRect and FDClipOval apply overflow hidden and border radius',
+        () {
       final clipRRect = FDClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: FDText('Clipped'),

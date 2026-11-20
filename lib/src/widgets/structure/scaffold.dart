@@ -17,11 +17,13 @@ void _ensureDrawerGlobalBridge() {
 
 /// Opens the drawer by setting its transform style and showing the backdrop.
 void openDrawer() {
-  final drawer = web.document.getElementById('flart-drawer') as web.HTMLElement?;
+  final drawer =
+      web.document.getElementById('flart-drawer') as web.HTMLElement?;
   if (drawer != null) {
     drawer.style.transform = 'translateX(0%)';
   }
-  final backdrop = web.document.getElementById('flart-drawer-backdrop') as web.HTMLElement?;
+  final backdrop =
+      web.document.getElementById('flart-drawer-backdrop') as web.HTMLElement?;
   if (backdrop != null) {
     backdrop.style.opacity = '1';
     backdrop.style.pointerEvents = 'auto';
@@ -30,11 +32,13 @@ void openDrawer() {
 
 /// Closes the drawer by resetting its transform style and hiding the backdrop.
 void closeDrawer() {
-  final drawer = web.document.getElementById('flart-drawer') as web.HTMLElement?;
+  final drawer =
+      web.document.getElementById('flart-drawer') as web.HTMLElement?;
   if (drawer != null) {
     drawer.style.transform = 'translateX(-100%)';
   }
-  final backdrop = web.document.getElementById('flart-drawer-backdrop') as web.HTMLElement?;
+  final backdrop =
+      web.document.getElementById('flart-drawer-backdrop') as web.HTMLElement?;
   if (backdrop != null) {
     backdrop.style.opacity = '0';
     backdrop.style.pointerEvents = 'none';
@@ -43,7 +47,8 @@ void closeDrawer() {
 
 /// Toggles the drawer visibility between open and closed.
 void toggleDrawer() {
-  final drawer = web.document.getElementById('flart-drawer') as web.HTMLElement?;
+  final drawer =
+      web.document.getElementById('flart-drawer') as web.HTMLElement?;
   if (drawer != null) {
     if (drawer.style.transform == 'translateX(0%)') {
       closeDrawer();
@@ -118,7 +123,8 @@ class FDScaffold extends Widget {
               rawCss: appBar!.rawCss,
               leading: FDGestureDetector(
                 onTap: openDrawer,
-                child: const FDIcon(icon: FDIcons.menu, color: FlartColors.white),
+                child:
+                    const FDIcon(icon: FDIcons.menu, color: FlartColors.white),
               ),
             )
           : appBar!;

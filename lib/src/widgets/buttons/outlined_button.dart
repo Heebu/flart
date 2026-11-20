@@ -100,7 +100,8 @@ class FDOutlinedButton extends Widget {
         '1px solid ${isEnabled ? primary.toString() : "#cbd5e1"}';
 
     final radius = style?.shape ?? BorderRadius.circular(6);
-    final pad = style?.padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 10);
+    final pad = style?.padding ??
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 10);
 
     final styles = <String, String>{
       'display': 'inline-flex',
@@ -108,7 +109,9 @@ class FDOutlinedButton extends Widget {
       'justify-content': 'center',
       'box-sizing': 'border-box',
       'padding': pad.toCss(),
-      'font-size': style?.textStyle?.fontSize != null ? '${style!.textStyle!.fontSize}px' : '14px',
+      'font-size': style?.textStyle?.fontSize != null
+          ? '${style!.textStyle!.fontSize}px'
+          : '14px',
       'font-weight': style?.textStyle?.fontWeight?.value ?? '500',
       'font-family': style?.textStyle?.fontFamily ?? 'inherit',
       'background-color': bgColor,
@@ -120,8 +123,10 @@ class FDOutlinedButton extends Widget {
       'user-select': 'none',
       'transition': 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
       if (!isEnabled) 'opacity': '0.6',
-      if (style?.minimumSize != null) 'min-width': '${style!.minimumSize!.width}px',
-      if (style?.minimumSize != null) 'min-height': '${style!.minimumSize!.height}px',
+      if (style?.minimumSize != null)
+        'min-width': '${style!.minimumSize!.width}px',
+      if (style?.minimumSize != null)
+        'min-height': '${style!.minimumSize!.height}px',
       if (style?.fixedSize != null) 'width': '${style!.fixedSize!.width}px',
       if (style?.fixedSize != null) 'height': '${style!.fixedSize!.height}px',
     };

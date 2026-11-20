@@ -113,7 +113,6 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
                 child: widget.flexibleSpace!,
               ),
             ),
-
           FDPositioned(
             top: 0,
             left: 0,
@@ -130,14 +129,12 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
                       padding: const EdgeInsets.only(right: 16),
                       child: widget.leading!,
                     ),
-
                   FDExpanded(
                     child: FDOpacity(
                       opacity: titleOpacity.clamp(0.0, 1.0),
                       child: widget.title ?? const FDSizedBox(),
                     ),
                   ),
-
                   if (widget.actions != null)
                     FDRow(
                       children: widget.actions!

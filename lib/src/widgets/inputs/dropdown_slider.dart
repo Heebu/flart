@@ -42,13 +42,19 @@ class FDDropdownButton<T> extends Widget {
       'padding': '8px 12px',
       'border': '1px solid ${theme.dividerColor}',
       'border-radius': '${radius}px',
-      'background-color': dropdownColor?.toString() ?? theme.cardColor.toString(),
-      'color': style?.color?.toString() ?? theme.textStyle.color?.toString() ?? '#333333',
+      'background-color':
+          dropdownColor?.toString() ?? theme.cardColor.toString(),
+      'color': style?.color?.toString() ??
+          theme.textStyle.color?.toString() ??
+          '#333333',
       'cursor': disabled ? 'not-allowed' : 'pointer',
       'font-size': '${style?.fontSize ?? 14}px',
       'font-family': 'inherit',
       'outline': 'none',
-      if (isExpanded) 'width': '100%' else if (width != null) 'width': '${width}px',
+      if (isExpanded)
+        'width': '100%'
+      else if (width != null)
+        'width': '${width}px',
       'box-sizing': 'border-box',
     };
 

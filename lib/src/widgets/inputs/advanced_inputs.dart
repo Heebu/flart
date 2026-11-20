@@ -69,8 +69,10 @@ class _TextAreaState extends State<TextArea> {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
-    final bgColor = widget.backgroundColor?.toString() ?? theme.cardColor.toString();
-    final border = widget.borderColor?.toString() ?? theme.dividerColor.toString();
+    final bgColor =
+        widget.backgroundColor?.toString() ?? theme.cardColor.toString();
+    final border =
+        widget.borderColor?.toString() ?? theme.dividerColor.toString();
     final radius = widget.borderRadius ?? 4.0;
     final pad = widget.padding ?? const EdgeInsets.all(12);
     final hasError = widget.errorText != null;
@@ -111,7 +113,8 @@ class _TextAreaState extends State<TextArea> {
           if (widget.placeholder != null) 'placeholder': widget.placeholder!,
           if (!widget.enabled) 'disabled': 'true',
           if (widget.readOnly) 'readonly': 'true',
-          if (widget.maxLength != null) 'maxlength': widget.maxLength.toString(),
+          if (widget.maxLength != null)
+            'maxlength': widget.maxLength.toString(),
         },
         styles: styles,
         events: {
@@ -149,7 +152,9 @@ class _TextAreaState extends State<TextArea> {
             'color': '#999',
             'text-align': 'right',
           },
-          children: [FlartTextNode('${_currentValue.length}/${widget.maxLength}')],
+          children: [
+            FlartTextNode('${_currentValue.length}/${widget.maxLength}')
+          ],
         ),
     ];
 

@@ -72,7 +72,8 @@ class FDButton extends Widget {
         ? (style?.foregroundColor?.toString() ?? '#ffffff')
         : '#94a3b8';
 
-    final pad = style?.padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 10);
+    final pad = style?.padding ??
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 10);
     final radius = style?.shape ?? BorderRadius.circular(6);
     final borderStr = style?.side?.toCss() ?? 'none';
 
@@ -82,7 +83,9 @@ class FDButton extends Widget {
       'justify-content': 'center',
       'box-sizing': 'border-box',
       'padding': pad.toCss(),
-      'font-size': style?.textStyle?.fontSize != null ? '${style!.textStyle!.fontSize}px' : '14px',
+      'font-size': style?.textStyle?.fontSize != null
+          ? '${style!.textStyle!.fontSize}px'
+          : '14px',
       'font-weight': style?.textStyle?.fontWeight?.value ?? '500',
       'font-family': style?.textStyle?.fontFamily ?? 'inherit',
       'background-color': bgColor,

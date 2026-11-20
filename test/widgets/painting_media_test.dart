@@ -50,7 +50,8 @@ void main() {
     });
 
     test('FDSvgPicture renders inline SVG', () {
-      const svgCode = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>';
+      const svgCode =
+          '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>';
       final widget = FDSvgPicture.string(
         svgCode,
         width: 32,

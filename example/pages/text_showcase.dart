@@ -9,9 +9,11 @@ class TextShowcase extends StatefulWidget {
 class _TextShowcaseState extends State<TextShowcase> {
   int _richSpanClicks = 0;
   String _lastActionClicked = 'None yet';
-  final TextEditingController _singleLineCtrl = TextEditingController(text: 'Flart Web Typography');
+  final TextEditingController _singleLineCtrl =
+      TextEditingController(text: 'Flart Web Typography');
   final TextEditingController _multiLineCtrl = TextEditingController(
-    text: 'Flart gives you Flutter-like widgets compiling directly to clean DOM nodes.\nZero heavy canvas, instant startup, pure Dart Web.',
+    text:
+        'Flart gives you Flutter-like widgets compiling directly to clean DOM nodes.\nZero heavy canvas, instant startup, pure Dart Web.',
   );
 
   @override
@@ -51,21 +53,27 @@ class _TextShowcaseState extends State<TextShowcase> {
           ),
         ),
         FDSizedBox(height: 24),
-
         ShowcaseCard(
           title: '1. Typography & Font Weights (FDText)',
-          description: 'Full font scale from w100 to w900, italic styles, letter spacing, and line heights.',
+          description:
+              'Full font scale from w100 to w900, italic styles, letter spacing, and line heights.',
           child: FDColumn(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FDText(
                 'Display Large (34px, w900 Black)',
-                style: TextStyle(fontSize: 34, fontWeight: FontWeight.w900, color: FlartColor('#1e293b')),
+                style: TextStyle(
+                    fontSize: 34,
+                    fontWeight: FontWeight.w900,
+                    color: FlartColor('#1e293b')),
               ),
               FDSizedBox(height: 6),
               FDText(
                 'Headline Medium (24px, w700 Bold)',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: FlartColor('#334155')),
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    color: FlartColor('#334155')),
               ),
               FDSizedBox(height: 6),
               FDText(
@@ -101,10 +109,10 @@ class _TextShowcaseState extends State<TextShowcase> {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '2. Text Decorations & Styles (TextDecoration)',
-          description: 'Underline, line-through, overline, wavy/dashed/dotted styles, custom thickness, and combined decorations.',
+          description:
+              'Underline, line-through, overline, wavy/dashed/dotted styles, custom thickness, and combined decorations.',
           child: FDWrap(
             spacing: 16,
             runSpacing: 12,
@@ -203,16 +211,19 @@ class _TextShowcaseState extends State<TextShowcase> {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '3. Overflow & Clamping (TextOverflow & maxLines)',
-          description: 'Clamps text cleanly to 1, 2, or 3 lines with ellipsis using standard CSS line clamping without manual height hacks.',
+          description:
+              'Clamps text cleanly to 1, 2, or 3 lines with ellipsis using standard CSS line clamping without manual height hacks.',
           child: FDColumn(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               FDText(
                 'Single Line Ellipsis (overflow: TextOverflow.ellipsis):',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: FlartColor('#475569')),
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: FlartColor('#475569')),
               ),
               FDSizedBox(height: 4),
               FDContainer(
@@ -230,7 +241,10 @@ class _TextShowcaseState extends State<TextShowcase> {
               FDSizedBox(height: 14),
               FDText(
                 '2-Line Clamping (maxLines: 2, overflow: TextOverflow.ellipsis):',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: FlartColor('#475569')),
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: FlartColor('#475569')),
               ),
               FDSizedBox(height: 4),
               FDContainer(
@@ -243,16 +257,17 @@ class _TextShowcaseState extends State<TextShowcase> {
                   'Flart provides a full reactive declarative component model for modern web apps. Even when this paragraph contains very long descriptions spanning multiple sentences, it cleanly clamps to exactly two visible lines with an ellipsis automatically appended at the truncation boundary.',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 14, color: FlartColor('#0f172a'), height: 1.4),
+                  style: TextStyle(
+                      fontSize: 14, color: FlartColor('#0f172a'), height: 1.4),
                 ),
               ),
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '4. RichText & Interactive Spans (FDRichText & TextSpan)',
-          description: 'Nested inline spans with distinct formatting and live interactive tap recognizers in pure DOM.',
+          description:
+              'Nested inline spans with distinct formatting and live interactive tap recognizers in pure DOM.',
           child: FDColumn(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -271,7 +286,8 @@ class _TextShowcaseState extends State<TextShowcase> {
                     ),
                     TextSpan(
                       text: '! Click this ',
-                      style: TextStyle(fontSize: 18, color: FlartColor('#1e293b')),
+                      style:
+                          TextStyle(fontSize: 18, color: FlartColor('#1e293b')),
                     ),
                     TextSpan(
                       text: 'Interactive Pill [Click Me]',
@@ -289,8 +305,10 @@ class _TextShowcaseState extends State<TextShowcase> {
                       },
                     ),
                     TextSpan(
-                      text: ' to dispatch reactive events directly from an inline text span.',
-                      style: TextStyle(fontSize: 18, color: FlartColor('#1e293b')),
+                      text:
+                          ' to dispatch reactive events directly from an inline text span.',
+                      style:
+                          TextStyle(fontSize: 18, color: FlartColor('#1e293b')),
                     ),
                   ],
                 ),
@@ -315,10 +333,10 @@ class _TextShowcaseState extends State<TextShowcase> {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '5. Selectable Text (FDSelectableText)',
-          description: 'Enables native browser text selection and copy/paste functionality for code blocks or quotes.',
+          description:
+              'Enables native browser text selection and copy/paste functionality for code blocks or quotes.',
           child: FDContainer(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -330,7 +348,10 @@ class _TextShowcaseState extends State<TextShowcase> {
               children: [
                 FDText(
                   '// Try selecting and copying this code snippet:',
-                  style: TextStyle(fontSize: 12, color: FlartColor('#64748b'), fontStyle: FontStyle.italic),
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: FlartColor('#64748b'),
+                      fontStyle: FontStyle.italic),
                 ),
                 FDSizedBox(height: 6),
                 FDSelectableText(
@@ -351,10 +372,10 @@ class _TextShowcaseState extends State<TextShowcase> {
             ),
           ),
         ),
-
         ShowcaseCard(
           title: '6. Hyperlinks & Action Links (FDLinkText)',
-          description: 'Anchor tags with URL navigation or inline clickable links executing Dart callbacks.',
+          description:
+              'Anchor tags with URL navigation or inline clickable links executing Dart callbacks.',
           child: FDColumn(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -380,7 +401,8 @@ class _TextShowcaseState extends State<TextShowcase> {
                     onPressed: () {
                       setState(() {
                         _richSpanClicks = 0;
-                        _lastActionClicked = 'Cleared click counters at ${DateTime.now().toIso8601String().substring(11, 19)}';
+                        _lastActionClicked =
+                            'Cleared click counters at ${DateTime.now().toIso8601String().substring(11, 19)}';
                       });
                     },
                   ),
@@ -394,7 +416,8 @@ class _TextShowcaseState extends State<TextShowcase> {
                     onPressed: () {
                       setState(() {
                         _singleLineCtrl.text = 'Flart Web Typography';
-                        _lastActionClicked = 'Reset text field inputs at ${DateTime.now().toIso8601String().substring(11, 19)}';
+                        _lastActionClicked =
+                            'Reset text field inputs at ${DateTime.now().toIso8601String().substring(11, 19)}';
                       });
                     },
                   ),
@@ -403,21 +426,27 @@ class _TextShowcaseState extends State<TextShowcase> {
               FDSizedBox(height: 10),
               FDText(
                 'Last Action Executed: $_lastActionClicked',
-                style: TextStyle(fontSize: 13, color: FlartColor('#64748b'), fontStyle: FontStyle.italic),
+                style: TextStyle(
+                    fontSize: 13,
+                    color: FlartColor('#64748b'),
+                    fontStyle: FontStyle.italic),
               ),
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '7. Pure Editable Text (FDEditableText)',
-          description: 'The leaf input and multiline textarea primitive with live bidirectional controller binding.',
+          description:
+              'The leaf input and multiline textarea primitive with live bidirectional controller binding.',
           child: FDColumn(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FDText(
                 'Single-Line FDEditableText (with live mirror below):',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: FlartColor('#334155')),
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: FlartColor('#334155')),
               ),
               FDSizedBox(height: 8),
               FDEditableText(
@@ -435,15 +464,27 @@ class _TextShowcaseState extends State<TextShowcase> {
                 ),
                 child: FDRow(
                   children: [
-                    FDText('Live Mirror: ', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: FlartColor('#64748b'))),
-                    FDText(_singleLineCtrl.text.isEmpty ? '(empty)' : _singleLineCtrl.text, style: TextStyle(fontSize: 14, color: FlartColor('#0f172a'))),
+                    FDText('Live Mirror: ',
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: FlartColor('#64748b'))),
+                    FDText(
+                        _singleLineCtrl.text.isEmpty
+                            ? '(empty)'
+                            : _singleLineCtrl.text,
+                        style: TextStyle(
+                            fontSize: 14, color: FlartColor('#0f172a'))),
                   ],
                 ),
               ),
               FDSizedBox(height: 18),
               FDText(
                 'Multiline FDEditableText (maxLines: 4, textarea mode):',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: FlartColor('#334155')),
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: FlartColor('#334155')),
               ),
               FDSizedBox(height: 8),
               FDEditableText(
@@ -451,7 +492,8 @@ class _TextShowcaseState extends State<TextShowcase> {
                 maxLines: 4,
                 keyboardType: TextInputType.multiline,
                 placeholder: 'Enter longer content...',
-                style: TextStyle(fontSize: 15, color: FlartColor('#0f172a'), height: 1.4),
+                style: TextStyle(
+                    fontSize: 15, color: FlartColor('#0f172a'), height: 1.4),
               ),
               FDSizedBox(height: 8),
               FDText(

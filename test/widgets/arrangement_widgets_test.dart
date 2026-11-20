@@ -162,7 +162,8 @@ void main() {
       expect(child2.style.flex, contains('1'));
     });
 
-    test('FDRow and FDColumn support MainAxisSize.min and MainAxisSize.max', () {
+    test('FDRow and FDColumn support MainAxisSize.min and MainAxisSize.max',
+        () {
       final rowMin = const FDRow(
         mainAxisSize: MainAxisSize.min,
         children: [FDText('A'), FDText('B')],
@@ -191,7 +192,8 @@ void main() {
         heightFactor: 0.5,
         child: FDText('Half Centered'),
       );
-      final rootCenter = TestUtils.mountWidget(centerWithFactors) as web.HTMLElement;
+      final rootCenter =
+          TestUtils.mountWidget(centerWithFactors) as web.HTMLElement;
       expect(rootCenter.style.width, equals('50%'));
       expect(rootCenter.style.height, equals('50%'));
       expect(rootCenter.style.boxSizing, equals('border-box'));
@@ -202,7 +204,8 @@ void main() {
         heightFactor: 0.6,
         child: FDText('Aligned'),
       );
-      final rootAlign = TestUtils.mountWidget(alignWithFactors) as web.HTMLElement;
+      final rootAlign =
+          TestUtils.mountWidget(alignWithFactors) as web.HTMLElement;
       expect(rootAlign.style.width, equals('80%'));
       expect(rootAlign.style.height, equals('60%'));
     });

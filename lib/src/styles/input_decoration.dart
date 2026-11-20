@@ -16,7 +16,9 @@ abstract class InputBorder {
 
 class _NoInputBorder extends InputBorder {
   const _NoInputBorder()
-      : super(borderSide: const BorderSide(width: 0, color: FlartColors.transparent));
+      : super(
+            borderSide:
+                const BorderSide(width: 0, color: FlartColors.transparent));
 
   @override
   bool get isOutline => false;

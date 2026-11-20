@@ -259,7 +259,8 @@ void main() {
       TestUtils.unmountWidget();
     });
 
-    test('1. StatefulWidget stable positional keys persist across parent setState passes',
+    test(
+        '1. StatefulWidget stable positional keys persist across parent setState passes',
         () async {
       final widget = const ParentTestWidget();
       final root = TestUtils.mountWidget(widget) as web.HTMLElement;
@@ -269,8 +270,8 @@ void main() {
       expect(root.textContent, contains('SecondChild Inits: 1, Local: 0'));
 
       web.Element findButton(String text) =>
-          TestUtils.querySelectorAll('button').firstWhere(
-              (b) => b.textContent?.contains(text) == true);
+          TestUtils.querySelectorAll('button')
+              .firstWhere((b) => b.textContent?.contains(text) == true);
 
       // Bump FirstChild local state
       TestUtils.click(findButton('Bump FirstChild'));
@@ -352,7 +353,8 @@ void main() {
       expect(disposableChildDisposeCount, equals(1));
     });
 
-    test('4. InheritedWidget updateShouldNotify triggers didChangeDependencies and rebuild',
+    test(
+        '4. InheritedWidget updateShouldNotify triggers didChangeDependencies and rebuild',
         () async {
       final widget = const ThemeControllerWidget();
       final root = TestUtils.mountWidget(widget) as web.HTMLElement;
@@ -360,8 +362,8 @@ void main() {
       expect(root.textContent, contains('Theme: Dark (depChanges: 1)'));
 
       web.Element findButton(String text) =>
-          TestUtils.querySelectorAll('button').firstWhere(
-              (b) => b.textContent?.contains(text) == true);
+          TestUtils.querySelectorAll('button')
+              .firstWhere((b) => b.textContent?.contains(text) == true);
 
       // Change theme to Light (updateShouldNotify returns true)
       TestUtils.click(findButton('Set Light'));
@@ -398,7 +400,8 @@ void main() {
       expect(buttonClicked, isTrue);
     });
 
-    test('6. Navigation & FDMaterialApp renders home at root and supports pushNamed',
+    test(
+        '6. Navigation & FDMaterialApp renders home at root and supports pushNamed',
         () async {
       PageNavigator.reset();
 
@@ -441,7 +444,8 @@ void main() {
       final root = TestUtils.mountWidget(scaffold) as web.HTMLElement;
       expect(root.textContent, contains('Drawer Contents'));
 
-      final drawerEl = web.document.getElementById('flart-drawer') as web.HTMLElement?;
+      final drawerEl =
+          web.document.getElementById('flart-drawer') as web.HTMLElement?;
       expect(drawerEl, isNotNull);
       expect(drawerEl!.style.transform, equals('translateX(-100%)'));
 
@@ -464,11 +468,15 @@ void main() {
         () async {
       final container = TestUtils.container;
 
-      final itemA = FlartElementNode('div', key: 'key_A', children: [FlartTextNode('Item A')]);
-      final itemB = FlartElementNode('div', key: 'key_B', children: [FlartTextNode('Item B')]);
-      final itemC = FlartElementNode('div', key: 'key_C', children: [FlartTextNode('Item C')]);
+      final itemA = FlartElementNode('div',
+          key: 'key_A', children: [FlartTextNode('Item A')]);
+      final itemB = FlartElementNode('div',
+          key: 'key_B', children: [FlartTextNode('Item B')]);
+      final itemC = FlartElementNode('div',
+          key: 'key_C', children: [FlartTextNode('Item C')]);
 
-      final listNode1 = FlartElementNode('div', id: 'parent-list', children: [itemA, itemB, itemC]);
+      final listNode1 = FlartElementNode('div',
+          id: 'parent-list', children: [itemA, itemB, itemC]);
       VDOMReconciler.reconcile(container, listNode1);
 
       final parentEl = web.document.getElementById('parent-list')!;
@@ -481,7 +489,8 @@ void main() {
       expect(originalNodeC?.textContent, equals('Item C'));
 
       // Reorder to [C, A, B]
-      final listNode2 = FlartElementNode('div', id: 'parent-list', children: [itemC, itemA, itemB]);
+      final listNode2 = FlartElementNode('div',
+          id: 'parent-list', children: [itemC, itemA, itemB]);
       VDOMReconciler.reconcile(container, listNode2);
 
       final reorderedNode0 = parentEl.childNodes.item(0);
@@ -494,7 +503,8 @@ void main() {
       expect(identical(reorderedNode2, originalNodeB), isTrue);
     });
 
-    test('9. FDGestureDetector combines onTapDown and onLongPress without dropping callbacks',
+    test(
+        '9. FDGestureDetector combines onTapDown and onLongPress without dropping callbacks',
         () async {
       bool tapDownFired = false;
       bool longPressFired = false;
@@ -514,32 +524,40 @@ void main() {
       expect(longPressFired, isTrue);
     });
 
-    test('10. VDOMReconciler handles tag replacement in mixed keyed list without duplication',
+    test(
+        '10. VDOMReconciler handles tag replacement in mixed keyed list without duplication',
         () async {
       final container = TestUtils.container;
 
-      final nodeA = FlartElementNode('div', key: 'k_A', children: [FlartTextNode('Div A')]);
+      final nodeA = FlartElementNode('div',
+          key: 'k_A', children: [FlartTextNode('Div A')]);
       final nodeB = FlartElementNode('div', children: [FlartTextNode('Div B')]);
 
-      final list1 = FlartElementNode('div', id: 'mixed-list', children: [nodeA, nodeB]);
+      final list1 =
+          FlartElementNode('div', id: 'mixed-list', children: [nodeA, nodeB]);
       VDOMReconciler.reconcile(container, list1);
 
       final parentEl = web.document.getElementById('mixed-list')!;
       expect(parentEl.childNodes.length, equals(2));
-      expect(parentEl.childNodes.item(1)?.nodeName.toLowerCase(), equals('div'));
+      expect(
+          parentEl.childNodes.item(1)?.nodeName.toLowerCase(), equals('div'));
 
       // Replace unkeyed div with unkeyed span
-      final nodeBAsSpan = FlartElementNode('span', children: [FlartTextNode('Span B')]);
-      final list2 = FlartElementNode('div', id: 'mixed-list', children: [nodeA, nodeBAsSpan]);
+      final nodeBAsSpan =
+          FlartElementNode('span', children: [FlartTextNode('Span B')]);
+      final list2 = FlartElementNode('div',
+          id: 'mixed-list', children: [nodeA, nodeBAsSpan]);
       VDOMReconciler.reconcile(container, list2);
 
       expect(parentEl.childNodes.length, equals(2));
       expect(parentEl.childNodes.item(0)?.textContent, equals('Div A'));
-      expect(parentEl.childNodes.item(1)?.nodeName.toLowerCase(), equals('span'));
+      expect(
+          parentEl.childNodes.item(1)?.nodeName.toLowerCase(), equals('span'));
       expect(parentEl.childNodes.item(1)?.textContent, equals('Span B'));
     });
 
-    test('11. InheritedRegistry notifyDependents updates registered dependent states',
+    test(
+        '11. InheritedRegistry notifyDependents updates registered dependent states',
         () async {
       final widget = const ThemeControllerWidget();
       final root = TestUtils.mountWidget(widget) as web.HTMLElement;
@@ -558,7 +576,8 @@ void main() {
       expect(root.textContent, contains('Theme: Emerald (depChanges: 2)'));
     });
 
-    test('12. BuildContext findAncestorStateOfType resolves abstract interface state',
+    test(
+        '12. BuildContext findAncestorStateOfType resolves abstract interface state',
         () async {
       final widget = const BaseStateParentWidget();
       final root = TestUtils.mountWidget(widget) as web.HTMLElement;

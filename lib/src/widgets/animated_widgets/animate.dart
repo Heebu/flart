@@ -34,8 +34,8 @@ void _injectDefaultKeyframes() {
 }
 ''';
     try {
-      _sharedAnimationSheet!.insertRule(
-          entranceRule, _sharedAnimationSheet!.cssRules.length);
+      _sharedAnimationSheet!
+          .insertRule(entranceRule, _sharedAnimationSheet!.cssRules.length);
       _injectedKeyframes.add('flart-entrance-anim');
     } catch (_) {}
   }

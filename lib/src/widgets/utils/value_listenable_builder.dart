@@ -2,7 +2,8 @@ import '../../../flartdart.dart';
 
 typedef FDValueListenableBuilder<T> = ValueListenableBuilder<T>;
 typedef FDListenableBuilder = ListenableBuilder;
-typedef ValueWidgetBuilder<T> = Widget Function(BuildContext context, T value, Widget? child);
+typedef ValueWidgetBuilder<T> = Widget Function(
+    BuildContext context, T value, Widget? child);
 
 /// A widget whose content calls [builder] whenever the given [ValueListenable] changes value.
 class ValueListenableBuilder<T> extends StatefulWidget {
@@ -18,7 +19,8 @@ class ValueListenableBuilder<T> extends StatefulWidget {
   });
 
   @override
-  State<ValueListenableBuilder<T>> createState() => _ValueListenableBuilderState<T>();
+  State<ValueListenableBuilder<T>> createState() =>
+      _ValueListenableBuilderState<T>();
 }
 
 class _ValueListenableBuilderState<T> extends State<ValueListenableBuilder<T>> {

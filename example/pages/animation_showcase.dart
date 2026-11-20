@@ -75,7 +75,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'FDAnimatedContainer (Implicit Transitions)',
           description:
@@ -107,7 +106,9 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
                   ),
                   child: FDCenter(
                     child: FDText(
-                      _containerExpanded ? 'Expanded & Styled ✨' : 'Compact Box',
+                      _containerExpanded
+                          ? 'Expanded & Styled ✨'
+                          : 'Compact Box',
                       style: const TextStyle(
                         color: FlartColors.white,
                         fontWeight: FontWeight.bold,
@@ -141,7 +142,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'AnimatedOpacity & AnimatedCrossFade',
           description:
@@ -235,7 +235,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'Transform Animations (Rotation, Scale, Slide)',
           description:
@@ -274,7 +273,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
                   ),
                 ],
               ),
-
               FDColumn(
                 children: [
                   AnimatedScale(
@@ -306,7 +304,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
                   ),
                 ],
               ),
-
               FDColumn(
                 children: [
                   AnimatedSlide(
@@ -344,7 +341,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'AnimatedPositioned in FDStack',
           description:
@@ -408,7 +404,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'Entrance Animations (FadeIn, SlideIn, ScaleIn)',
           description:
@@ -480,7 +475,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'Hero Markers & WebGL Shader Effects',
           description:

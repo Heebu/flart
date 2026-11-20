@@ -12,7 +12,9 @@ void main() {
       TestUtils.unmountWidget();
     });
 
-    test('FDListTile renders leading, title, subtitle, trailing and handles onTap', () {
+    test(
+        'FDListTile renders leading, title, subtitle, trailing and handles onTap',
+        () {
       bool tapped = false;
       final widget = FDListTile(
         leading: FDIcon(icon: FDIcons.person),
@@ -71,7 +73,8 @@ void main() {
       bool actionClicked = false;
       final widget = FDAlertDialog(
         title: FDText('Confirm Delete'),
-        content: FDText('Are you sure you want to permanently delete this item?'),
+        content:
+            FDText('Are you sure you want to permanently delete this item?'),
         actions: [
           FDTextButton(
             onPressed: () {
@@ -116,8 +119,10 @@ void main() {
           selectedIndex = idx;
         },
         items: [
-          FDBottomNavigationBarItem(icon: FDIcon(icon: FDIcons.home), label: 'Home'),
-          FDBottomNavigationBarItem(icon: FDIcon(icon: FDIcons.settings), label: 'Settings'),
+          FDBottomNavigationBarItem(
+              icon: FDIcon(icon: FDIcons.home), label: 'Home'),
+          FDBottomNavigationBarItem(
+              icon: FDIcon(icon: FDIcons.settings), label: 'Settings'),
         ],
       );
 
@@ -155,10 +160,12 @@ void main() {
       expect(root.querySelector('table'), isNotNull);
       expect(root.textContent, contains('Alice'));
       expect(root.textContent, contains('Bob'));
-      expect(root.getElementsByTagName('tr').length, equals(3)); // header + 2 rows
+      expect(
+          root.getElementsByTagName('tr').length, equals(3)); // header + 2 rows
     });
 
-    test('showDialog opens overlay and closeDialog closes it returning result', () async {
+    test('showDialog opens overlay and closeDialog closes it returning result',
+        () async {
       String? dialogResult;
       unawaited(showDialog<String>(
         builder: FDAlertDialog(
@@ -172,7 +179,8 @@ void main() {
         ),
       ).then((res) => dialogResult = res));
 
-      final overlay = web.document.querySelector('.flart-dialog-overlay') as web.HTMLElement?;
+      final overlay = web.document.querySelector('.flart-dialog-overlay')
+          as web.HTMLElement?;
       expect(overlay, isNotNull);
       expect(overlay!.textContent, contains('Alert Title'));
 
@@ -185,7 +193,9 @@ void main() {
       expect(dialogResult, equals('Confirmed'));
     });
 
-    test('FDMaterialApp updates activePage when home updates without active named routes', () {
+    test(
+        'FDMaterialApp updates activePage when home updates without active named routes',
+        () {
       PageNavigator.reset();
 
       const homeV1 = FDText('Catalog Page 0');
@@ -253,7 +263,8 @@ void main() {
       expect(rootCol.style.backgroundColor, equals('rgb(0, 255, 0)'));
     });
 
-    test('FDSizedBox supports named constructors shrink, expand, and square', () {
+    test('FDSizedBox supports named constructors shrink, expand, and square',
+        () {
       final shrink = const FDSizedBox.shrink();
       final rootShrink = TestUtils.mountWidget(shrink) as web.HTMLElement;
       expect(rootShrink.style.width, equals('0px'));
@@ -287,7 +298,9 @@ void main() {
       expect(root.style.border, contains('1px solid rgb(204, 204, 204)'));
     });
 
-    test('FDFloatingActionButton renders circular standard, mini, and extended FAB', () {
+    test(
+        'FDFloatingActionButton renders circular standard, mini, and extended FAB',
+        () {
       bool pressed = false;
       final fab = FDFloatingActionButton(
         onPressed: () => pressed = true,

@@ -87,7 +87,6 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'Text Fields & InputDecoration',
           description:
@@ -121,7 +120,8 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
               ),
               const SizedBox(height: 12),
               FDContainer(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
                   color: const FlartColor('#f1f5f9'),
                   borderRadius: BorderRadius.circular(6),
@@ -138,7 +138,6 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'Form & TextFormField Validation',
           description:
@@ -173,7 +172,8 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
                         foregroundColor: FlartColors.white,
                       ),
                       onPressed: () {
-                        final isValid = _formKey.currentState?.validate() ?? false;
+                        final isValid =
+                            _formKey.currentState?.validate() ?? false;
                         if (isValid) {
                           _formKey.currentState?.save();
                         }
@@ -230,7 +230,6 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'Selection Controls (Checkbox, Radio, Switch)',
           description:
@@ -301,14 +300,14 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
                     },
                   ),
                   const SizedBox(width: 12),
-                  FDText('Realtime Push Notifications: ${_switchVal ? "ENABLED" : "DISABLED"}'),
+                  FDText(
+                      'Realtime Push Notifications: ${_switchVal ? "ENABLED" : "DISABLED"}'),
                 ],
               ),
             ],
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'Dropdowns & Sliders',
           description:
@@ -367,7 +366,6 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'Date & Time Pickers',
           description:
@@ -420,7 +418,6 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'Advanced Inputs (TextArea, Color, File)',
           description:
@@ -440,7 +437,8 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
               if (_textAreaVal.isNotEmpty) ...[
                 const SizedBox(height: 6),
                 FDText('Preview (${_textAreaVal.length} chars): $_textAreaVal',
-                    style: const TextStyle(fontSize: 12, color: FlartColors.grey)),
+                    style:
+                        const TextStyle(fontSize: 12, color: FlartColors.grey)),
               ],
               const SizedBox(height: 16),
               FDRow(

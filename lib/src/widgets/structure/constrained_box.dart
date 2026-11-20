@@ -70,9 +70,12 @@ class BoxConstraints {
     double? width,
     double? height,
   })  : minWidth = width != null && width != double.infinity ? width : 0.0,
-        maxWidth = width != null && width != double.infinity ? width : double.infinity,
+        maxWidth =
+            width != null && width != double.infinity ? width : double.infinity,
         minHeight = height != null && height != double.infinity ? height : 0.0,
-        maxHeight = height != null && height != double.infinity ? height : double.infinity;
+        maxHeight = height != null && height != double.infinity
+            ? height
+            : double.infinity;
 
   const BoxConstraints.expand({
     double? width,
@@ -90,8 +93,10 @@ class BoxConstraints {
     return BoxConstraints(
       minWidth: width != null ? width.clamp(minWidth, maxWidth) : minWidth,
       maxWidth: width != null ? width.clamp(minWidth, maxWidth) : maxWidth,
-      minHeight: height != null ? height.clamp(minHeight, maxHeight) : minHeight,
-      maxHeight: height != null ? height.clamp(minHeight, maxHeight) : maxHeight,
+      minHeight:
+          height != null ? height.clamp(minHeight, maxHeight) : minHeight,
+      maxHeight:
+          height != null ? height.clamp(minHeight, maxHeight) : maxHeight,
     );
   }
 

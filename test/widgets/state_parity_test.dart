@@ -97,7 +97,8 @@ void main() {
       expect(root.textContent, contains('Count: 2'));
     });
 
-    test('ValueListenableBuilder rebuilds when ValueNotifier changes', () async {
+    test('ValueListenableBuilder rebuilds when ValueNotifier changes',
+        () async {
       final notifier = ValueNotifier<String>('Initial message');
 
       final widget = ValueListenableBuilder<String>(
@@ -135,7 +136,8 @@ void main() {
 
     test('FutureBuilder transitions from waiting to withData', () async {
       final widget = FutureBuilder<String>(
-        future: Future.delayed(const Duration(milliseconds: 20), () => 'Loaded Data!'),
+        future: Future.delayed(
+            const Duration(milliseconds: 20), () => 'Loaded Data!'),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const FDText('Loading...');

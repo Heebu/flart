@@ -38,7 +38,8 @@ class _DialogShowcaseState extends State<DialogShowcase> {
                     style: TextStyle(color: FlartColor('#ffffff'))),
                 style: FDElevatedButton.styleFrom(
                   backgroundColor: FlartColor('#3b82f6'),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   shape: BorderRadius.circular(8),
                 ),
                 onPressed: () async {
@@ -60,7 +61,8 @@ class _DialogShowcaseState extends State<DialogShowcase> {
                               style: TextStyle(color: FlartColor('#ffffff'))),
                           style: FDElevatedButton.styleFrom(
                             backgroundColor: FlartColor('#3b82f6'),
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
                             shape: BorderRadius.circular(6),
                           ),
                           onPressed: () {

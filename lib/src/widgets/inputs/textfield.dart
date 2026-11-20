@@ -80,7 +80,8 @@ class FDTextField extends StatelessWidget {
     final effectiveHelperText = decoration?.helperText ?? helperText;
     final effectivePrefix = decoration?.prefixIcon ?? prefixIcon;
     final effectiveSuffix = decoration?.suffixIcon ?? suffixIcon;
-    final effectiveFillColor = decoration?.fillColor ?? backgroundColor ?? theme.cardColor;
+    final effectiveFillColor =
+        decoration?.fillColor ?? backgroundColor ?? theme.cardColor;
     final hasError = effectiveErrorText != null;
 
     // Resolve borders
@@ -114,9 +115,8 @@ class FDTextField extends StatelessWidget {
     } else {
       resolvedRadius = BorderRadius.circular(borderRadius ?? 4.0);
       resolvedBorder = Border.all(
-        color: hasError
-            ? theme.errorColor
-            : (borderColor ?? theme.dividerColor),
+        color:
+            hasError ? theme.errorColor : (borderColor ?? theme.dividerColor),
         width: 1,
       );
     }

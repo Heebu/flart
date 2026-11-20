@@ -37,12 +37,12 @@ class FDInkWell extends Widget {
   @override
   FlartNode buildNode(BuildContext context) {
     final radius = borderRadius ?? BorderRadius.zero;
-    final isInteractive = onTap != null ||
-        onDoubleTap != null ||
-        onLongPress != null;
+    final isInteractive =
+        onTap != null || onDoubleTap != null || onLongPress != null;
 
     final defaultHover = hoverColor?.toString() ?? 'rgba(0, 0, 0, 0.05)';
-    final defaultSplash = (splashColor ?? highlightColor)?.toString() ?? 'rgba(0, 0, 0, 0.10)';
+    final defaultSplash =
+        (splashColor ?? highlightColor)?.toString() ?? 'rgba(0, 0, 0, 0.10)';
 
     final styles = <String, String>{
       'position': 'relative',

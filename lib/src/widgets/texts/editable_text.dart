@@ -76,7 +76,9 @@ class _FDEditableTextState extends State<FDEditableText> {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final isMultiline = widget.maxLines != null && widget.maxLines! > 1;
-    final type = widget.obscureText ? 'password' : _keyboardTypeToString(widget.keyboardType);
+    final type = widget.obscureText
+        ? 'password'
+        : _keyboardTypeToString(widget.keyboardType);
 
     final baseStyle = <String, String>{
       'box-sizing': 'border-box',
@@ -105,7 +107,8 @@ class _FDEditableTextState extends State<FDEditableText> {
     };
 
     if (isMultiline) {
-      if (widget.maxLines != null) attributes['rows'] = widget.maxLines!.toString();
+      if (widget.maxLines != null)
+        attributes['rows'] = widget.maxLines!.toString();
       return FDElement(
         tag: 'textarea',
         attributes: attributes,

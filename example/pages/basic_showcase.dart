@@ -65,7 +65,6 @@ class BasicShowcase extends StatelessWidget {
           style: TextStyle(fontSize: 16, color: FlartColor('#64748b')),
         ),
         const FDSizedBox(height: 32),
-
         ShowcaseCard(
           title: '1. FDCircleAvatar (Avatars & Badges)',
           description:
@@ -77,32 +76,45 @@ class BasicShowcase extends StatelessWidget {
               const FDCircleAvatar(
                 radius: 18,
                 backgroundColor: FlartColor('#3b82f6'),
-                child: FDText('SM', style: TextStyle(color: FlartColors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+                child: FDText('SM',
+                    style: TextStyle(
+                        color: FlartColors.white,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold)),
               ),
               const FDCircleAvatar(
                 radius: 26,
                 backgroundColor: FlartColor('#10b981'),
-                child: FDText('MD', style: TextStyle(color: FlartColors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+                child: FDText('MD',
+                    style: TextStyle(
+                        color: FlartColors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold)),
               ),
               const FDCircleAvatar(
                 radius: 36,
                 backgroundColor: FlartColor('#8b5cf6'),
-                child: FDText('LG', style: TextStyle(color: FlartColors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                child: FDText('LG',
+                    style: TextStyle(
+                        color: FlartColors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold)),
               ),
               const FDCircleAvatar(
                 radius: 26,
                 backgroundColor: FlartColor('#ef4444'),
-                child: FDIcon(icon: FDIcons.favorite, size: 24, color: FlartColors.white),
+                child: FDIcon(
+                    icon: FDIcons.favorite, size: 24, color: FlartColors.white),
               ),
               const FDCircleAvatar(
                 radius: 26,
                 backgroundColor: FlartColor('#f59e0b'),
-                child: FDIcon(icon: FDIcons.star, size: 24, color: FlartColors.white),
+                child: FDIcon(
+                    icon: FDIcons.star, size: 24, color: FlartColors.white),
               ),
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '2. FDIcon (Material Icons with IconData & Tooltips)',
           description:
@@ -111,16 +123,39 @@ class BasicShowcase extends StatelessWidget {
             spacing: 24,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const FDIcon(icon: FDIcons.home, size: 28, color: FlartColor('#2563eb'), tooltip: 'Home'),
-              const FDIcon(icon: FDIcons.search, size: 32, color: FlartColor('#059669'), tooltip: 'Search'),
-              const FDIcon(icon: FDIcons.settings, size: 36, color: FlartColor('#7c3aed'), tooltip: 'Settings'),
-              const FDIcon(icon: FDIcons.notifications, size: 40, color: FlartColor('#d97706'), tooltip: 'Alerts'),
-              const FDIcon(icon: FDIcons.security, size: 44, color: FlartColor('#dc2626'), tooltip: 'Security'),
-              const FDIcon(icon: FDIcons.bolt, size: 48, color: FlartColor('#0891b2'), tooltip: 'Performance'),
+              const FDIcon(
+                  icon: FDIcons.home,
+                  size: 28,
+                  color: FlartColor('#2563eb'),
+                  tooltip: 'Home'),
+              const FDIcon(
+                  icon: FDIcons.search,
+                  size: 32,
+                  color: FlartColor('#059669'),
+                  tooltip: 'Search'),
+              const FDIcon(
+                  icon: FDIcons.settings,
+                  size: 36,
+                  color: FlartColor('#7c3aed'),
+                  tooltip: 'Settings'),
+              const FDIcon(
+                  icon: FDIcons.notifications,
+                  size: 40,
+                  color: FlartColor('#d97706'),
+                  tooltip: 'Alerts'),
+              const FDIcon(
+                  icon: FDIcons.security,
+                  size: 44,
+                  color: FlartColor('#dc2626'),
+                  tooltip: 'Security'),
+              const FDIcon(
+                  icon: FDIcons.bolt,
+                  size: 48,
+                  color: FlartColor('#0891b2'),
+                  tooltip: 'Performance'),
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '3. FDImage (Asset & Network with BoxFit & BorderRadius)',
           description:
@@ -168,7 +203,6 @@ class BasicShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '4. FDSvgPicture (Vector Graphics & Color Fill)',
           description:
@@ -204,7 +238,6 @@ class BasicShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '5. FDCustomPaint (HTML5 Canvas Drawing Engine)',
           description:
@@ -214,7 +247,6 @@ class BasicShowcase extends StatelessWidget {
             size: Size(320, 115),
           ),
         ),
-
         ShowcaseCard(
           title: '6. FDAspectRatio (Proportional Media Ratios)',
           description:
@@ -235,7 +267,10 @@ class BasicShowcase extends StatelessWidget {
                     alignment: Alignment.center,
                     child: const FDText(
                       '16 : 9 Widescreen',
-                      style: TextStyle(color: FlartColors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                      style: TextStyle(
+                          color: FlartColors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13),
                     ),
                   ),
                 ),
@@ -252,7 +287,10 @@ class BasicShowcase extends StatelessWidget {
                     alignment: Alignment.center,
                     child: const FDText(
                       '1 : 1\nSquare',
-                      style: TextStyle(color: FlartColors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                      style: TextStyle(
+                          color: FlartColors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -261,7 +299,6 @@ class BasicShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '7. FDClipRRect & FDClipOval (Anti-Aliased Geometry Clipping)',
           description:
@@ -281,7 +318,10 @@ class BasicShowcase extends StatelessWidget {
                   alignment: Alignment.center,
                   child: const FDText(
                     'ClipRRect\n(radius 20)',
-                    style: TextStyle(color: FlartColors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                    style: TextStyle(
+                        color: FlartColors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -296,14 +336,16 @@ class BasicShowcase extends StatelessWidget {
                   alignment: Alignment.center,
                   child: const FDText(
                     'ClipOval',
-                    style: TextStyle(color: FlartColors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                    style: TextStyle(
+                        color: FlartColors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13),
                   ),
                 ),
               ),
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '8. FDOpacity (Alpha Blending & Pointer Protection)',
           description:
@@ -319,7 +361,6 @@ class BasicShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '9. FDRotatedBox (Quarter-Turn Rotations)',
           description:
@@ -347,7 +388,6 @@ class BasicShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '10. FDPlaceholder (Visual Wireframe Stub)',
           description:
@@ -368,7 +408,10 @@ class BasicShowcase extends StatelessWidget {
                 strokeWidth: 2,
                 child: FDText(
                   'Reserved Space',
-                  style: TextStyle(color: FlartColor('#1e40af'), fontWeight: FontWeight.bold, fontSize: 13),
+                  style: TextStyle(
+                      color: FlartColor('#1e40af'),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13),
                 ),
               ),
             ],

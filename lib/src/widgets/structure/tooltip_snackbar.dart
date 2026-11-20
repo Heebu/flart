@@ -60,7 +60,8 @@ class FDTooltip extends Widget {
         'box-sizing': 'border-box',
         'background-color': bgColor,
         'color': textStyle?.color?.toString() ?? 'white',
-        'font-size': textStyle?.fontSize != null ? '${textStyle!.fontSize}px' : '12px',
+        'font-size':
+            textStyle?.fontSize != null ? '${textStyle!.fontSize}px' : '12px',
         'text-align': 'center',
         'border-radius': '4px',
         'padding': pad.toCss(),

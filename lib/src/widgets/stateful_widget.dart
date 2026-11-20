@@ -110,7 +110,7 @@ abstract class StatefulWidget extends Widget {
   FlartNode buildNode(BuildContext context) {
     final safeRuntimeType =
         runtimeType.toString().replaceAll(RegExp(r'[<>]'), '_');
-    
+
     final String stateKey;
     if (key is GlobalKey) {
       stateKey = 'gk_${key.toString()}';
@@ -187,5 +187,3 @@ void resetStateRegistry() {
   _stateRegistry.clear();
   InheritedRegistry.reset();
 }
-
-

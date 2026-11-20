@@ -9,8 +9,10 @@ void main() {
       final mq = MediaQuery.of();
       expect(mq.width, greaterThan(0));
       expect(mq.height, greaterThan(0));
-      expect(mq.screenSize, isIn([ScreenSize.small, ScreenSize.medium, ScreenSize.large]));
-      expect(mq.orientationEnum, isIn([Orientation.portrait, Orientation.landscape]));
+      expect(mq.screenSize,
+          isIn([ScreenSize.small, ScreenSize.medium, ScreenSize.large]));
+      expect(mq.orientationEnum,
+          isIn([Orientation.portrait, Orientation.landscape]));
       expect(mq.size.width, equals(mq.width.toDouble()));
       expect(mq.size.height, equals(mq.height.toDouble()));
     });
@@ -55,14 +57,18 @@ void main() {
 
       final root = TestUtils.mountWidget(widget) as web.HTMLElement;
       final text = root.textContent;
-      expect(text, anyOf(
-        contains('View: Small Mobile'),
-        contains('View: Medium Tablet'),
-        contains('View: Large Desktop'),
-      ));
+      expect(
+          text,
+          anyOf(
+            contains('View: Small Mobile'),
+            contains('View: Medium Tablet'),
+            contains('View: Large Desktop'),
+          ));
     });
 
-    test('ResponsiveLayout builder mode passes context, screenSize, and constraints', () {
+    test(
+        'ResponsiveLayout builder mode passes context, screenSize, and constraints',
+        () {
       ScreenSize? observedSize;
       BoxConstraints? observedConstraints;
 

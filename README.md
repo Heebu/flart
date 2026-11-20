@@ -6,15 +6,17 @@ FlartDart brings the power, reactivity, and declarative UI of Flutter to the web
 
 ---
 
-## 🌟 Key Features (v1.6.0)
+## 🌟 Key Features (v2.0.0)
 
+*   **Virtual DOM & Selective Reconciliation**: High-performance Virtual DOM diffing (`FlartNode`, `VDOMReconciler`) that patches only modified attributes, styles, events, and text while preserving input focus and scroll positions.
+*   **100% Flutter API Parity**: Standard Flutter class names (`Container`, `Row`, `Column`, `Stack`, `Positioned`, `ListView`, `TextField`, `ElevatedButton`, `AnimatedContainer`, etc.) without requiring raw CSS escape hatches.
+*   **Adaptive Responsive Layouts**: Built-in `LayoutBuilder`, `OrientationBuilder`, `ResponsiveLayout`, enhanced `MediaQuery`, and numeric extensions (`.w`, `.h`, `.sp`).
 *   **Integrated CLI**: A powerful `flartdart` tool for project creation, serving, and building.
-*   **Responsive Power**: Built-in `ScreenUtil` and numeric extensions (`.w`, `.h`, `.sp`) for perfect UI across devices.
-*   **100+ Core Widgets**: Everything from `FDContainer` and `FDColumn` to `FDSliverAppBar` and `FDDataTable`.
-*   **Reactive State Management**: Implementation of `ChangeNotifier`, `FDProvider`, and a **Stacked-style** `FDViewModelBuilder`.
-*   **Native-feel Animations**: High-level `FDAnimate` helper, `Hero` transitions (foundation), and built-in transitions for all interactive widgets.
-*   **Modern Routing**: Sophisticated `PageNavigator` with **Path Parameters** (e.g., `/user/:id`) and history management.
-*   **Forms & Validation**: Integrated `FDForm` and `FDTextFormField` with easy validation logic and `GlobalKey` control.
+*   **100+ Core Widgets**: Everything from `Container` and `Column` to `SliverAppBar`, `GridView`, and `DataTable`.
+*   **Reactive State Management**: Built-in support for `ValueListenableBuilder`, `FutureBuilder`, `StreamBuilder`, `ChangeNotifierProvider`, `Consumer`, and `ViewModelBuilder`.
+*   **Native Web Animations**: Hardware-accelerated transitions (`AnimatedContainer`, `AnimatedOpacity`, `AnimatedCrossFade`, `AnimatedRotation`, `AnimatedScale`, `AnimatedSlide`, `Hero`).
+*   **Modern Web Routing**: Sophisticated `PageNavigator` with path parameters (e.g. `/user/:id`) and browser history integration.
+*   **Forms & Validation**: Integrated `Form` and `TextFormField` with validator callbacks and `GlobalKey<FormState>`.
 
 ---
 
@@ -108,7 +110,7 @@ In your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flartdart: ^1.6.0
+  flartdart: ^2.0.0
 ```
 
 ---

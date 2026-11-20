@@ -164,11 +164,14 @@ class FDListView extends Widget {
         break;
 
       case ListViewType.separated:
-        if (itemBuilder != null && separatorBuilder != null && itemCount != null) {
+        if (itemBuilder != null &&
+            separatorBuilder != null &&
+            itemCount != null) {
           for (int i = 0; i < itemCount!; i++) {
             childrenNodes.add(itemBuilder!(context, i).buildNode(context));
             if (i < itemCount! - 1) {
-              childrenNodes.add(separatorBuilder!(context, i).buildNode(context));
+              childrenNodes
+                  .add(separatorBuilder!(context, i).buildNode(context));
             }
           }
         }

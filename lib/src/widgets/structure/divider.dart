@@ -28,7 +28,8 @@ class FDDivider extends Widget {
   FlartNode buildNode(BuildContext context) {
     final theme = Theme.of(context);
     final totalHeight = height ?? thickness;
-    final topBottomMargin = (totalHeight - thickness).clamp(0.0, double.infinity) / 2;
+    final topBottomMargin =
+        (totalHeight - thickness).clamp(0.0, double.infinity) / 2;
 
     final styleMap = <String, String>{
       'box-sizing': 'border-box',

@@ -1,6 +1,7 @@
 import '../../../flartdart.dart';
 
-typedef TransitionBuilder = Widget Function(BuildContext context, Widget? child);
+typedef TransitionBuilder = Widget Function(
+    BuildContext context, Widget? child);
 
 /// A widget that rebuilds when the given [animation] changes value.
 /// It uses a StatefulWidget internally to listen to the animation.

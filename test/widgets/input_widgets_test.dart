@@ -129,7 +129,8 @@ void main() {
       );
 
       final root = TestUtils.mountWidget(widget) as web.HTMLElement;
-      final textarea = root.querySelector('textarea') as web.HTMLTextAreaElement?;
+      final textarea =
+          root.querySelector('textarea') as web.HTMLTextAreaElement?;
       expect(textarea, isNotNull);
       expect(textarea!.value, equals('Line 1'));
 
@@ -310,7 +311,8 @@ void main() {
       expect(submittedText, equals('Hello World'));
     });
 
-    test('TextField with InputDecoration renders labels and OutlineInputBorder', () {
+    test('TextField with InputDecoration renders labels and OutlineInputBorder',
+        () {
       final widget = TextField(
         decoration: const InputDecoration(
           labelText: 'Email Address',

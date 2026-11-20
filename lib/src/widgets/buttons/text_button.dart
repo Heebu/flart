@@ -99,7 +99,8 @@ class FDTextButton extends Widget {
         : 'transparent';
 
     final radius = style?.shape ?? BorderRadius.circular(6);
-    final pad = style?.padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 8);
+    final pad = style?.padding ??
+        const EdgeInsets.symmetric(horizontal: 12, vertical: 8);
     final borderStr = style?.side?.toCss() ?? 'none';
 
     final styles = <String, String>{
@@ -108,7 +109,9 @@ class FDTextButton extends Widget {
       'justify-content': 'center',
       'box-sizing': 'border-box',
       'padding': pad.toCss(),
-      'font-size': style?.textStyle?.fontSize != null ? '${style!.textStyle!.fontSize}px' : '14px',
+      'font-size': style?.textStyle?.fontSize != null
+          ? '${style!.textStyle!.fontSize}px'
+          : '14px',
       'font-weight': style?.textStyle?.fontWeight?.value ?? '500',
       'font-family': style?.textStyle?.fontFamily ?? 'inherit',
       'background-color': bgColor,
@@ -120,8 +123,10 @@ class FDTextButton extends Widget {
       'user-select': 'none',
       'transition': 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
       if (!isEnabled) 'opacity': '0.5',
-      if (style?.minimumSize != null) 'min-width': '${style!.minimumSize!.width}px',
-      if (style?.minimumSize != null) 'min-height': '${style!.minimumSize!.height}px',
+      if (style?.minimumSize != null)
+        'min-width': '${style!.minimumSize!.width}px',
+      if (style?.minimumSize != null)
+        'min-height': '${style!.minimumSize!.height}px',
       if (style?.fixedSize != null) 'width': '${style!.fixedSize!.width}px',
       if (style?.fixedSize != null) 'height': '${style!.fixedSize!.height}px',
     };

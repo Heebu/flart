@@ -21,7 +21,6 @@ class StructureShowcase extends StatelessWidget {
           style: TextStyle(fontSize: 16, color: FlartColor('#64748b')),
         ),
         const FDSizedBox(height: 32),
-
         ShowcaseCard(
           title: '1. FDContainer (Box-Sizing & Constraints)',
           description:
@@ -48,7 +47,6 @@ class StructureShowcase extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-
                   FDContainer(
                     constraints: const BoxConstraints(
                       minWidth: 140,
@@ -67,14 +65,14 @@ class StructureShowcase extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-
                   FDContainer(
                     width: 140,
                     height: 100,
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: const FlartColor('#ef4444'), width: 2),
+                      border: Border.all(
+                          color: const FlartColor('#ef4444'), width: 2),
                     ),
                     child: FDContainer(
                       width: 200,
@@ -83,7 +81,9 @@ class StructureShowcase extends StatelessWidget {
                       alignment: Alignment.center,
                       child: const FDText(
                         'Clipped Child',
-                        style: TextStyle(color: FlartColor('#b91c1c'), fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            color: FlartColor('#b91c1c'),
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -92,7 +92,6 @@ class StructureShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '2. New Primitives: FDDecoratedBox & FDColoredBox',
           description:
@@ -103,17 +102,22 @@ class StructureShowcase extends StatelessWidget {
               FDColoredBox(
                 color: const FlartColor('#6366f1'),
                 child: FDPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   child: const FDText(
                     'FDColoredBox (Pure solid color)',
-                    style: TextStyle(color: FlartColors.white, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: FlartColors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
               FDDecoratedBox(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [const FlartColor('#ec4899'), const FlartColor('#8b5cf6')],
+                    colors: [
+                      const FlartColor('#ec4899'),
+                      const FlartColor('#8b5cf6')
+                    ],
                   ),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
@@ -125,17 +129,18 @@ class StructureShowcase extends StatelessWidget {
                   ],
                 ),
                 child: FDPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   child: const FDText(
                     'FDDecoratedBox (Gradient + Shadow)',
-                    style: TextStyle(color: FlartColors.white, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: FlartColors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '3. FDSizedBox (All Constructors)',
           description:
@@ -149,7 +154,8 @@ class StructureShowcase extends StatelessWidget {
                 child: FDColoredBox(
                   color: FlartColor('#0284c7'),
                   child: FDCenter(
-                    child: FDIcon(icon: FDIcons.star, color: FlartColors.white, size: 28),
+                    child: FDIcon(
+                        icon: FDIcons.star, color: FlartColors.white, size: 28),
                   ),
                 ),
               ),
@@ -159,7 +165,8 @@ class StructureShowcase extends StatelessWidget {
                 child: FDColoredBox(
                   color: FlartColor('#0f766e'),
                   child: FDCenter(
-                    child: FDText('Fixed 120x48', style: TextStyle(color: FlartColors.white)),
+                    child: FDText('Fixed 120x48',
+                        style: TextStyle(color: FlartColors.white)),
                   ),
                 ),
               ),
@@ -169,7 +176,6 @@ class StructureShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '4. FDCard (Elevation, Borders, and Clipping)',
           description:
@@ -187,9 +193,11 @@ class StructureShowcase extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       FDText('Elevated Card (elevation: 6)',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
                       FDSizedBox(height: 6),
-                      FDText('Standard material depth with smooth elevation shadow.'),
+                      FDText(
+                          'Standard material depth with smooth elevation shadow.'),
                     ],
                   ),
                 ),
@@ -197,14 +205,16 @@ class StructureShowcase extends StatelessWidget {
               FDExpanded(
                 child: FDCard(
                   elevation: 0,
-                  border: Border.all(color: const FlartColor('#cbd5e1'), width: 1.5),
+                  border: Border.all(
+                      color: const FlartColor('#cbd5e1'), width: 1.5),
                   padding: const EdgeInsets.all(20),
                   borderRadius: BorderRadius.circular(12),
                   child: const FDColumn(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       FDText('Outlined Card (elevation: 0)',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
                       FDSizedBox(height: 6),
                       FDText('Clean border outline without elevation shadow.'),
                     ],
@@ -226,13 +236,16 @@ class StructureShowcase extends StatelessWidget {
                           padding: EdgeInsets.all(12),
                           child: FDText(
                             'Clipped Header (antiAlias)',
-                            style: TextStyle(color: FlartColors.white, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                color: FlartColors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
                       const FDPadding(
                         padding: EdgeInsets.all(16),
-                        child: FDText('Header perfectly clipped to card corners.'),
+                        child:
+                            FDText('Header perfectly clipped to card corners.'),
                       ),
                     ],
                   ),
@@ -241,7 +254,6 @@ class StructureShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '5. FDFloatingActionButton (Standard, Mini, Extended)',
           description:
@@ -253,23 +265,27 @@ class StructureShowcase extends StatelessWidget {
               FDFloatingActionButton(
                 onPressed: () {},
                 backgroundColor: const FlartColor('#2563eb'),
-                child: const FDIcon(icon: FDIcons.add, color: FlartColors.white),
+                child:
+                    const FDIcon(icon: FDIcons.add, color: FlartColors.white),
               ),
               const FDFloatingActionButton(
                 mini: true,
                 backgroundColor: FlartColor('#059669'),
-                child: FDIcon(icon: FDIcons.edit, color: FlartColors.white, size: 20),
+                child: FDIcon(
+                    icon: FDIcons.edit, color: FlartColors.white, size: 20),
               ),
               FDFloatingActionButton.extended(
                 onPressed: () {},
                 backgroundColor: const FlartColor('#7c3aed'),
-                icon: const FDIcon(icon: FDIcons.send, color: FlartColors.white),
-                label: const FDText('Compose Email', style: TextStyle(color: FlartColors.white, fontWeight: FontWeight.bold)),
+                icon:
+                    const FDIcon(icon: FDIcons.send, color: FlartColors.white),
+                label: const FDText('Compose Email',
+                    style: TextStyle(
+                        color: FlartColors.white, fontWeight: FontWeight.bold)),
               ),
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '6. FDDivider & FDVerticalDivider',
           description:
@@ -277,7 +293,8 @@ class StructureShowcase extends StatelessWidget {
           child: FDColumn(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const FDText('Horizontal divider with indent: 40 & endIndent: 40:'),
+              const FDText(
+                  'Horizontal divider with indent: 40 & endIndent: 40:'),
               const FDSizedBox(height: 8),
               const FDDivider(
                 thickness: 2,
@@ -294,11 +311,14 @@ class StructureShowcase extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     FDText('Section A'),
-                    FDVerticalDivider(thickness: 2, width: 32, color: FlartColor('#94a3b8')),
+                    FDVerticalDivider(
+                        thickness: 2, width: 32, color: FlartColor('#94a3b8')),
                     FDText('Section B'),
-                    FDVerticalDivider(thickness: 2, width: 32, color: FlartColor('#94a3b8')),
+                    FDVerticalDivider(
+                        thickness: 2, width: 32, color: FlartColor('#94a3b8')),
                     FDText('Section C'),
-                    FDVerticalDivider(thickness: 2, width: 32, color: FlartColor('#94a3b8')),
+                    FDVerticalDivider(
+                        thickness: 2, width: 32, color: FlartColor('#94a3b8')),
                     FDText('Section D'),
                   ],
                 ),
@@ -306,7 +326,6 @@ class StructureShowcase extends StatelessWidget {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '7. FDGridView (childAspectRatio in Action)',
           description:
@@ -322,23 +341,25 @@ class StructureShowcase extends StatelessWidget {
                 FDContainer(
                   color: const FlartColor('#e0f2fe'),
                   alignment: Alignment.center,
-                  child: const FDText('Tile 1 (1.5 ratio)', style: TextStyle(color: FlartColor('#0369a1'))),
+                  child: const FDText('Tile 1 (1.5 ratio)',
+                      style: TextStyle(color: FlartColor('#0369a1'))),
                 ),
                 FDContainer(
                   color: const FlartColor('#fef3c7'),
                   alignment: Alignment.center,
-                  child: const FDText('Tile 2 (1.5 ratio)', style: TextStyle(color: FlartColor('#b45309'))),
+                  child: const FDText('Tile 2 (1.5 ratio)',
+                      style: TextStyle(color: FlartColor('#b45309'))),
                 ),
                 FDContainer(
                   color: const FlartColor('#f3e8ff'),
                   alignment: Alignment.center,
-                  child: const FDText('Tile 3 (1.5 ratio)', style: TextStyle(color: FlartColor('#7e22ce'))),
+                  child: const FDText('Tile 3 (1.5 ratio)',
+                      style: TextStyle(color: FlartColor('#7e22ce'))),
                 ),
               ],
             ),
           ),
         ),
-
         ShowcaseCard(
           title: '8. Display Primitives: FDAspectRatio & FDClipRRect',
           description:
@@ -353,7 +374,8 @@ class StructureShowcase extends StatelessWidget {
                   child: FDColoredBox(
                     color: const FlartColor('#1e293b'),
                     child: const FDCenter(
-                      child: FDText('16 : 9 AspectRatio', style: TextStyle(color: FlartColors.white)),
+                      child: FDText('16 : 9 AspectRatio',
+                          style: TextStyle(color: FlartColors.white)),
                     ),
                   ),
                 ),
@@ -365,13 +387,15 @@ class StructureShowcase extends StatelessWidget {
                   height: 90,
                   color: const FlartColor('#f43f5e'),
                   alignment: Alignment.center,
-                  child: const FDText('FDClipRRect (24px)', style: TextStyle(color: FlartColors.white, fontWeight: FontWeight.bold)),
+                  child: const FDText('FDClipRRect (24px)',
+                      style: TextStyle(
+                          color: FlartColors.white,
+                          fontWeight: FontWeight.bold)),
                 ),
               ),
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '9. FDExpanded & FDSpacer',
           description:
@@ -384,7 +408,8 @@ class StructureShowcase extends StatelessWidget {
                   padding: const EdgeInsets.all(12),
                   color: const FlartColor('#3b82f6'),
                   alignment: Alignment.center,
-                  child: const FDText('Expanded (flex: 1)', style: TextStyle(color: FlartColors.white)),
+                  child: const FDText('Expanded (flex: 1)',
+                      style: TextStyle(color: FlartColors.white)),
                 ),
               ),
               const FDSpacer(flex: 1),
@@ -394,13 +419,13 @@ class StructureShowcase extends StatelessWidget {
                   padding: const EdgeInsets.all(12),
                   color: const FlartColor('#1d4ed8'),
                   alignment: Alignment.center,
-                  child: const FDText('Expanded (flex: 2)', style: TextStyle(color: FlartColors.white)),
+                  child: const FDText('Expanded (flex: 2)',
+                      style: TextStyle(color: FlartColors.white)),
                 ),
               ),
             ],
           ),
         ),
-
         ShowcaseCard(
           title: '10. FDListTile & FDBadge',
           description:
@@ -410,8 +435,10 @@ class StructureShowcase extends StatelessWidget {
             child: FDColumn(
               children: [
                 FDListTile(
-                  leading: const FDIcon(icon: FDIcons.inbox, color: FlartColors.blue),
-                  title: const FDText('Inbox', style: TextStyle(fontWeight: FontWeight.bold)),
+                  leading: const FDIcon(
+                      icon: FDIcons.inbox, color: FlartColors.blue),
+                  title: const FDText('Inbox',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: const FDText('3 unread communications'),
                   trailing: const FDBadge(
                     label: '3',
@@ -422,10 +449,13 @@ class StructureShowcase extends StatelessWidget {
                 ),
                 const FDDivider(margin: EdgeInsets.zero),
                 FDListTile(
-                  leading: const FDIcon(icon: FDIcons.star, color: FlartColors.orange),
-                  title: const FDText('Starred Tasks', style: TextStyle(fontWeight: FontWeight.bold)),
+                  leading: const FDIcon(
+                      icon: FDIcons.star, color: FlartColors.orange),
+                  title: const FDText('Starred Tasks',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: const FDText('Pinned priority items'),
-                  trailing: const FDIcon(icon: FDIcons.chevron_right, color: FlartColors.grey),
+                  trailing: const FDIcon(
+                      icon: FDIcons.chevron_right, color: FlartColors.grey),
                   onTap: () {},
                 ),
               ],

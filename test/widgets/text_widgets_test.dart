@@ -37,8 +37,10 @@ void main() {
       expect(root.style.fontStyle, equals('italic'));
       expect(root.style.letterSpacing, equals('1.5px'));
       expect(root.style.wordSpacing, equals('3px'));
-      expect(root.style.getPropertyValue('text-decoration-line'), contains('underline'));
-      expect(root.style.getPropertyValue('text-decoration-style'), equals('wavy'));
+      expect(root.style.getPropertyValue('text-decoration-line'),
+          contains('underline'));
+      expect(
+          root.style.getPropertyValue('text-decoration-style'), equals('wavy'));
     });
 
     test('FDText handles overflow and maxLines with line clamping', () {
@@ -91,7 +93,8 @@ void main() {
       expect(css['text-decoration-line'], equals('underline line-through'));
     });
 
-    test('FDText.rich renders nested TextSpans and handles click callbacks', () {
+    test('FDText.rich renders nested TextSpans and handles click callbacks',
+        () {
       var clicked = false;
       final richWidget = FDText.rich(
         TextSpan(
@@ -160,7 +163,8 @@ void main() {
       expect(pressed, isTrue);
     });
 
-    test('FDEditableText renders input and updates controller on input event', () {
+    test('FDEditableText renders input and updates controller on input event',
+        () {
       final controller = TextEditingController(text: 'Initial text');
       String? changedValue;
 
@@ -195,7 +199,8 @@ void main() {
       );
 
       final root = TestUtils.mountWidget(editable) as web.HTMLElement;
-      final textarea = root.querySelector('textarea') as web.HTMLTextAreaElement?;
+      final textarea =
+          root.querySelector('textarea') as web.HTMLTextAreaElement?;
       expect(textarea, isNotNull);
       expect(textarea!.rows, equals(4));
       expect(textarea.value, equals('Multiline\nContent'));

@@ -38,7 +38,8 @@ class FDIcon extends Widget {
 
   @override
   FlartNode buildNode(BuildContext context) {
-    final glyph = icon is IconData ? (icon as IconData).codePoint : icon.toString();
+    final glyph =
+        icon is IconData ? (icon as IconData).codePoint : icon.toString();
     final effectiveTooltip = tooltip;
 
     return FlartElementNode(

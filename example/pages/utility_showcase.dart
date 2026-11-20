@@ -98,7 +98,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
     setState(() {
       _apiFuture = Future<String>.delayed(
         const Duration(milliseconds: 1200),
-        () => 'Successfully fetched user record #4092 at ${DateTime.now().toIso8601String().substring(11, 19)} UTC',
+        () =>
+            'Successfully fetched user record #4092 at ${DateTime.now().toIso8601String().substring(11, 19)} UTC',
       );
     });
   }
@@ -163,7 +164,6 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
             ],
           ),
         ),
-
         ShowcaseCard(
           title: 'ValueListenableBuilder<T>',
           description:
@@ -204,7 +204,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: FlartColor('#f0fdf4'),
-                      border: Border.all(color: FlartColor('#86efac'), width: 1.5),
+                      border:
+                          Border.all(color: FlartColor('#86efac'), width: 1.5),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
@@ -225,7 +226,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                             const SizedBox(height: 4),
                             Text(
                               'Targeted VDOM patch executed cleanly.',
-                              style: TextStyle(fontSize: 13, color: FlartColor('#166534')),
+                              style: TextStyle(
+                                  fontSize: 13, color: FlartColor('#166534')),
                             ),
                           ],
                         ),
@@ -237,9 +239,7 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
             ],
           ),
         ),
-
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'FutureBuilder<T>',
           description:
@@ -251,7 +251,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                 onPressed: _triggerFetch,
                 child: Row(
                   children: [
-                    Icon(FDIcons.refresh, color: FlartColor('#ffffff'), size: 16),
+                    Icon(FDIcons.refresh,
+                        color: FlartColor('#ffffff'), size: 16),
                     const SizedBox(width: 8),
                     Text('Trigger Async Request'),
                   ],
@@ -274,7 +275,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                         style: TextStyle(color: FlartColor('#64748b')),
                       ),
                     );
-                  } else if (snapshot.connectionState == ConnectionState.waiting) {
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
                     return Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -319,7 +321,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                       ),
                       child: Row(
                         children: [
-                          Icon(FDIcons.checkCircle, color: FlartColor('#16a34a')),
+                          Icon(FDIcons.checkCircle,
+                              color: FlartColor('#16a34a')),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Text(
@@ -339,9 +342,7 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
             ],
           ),
         ),
-
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'StreamBuilder<T>',
           description:
@@ -354,10 +355,12 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                   ElevatedButton(
                     onPressed: _toggleStream,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          _isStreaming ? FlartColor('#e11d48') : FlartColor('#0284c7'),
+                      backgroundColor: _isStreaming
+                          ? FlartColor('#e11d48')
+                          : FlartColor('#0284c7'),
                     ),
-                    child: Text(_isStreaming ? 'Pause Stream' : 'Resume Stream'),
+                    child:
+                        Text(_isStreaming ? 'Pause Stream' : 'Resume Stream'),
                   ),
                   const SizedBox(width: 12),
                   OutlinedButton(
@@ -379,7 +382,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: FlartColor('#faf5ff'),
-                      border: Border.all(color: FlartColor('#e9d5ff'), width: 1.5),
+                      border:
+                          Border.all(color: FlartColor('#e9d5ff'), width: 1.5),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
@@ -400,7 +404,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                             const SizedBox(height: 4),
                             Text(
                               'Connection state: ${snapshot.connectionState.name}',
-                              style: TextStyle(fontSize: 13, color: FlartColor('#7e22ce')),
+                              style: TextStyle(
+                                  fontSize: 13, color: FlartColor('#7e22ce')),
                             ),
                           ],
                         ),
@@ -412,9 +417,7 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
             ],
           ),
         ),
-
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'ChangeNotifierProvider & Consumer',
           description:
@@ -427,7 +430,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                 Row(
                   children: [
                     ElevatedButton(
-                      onPressed: () => _cartModel.addItem('WebAssembly Module', 29.99),
+                      onPressed: () =>
+                          _cartModel.addItem('WebAssembly Module', 29.99),
                       child: Text('Add Item (\$29.99)'),
                     ),
                     const SizedBox(width: 8),
@@ -444,7 +448,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: FlartColor('#fffbeb'),
-                        border: Border.all(color: FlartColor('#fde68a'), width: 1.5),
+                        border: Border.all(
+                            color: FlartColor('#fde68a'), width: 1.5),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Column(
@@ -473,7 +478,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                           const SizedBox(height: 8),
                           Text(
                             'Items: ${cart.items.join(', ')}',
-                            style: TextStyle(fontSize: 13, color: FlartColor('#78350f')),
+                            style: TextStyle(
+                                fontSize: 13, color: FlartColor('#78350f')),
                           ),
                         ],
                       ),
@@ -484,9 +490,7 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
             ),
           ),
         ),
-
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'InheritedWidget & Provider.of<T>',
           description:
@@ -517,7 +521,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                           borderRadius: BorderRadius.circular(22),
                         ),
                         child: Center(
-                          child: Icon(FDIcons.user, color: FlartColor('#ffffff')),
+                          child:
+                              Icon(FDIcons.user, color: FlartColor('#ffffff')),
                         ),
                       ),
                       const SizedBox(width: 14),
@@ -535,7 +540,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                           const SizedBox(height: 2),
                           Text(
                             '${session.role} • ${session.email}',
-                            style: TextStyle(fontSize: 13, color: FlartColor('#64748b')),
+                            style: TextStyle(
+                                fontSize: 13, color: FlartColor('#64748b')),
                           ),
                         ],
                       ),
@@ -546,9 +552,7 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
             ),
           ),
         ),
-
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'ViewModelBuilder & ListenableBuilder',
           description:
@@ -580,7 +584,8 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
                         const SizedBox(height: 4),
                         Text(
                           'Encapsulated inside CounterViewModel',
-                          style: TextStyle(fontSize: 12, color: FlartColor('#64748b')),
+                          style: TextStyle(
+                              fontSize: 12, color: FlartColor('#64748b')),
                         ),
                       ],
                     ),

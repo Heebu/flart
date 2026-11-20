@@ -203,7 +203,6 @@ class _CatalogAppState extends State<CatalogApp> {
             ],
           ),
         ),
-
         appBar: FDAppBar(
           leading: (isSmall || isMedium)
               ? FDGestureDetector(
@@ -282,7 +281,6 @@ class _CatalogAppState extends State<CatalogApp> {
           ],
           backgroundColor: FlartColors.blue,
         ),
-
         body: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -303,7 +301,8 @@ class _CatalogAppState extends State<CatalogApp> {
                       decoration: const BoxDecoration(
                         color: FlartColor('#f8fafc'),
                         border: Border(
-                          bottom: BorderSide(color: FlartColor('#e2e8f0'), width: 1),
+                          bottom: BorderSide(
+                              color: FlartColor('#e2e8f0'), width: 1),
                         ),
                       ),
                       child: const Text(
@@ -333,7 +332,6 @@ class _CatalogAppState extends State<CatalogApp> {
                   ],
                 ),
               ),
-
             if (isMedium)
               Container(
                 width: 72,
@@ -368,7 +366,6 @@ class _CatalogAppState extends State<CatalogApp> {
                   ),
                 ),
               ),
-
             Expanded(
               child: Container(
                 padding: EdgeInsets.all(isSmall ? 14 : (isMedium ? 20 : 32)),
@@ -425,7 +422,8 @@ class _NavigationRailItem extends StatelessWidget {
           child: Text(
             number,
             style: TextStyle(
-              color: isSelected ? FlartColors.white : const FlartColor('#1e293b'),
+              color:
+                  isSelected ? FlartColors.white : const FlartColor('#1e293b'),
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
@@ -502,7 +500,8 @@ class _SidebarCategoryItem extends StatelessWidget {
                       title,
                       style: TextStyle(
                         fontSize: 13,
-                        fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                        fontWeight:
+                            isSelected ? FontWeight.bold : FontWeight.w500,
                         color: FlartColor(isSelected ? '#1d4ed8' : '#334155'),
                       ),
                     ),

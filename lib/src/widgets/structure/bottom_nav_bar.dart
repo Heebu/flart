@@ -64,7 +64,8 @@ class FDBottomNavigationBar extends Widget {
 
       final itemChildren = <FlartNode>[
         selected
-            ? (item.activeIcon?.buildNode(context) ?? item.icon.buildNode(context))
+            ? (item.activeIcon?.buildNode(context) ??
+                item.icon.buildNode(context))
             : item.icon.buildNode(context),
       ];
 

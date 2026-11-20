@@ -81,7 +81,8 @@ class TestUtils {
     if (element is web.HTMLElement) {
       element.click();
     } else {
-      element.dispatchEvent(web.MouseEvent('click', web.MouseEventInit(bubbles: true, cancelable: true)));
+      element.dispatchEvent(web.MouseEvent(
+          'click', web.MouseEventInit(bubbles: true, cancelable: true)));
     }
   }
 

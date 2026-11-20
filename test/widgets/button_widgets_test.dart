@@ -99,7 +99,8 @@ void main() {
       expect(root.getElementsByTagName('i').length, greaterThanOrEqualTo(1));
     });
 
-    test('FDTextButton renders text action with no border and transparent bg', () {
+    test('FDTextButton renders text action with no border and transparent bg',
+        () {
       bool pressed = false;
       final btn = FDTextButton(
         onPressed: () => pressed = true,
@@ -109,7 +110,8 @@ void main() {
       final root = TestUtils.mountWidget(btn) as web.HTMLElement;
       expect(root.tagName.toLowerCase(), equals('button'));
       expect(root.textContent, contains('Cancel Action'));
-      expect(root.style.border.isEmpty || root.style.border.contains('none'), isTrue);
+      expect(root.style.border.isEmpty || root.style.border.contains('none'),
+          isTrue);
       expect(root.style.backgroundColor, equals('transparent'));
 
       TestUtils.click(root);

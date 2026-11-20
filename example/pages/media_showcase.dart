@@ -66,7 +66,6 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'HTML5 Video & Audio Players',
           description:
@@ -109,8 +108,7 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
                             style: TextStyle(fontWeight: FontWeight.w600)),
                         const SizedBox(height: 8),
                         AudioPlayer(
-                          src:
-                              'https://www.w3schools.com/html/horse.mp3',
+                          src: 'https://www.w3schools.com/html/horse.mp3',
                           controls: true,
                           onPlay: () {
                             setState(() => _mediaEventStatus =
@@ -128,8 +126,8 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
                           decoration: BoxDecoration(
                             color: const FlartColor('#f1f5f9'),
                             borderRadius: BorderRadius.circular(6),
-                            border: Border.all(
-                                color: const FlartColor('#e2e8f0')),
+                            border:
+                                Border.all(color: const FlartColor('#e2e8f0')),
                           ),
                           child: FDText(
                             'Media Event Log: $_mediaEventStatus',
@@ -148,7 +146,6 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'YouTube Embed & Interactive Map',
           description:
@@ -189,7 +186,6 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'Sandboxed IFrame (FDIframe / IFrame)',
           description:
@@ -208,7 +204,6 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'Web Hyperlinks (FDLink)',
           description:
@@ -279,7 +274,6 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'Native VDOM Element Builder (FDElement)',
           description:
@@ -298,9 +292,8 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
                     },
                     styles: {
                       'padding': '10px 18px',
-                      'background-color': _customElementToggled
-                          ? '#10b981'
-                          : '#6366f1',
+                      'background-color':
+                          _customElementToggled ? '#10b981' : '#6366f1',
                       'color': 'white',
                       'border': 'none',
                       'border-radius': '6px',
@@ -334,7 +327,6 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
           ),
         ),
         const SizedBox(height: 24),
-
         ShowcaseCard(
           title: 'Raw HTML Ingestion (FDRawHTML / RawHtml)',
           description:

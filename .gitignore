@@ -13,3 +13,4 @@ pubspec.lock
 *.bootstrap.js
 build/
 .build/
+doc/api/

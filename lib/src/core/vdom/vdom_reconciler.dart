@@ -53,7 +53,8 @@ class VDOMReconciler {
     return null;
   }
 
-  static web.Node _patchNode(web.Node parent, web.Node oldDomNode, FlartNode newVNode) {
+  static web.Node _patchNode(
+      web.Node parent, web.Node oldDomNode, FlartNode newVNode) {
     if (newVNode is FlartTextNode) {
       if (oldDomNode.nodeType != web.Node.TEXT_NODE) {
         _cleanUpDomNode(oldDomNode);
@@ -70,7 +71,8 @@ class VDOMReconciler {
       _cleanUpDomNode(oldDomNode);
       final template = web.document.createElement('div');
       template.setHTMLUnsafe(newVNode.html.toJS);
-      final newNode = template.childNodes.length == 1 ? template.firstChild! : template;
+      final newNode =
+          template.childNodes.length == 1 ? template.firstChild! : template;
       parent.replaceChild(newNode, oldDomNode);
       return newNode;
     } else if (newVNode is FlartElementNode) {
@@ -87,8 +89,9 @@ class VDOMReconciler {
         final newKey = _getVNodeKey(newVNode);
         final isDifferentKey =
             newKey != null && oldKey != null && newKey != oldKey;
-        final isDifferentId =
-            newVNode.id != null && oldEl.id.isNotEmpty && oldEl.id != newVNode.id;
+        final isDifferentId = newVNode.id != null &&
+            oldEl.id.isNotEmpty &&
+            oldEl.id != newVNode.id;
 
         if (isDifferentTag || isDifferentKey || isDifferentId) {
           _cleanUpDomNode(oldDomNode);
@@ -102,7 +105,8 @@ class VDOMReconciler {
             oldEl.removeAttribute('id');
           }
 
-          final k = newVNode.key ?? (newVNode.id?.isNotEmpty == true ? newVNode.id : null);
+          final k = newVNode.key ??
+              (newVNode.id?.isNotEmpty == true ? newVNode.id : null);
           if (k != null) {
             _nodeKeys[oldEl] = k;
             oldEl.setAttribute('data-key', k);
@@ -138,7 +142,7 @@ class VDOMReconciler {
         _nodeKeys[el] = k;
         el.setAttribute('data-key', k);
       }
-      
+
       _patchAttributes(el, vnode);
       _patchStyles(el, vnode);
       _patchEvents(el, vnode);
@@ -155,15 +159,18 @@ class VDOMReconciler {
 
   static void _patchAttributes(web.Element el, FlartElementNode vnode) {
     final newAttrs = vnode.attributes ?? {};
-    
+
     final oldAttrNames = <String>[];
     for (var i = 0; i < el.attributes.length; i++) {
       final attr = el.attributes.item(i);
-      if (attr != null && attr.name != 'style' && attr.name != 'id' && attr.name != 'data-key') {
+      if (attr != null &&
+          attr.name != 'style' &&
+          attr.name != 'id' &&
+          attr.name != 'data-key') {
         oldAttrNames.add(attr.name);
       }
     }
-    
+
     for (final name in oldAttrNames) {
       if (!newAttrs.containsKey(name)) {
         el.removeAttribute(name);
@@ -183,7 +190,8 @@ class VDOMReconciler {
       }
       if (newAttrs.containsKey('checked')) {
         final checkedStr = newAttrs['checked'];
-        final shouldBeChecked = checkedStr == 'true' || checkedStr == 'checked' || checkedStr == '';
+        final shouldBeChecked =
+            checkedStr == 'true' || checkedStr == 'checked' || checkedStr == '';
         if (input.checked != shouldBeChecked) {
           input.checked = shouldBeChecked;
         }
@@ -198,8 +206,9 @@ class VDOMReconciler {
   static void _patchStyles(web.Element el, FlartElementNode vnode) {
     final newStyles = vnode.styles ?? {};
     final currentStyleStr = el.getAttribute('style') ?? '';
-    
-    final newStyleStr = newStyles.entries.map((e) => '${e.key}: ${e.value};').join(' ');
+
+    final newStyleStr =
+        newStyles.entries.map((e) => '${e.key}: ${e.value};').join(' ');
     if (currentStyleStr != newStyleStr) {
       if (newStyleStr.isEmpty) {
         el.removeAttribute('style');
@@ -228,11 +237,11 @@ class VDOMReconciler {
       if (currentListeners.containsKey(type)) {
         el.removeEventListener(type, currentListeners[type]);
       }
-      
+
       final jsFunc = (web.Event e) {
         handler(e);
       }.toJS;
-      
+
       el.addEventListener(type, jsFunc);
       currentListeners[type] = jsFunc;
     });

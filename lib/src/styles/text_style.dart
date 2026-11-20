@@ -13,10 +13,8 @@ class TextDecoration {
   static const TextDecoration lineThrough = TextDecoration._('line-through');
 
   static TextDecoration combine(List<TextDecoration> decorations) {
-    final values = decorations
-        .map((d) => d._value)
-        .where((v) => v != 'none')
-        .join(' ');
+    final values =
+        decorations.map((d) => d._value).where((v) => v != 'none').join(' ');
     return TextDecoration._(values.isEmpty ? 'none' : values);
   }
 
@@ -28,7 +26,9 @@ class TextDecoration {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TextDecoration && runtimeType == other.runtimeType && _value == other._value;
+      other is TextDecoration &&
+          runtimeType == other.runtimeType &&
+          _value == other._value;
 
   @override
   int get hashCode => _value.hashCode;
@@ -152,10 +152,13 @@ class TextStyle {
   Map<String, String> toCss() {
     final styles = <String, String>{};
     if (color != null) styles['color'] = color.toString();
-    if (backgroundColor != null) styles['background-color'] = backgroundColor.toString();
+    if (backgroundColor != null)
+      styles['background-color'] = backgroundColor.toString();
     if (fontSize != null) styles['font-size'] = '${fontSize}px';
     if (fontWeight != null) styles['font-weight'] = fontWeight!.value;
-    if (fontStyle != null) styles['font-style'] = fontStyle == FontStyle.italic ? 'italic' : 'normal';
+    if (fontStyle != null)
+      styles['font-style'] =
+          fontStyle == FontStyle.italic ? 'italic' : 'normal';
     if (fontFamily != null) styles['font-family'] = fontFamily!;
     if (letterSpacing != null) styles['letter-spacing'] = '${letterSpacing}px';
     if (wordSpacing != null) styles['word-spacing'] = '${wordSpacing}px';
@@ -164,9 +167,12 @@ class TextStyle {
       styles['text-decoration'] = decoration.toString();
       styles['text-decoration-line'] = decoration.toString();
     }
-    if (decorationColor != null) styles['text-decoration-color'] = decorationColor.toString();
-    if (decorationStyle != null) styles['text-decoration-style'] = decorationStyle!.name;
-    if (decorationThickness != null) styles['text-decoration-thickness'] = '${decorationThickness}px';
+    if (decorationColor != null)
+      styles['text-decoration-color'] = decorationColor.toString();
+    if (decorationStyle != null)
+      styles['text-decoration-style'] = decorationStyle!.name;
+    if (decorationThickness != null)
+      styles['text-decoration-thickness'] = '${decorationThickness}px';
     if (overflow == TextOverflow.ellipsis) styles['text-overflow'] = 'ellipsis';
     return styles;
   }

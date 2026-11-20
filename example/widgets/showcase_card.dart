@@ -76,7 +76,6 @@ class ShowcaseCard extends StatelessWidget {
               ],
             ),
           ),
-
           Container(
             padding: contentPadding,
             decoration: const BoxDecoration(
