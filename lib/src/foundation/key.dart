@@ -33,7 +33,6 @@ class GlobalKey<T> extends Key {
   T? _currentState;
   T? get currentState => _currentState;
 
-  // Internal usage by framework
   void setInternalState(dynamic state) {
     if (state is T) {
       _currentState = state;

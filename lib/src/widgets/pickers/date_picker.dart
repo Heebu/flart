@@ -1,7 +1,6 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef DatePicker = FDDatePicker;
 typedef DateCallback = void Function(DateTime date);
 

@@ -1,6 +1,5 @@
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef FDValueListenableBuilder<T> = ValueListenableBuilder<T>;
 typedef FDListenableBuilder = ListenableBuilder;
 typedef ValueWidgetBuilder<T> = Widget Function(BuildContext context, T value, Widget? child);

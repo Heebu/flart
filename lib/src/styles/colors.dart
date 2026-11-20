@@ -66,7 +66,6 @@ class FlartMaterialColor extends FlartColor {
 
   FlartColor? operator [](int shade) => shades[shade];
 
-  // Optional sugar access
   FlartColor get shade50 => this[50] ?? this;
   FlartColor get shade100 => this[100] ?? this;
   FlartColor get shade200 => this[200] ?? this;

@@ -21,11 +21,9 @@ class FDCustomPaint extends Widget {
   String render(BuildContext context) {
     final id = 'canvas_${DateTime.now().millisecondsSinceEpoch}';
 
-    // Inject canvas
     final canvasHtml =
         '<canvas id="$id" width="$width" height="$height"></canvas>';
 
-    // After render, use Dart to draw
     Future.microtask(() {
       final canvas = document.getElementById(id) as HTMLCanvasElement?;
       if (canvas != null) {
@@ -46,11 +44,3 @@ class MyPainter extends CustomPainter {
       ..fillRect(10, 10, 100, 100);
   }
 }
-
-//useage
-
-// FDCustomPaint(
-// width: 500,
-// height: 300,
-// painter: MyPainter(),
-// )

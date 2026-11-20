@@ -9,22 +9,17 @@ class AnimationShowcasePage extends StatefulWidget {
 }
 
 class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
-  // AnimatedContainer state
   bool _containerExpanded = false;
 
-  // Opacity & CrossFade state
   double _opacityValue = 1.0;
   bool _showFirstCrossfade = true;
 
-  // Transform states
   double _turns = 0.0;
   double _scale = 1.0;
   Offset _slideOffset = Offset.zero;
 
-  // Positioned state
   bool _positionedEnd = false;
 
-  // Entrance toggle
   int _entranceResetKey = 0;
 
   @override
@@ -32,7 +27,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
     return FDColumn(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Category Header
         FDContainer(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
@@ -82,7 +76,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 1: FDAnimatedContainer
         ShowcaseCard(
           title: 'FDAnimatedContainer (Implicit Transitions)',
           description:
@@ -149,7 +142,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 2: FDAnimatedOpacity & FDAnimatedCrossFade
         ShowcaseCard(
           title: 'AnimatedOpacity & AnimatedCrossFade',
           description:
@@ -244,7 +236,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 3: Transform Transitions (Rotation, Scale, Slide)
         ShowcaseCard(
           title: 'Transform Animations (Rotation, Scale, Slide)',
           description:
@@ -252,7 +243,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
           child: FDRow(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              // Rotation
               FDColumn(
                 children: [
                   AnimatedRotation(
@@ -285,7 +275,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
                 ],
               ),
 
-              // Scale
               FDColumn(
                 children: [
                   AnimatedScale(
@@ -318,7 +307,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
                 ],
               ),
 
-              // Slide
               FDColumn(
                 children: [
                   AnimatedSlide(
@@ -357,7 +345,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 4: AnimatedPositioned in a Stack
         ShowcaseCard(
           title: 'AnimatedPositioned in FDStack',
           description:
@@ -422,7 +409,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 5: Entrance Animations (FadeIn, SlideIn, ScaleIn)
         ShowcaseCard(
           title: 'Entrance Animations (FadeIn, SlideIn, ScaleIn)',
           description:
@@ -495,7 +481,6 @@ class _AnimationShowcasePageState extends State<AnimationShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 6: Hero & Shader Visual Effects
         ShowcaseCard(
           title: 'Hero Markers & WebGL Shader Effects',
           description:

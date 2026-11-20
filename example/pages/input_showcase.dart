@@ -9,33 +9,27 @@ class InputShowcasePage extends StatefulWidget {
 }
 
 class _InputShowcasePageState extends State<InputShowcasePage> {
-  // Text Fields
   String _typedText = '';
   final TextEditingController _textController =
       TextEditingController(text: 'Hello Flart!');
 
-  // Form State
   final GlobalKey<FDFormState> _formKey = GlobalKey<FDFormState>();
   String _formUsername = '';
   String _formStatus = 'Form not submitted';
   bool _formValid = false;
 
-  // Selection Controls
   bool _checkboxVal1 = false;
   bool _checkboxVal2 = true;
   String _radioVal = 'standard';
   bool _switchVal = true;
 
-  // Dropdown & Sliders
   String _dropdownVal = 'Flutter';
   double _sliderVal = 45.0;
   RangeValues _rangeVal = const RangeValues(20.0, 80.0);
 
-  // Pickers
   DateTime? _selectedDate;
   String _selectedTime = '12:00';
 
-  // Advanced Inputs
   String _textAreaVal = '';
   FlartColor _chosenColor = FlartColors.indigo;
   String _uploadedFiles = 'None';
@@ -45,7 +39,6 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
     return FDColumn(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Category Header
         FDContainer(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
@@ -95,7 +88,6 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 1: Text Fields with InputDecoration
         ShowcaseCard(
           title: 'Text Fields & InputDecoration',
           description:
@@ -147,7 +139,6 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 2: Form & FormField Validation
         ShowcaseCard(
           title: 'Form & TextFormField Validation',
           description:
@@ -240,7 +231,6 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 3: Checkbox, Radio, and Switch
         ShowcaseCard(
           title: 'Selection Controls (Checkbox, Radio, Switch)',
           description:
@@ -319,7 +309,6 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 4: Dropdown & Sliders
         ShowcaseCard(
           title: 'Dropdowns & Sliders',
           description:
@@ -379,7 +368,6 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 5: Date & Time Pickers
         ShowcaseCard(
           title: 'Date & Time Pickers',
           description:
@@ -433,7 +421,6 @@ class _InputShowcasePageState extends State<InputShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 6: Advanced Inputs (TextArea, ColorPicker, FileUpload)
         ShowcaseCard(
           title: 'Advanced Inputs (TextArea, Color, File)',
           description:

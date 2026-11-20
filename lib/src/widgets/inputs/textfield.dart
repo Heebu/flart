@@ -1,6 +1,5 @@
 import '../../../flartdart.dart';
 
-/// Flutter compatibility alias for [FDTextField].
 typedef TextField = FDTextField;
 
 /// A text input field widget following Flutter's [TextField] specification.

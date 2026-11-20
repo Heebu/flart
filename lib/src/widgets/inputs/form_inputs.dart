@@ -1,7 +1,6 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef Checkbox = FDCheckbox;
 typedef Radio<T> = FDRadio<T>;
 typedef Switch = FDSwitch;

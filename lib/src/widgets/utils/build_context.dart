@@ -76,8 +76,6 @@ class BuildContext {
     );
   }
 
-  // --- Extensions ---
-
   /// Access the current theme
   ThemeData get theme => Theme.of(this);
 

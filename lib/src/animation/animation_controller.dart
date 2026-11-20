@@ -120,7 +120,6 @@ class AnimationController {
   void _tick(Duration elapsed) {
     final durationMs = _currentDuration.inMilliseconds;
     
-    // Protect against zero duration
     if (durationMs == 0) {
       value = _targetValue;
       _ticker.stop();

@@ -67,7 +67,6 @@ class FDSizedBox extends Widget {
       }
     }
 
-    // When SizedBox has no child, it should maintain its dimensions
     if (child == null) {
       styles['display'] = 'inline-block';
     }

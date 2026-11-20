@@ -22,7 +22,6 @@ class LayoutShowcase extends StatelessWidget {
         ),
         const FDSizedBox(height: 32),
 
-        // 1. FDRow - Alignment & MainAxisSize
         ShowcaseCard(
           title: '1. FDRow (MainAxisAlignment, CrossAxisAlignment & MainAxisSize)',
           description:
@@ -98,7 +97,6 @@ class LayoutShowcase extends StatelessWidget {
           ),
         ),
 
-        // 2. FDColumn - Alignment & MainAxisSize
         ShowcaseCard(
           title: '2. FDColumn (MainAxisAlignment & CrossAxisAlignment)',
           description:
@@ -107,7 +105,6 @@ class LayoutShowcase extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 24,
             children: [
-              // Column 1: MainAxisSize.min with spacing
               FDExpanded(
                 child: FDColumn(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +132,6 @@ class LayoutShowcase extends StatelessWidget {
                 ),
               ),
 
-              // Column 2: CrossAxisAlignment.stretch
               FDExpanded(
                 child: FDColumn(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,7 +162,6 @@ class LayoutShowcase extends StatelessWidget {
           ),
         ),
 
-        // 3. FDStack & FDPositioned
         ShowcaseCard(
           title: '3. FDStack & FDPositioned (Multi-layer Composition)',
           description:
@@ -175,7 +170,6 @@ class LayoutShowcase extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 24,
             children: [
-              // Overlapping Avatar Card
               FDContainer(
                 width: 240,
                 height: 180,
@@ -193,7 +187,6 @@ class LayoutShowcase extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 child: FDStack(
                   children: [
-                    // Top Banner (Positioned top/left/right)
                     FDPositioned(
                       top: 0,
                       left: 0,
@@ -205,7 +198,6 @@ class LayoutShowcase extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Floating Avatar Badge
                     FDPositioned(
                       top: 50,
                       left: 20,
@@ -228,7 +220,6 @@ class LayoutShowcase extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Status Badge (Top-Right)
                     FDPositioned(
                       top: 12,
                       right: 12,
@@ -244,7 +235,6 @@ class LayoutShowcase extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Bottom Details
                     FDPositioned(
                       bottom: 16,
                       left: 20,
@@ -267,7 +257,6 @@ class LayoutShowcase extends StatelessWidget {
                 ),
               ),
 
-              // Positioned.fill with Overlay
               FDContainer(
                 width: 240,
                 height: 180,
@@ -278,7 +267,6 @@ class LayoutShowcase extends StatelessWidget {
                 ),
                 child: FDStack(
                   children: [
-                    // Positioned.fill background
                     FDPositioned.fill(
                       child: FDContainer(
                         decoration: BoxDecoration(
@@ -291,7 +279,6 @@ class LayoutShowcase extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Centered Card
                     FDPositioned(
                       top: 40,
                       left: 40,
@@ -317,7 +304,6 @@ class LayoutShowcase extends StatelessWidget {
           ),
         ),
 
-        // 4. FDAlign & Alignment Points
         ShowcaseCard(
           title: '4. FDAlign (Alignment Anchors & Factor Sizing)',
           description:
@@ -383,7 +369,6 @@ class LayoutShowcase extends StatelessWidget {
           ),
         ),
 
-        // 5. FDCenter
         ShowcaseCard(
           title: '5. FDCenter (Dedicated Center Primitive)',
           description:
@@ -419,7 +404,6 @@ class LayoutShowcase extends StatelessWidget {
           ),
         ),
 
-        // 6. FDWrap - Tag Cloud & Flow Layout
         ShowcaseCard(
           title: '6. FDWrap (Responsive Tag Cloud & Flow Runs)',
           description:
@@ -450,7 +434,6 @@ class LayoutShowcase extends StatelessWidget {
           ),
         ),
 
-        // 7. FDListView - Standard, Builder, Separated & Horizontal
         ShowcaseCard(
           title: '7. FDListView (Standard, Builder, Separated & Horizontal)',
           description:

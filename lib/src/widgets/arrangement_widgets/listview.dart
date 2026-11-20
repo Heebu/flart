@@ -36,7 +36,6 @@ class FDListView extends Widget {
     super.key,
   });
 
-  /// Regular children list
   factory FDListView({
     Axis scrollDirection = Axis.vertical,
     EdgeInsets? padding,
@@ -60,7 +59,6 @@ class FDListView extends Widget {
     );
   }
 
-  /// Builder variant
   factory FDListView.builder({
     Axis scrollDirection = Axis.vertical,
     EdgeInsets? padding,
@@ -86,7 +84,6 @@ class FDListView extends Widget {
     );
   }
 
-  /// Separated variant
   factory FDListView.separated({
     Axis scrollDirection = Axis.vertical,
     EdgeInsets? padding,

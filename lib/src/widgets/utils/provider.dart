@@ -1,6 +1,5 @@
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef Provider<T> = FDProvider<T>;
 typedef ChangeNotifierProvider<T extends ChangeNotifier>
     = FDChangeNotifierProvider<T>;

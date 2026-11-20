@@ -1,6 +1,5 @@
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef FDVideoPlayer = VideoPlayer;
 typedef Video = VideoPlayer;
 typedef FDAudioPlayer = AudioPlayer;

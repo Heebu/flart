@@ -14,13 +14,11 @@ Map<String, String>? matchRoutePattern(String pattern, String path) {
     final patternPart = patternSegments[i];
 
     if (patternPart == '*') {
-      // Catch-all: match all remaining path segments
       final remaining = pathSegments.skip(i).join('/');
       params['*'] = remaining;
       return params;
     }
 
-    // If we run out of path segments before pattern segments (and it wasn't a wildcard)
     if (i >= pathSegments.length) {
       return null;
     }
@@ -38,7 +36,6 @@ Map<String, String>? matchRoutePattern(String pattern, String path) {
   }
 
   if (patternSegments.isNotEmpty && patternSegments.last == '*') {
-    // Already returned inside the loop
   } else if (patternSegments.length != pathSegments.length) {
     return null;
   }

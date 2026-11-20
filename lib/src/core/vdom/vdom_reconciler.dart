@@ -91,13 +91,11 @@ class VDOMReconciler {
             newVNode.id != null && oldEl.id.isNotEmpty && oldEl.id != newVNode.id;
 
         if (isDifferentTag || isDifferentKey || isDifferentId) {
-          // Hard replace
           _cleanUpDomNode(oldDomNode);
           final newNode = _createRealNode(newVNode);
           parent.replaceChild(newNode, oldDomNode);
           return newNode;
         } else {
-          // Soft patch
           if (newVNode.id != null && oldEl.id != newVNode.id) {
             oldEl.id = newVNode.id!;
           } else if (newVNode.id == null && oldEl.id.isNotEmpty) {
@@ -158,7 +156,6 @@ class VDOMReconciler {
   static void _patchAttributes(web.Element el, FlartElementNode vnode) {
     final newAttrs = vnode.attributes ?? {};
     
-    // Remove old attributes that are no longer present
     final oldAttrNames = <String>[];
     for (var i = 0; i < el.attributes.length; i++) {
       final attr = el.attributes.item(i);
@@ -173,14 +170,12 @@ class VDOMReconciler {
       }
     }
 
-    // Set new attributes
     for (final entry in newAttrs.entries) {
       if (el.getAttribute(entry.key) != entry.value) {
         el.setAttribute(entry.key, entry.value);
       }
     }
 
-    // Input state handling (checked, value)
     if (el.tagName.toUpperCase() == 'INPUT') {
       final input = el as web.HTMLInputElement;
       if (newAttrs.containsKey('value') && input.value != newAttrs['value']) {
@@ -204,7 +199,6 @@ class VDOMReconciler {
     final newStyles = vnode.styles ?? {};
     final currentStyleStr = el.getAttribute('style') ?? '';
     
-    // Quick equality check
     final newStyleStr = newStyles.entries.map((e) => '${e.key}: ${e.value};').join(' ');
     if (currentStyleStr != newStyleStr) {
       if (newStyleStr.isEmpty) {
@@ -219,7 +213,6 @@ class VDOMReconciler {
     final newEvents = vnode.events ?? {};
     final currentListeners = _elementListeners[el] ?? {};
 
-    // Remove obsolete listeners
     final toRemove = <String>[];
     currentListeners.forEach((type, jsFunc) {
       if (!newEvents.containsKey(type)) {
@@ -272,7 +265,6 @@ class VDOMReconciler {
     }
 
     if (!hasKeys) {
-      // Unkeyed linear matching
       int i = 0;
       while (i < newChildren.length) {
         if (i < domChildren.length) {
@@ -293,7 +285,6 @@ class VDOMReconciler {
       return;
     }
 
-    // Key-aware diffing
     final oldKeyToNode = <String, web.Node>{};
     for (final node in domChildren) {
       final key = _getDomKey(node);

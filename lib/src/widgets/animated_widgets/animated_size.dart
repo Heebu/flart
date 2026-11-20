@@ -1,7 +1,6 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef FDAnimatedSize = AnimatedSize;
 
 /// A widget that animates its size to match the size of its child.

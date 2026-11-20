@@ -52,7 +52,6 @@ class _TextShowcaseState extends State<TextShowcase> {
         ),
         FDSizedBox(height: 24),
 
-        // 1. Typography & Font Hierarchy
         ShowcaseCard(
           title: '1. Typography & Font Weights (FDText)',
           description: 'Full font scale from w100 to w900, italic styles, letter spacing, and line heights.',
@@ -103,7 +102,6 @@ class _TextShowcaseState extends State<TextShowcase> {
           ),
         ),
 
-        // 2. Text Decorations & Styles
         ShowcaseCard(
           title: '2. Text Decorations & Styles (TextDecoration)',
           description: 'Underline, line-through, overline, wavy/dashed/dotted styles, custom thickness, and combined decorations.',
@@ -206,7 +204,6 @@ class _TextShowcaseState extends State<TextShowcase> {
           ),
         ),
 
-        // 3. Overflow & Line Clamping
         ShowcaseCard(
           title: '3. Overflow & Clamping (TextOverflow & maxLines)',
           description: 'Clamps text cleanly to 1, 2, or 3 lines with ellipsis using standard CSS line clamping without manual height hacks.',
@@ -253,7 +250,6 @@ class _TextShowcaseState extends State<TextShowcase> {
           ),
         ),
 
-        // 4. RichText & Interactive Clickable TextSpans
         ShowcaseCard(
           title: '4. RichText & Interactive Spans (FDRichText & TextSpan)',
           description: 'Nested inline spans with distinct formatting and live interactive tap recognizers in pure DOM.',
@@ -320,7 +316,6 @@ class _TextShowcaseState extends State<TextShowcase> {
           ),
         ),
 
-        // 5. SelectableText (Copyable Text)
         ShowcaseCard(
           title: '5. Selectable Text (FDSelectableText)',
           description: 'Enables native browser text selection and copy/paste functionality for code blocks or quotes.',
@@ -357,7 +352,6 @@ class _TextShowcaseState extends State<TextShowcase> {
           ),
         ),
 
-        // 6. LinkText (Hyperlinks & Action Links)
         ShowcaseCard(
           title: '6. Hyperlinks & Action Links (FDLinkText)',
           description: 'Anchor tags with URL navigation or inline clickable links executing Dart callbacks.',
@@ -415,7 +409,6 @@ class _TextShowcaseState extends State<TextShowcase> {
           ),
         ),
 
-        // 7. EditableText (Single & Multiline Inputs)
         ShowcaseCard(
           title: '7. Pure Editable Text (FDEditableText)',
           description: 'The leaf input and multiline textarea primitive with live bidirectional controller binding.',

@@ -1,6 +1,5 @@
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef StreamBuilder<T> = FDStreamBuilder<T>;
 typedef FutureBuilder<T> = FDFutureBuilder<T>;
 typedef Builder = FDBuilder;

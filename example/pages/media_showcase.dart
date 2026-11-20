@@ -18,7 +18,6 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
     return FDColumn(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Category Header
         FDContainer(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
@@ -68,7 +67,6 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 1: Video & Audio Players
         ShowcaseCard(
           title: 'HTML5 Video & Audio Players',
           description:
@@ -151,7 +149,6 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 2: YouTubePlayer & MapEmbed
         ShowcaseCard(
           title: 'YouTube Embed & Interactive Map',
           description:
@@ -193,7 +190,6 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 3: Generic IFrame Embedding
         ShowcaseCard(
           title: 'Sandboxed IFrame (FDIframe / IFrame)',
           description:
@@ -213,7 +209,6 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 4: Web Hyperlinks (FDLink)
         ShowcaseCard(
           title: 'Web Hyperlinks (FDLink)',
           description:
@@ -285,7 +280,6 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 5: Native VDOM Element Builder (FDElement)
         ShowcaseCard(
           title: 'Native VDOM Element Builder (FDElement)',
           description:
@@ -341,7 +335,6 @@ class _MediaShowcasePageState extends State<MediaShowcasePage> {
         ),
         const SizedBox(height: 24),
 
-        // Card 6: Raw HTML Ingestion (FDRawHTML / RawHtml)
         ShowcaseCard(
           title: 'Raw HTML Ingestion (FDRawHTML / RawHtml)',
           description:

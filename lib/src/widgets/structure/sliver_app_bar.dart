@@ -73,16 +73,11 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
     final theme = context.theme;
     final bg = widget.backgroundColor ?? theme.primaryColor;
 
-    // Calculate current height based on scroll
-    // height ranges from expandedHeight down to 56 (default appbar height)
-    final topPadding =
-        0.0; // In web we don't usually have status bar padding like mobile
+    final topPadding = 0.0;
     final minHeight = 56.0 + topPadding;
     final currentHeight = (widget.expandedHeight - _scrollOffset)
         .clamp(minHeight, widget.expandedHeight);
 
-    // Calculate opacity for title and flexible space
-    // Title usually fades in as we collapse, flexible space fades out
     final collapseRatio = ((widget.expandedHeight - currentHeight) /
             (widget.expandedHeight - minHeight))
         .clamp(0.0, 1.0);
@@ -107,7 +102,6 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
       },
       child: FDStack(
         children: [
-          // Flexible Space
           if (widget.flexibleSpace != null)
             FDPositioned(
               top: 0,
@@ -120,7 +114,6 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
               ),
             ),
 
-          // App Bar Content (pinned part)
           FDPositioned(
             top: 0,
             left: 0,
@@ -132,14 +125,12 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Leading
                   if (widget.leading != null)
                     FDPadding(
                       padding: const EdgeInsets.only(right: 16),
                       child: widget.leading!,
                     ),
 
-                  // Title (fades in)
                   FDExpanded(
                     child: FDOpacity(
                       opacity: titleOpacity.clamp(0.0, 1.0),
@@ -147,7 +138,6 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
                     ),
                   ),
 
-                  // Actions
                   if (widget.actions != null)
                     FDRow(
                       children: widget.actions!

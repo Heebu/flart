@@ -33,7 +33,6 @@ class FlartCallbackManager {
   static void _injectGlobalHandler() {
     _jsInjected = true;
 
-    // Inject JS bridge functions
     final script = web.HTMLScriptElement()
       ..textContent = '''
         window.__flartHandleClick = function(id) {
@@ -49,7 +48,6 @@ class FlartCallbackManager {
       ''';
     web.document.body?.append(script);
 
-    // Wire up Dart handlers via dart:js_interop
     _dartClickHandler = ((JSString id) {
       final handler = _handlers[id.toDart];
       if (handler != null) handler();

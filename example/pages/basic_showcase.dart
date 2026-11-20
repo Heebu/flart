@@ -6,13 +6,11 @@ class DemoCanvasPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Dark rounded background
     final bgPaint = Paint()
       ..color = const FlartColor('#0f172a')
       ..style = PaintingStyle.fill;
     canvas.drawRRect(0, 0, size.width, size.height, 12, bgPaint);
 
-    // Concentric Circles
     final circlePaint = Paint()
       ..color = const FlartColor('#3b82f6')
       ..style = PaintingStyle.stroke
@@ -24,7 +22,6 @@ class DemoCanvasPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
     canvas.drawCircle(50, 48, 14, innerPaint);
 
-    // Progress Arc
     final arcPaint = Paint()
       ..color = const FlartColor('#f59e0b')
       ..style = PaintingStyle.stroke
@@ -32,7 +29,6 @@ class DemoCanvasPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
     canvas.drawArc(130, 48, 26, 0, 3.14159 * 1.5, false, arcPaint);
 
-    // Dynamic zigzag line
     final linePaint = Paint()
       ..color = const FlartColor('#ec4899')
       ..style = PaintingStyle.stroke
@@ -41,7 +37,6 @@ class DemoCanvasPainter extends CustomPainter {
     canvas.drawLine(190, 30, 225, 65, linePaint);
     canvas.drawLine(225, 65, 265, 25, linePaint);
 
-    // Canvas Label
     canvas.drawText('Custom Paint Engine (HTML5 Canvas)', 20, 95,
         font: 'bold 12px sans-serif', color: FlartColors.white);
   }
@@ -71,7 +66,6 @@ class BasicShowcase extends StatelessWidget {
         ),
         const FDSizedBox(height: 32),
 
-        // 1. FDCircleAvatar
         ShowcaseCard(
           title: '1. FDCircleAvatar (Avatars & Badges)',
           description:
@@ -109,7 +103,6 @@ class BasicShowcase extends StatelessWidget {
           ),
         ),
 
-        // 2. FDIcon
         ShowcaseCard(
           title: '2. FDIcon (Material Icons with IconData & Tooltips)',
           description:
@@ -128,7 +121,6 @@ class BasicShowcase extends StatelessWidget {
           ),
         ),
 
-        // 3. FDImage
         ShowcaseCard(
           title: '3. FDImage (Asset & Network with BoxFit & BorderRadius)',
           description:
@@ -177,7 +169,6 @@ class BasicShowcase extends StatelessWidget {
           ),
         ),
 
-        // 4. FDSvgPicture
         ShowcaseCard(
           title: '4. FDSvgPicture (Vector Graphics & Color Fill)',
           description:
@@ -214,7 +205,6 @@ class BasicShowcase extends StatelessWidget {
           ),
         ),
 
-        // 5. FDCustomPaint
         ShowcaseCard(
           title: '5. FDCustomPaint (HTML5 Canvas Drawing Engine)',
           description:
@@ -225,7 +215,6 @@ class BasicShowcase extends StatelessWidget {
           ),
         ),
 
-        // 6. FDAspectRatio
         ShowcaseCard(
           title: '6. FDAspectRatio (Proportional Media Ratios)',
           description:
@@ -273,7 +262,6 @@ class BasicShowcase extends StatelessWidget {
           ),
         ),
 
-        // 7. FDClipRRect & FDClipOval
         ShowcaseCard(
           title: '7. FDClipRRect & FDClipOval (Anti-Aliased Geometry Clipping)',
           description:
@@ -316,7 +304,6 @@ class BasicShowcase extends StatelessWidget {
           ),
         ),
 
-        // 8. FDOpacity
         ShowcaseCard(
           title: '8. FDOpacity (Alpha Blending & Pointer Protection)',
           description:
@@ -333,7 +320,6 @@ class BasicShowcase extends StatelessWidget {
           ),
         ),
 
-        // 9. FDRotatedBox
         ShowcaseCard(
           title: '9. FDRotatedBox (Quarter-Turn Rotations)',
           description:
@@ -362,7 +348,6 @@ class BasicShowcase extends StatelessWidget {
           ),
         ),
 
-        // 10. FDPlaceholder
         ShowcaseCard(
           title: '10. FDPlaceholder (Visual Wireframe Stub)',
           description:

@@ -1,6 +1,5 @@
 import '../../../flartdart.dart';
 
-/// Flutter / Web compatibility typedefs
 typedef RawHtml = FDRawHTML;
 typedef Html = FDRawHTML;
 

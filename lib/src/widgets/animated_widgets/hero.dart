@@ -1,7 +1,6 @@
 import 'package:web/web.dart';
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedef
 typedef FDHero = Hero;
 
 /// A widget that marks its child as being eligible for hero animations.

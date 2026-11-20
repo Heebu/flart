@@ -1,6 +1,6 @@
 class FlartDecorationImage {
   final String url;
-  final String fit; // e.g. 'cover', 'contain'
+  final String fit;
 
   const FlartDecorationImage({required this.url, this.fit = 'cover'});
 

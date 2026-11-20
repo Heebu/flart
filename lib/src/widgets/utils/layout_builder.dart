@@ -6,7 +6,6 @@ import '../../../flartdart.dart';
 typedef LayoutWidgetBuilder = Widget Function(
     BuildContext context, BoxConstraints constraints);
 
-/// Flutter compatibility typedefs
 typedef LayoutBuilder = FDLayoutBuilder;
 typedef OrientationBuilder = FDOrientationBuilder;
 typedef ResponsiveLayout = FDResponsiveLayout;

@@ -6,7 +6,6 @@ enum CrossFadeState {
   showSecond,
 }
 
-/// Flutter compatibility typedefs
 typedef FDAnimatedCrossFade = AnimatedCrossFade;
 
 /// A widget that cross-fades between two given children and animates itself between their sizes.

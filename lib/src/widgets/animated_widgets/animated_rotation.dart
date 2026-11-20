@@ -1,7 +1,6 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef FDAnimatedRotation = AnimatedRotation;
 
 /// A widget that animates the rotation of its child.

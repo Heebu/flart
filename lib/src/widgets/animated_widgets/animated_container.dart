@@ -1,7 +1,6 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef AnimatedContainer = FDAnimatedContainer;
 
 /// A container that gradually changes its values over a period of time.

@@ -1,4 +1,3 @@
-// Flart 9 Categories Widget Catalog — Responsive across Small, Medium & Large Views
 import 'dart:js_interop';
 import 'package:web/web.dart' as web;
 import 'package:flartdart/flartdart.dart';
@@ -37,7 +36,6 @@ class CatalogApp extends StatefulWidget {
 }
 
 class _CatalogAppState extends State<CatalogApp> {
-  // Default to Category 9 (Utility & Reactive Builders)
   int _selectedIndex = 8;
   JSFunction? _resizeListener;
 
@@ -137,7 +135,6 @@ class _CatalogAppState extends State<CatalogApp> {
     return FDMaterialApp(
       title: 'Flart 9 Categories Widget Catalog',
       home: FDScaffold(
-        // Responsive Drawer: Accessible on mobile, tablet, or anytime
         drawer: FDDrawer(
           width: isSmall ? 280 : 304,
           child: Column(
@@ -207,7 +204,6 @@ class _CatalogAppState extends State<CatalogApp> {
           ),
         ),
 
-        // Responsive AppBar
         appBar: FDAppBar(
           leading: (isSmall || isMedium)
               ? FDGestureDetector(
@@ -257,7 +253,6 @@ class _CatalogAppState extends State<CatalogApp> {
             ],
           ),
           actions: [
-            // Responsive Screen Badge Indicator
             Container(
               margin: const EdgeInsets.only(right: 16),
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -288,11 +283,9 @@ class _CatalogAppState extends State<CatalogApp> {
           backgroundColor: FlartColors.blue,
         ),
 
-        // Responsive Body Layout across Small, Medium & Large Views
         body: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // 1. Large View: Permanent Full Sidebar (280px)
             if (isLarge)
               Container(
                 width: 280,
@@ -341,7 +334,6 @@ class _CatalogAppState extends State<CatalogApp> {
                 ),
               ),
 
-            // 2. Medium View: Sleek Navigation Rail (72px)
             if (isMedium)
               Container(
                 width: 72,
@@ -377,7 +369,6 @@ class _CatalogAppState extends State<CatalogApp> {
                 ),
               ),
 
-            // 3. Main Content Showcase View (Adapts padding to small, medium, large)
             Expanded(
               child: Container(
                 padding: EdgeInsets.all(isSmall ? 14 : (isMedium ? 20 : 32)),

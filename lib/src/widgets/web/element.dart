@@ -1,7 +1,6 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// Flutter / Web compatibility typedef
 typedef HtmlElement = FDElement;
 
 /// A generic widget that renders directly to a VDOM [FlartElementNode].

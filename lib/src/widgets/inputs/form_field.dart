@@ -1,6 +1,5 @@
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef Form = FDForm;
 typedef FormState = FDFormState;
 typedef FormField<T> = FDFormField<T>;

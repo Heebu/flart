@@ -22,7 +22,6 @@ class StructureShowcase extends StatelessWidget {
         ),
         const FDSizedBox(height: 32),
 
-        // 1. FDContainer - Strict Box Sizing & Constraints
         ShowcaseCard(
           title: '1. FDContainer (Box-Sizing & Constraints)',
           description:
@@ -34,7 +33,6 @@ class StructureShowcase extends StatelessWidget {
                 spacing: 16,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Sized box with padding - width stays strictly 180px
                   FDContainer(
                     width: 180,
                     height: 100,
@@ -51,7 +49,6 @@ class StructureShowcase extends StatelessWidget {
                     ),
                   ),
 
-                  // Container with BoxConstraints
                   FDContainer(
                     constraints: const BoxConstraints(
                       minWidth: 140,
@@ -71,7 +68,6 @@ class StructureShowcase extends StatelessWidget {
                     ),
                   ),
 
-                  // Clipped container (Clip.antiAlias)
                   FDContainer(
                     width: 140,
                     height: 100,
@@ -97,7 +93,6 @@ class StructureShowcase extends StatelessWidget {
           ),
         ),
 
-        // 2. New Primitives: FDDecoratedBox & FDColoredBox
         ShowcaseCard(
           title: '2. New Primitives: FDDecoratedBox & FDColoredBox',
           description:
@@ -141,7 +136,6 @@ class StructureShowcase extends StatelessWidget {
           ),
         ),
 
-        // 3. FDSizedBox (shrink, expand, square, fixed)
         ShowcaseCard(
           title: '3. FDSizedBox (All Constructors)',
           description:
@@ -176,7 +170,6 @@ class StructureShowcase extends StatelessWidget {
           ),
         ),
 
-        // 4. FDCard (Elevations, Borders, Clipping)
         ShowcaseCard(
           title: '4. FDCard (Elevation, Borders, and Clipping)',
           description:
@@ -249,7 +242,6 @@ class StructureShowcase extends StatelessWidget {
           ),
         ),
 
-        // 5. FDFloatingActionButton (Standard, Mini, Extended)
         ShowcaseCard(
           title: '5. FDFloatingActionButton (Standard, Mini, Extended)',
           description:
@@ -278,7 +270,6 @@ class StructureShowcase extends StatelessWidget {
           ),
         ),
 
-        // 6. FDDivider & FDVerticalDivider
         ShowcaseCard(
           title: '6. FDDivider & FDVerticalDivider',
           description:
@@ -316,7 +307,6 @@ class StructureShowcase extends StatelessWidget {
           ),
         ),
 
-        // 7. FDGridView with childAspectRatio
         ShowcaseCard(
           title: '7. FDGridView (childAspectRatio in Action)',
           description:
@@ -349,7 +339,6 @@ class StructureShowcase extends StatelessWidget {
           ),
         ),
 
-        // 8. Display Primitives: FDAspectRatio & FDClipRRect
         ShowcaseCard(
           title: '8. Display Primitives: FDAspectRatio & FDClipRRect',
           description:
@@ -383,7 +372,6 @@ class StructureShowcase extends StatelessWidget {
           ),
         ),
 
-        // 9. FDExpanded & FDSpacer in Flex
         ShowcaseCard(
           title: '9. FDExpanded & FDSpacer',
           description:
@@ -413,7 +401,6 @@ class StructureShowcase extends StatelessWidget {
           ),
         ),
 
-        // 10. FDListTile with Badges & Dividers
         ShowcaseCard(
           title: '10. FDListTile & FDBadge',
           description:

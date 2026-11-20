@@ -1,7 +1,6 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef FDAnimatedPositioned = AnimatedPositioned;
 
 /// A widget that animates its position within a [Stack].

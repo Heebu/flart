@@ -47,7 +47,6 @@ class ShowcaseCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header section
           Container(
             padding: headerPadding,
             decoration: const BoxDecoration(
@@ -78,7 +77,6 @@ class ShowcaseCard extends StatelessWidget {
             ),
           ),
 
-          // Widget showcase section
           Container(
             padding: contentPadding,
             decoration: const BoxDecoration(

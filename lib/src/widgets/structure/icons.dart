@@ -93,7 +93,7 @@ class FDIcons {
   static const String refresh = 'refresh';
   static const String delete = 'delete';
   static const String done = 'done';
-  static const String check = 'check'; // Alias for done usually
+  static const String check = 'check';
   static const String check_circle = 'check_circle';
   static const String checkCircle = 'check_circle';
   static const String info = 'info';

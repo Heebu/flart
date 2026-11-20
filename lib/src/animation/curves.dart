@@ -20,7 +20,6 @@ class Cubic extends Curve {
 
   @override
   double transform(double t) {
-    // Standard cubic bezier calculation for progress t in [0.0, 1.0]
     final double t2 = t * t;
     final double t3 = t2 * t;
     final double mt = 1.0 - t;

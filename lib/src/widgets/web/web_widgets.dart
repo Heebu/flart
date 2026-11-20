@@ -1,7 +1,6 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// Flutter / Web compatibility typedef
 typedef Link = FDLink;
 
 /// An interactive hyperlink widget wrapping any child in an anchor tag.

@@ -106,7 +106,6 @@ class _DialogShowcaseState extends State<DialogShowcase> {
               FDText('Dialog Preview',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               FDSizedBox(height: 16),
-              // Render the dialog inline for preview purposes
               FDContainer(
                 height: 300,
                 color: FlartColor('#cbd5e1'),

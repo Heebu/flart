@@ -32,6 +32,3 @@ class FlartThemeManager {
         }).toJS);
   }
 }
-
-///to toggle theme
-//FlartThemeManager.toggleTheme();

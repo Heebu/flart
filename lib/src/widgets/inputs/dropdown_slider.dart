@@ -1,7 +1,6 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef DropdownButton<T> = FDDropdownButton<T>;
 typedef DropdownMenuItem<T> = FDDropdownMenuItem<T>;
 typedef Slider = FDSlider;

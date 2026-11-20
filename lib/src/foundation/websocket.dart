@@ -67,7 +67,6 @@ class FDWebSocket extends ChangeNotifier {
       } else if (data is String) {
         _socket!.send(data.toJS);
       } else {
-        // Fallback for typed arrays etc.
         _socket!.send(data as JSAny);
       }
     }

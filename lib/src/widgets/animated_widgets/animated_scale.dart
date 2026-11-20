@@ -1,7 +1,6 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef FDAnimatedScale = AnimatedScale;
 
 /// A widget that animates the scale of its child.

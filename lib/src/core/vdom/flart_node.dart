@@ -59,8 +59,6 @@ class FlartElementNode implements FlartNode {
       buffer.write(' style="$styleStr"');
     }
     
-    // Note: Events cannot be serialized to HTML, so they are lost in the legacy bridge
-    
     if (children == null || children!.isEmpty) {
       buffer.write('></$tag>');
     } else {
@@ -89,21 +87,19 @@ class FlartTextNode implements FlartNode {
 
   @override
   String toHtml() {
-    // Simple HTML escaping could be done here, but text is usually safe enough in this context
     return text.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
   }
 }
 
 /// A Virtual DOM raw HTML block. 
-/// Used for migrating from string-based widgets progressively,
-/// or when injecting raw HTML strings (like SVGs) directly.
+/// Used for injecting raw HTML strings directly.
 class FlartRawHtmlNode implements FlartNode {
   final String html;
 
   FlartRawHtmlNode(this.html);
 
   @override
-  bool get isText => false; // Handled specially by reconciler
+  bool get isText => false;
 
   @override
   String? get key => null;

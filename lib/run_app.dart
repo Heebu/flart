@@ -17,7 +17,6 @@ void runApp(Widget rootWidget) {
       web.document.body as web.Element?;
 
   _ensureOverlayContainer();
-  // We no longer clear the entire head, as it removes the original style.css from index.html.
 
   _renderApp();
 
@@ -47,7 +46,6 @@ void _renderApp() {
     return;
   }
 
-  // Reset the positional counter so StatefulWidget keys stay stable.
   resetRenderCounter();
 
   try {
@@ -70,14 +68,10 @@ void _renderApp() {
   }
 }
 
-void _attachEventListeners() {
-  // This will be called after each render to reattach event listeners
-  // Event listeners are attached by individual widgets through their render methods
-}
+void _attachEventListeners() {}
 
-// Global re-render function for state updates
+/// Triggers a global re-render for framework state updates.
 void reRenderApp() {
-  print('Re-rendering app...');
   _renderApp();
 }
 
@@ -90,7 +84,5 @@ void renderOverlays(List<dynamic> entries) {
       .join();
 
   _overlayContainer!.setHTMLUnsafe(html.toJS);
-
-  // Enable pointer events only if there are entries
   _overlayContainer!.style.pointerEvents = entries.isNotEmpty ? 'auto' : 'none';
 }

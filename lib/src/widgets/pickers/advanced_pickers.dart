@@ -1,7 +1,6 @@
 import 'package:web/web.dart' as web;
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedef
 typedef RangeSlider = RangePicker;
 
 /// Date time range class

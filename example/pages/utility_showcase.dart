@@ -68,19 +68,15 @@ class UtilityShowcasePage extends StatefulWidget {
 }
 
 class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
-  // ValueNotifier for ValueListenableBuilder
   final ValueNotifier<int> _counterNotifier = ValueNotifier<int>(0);
 
-  // Future for FutureBuilder
   Future<String>? _apiFuture;
 
-  // Stream for StreamBuilder
   StreamController<int>? _streamController;
   Timer? _streamTimer;
   int _streamTick = 0;
   bool _isStreaming = false;
 
-  // Cart model instance
   final CartModel _cartModel = CartModel();
 
   @override
@@ -143,7 +139,6 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Page Header
         Container(
           margin: const EdgeInsets.only(bottom: 24),
           child: Column(
@@ -169,7 +164,6 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
           ),
         ),
 
-        // Showcase Card 1: ValueListenableBuilder
         ShowcaseCard(
           title: 'ValueListenableBuilder<T>',
           description:
@@ -246,7 +240,6 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
 
         const SizedBox(height: 24),
 
-        // Showcase Card 2: FutureBuilder
         ShowcaseCard(
           title: 'FutureBuilder<T>',
           description:
@@ -349,7 +342,6 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
 
         const SizedBox(height: 24),
 
-        // Showcase Card 3: StreamBuilder
         ShowcaseCard(
           title: 'StreamBuilder<T>',
           description:
@@ -423,7 +415,6 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
 
         const SizedBox(height: 24),
 
-        // Showcase Card 4: ChangeNotifierProvider & Consumer
         ShowcaseCard(
           title: 'ChangeNotifierProvider & Consumer',
           description:
@@ -496,7 +487,6 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
 
         const SizedBox(height: 24),
 
-        // Showcase Card 5: Provider.of & InheritedWidget
         ShowcaseCard(
           title: 'InheritedWidget & Provider.of<T>',
           description:
@@ -559,7 +549,6 @@ class _UtilityShowcasePageState extends State<UtilityShowcasePage> {
 
         const SizedBox(height: 24),
 
-        // Showcase Card 6: ViewModelBuilder
         ShowcaseCard(
           title: 'ViewModelBuilder & ListenableBuilder',
           description:

@@ -5,7 +5,7 @@ class BoxDecoration {
   final BorderRadius? borderRadius;
   final List<BoxShadow>? boxShadow;
   final Border? border;
-  final String? FDImage; // URL string
+  final String? FDImage;
   final Gradient? gradient;
 
   const BoxDecoration({

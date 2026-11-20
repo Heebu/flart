@@ -1,19 +1,18 @@
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedef
 typedef GridView = FDGridView;
 
 enum GridViewType { count, extent, builder }
 
 class FDGridView extends Widget {
   final GridViewType type;
-  final int? crossAxisCount; // for count
-  final double? maxCrossAxisExtent; // for extent
+  final int? crossAxisCount;
+  final double? maxCrossAxisExtent;
   final double crossAxisSpacing;
   final double mainAxisSpacing;
-  final List<Widget>? children; // count/extent
-  final IndexedWidgetBuilder? itemBuilder; // builder
-  final int? itemCount; // builder
+  final List<Widget>? children;
+  final IndexedWidgetBuilder? itemBuilder;
+  final int? itemCount;
   final double? childAspectRatio;
   final EdgeInsets? padding;
   final Map<String, String>? cssStyle;

@@ -1,6 +1,5 @@
 import '../../../flartdart.dart';
 
-/// Flutter compatibility typedefs
 typedef FDShader = ShaderWidget;
 
 /// Base shader widget with customizable shader code

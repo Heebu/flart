@@ -24,7 +24,6 @@ class Tween<T extends dynamic> extends Animatable<T> {
       return ((begin as int) + ((end as int) - (begin as int)) * t).round()
           as T;
     }
-    // Simple fallback
     return begin as T;
   }
 }

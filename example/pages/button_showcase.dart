@@ -43,7 +43,6 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
         ),
         FDSizedBox(height: 20),
 
-        // Live Action Status Dashboard
         FDContainer(
           padding: EdgeInsets.symmetric(horizontal: 18, vertical: 14),
           margin: EdgeInsets.only(bottom: 24),
@@ -75,7 +74,6 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
           ),
         ),
 
-        // 1. ElevatedButton Showcase
         ShowcaseCard(
           title: '1. Elevated Buttons (FDElevatedButton)',
           description: 'Solid filled buttons with depth shadow, custom ButtonStyle, icon variants, and disabled states.',
@@ -120,7 +118,6 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
           ),
         ),
 
-        // 2. OutlinedButton Showcase
         ShowcaseCard(
           title: '2. Outlined Buttons (FDOutlinedButton)',
           description: 'Border-framed buttons with transparent background, custom BorderSide, and hover states.',
@@ -164,7 +161,6 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
           ),
         ),
 
-        // 3. TextButton Showcase
         ShowcaseCard(
           title: '3. Text Buttons (FDTextButton)',
           description: 'Minimal borderless action buttons suitable for dialog actions, tables, and low-emphasis actions.',
@@ -197,7 +193,6 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
           ),
         ),
 
-        // 4. IconButton Showcase
         ShowcaseCard(
           title: '4. Icon Buttons (FDIconButton)',
           description: 'Circular touch targets for icons with built-in tooltips, customizable size, color, and padding.',
@@ -240,7 +235,6 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
           ),
         ),
 
-        // 5. InkWell Showcase
         ShowcaseCard(
           title: '5. Interactive Tiles & Ink Response (FDInkWell)',
           description: 'Touch-responsive rectangular or rounded surfaces with hover background transitions and click/double-click recognizers.',
@@ -338,7 +332,6 @@ class _ButtonShowcaseState extends State<ButtonShowcase> {
           ),
         ),
 
-        // 6. GestureDetector Playground
         ShowcaseCard(
           title: '6. Gesture Recognition Surface (FDGestureDetector)',
           description: 'Detects Tap, Double Tap, Long Press, Context Menu (Right-Click), and Hover interactions.',
