@@ -103,6 +103,11 @@ class PageNavigator {
     Map<String, String>? queryParams,
     RouteTransition transition = RouteTransition.none,
   }) {
+    if (isExternalUrl(routeName)) {
+      openUrl(routeName, newTab: false);
+      return;
+    }
+
     if (_guard != null && !_guard!(routeName)) {
       if (_unauthorizedRoute != null) {
         pushNamed(_unauthorizedRoute!, transition: transition);
@@ -132,6 +137,11 @@ class PageNavigator {
     Map<String, String>? queryParams,
     RouteTransition transition = RouteTransition.none,
   }) {
+    if (isExternalUrl(routeName)) {
+      openUrl(routeName, newTab: false);
+      return;
+    }
+
     if (_guard != null && !_guard!(routeName)) {
       if (_unauthorizedRoute != null) {
         replaceNamed(_unauthorizedRoute!, transition: transition);
@@ -157,17 +167,53 @@ class PageNavigator {
     print('Cannot pop: FDStack empty or single item');
   }
 
-  static void pushNewTab(String routeName, {Map<String, String>? queryParams}) {
-    final uri = buildHashRouteUrl(routeName, queryParams);
+  /// Whether the given [url] is an external web URL (e.g. http://, https://, mailto:, etc.).
+  static bool isExternal(String url) => isExternalUrl(url);
+
+  /// Navigates to an external website or URL.
+  ///
+  /// Set [newTab] to `true` to open in a new browser tab/window (`_blank`).
+  /// Set [newTab] to `false` (default) to navigate within the same tab (`location.assign`).
+  static void openUrl(String url, {bool newTab = false}) {
+    if (newTab) {
+      web.window.open(url, '_blank');
+    } else {
+      web.window.location.assign(url);
+    }
+  }
+
+  /// Convenience helper matching Flutter url_launcher semantics.
+  /// Launches [url] in either a new tab or the same tab.
+  static void launchUrl(String url, {bool newTab = false}) {
+    openUrl(url, newTab: newTab);
+  }
+
+  /// Opens an internal route or external website in a new tab (`_blank`).
+  static void pushNewTab(String routeOrUrl, {Map<String, String>? queryParams}) {
+    if (isExternalUrl(routeOrUrl)) {
+      openUrl(routeOrUrl, newTab: true);
+      return;
+    }
+    final uri = buildHashRouteUrl(routeOrUrl, queryParams);
     web.window.open(uri, '_blank');
   }
 
+  /// Navigates to an external website or route in the current tab (or new tab if specified).
   static void navigateExternal(
-    String routeName, {
+    String routeOrUrl, {
     Map<String, String>? queryParams,
+    bool newTab = false,
   }) {
-    final uri = buildHashRouteUrl(routeName, queryParams);
-    web.window.location.assign(uri);
+    if (isExternalUrl(routeOrUrl)) {
+      openUrl(routeOrUrl, newTab: newTab);
+      return;
+    }
+    final uri = buildHashRouteUrl(routeOrUrl, queryParams);
+    if (newTab) {
+      web.window.open(uri, '_blank');
+    } else {
+      web.window.location.assign(uri);
+    }
   }
 
   static void init() {

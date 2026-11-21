@@ -16,7 +16,11 @@ void main(List<String> arguments) async {
   final runParser = ArgParser()
     ..addFlag('release',
         abbr: 'r', help: 'Run in release mode', negatable: false)
-    ..addOption('port', abbr: 'p', help: 'Port to run on', defaultsTo: '8080');
+    ..addOption('port', abbr: 'p', help: 'Port to run on', defaultsTo: '8080')
+    ..addFlag('live-reload',
+        abbr: 'l',
+        help: 'Enable automatic live reloading / hot restart on file changes',
+        defaultsTo: true);
 
   final buildParser = ArgParser()
     ..addFlag('release',
@@ -75,7 +79,8 @@ void main(List<String> arguments) async {
   } else if (command?.name == 'run') {
     final isRelease = command!['release'] as bool;
     final port = command['port'] as String;
-    await _runApp(isRelease, port);
+    final liveReload = command['live-reload'] as bool? ?? true;
+    await _runApp(isRelease, port, liveReload: liveReload);
   } else if (command?.name == 'build') {
     final isRelease = command!['release'] as bool;
     await _buildApp(isRelease);
@@ -132,8 +137,9 @@ COMMANDS:
                       --template, -t   Template: default, counter, routing
                       --local-path     Path to local flartdart (for development)
   run                 Run the application (default: http://localhost:8080)
-                      --release, -r    Run in production mode
-                      --port, -p       Specify port (default: 8080)
+                      --release, -r      Run in production mode
+                      --port, -p         Specify port (default: 8080)
+                      --live-reload, -l  Auto-reload browser on code changes (default: on)
   build               Build the application for deployment
                       --release, -r    Build in release/production mode
   test                Run tests
@@ -230,7 +236,7 @@ Future<int> _resolveAvailablePort(String requestedPort) async {
   return initialPort;
 }
 
-Future<void> _runApp(bool release, String port) async {
+Future<void> _runApp(bool release, String port, {bool liveReload = true}) async {
   var effectivePort = port;
   final parsedPort = int.tryParse(port) ?? 8080;
   final availablePort = await _resolveAvailablePort(port);
@@ -244,6 +250,9 @@ Future<void> _runApp(bool release, String port) async {
   print('🔥 FLARTDART CLI v$cliVersion - STARTING APP 🔥');
   print('=========================================');
   print('🚀 Mode: ${release ? 'PRODUCTION' : 'DEVELOPMENT'}');
+  if (!release && liveReload) {
+    print('🔄 Live Reload: ENABLED (Auto-reloads browser on save)');
+  }
   print('🌐 URL: http://localhost:$effectivePort');
 
   // Check if pubspec.yaml exists
@@ -293,6 +302,8 @@ Future<void> _runApp(bool release, String port) async {
   ];
   if (release) {
     args.add('--release');
+  } else if (liveReload) {
+    args.add('--live-reload');
   }
 
   print('🛠️ Executing: dart ${args.join(' ')}');

@@ -68,6 +68,30 @@ void main() {
       });
       expect(url, '#/docs/api/v2/auth');
     });
+
+    test('preserves external http and https URLs without prepending hash', () {
+      expect(buildHashRouteUrl('https://dart.dev', null), 'https://dart.dev');
+      expect(buildHashRouteUrl('https://pub.dev/packages/flartdart', <String, String>{
+        'q': 'flart',
+      }), 'https://pub.dev/packages/flartdart?q=flart');
+    });
+  });
+
+  group('isExternalUrl', () {
+    test('correctly identifies web and schema URLs', () {
+      expect(isExternalUrl('https://dart.dev'), isTrue);
+      expect(isExternalUrl('http://localhost:8080'), isTrue);
+      expect(isExternalUrl('//cdn.example.com/asset.js'), isTrue);
+      expect(isExternalUrl('mailto:dev@flart.dev'), isTrue);
+      expect(isExternalUrl('tel:+1234567890'), isTrue);
+    });
+
+    test('returns false for internal SPA routes', () {
+      expect(isExternalUrl('/'), isFalse);
+      expect(isExternalUrl('/docs/installation'), isFalse);
+      expect(isExternalUrl('dashboard'), isFalse);
+      expect(isExternalUrl('#/home'), isFalse);
+    });
   });
 
   group('normalizePath', () {
@@ -76,6 +100,10 @@ void main() {
       expect(normalizePath('/'), '/');
       expect(normalizePath('/about/'), '/about');
       expect(normalizePath('///about//team///'), '/about/team');
+    });
+
+    test('preserves external URLs untouched', () {
+      expect(normalizePath('https://dart.dev/guides'), 'https://dart.dev/guides');
     });
   });
 }

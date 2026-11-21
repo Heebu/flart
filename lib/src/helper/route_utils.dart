@@ -1,4 +1,20 @@
+bool isExternalUrl(String pathOrUrl) {
+  final trimmed = pathOrUrl.trim().toLowerCase();
+  if (trimmed.startsWith('http://') ||
+      trimmed.startsWith('https://') ||
+      trimmed.startsWith('mailto:') ||
+      trimmed.startsWith('tel:') ||
+      trimmed.startsWith('sms:')) {
+    return true;
+  }
+  if (trimmed.startsWith('//') && !trimmed.startsWith('///')) {
+    return true;
+  }
+  return false;
+}
+
 String normalizePath(String path) {
+  if (isExternalUrl(path)) return path;
   if (path.isEmpty) return '/';
   final segments = _splitPathSegments(path);
   if (segments.isEmpty) return '/';
@@ -44,6 +60,16 @@ Map<String, String>? matchRoutePattern(String pattern, String path) {
 }
 
 String buildHashRouteUrl(String routeName, Map<String, String>? params) {
+  if (isExternalUrl(routeName)) {
+    if (params == null || params.isEmpty) {
+      return routeName;
+    }
+    final uri = Uri.parse(routeName);
+    final mergedParams = Map<String, String>.from(uri.queryParameters)
+      ..addAll(params);
+    return uri.replace(queryParameters: mergedParams).toString();
+  }
+
   final normalizedRoute = normalizePath(routeName);
 
   if (params == null || params.isEmpty) {
