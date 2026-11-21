@@ -6,7 +6,7 @@ FlartDart brings the power, reactivity, and declarative UI of Flutter to the web
 
 ---
 
-## 🌟 Key Features (v2.1.0)
+## 🌟 Key Features (v2.2.0)
 
 *   **Virtual DOM & Selective Reconciliation**: High-performance Virtual DOM diffing (`FlartNode`, `VDOMReconciler`) that patches only modified attributes, styles, events, and text while preserving input focus and scroll positions.
 *   **100% Flutter API Parity**: Standard Flutter class names (`Container`, `Row`, `Column`, `Stack`, `Positioned`, `ListView`, `TextField`, `ElevatedButton`, `AnimatedContainer`, etc.) without requiring raw CSS escape hatches.
