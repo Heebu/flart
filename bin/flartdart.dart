@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:args/args.dart';
 
-const String cliVersion = '1.6.0';
+const String cliVersion = '2.1.0';
 
 void main(List<String> arguments) async {
   final createParser = ArgParser()

@@ -5,14 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.1.0] - 2026-11-20
+## [2.1.0] - 2026-11-21
 
-### 🚀 Flutter API Parity & Responsive Multi-View Engine
+### 🚀 Flutter API Parity, Responsive Layouts & Developer Ergonomics
 
 - **100% Flutter API Parity**: Added full Flutter compatibility typedefs across all 9 widget categories (`Container`, `Row`, `Column`, `Stack`, `Positioned`, `ListView`, `TextField`, `TextFormField`, `ElevatedButton`, `OutlinedButton`, `TextButton`, `IconButton`, `AnimatedContainer`, `AnimatedOpacity`, `AnimatedCrossFade`, `AnimatedRotation`, `AnimatedScale`, `AnimatedSlide`, `Hero`, `FutureBuilder`, `StreamBuilder`, `ValueListenableBuilder`, `ChangeNotifierProvider`, `Consumer`, etc.).
 - **Zero Raw CSS Dependency**: Refactored all widgets across the 9 categories to use standard Flutter-like styling APIs (`BoxDecoration`, `LinearGradient`, `BoxConstraints`, `InputDecoration`, `ButtonStyle`, `TextStyle`, `Clip`) instead of requiring `rawCss` or `cssStyle` escape hatches.
 - **Responsive & Adaptive Layouts**: Introduced reactive `LayoutBuilder`, `OrientationBuilder`, `ResponsiveLayout`, and responsive screen classification via `MediaQuery` (`isSmall` <600px, `isMedium` 600–1023px, `isLarge` ≥1024px).
-- **Chrome Test Suite**: Added automated tests for responsive layouts and reactive state management running in headless Chrome.
+- **External Web Navigation**: Added first-class external website routing to `PageNavigator` (`openUrl`, `launchUrl`, `pushNewTab`, `navigateExternal`) supporting both same-tab and new-tab navigation without interfering with SPA routing.
+- **CLI Live Reload**: Enabled automatic live reloading / hot restart on file save in `flartdart run` via `--live-reload` (enabled by default in dev mode).
+- **Unblocked Page Scrolling**: Replaced viewport locks (`height: 100vh; overflow: hidden`) in `FDMaterialApp` with `min-height: 100vh; width: 100%`, enabling natural document and container scrolling across all screen sizes.
+- **Chrome Test Suite**: 143 automated tests running and passing in headless Chrome (`dart test -p chrome`).
 - **Production-Grade Quality**: 0 static analysis issues (`dart analyze`), 0 documentation warnings (`dart doc`), and clean package validation.
 
 ---
