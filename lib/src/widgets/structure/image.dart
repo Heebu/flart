@@ -51,8 +51,8 @@ class FDImage extends Widget {
     this.rawCss,
     super.key,
   }) : src = (assetPath == null || assetPath.isEmpty)
-            ? '/assets/flart_logo_with_text.png'
-            : '/$assetPath';
+            ? 'assets/flart_logo_with_text.png'
+            : assetPath;
 
   @override
   FlartNode buildNode(BuildContext context) {
