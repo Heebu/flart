@@ -42,7 +42,6 @@ class ShaderWidget extends Widget {
             return;
           }
           
-          // Vertex shader
           const vertexShaderSource = `
             attribute vec2 position;
             void main() {
@@ -50,7 +49,6 @@ class ShaderWidget extends Widget {
             }
           `;
           
-          // Fragment shader
           const fragmentShaderSource = `
             precision mediump float;
             uniform vec2 resolution;
@@ -60,7 +58,6 @@ class ShaderWidget extends Widget {
             $fragmentShader
           `;
           
-          // Compile shaders
           function compileShader(source, type) {
             const shader = gl.createShader(type);
             gl.shaderSource(shader, source);
@@ -75,14 +72,12 @@ class ShaderWidget extends Widget {
           const vertexShader = compileShader(vertexShaderSource, gl.VERTEX_SHADER);
           const fragmentShader = compileShader(fragmentShaderSource, gl.FRAGMENT_SHADER);
           
-          // Create program
           const program = gl.createProgram();
           gl.attachShader(program, vertexShader);
           gl.attachShader(program, fragmentShader);
           gl.linkProgram(program);
           gl.useProgram(program);
           
-          // Set up geometry
           const positions = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
           const buffer = gl.createBuffer();
           gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -92,14 +87,11 @@ class ShaderWidget extends Widget {
           gl.enableVertexAttribArray(positionLocation);
           gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
           
-          // Get uniform locations
           const resolutionLocation = gl.getUniformLocation(program, 'resolution');
           const timeLocation = gl.getUniformLocation(program, 'time');
           
-          // Set resolution
           gl.uniform2f(resolutionLocation, $w, $h);
           
-          // Animation loop
           let startTime = Date.now();
           function render() {
             const time = (Date.now() - startTime) / 1000.0;
@@ -133,6 +125,7 @@ class GradientShader extends Widget {
   final List<String> colors;
   final double? width;
   final double? height;
+  /// Direction of the gradient: 'horizontal', 'vertical', 'diagonal', or 'radial'.
   final String direction;
   final bool animate;
 
@@ -141,8 +134,7 @@ class GradientShader extends Widget {
     required this.colors,
     this.width,
     this.height,
-    this.direction =
-        'diagonal', // 'horizontal', 'vertical', 'diagonal', 'radial'
+    this.direction = 'diagonal',
     this.animate = false,
   });
 

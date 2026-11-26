@@ -38,8 +38,6 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
     super.initState();
     _scrollListenerId = 'sliver_app_bar_$hashCode';
 
-    // We need to listen to the nearest scrollable parent
-    // In Flart's current architecture, this is often the body or a ScrollView
     Future.delayed(Duration.zero, () {
       final scrollable = _findScrollableParent();
       scrollable?.addEventListener(
@@ -56,7 +54,6 @@ class _FDSliverAppBarState extends State<FDSliverAppBar> {
   }
 
   Element? _findScrollableParent() {
-    // Look for parent with overflow auto/scroll
     Element? parent = document.getElementById(_scrollListenerId)?.parentElement;
     while (parent != null) {
       final style = window.getComputedStyle(parent);

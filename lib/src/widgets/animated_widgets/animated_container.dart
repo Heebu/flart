@@ -52,7 +52,6 @@ class FDAnimatedContainer extends Widget {
     if (padding != null) styles['padding'] = padding!.toCss();
     if (margin != null) styles['margin'] = margin!.toCss();
 
-    // Decoration & Color
     final effectiveColor = decoration?.color ?? color;
     if (effectiveColor != null) {
       styles['background-color'] = effectiveColor.toString();

@@ -52,7 +52,9 @@ class FDAnimate extends Widget {
   final double? slideX;
   final double? slideY;
   final double? startScale;
-  final double? scale; // Alias for startScale
+
+  /// Alias for [startScale].
+  final double? scale;
   final bool fadeIn;
 
   const FDAnimate({

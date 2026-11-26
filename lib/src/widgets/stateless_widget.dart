@@ -14,7 +14,6 @@ abstract class StatelessWidget extends Widget {
 
   @override
   String render(BuildContext context) {
-    // Legacy fallback for string-based rendering
     return build(context).render(context);
   }
 }

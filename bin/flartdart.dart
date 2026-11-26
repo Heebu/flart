@@ -229,9 +229,7 @@ Future<int> _resolveAvailablePort(String requestedPort) async {
       final socket = await ServerSocket.bind('127.0.0.1', p);
       await socket.close();
       return p;
-    } catch (_) {
-      // Port in use, try next
-    }
+    } catch (_) {}
   }
   return initialPort;
 }
@@ -255,7 +253,6 @@ Future<void> _runApp(bool release, String port, {bool liveReload = true}) async 
   }
   print('🌐 URL: http://localhost:$effectivePort');
 
-  // Check if pubspec.yaml exists
   if (!File('pubspec.yaml').existsSync()) {
     print('❌ Error: No pubspec.yaml found in this directory.');
     print('Make sure you are in a Flartdart project root.');
@@ -263,7 +260,6 @@ Future<void> _runApp(bool release, String port, {bool liveReload = true}) async 
     return;
   }
 
-  // Auto-run pub get if .dart_tool doesn't exist
   if (!Directory('.dart_tool').existsSync()) {
     print('📦 First run detected — fetching dependencies...');
     final pubGet = await Process.start(
@@ -323,7 +319,6 @@ Future<void> _buildApp(bool release) async {
   print(
       '🏗 Building Flartdart application for ${release ? 'RELEASE' : 'DEBUG'}...');
 
-  // Check if pubspec.yaml exists
   if (!File('pubspec.yaml').existsSync()) {
     print('❌ Error: No pubspec.yaml found in this directory.');
     return;
@@ -407,17 +402,14 @@ Future<void> _runDoctor() async {
   print('🩺 Flartdart Doctor');
   print('══════════════════');
 
-  // Check Dart SDK
   final dartVersion = Platform.version.split('(').first.trim();
   final dartMajor = int.tryParse(dartVersion.split('.').first) ?? 0;
   final dartOk = dartMajor >= 3;
   print(
       '${dartOk ? '[✓]' : '[✗]'} Dart SDK: $dartVersion ${dartOk ? '' : '(requires >= 3.0.0)'}');
 
-  // Check Flartdart
   print('[✓] Flartdart Tool: $cliVersion [LATEST]');
 
-  // Check webdev availability
   bool webdevOk = false;
   try {
     final webdevCheck = await Process.run('dart', ['pub', 'global', 'list']);
@@ -426,7 +418,6 @@ Future<void> _runDoctor() async {
   } catch (_) {}
 
   if (!webdevOk) {
-    // Check local project for webdev
     final pubspec = File('pubspec.yaml');
     if (pubspec.existsSync()) {
       webdevOk = pubspec.readAsStringSync().contains('webdev');
@@ -435,11 +426,9 @@ Future<void> _runDoctor() async {
   print(
       '${webdevOk ? '[✓]' : '[!]'} webdev: ${webdevOk ? 'Available' : 'Not found globally (ok if listed in project dev_dependencies)'}');
 
-  // Check Environment
   print(
       '[✓] OS: ${Platform.operatingSystem} ${Platform.operatingSystemVersion}');
 
-  // Check if we're in a project
   final isProject = File('pubspec.yaml').existsSync();
   print(
       '${isProject ? '[✓]' : '[i]'} Project: ${isProject ? 'Found pubspec.yaml' : 'Not in a Flartdart project directory'}');
@@ -466,7 +455,6 @@ Future<void> _runFix() async {
 
 Future<void> _createProject(
     String name, String? localPath, String template) async {
-  // Validate project name (must be valid Dart package name)
   final nameRegex = RegExp(r'^[a-z][a-z0-9_]*$');
   if (!nameRegex.hasMatch(name)) {
     print('❌ Error: "$name" is not a valid project name.');
@@ -497,11 +485,9 @@ Future<void> _createProject(
   try {
     await projectDir.create();
 
-    // Create web directory
     final webDir = Directory('${projectDir.path}/web');
     await webDir.create();
 
-    // Create pubspec.yaml
     print('  📄 Creating pubspec.yaml...');
     final pubspec = File('${projectDir.path}/pubspec.yaml');
     final flartDependency = localPath != null
@@ -528,7 +514,6 @@ dev_dependencies:
   test: ^1.24.0
 ''');
 
-    // Create web/index.html
     print('  📄 Creating web/index.html...');
     final indexHtml = File('${webDir.path}/index.html');
     await indexHtml.writeAsString('''<!DOCTYPE html>
@@ -545,12 +530,10 @@ dev_dependencies:
 </html>
 ''');
 
-    // Create web/main.dart based on template
     print('  📄 Creating web/main.dart ($template template)...');
     final mainDart = File('${webDir.path}/main.dart');
     await mainDart.writeAsString(_getTemplate(template, prettyName));
 
-    // Create analysis_options.yaml
     print('  📄 Creating analysis_options.yaml...');
     final analysisOptions = File('${projectDir.path}/analysis_options.yaml');
     await analysisOptions
@@ -562,7 +545,6 @@ linter:
     - prefer_const_literals_to_create_immutables
 ''');
 
-    // Create .gitignore
     final gitignore = File('${projectDir.path}/.gitignore');
     await gitignore.writeAsString('''.dart_tool/
 build/
@@ -572,7 +554,6 @@ build/
 pubspec.lock
 ''');
 
-    // Auto-run pub get
     print('  📦 Fetching dependencies...');
     final pubGet = await Process.start(
       'dart',
@@ -769,7 +750,7 @@ class AboutPage extends StatelessWidget {
 }
 ''';
 
-    default: // 'default'
+    default:
       return '''import 'package:flartdart/flartdart.dart';
 
 void main() {

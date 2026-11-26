@@ -83,7 +83,8 @@ class FontWeight {
 }
 
 class TextStyle {
-  final Object? color; // Accepts String (hex) or FlartColor
+  /// The color to use when painting the text. Accepts [String] (hex) or [FlartColor].
+  final Object? color;
   final Object? backgroundColor;
   final double? fontSize;
   final FontWeight? fontWeight;

@@ -9,7 +9,8 @@ class FDCircularProgressIndicator extends Widget {
   final double strokeWidth;
   final FlartColor? color;
   final FlartColor? backgroundColor;
-  final double? value; // Optional value (0.0 to 1.0)
+  /// Progress value between 0.0 and 1.0, or null for indeterminate mode.
+  final double? value;
   final Map<String, String>? cssStyle;
 
   const FDCircularProgressIndicator({
@@ -100,7 +101,6 @@ class FDLinearProgressIndicator extends Widget {
     };
 
     if (progress != null) {
-      // Determinate progress
       return FlartElementNode(
         'div',
         id: key?.toString(),
@@ -124,7 +124,6 @@ class FDLinearProgressIndicator extends Widget {
         ],
       );
     } else {
-      // Indeterminate progress
       const slideKeyframes = '''
         <style>
           @keyframes flart-progress-slide {

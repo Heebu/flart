@@ -143,7 +143,6 @@ class FDGestureDetector extends Widget {
     if (onBlur != null) events['blur'] = (e) => onBlur!();
     if (onScroll != null) events['wheel'] = (e) => onScroll!();
 
-    // Swipe detection via touch events
     if (onSwipeLeft != null ||
         onSwipeRight != null ||
         onSwipeUp != null ||
@@ -182,7 +181,6 @@ class FDGestureDetector extends Widget {
       };
     }
 
-    // Pointer events based on behavior
     final pointerEvents = behavior == HitTestBehavior.translucent
         ? 'auto'
         : (behavior == HitTestBehavior.opaque ? 'all' : 'auto');

@@ -1,7 +1,7 @@
 import 'package:web/web.dart' as web;
 import '../../flartdart.dart';
 
-// Global state registry to persist state across renders
+/// Global registry mapping keys to persistent [State] instances across render passes.
 final Map<String, State> _stateRegistry = {};
 
 /// Reset the render counter at the start of each full render pass.
@@ -92,7 +92,6 @@ abstract class State<T extends StatefulWidget> {
       final newVNode = build(updateContext).buildNode(updateContext);
       VDOMReconciler.reconcile(element, newVNode);
     } else {
-      // Fallback if element not found in DOM
       reRenderApp();
     }
   }

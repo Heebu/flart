@@ -32,7 +32,6 @@ class _FDVirtualizedListViewState extends State<FDVirtualizedListView> {
     super.initState();
     _containerId = 'v-list-$hashCode';
 
-    // We need to listen to scroll events after the first render
     Future.delayed(Duration.zero, () {
       final container = document.getElementById(_containerId);
       container?.addEventListener(
@@ -43,7 +42,7 @@ class _FDVirtualizedListViewState extends State<FDVirtualizedListView> {
                 ? el.scrollTop.toDouble()
                 : el.scrollLeft.toDouble();
 
-            // Only update if moved significantly to avoid over-rendering
+            // Throttle re-renders until scroll delta exceeds threshold.
             if ((newScrollTop - _scrollTop).abs() > widget.itemHeight / 3) {
               setState(() {
                 _scrollTop = newScrollTop;
@@ -55,7 +54,6 @@ class _FDVirtualizedListViewState extends State<FDVirtualizedListView> {
 
   @override
   Widget build(BuildContext context) {
-    // Attempt to use window height if we're full screen, otherwise default
     final viewportSize = widget.scrollDirection == Axis.vertical
         ? window.innerHeight.toDouble()
         : window.innerWidth.toDouble();
@@ -63,7 +61,7 @@ class _FDVirtualizedListViewState extends State<FDVirtualizedListView> {
     final totalSize = widget.itemCount * widget.itemHeight;
     final isVertical = widget.scrollDirection == Axis.vertical;
 
-    // Calculate visible range with buffer
+    // Compute visible bounds with overscan buffer.
     final firstVisibleIndex =
         math.max(0, (_scrollTop / widget.itemHeight).floor() - 3);
     final lastVisibleIndex = math.min(widget.itemCount - 1,

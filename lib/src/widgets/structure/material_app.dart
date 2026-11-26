@@ -15,7 +15,7 @@ class FDMaterialApp extends Widget {
   final Map<String, Widget>? routes;
   final String? initialRoute;
   final String? favicon;
-  final BuildContext? context; // Optional context parameter
+  final BuildContext? context;
   final String? rawCss;
 
   final bool debugShowCheckedModeBanner;

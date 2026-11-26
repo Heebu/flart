@@ -49,7 +49,6 @@ class FDDataTable<T> extends Widget {
       }
     }
 
-    // Header cells
     final headerCells = <FlartNode>[];
     for (var i = 0; i < columns.length; i++) {
       final col = columns[i];
@@ -87,7 +86,6 @@ class FDDataTable<T> extends Widget {
       ],
     );
 
-    // Body rows
     final bodyRows = <FlartNode>[];
     for (var row in rows) {
       final cells = <FlartNode>[];

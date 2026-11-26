@@ -342,7 +342,6 @@ class FDCustomPaint extends Widget {
     final canvasId =
         'custom_paint_${DateTime.now().microsecondsSinceEpoch}_${(math.Random().nextDouble() * 10000).toInt()}';
 
-    // Trigger painting after mount
     scheduleMicrotask(() {
       final canvas =
           web.document.getElementById(canvasId) as web.HTMLCanvasElement?;

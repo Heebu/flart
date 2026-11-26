@@ -47,7 +47,6 @@ class FDContainer extends Widget {
     final effectiveDecoration =
         decoration ?? (color != null ? BoxDecoration(color: color) : null);
 
-    // Merge constraints with width/height
     final effectiveConstraints = (width != null || height != null)
         ? (constraints?.tighten(width: width, height: height) ??
             BoxConstraints.tightFor(width: width, height: height))

@@ -86,7 +86,6 @@ class FDTextField extends StatelessWidget {
         decoration?.fillColor ?? backgroundColor ?? theme.cardColor;
     final hasError = effectiveErrorText != null;
 
-    // Resolve borders
     final InputBorder? explicitBorder = hasError
         ? (decoration?.errorBorder ?? decoration?.border)
         : (decoration?.enabledBorder ?? decoration?.border);
@@ -107,7 +106,6 @@ class FDTextField extends StatelessWidget {
           bottom: explicitBorder.borderSide,
         );
       } else {
-        // Border.none or other
         resolvedRadius = BorderRadius.circular(borderRadius ?? 4.0);
         resolvedBorder = Border.all(
           color: FlartColors.transparent,

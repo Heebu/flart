@@ -7,27 +7,23 @@ class FDButton extends Widget {
   final String? label;
   final Widget? child;
 
-  // Click events
   final VoidCallback? onPressed;
-  final VoidCallback? onClick; // alias
+  /// Web-friendly alias for [onPressed].
+  final VoidCallback? onClick;
   final VoidCallback? onDoubleClick;
   final VoidCallback? onLongPress;
 
-  // Hover events
   final VoidCallback? onHover;
   final VoidCallback? onHoverEnter;
   final VoidCallback? onHoverExit;
 
-  // Drag events
   final VoidCallback? onDragStart;
   final VoidCallback? onDrag;
   final VoidCallback? onDragEnd;
 
-  // Focus events
   final VoidCallback? onFocus;
   final VoidCallback? onBlur;
 
-  // Right click
   final VoidCallback? onContextMenu;
 
   final ButtonStyle? style;

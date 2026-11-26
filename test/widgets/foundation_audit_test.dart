@@ -5,7 +5,6 @@ import 'package:test/test.dart';
 import 'package:web/web.dart' as web;
 import '../test_utils.dart';
 
-// --- Test Widgets for StatefulWidget Positional Keys ---
 class ParentTestWidget extends StatefulWidget {
   final int value;
   const ParentTestWidget({this.value = 0, super.key});
@@ -79,7 +78,6 @@ class _ChildUnkeyedWidgetState extends State<ChildUnkeyedWidget> {
   }
 }
 
-// --- Test Widgets for Unmount Disposal ---
 class ConditionalParentWidget extends StatefulWidget {
   const ConditionalParentWidget({super.key});
 
@@ -135,7 +133,6 @@ class _DisposableChildWidgetState extends State<DisposableChildWidget> {
   }
 }
 
-// --- Test Widgets for InheritedWidget Reactivity ---
 class TestThemeData {
   final String primaryName;
   const TestThemeData(this.primaryName);
@@ -273,18 +270,15 @@ void main() {
           TestUtils.querySelectorAll('button')
               .firstWhere((b) => b.textContent?.contains(text) == true);
 
-      // Bump FirstChild local state
       TestUtils.click(findButton('Bump FirstChild'));
       await TestUtils.pump(30);
 
       expect(root.textContent, contains('FirstChild Inits: 1, Local: 1'));
 
-      // Bump parent multiple times
       TestUtils.click(findButton('Bump Parent'));
       await TestUtils.pump(30);
 
       expect(root.textContent, contains('Parent: 1'));
-      // Verify child state was preserved: Inits is still 1, Local is still 1!
       expect(root.textContent, contains('FirstChild Inits: 1, Local: 1'));
       expect(root.textContent, contains('SecondChild Inits: 1, Local: 0'));
 
@@ -300,14 +294,12 @@ void main() {
         () async {
       int clickCount = 0;
 
-      // Find an unkeyed gesture detector or element
       final gestureWidget = FDGestureDetector(
         onTap: () => clickCount++,
         child: const FDText('TapMe'),
       );
 
       final container = TestUtils.container;
-      // Mount gesture detector
       final context = BuildContext(widget: gestureWidget);
       final node = gestureWidget.buildNode(context);
       VDOMReconciler.reconcile(container, node);
@@ -315,7 +307,6 @@ void main() {
       final firstElement = container.firstElementChild;
       expect(firstElement, isNotNull);
 
-      // Re-reconcile another identical gesture detector
       final newGestureWidget = FDGestureDetector(
         onTap: () => clickCount++,
         child: const FDText('TapMe'),
@@ -325,10 +316,8 @@ void main() {
       VDOMReconciler.reconcile(container, newNode);
 
       final secondElement = container.firstElementChild;
-      // Must be the exact same DOM node (soft patched, not hard replaced)
       expect(identical(firstElement, secondElement), isTrue);
 
-      // Click still triggers
       TestUtils.click(secondElement!);
       expect(clickCount, equals(1));
     });
@@ -365,17 +354,14 @@ void main() {
           TestUtils.querySelectorAll('button')
               .firstWhere((b) => b.textContent?.contains(text) == true);
 
-      // Change theme to Light (updateShouldNotify returns true)
       TestUtils.click(findButton('Set Light'));
       await TestUtils.pump(30);
 
       expect(root.textContent, contains('Theme: Light (depChanges: 2)'));
 
-      // Click Set Light Again (same data, updateShouldNotify returns false)
       TestUtils.click(findButton('Set Light Again'));
       await TestUtils.pump(30);
 
-      // depChanges should NOT have incremented!
       expect(root.textContent, contains('Theme: Light (depChanges: 2)'));
     });
 
@@ -419,13 +405,11 @@ void main() {
       final root = TestUtils.mountWidget(app) as web.HTMLElement;
       expect(root.textContent, contains('Home Screen'));
 
-      // Push named detail route
       PageNavigator.pushNamed('/detail');
       await TestUtils.pump(30);
 
       expect(PageNavigator.current, equals(detailWidget));
 
-      // Pop back to home
       PageNavigator.pop();
       await TestUtils.pump(30);
 

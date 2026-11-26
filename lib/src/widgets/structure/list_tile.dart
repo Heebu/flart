@@ -103,7 +103,6 @@ class FDListTile extends Widget {
       );
     }
 
-    // Title & Subtitle column
     final textChildren = <FlartNode>[];
     if (title != null) {
       textChildren.add(

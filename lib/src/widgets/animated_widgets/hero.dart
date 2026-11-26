@@ -28,7 +28,6 @@ class _HeroState extends State<Hero> {
   Widget build(BuildContext context) {
     final heroId = 'hero_${widget.tag.hashCode}';
 
-    // Capture rect after render
     Future.delayed(Duration.zero, () {
       final el = document.getElementById(heroId);
       if (el != null) {

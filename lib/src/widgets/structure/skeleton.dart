@@ -42,7 +42,6 @@ class FDSkeleton extends Widget {
   FlartNode buildNode(BuildContext context) {
     final theme = Theme.of(context);
 
-    // Background color based on theme
     final baseColor =
         theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
     final highlightColor =
